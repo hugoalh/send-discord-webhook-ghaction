@@ -22,7 +22,7 @@ inputs:
     required: false
     default: "%N/A%"
   mode:
-    description: "[String] Message in `text` or `embed`."
+    description: "[String] Send message in `text` or `embed` mode."
     required: true
     default: "text"
 runs:
