@@ -1,0 +1,960 @@
+# ==================
+# hugoalh's Repository Resource - LGTM Configuration
+#   Author:
+#     hugoalh
+#   Language:
+#     YAML
+#   Last Update:
+#     2019-12-07
+# ==================
+# ::::::::
+# Path Classifier
+# ::::::::
+path_classifiers:
+  docs:
+    - ".github/*"
+    - "document/*"
+    - "LICENSE*"
+  test:
+    - "**/test/*"
+    - "**/*test*.*"
+    - "**/debug/*"
+    - "**/*debug*.*"
+  generated:
+    - "compiled/*"
+  library:
+    - "**/node_modules/*"
+#   template:
+# 
+  reference:
+    - "reference/*"
+  configuration:
+    - .gitattributes
+    - .gitignore
+    - .gitmodules
+    - lgtm.yml
+    - package-lock.json
+    - package.json
+    - webpack.config.js
+  deprecated:
+    - "**/deprecated/*"
+    - "**/deprecated.jsm"
+    - "**/deprecated.mjs"
+
+# ::::::::
+# Query
+# ::::::::
+queries:
+  - include: cpp/bad-addition-overflow-check
+  - include: cpp/too-few-arguments
+  - include: cpp/openssl-heartbleed
+  - include: cpp/dangerous-function-overflow
+  - include: cpp/assign-where-compare-meant
+  - include: cpp/badly-bounded-write
+  - include: cpp/hresult-boolean-conversion
+  - include: cpp/incorrect-string-type-conversion
+  - include: cpp/cgi-xss
+  - include: cpp/compare-where-assign-meant
+  - include: cpp/dangerous-cin
+  - include: cpp/duplicate-include-guard
+  - include: cpp/inconsistent-loop-direction
+  - include: cpp/inconsistent-virtual-inheritance
+  - include: cpp/missing-return
+  - include: cpp/no-space-for-terminator
+  - include: cpp/uncontrolled-allocation-size
+  - include: cpp/redefined-default-parameter
+  - include: cpp/unsafe-dacl-security-descriptor
+  - include: cpp/wrong-number-format-arguments
+  - include: cpp/sql-injection
+  - include: cpp/string-copy-return-value-as-boolean
+  - include: cpp/wrong-type-format-argument
+  - include: cpp/inconsistent-null-check
+  - include: cpp/unsafe-create-process-call
+  - include: cpp/overrunning-write
+  - include: cpp/overrunning-write-with-float
+  - include: cpp/unbounded-write
+  - include: cpp/weak-cryptographic-algorithm
+  - include: cpp/futile-params
+  - include: cpp/catch-by-value
+  - include: cpp/non-member-const-no-effect
+  - include: cpp/member-const-no-effect
+  - include: cpp/dubious-null-check
+  - include: cpp/throw-in-destructor
+  - include: cpp/local-variable-hides-global-variable
+  - include: cpp/comparison-precedence
+  - include: cpp/unsigned-comparison-zero
+  - include: cpp/new-delete-array-mismatch
+  - include: cpp/new-array-delete-mismatch
+  - include: cpp/rethrow-no-exception
+  - include: cpp/ambiguously-signed-bit-field
+  - include: cpp/array-arg-size-mismatch
+  - include: cpp/alloca-in-loop
+  - include: cpp/constant-comparison
+  - include: cpp/continue-in-false-loop
+  - include: cpp/dead-code-goto
+  - include: cpp/useless-expression
+  - include: cpp/implicit-bitfield-downcast
+  - include: cpp/rule-of-two
+  - include: cpp/constructor-delegation
+  - include: cpp/catch-missing-free
+  - include: cpp/lossy-pointer-cast
+  - include: cpp/new-free-mismatch
+  - include: cpp/missing-header-guard
+  - include: cpp/integer-multiplication-cast-to-long
+  - include: cpp/virtual-destructor
+  - include: cpp/assignment-does-not-return-this
+  - include: cpp/overflowing-snprintf
+  - include: cpp/resource-not-released-in-destructor
+  - include: cpp/return-c-str-of-std-string
+  - include: cpp/return-stack-allocated-memory
+  - include: cpp/comparison-of-identical-expressions
+  - include: cpp/logical-operator-applied-to-flag
+  - include: cpp/bitwise-sign-check
+  - include: cpp/slicing
+  - include: cpp/suspicious-add-sizeof
+  - include: cpp/throwing-pointer
+  - include: cpp/upcast-array-pointer-arithmetic
+  - include: cpp/use-of-goto
+  - include: cpp/potentially-dangerous-function
+  - include: cpp/use-in-own-initializer
+  - include: cpp/virtual-call-in-constructor
+  - include: cpp/leap-year/adding-365-days-per-year
+  - include: cpp/offset-use-before-range-check
+  - include: cpp/user-controlled-bypass
+  - include: cpp/incomplete-parity-check
+  - include: cpp/mistyped-function-arguments
+  - include: cpp/cleartext-storage-database
+  - include: cpp/cleartext-storage-buffer
+  - include: cpp/cleartext-storage-file
+  - include: cpp/comparison-with-wider-type
+  - include: cpp/world-writable-file-creation
+  - include: cpp/japanese-era/exact-era-date
+  - include: cpp/inconsistent-call-on-result
+  - include: cpp/incorrect-not-operator-usage
+  - include: cpp/stack-address-escape
+  - include: cpp/lossy-function-result-cast
+  - include: cpp/missing-case-in-switch
+  - include: cpp/nested-loops-with-same-variable
+  - include: cpp/suspicious-allocation-size
+  - include: cpp/allocation-too-small
+  - include: cpp/poorly-documented-function
+  - include: cpp/bad-strncpy-size
+  - include: cpp/uninitialized-local
+  - include: cpp/unsafe-strncat
+  - include: cpp/unsafe-strcat
+  - include: cpp/static-buffer-overflow
+  - include: cpp/suspicious-sizeof
+  - include: cpp/suspicious-pointer-scaling
+  - include: cpp/suspicious-pointer-scaling-void
+  - include: cpp/toctou-race-condition
+  - include: cpp/leap-year/unchecked-return-value-for-time-conversion-function
+  - include: cpp/uncontrolled-arithmetic
+  - include: cpp/path-injection
+  - include: cpp/tainted-format-string
+  - include: cpp/tainted-format-string-through-global
+  - include: cpp/uncontrolled-process-operation
+  - include: cpp/leap-year/unsafe-array-for-days-of-the-year
+  - include: cpp/unterminated-variadic-call
+  - include: cpp/tainted-permissions-check
+  - include: cpp/integer-used-for-enum
+  - include: cpp/leap-year/unchecked-after-arithmetic-year-modification
+  - include: cpp/declaration-hides-parameter
+  - include: cpp/empty-block
+  - include: cpp/fixme-comment
+  - include: cpp/function-in-block
+  - include: cpp/large-parameter
+  - include: cpp/short-global-name
+  - include: cpp/loop-variable-float
+  - include: cpp/complex-block
+  - include: cpp/class-many-fields
+  - include: cpp/commented-out-code
+  - include: cpp/complex-condition
+  - include: cpp/declaration-hides-variable
+  - include: cpp/equality-on-floats
+  - include: cpp/feature-envy
+  - include: cpp/loop-variable-changed
+  - include: cpp/empty-if
+  - include: cpp/file-intimacy
+  - include: cpp/include-non-header
+  - include: cpp/irregular-enum-init
+  - include: cpp/long-switch
+  - include: cpp/array-in-interface
+  - include: cpp/trivial-switch
+  - include: cpp/non-constant-format
+  - include: cpp/sizeof-side-effect
+  - include: cpp/too-many-format-arguments
+  - include: cpp/undisciplined-multiple-inheritance
+  - include: cpp/unused-local-variable
+  - include: cpp/unused-static-function
+  - include: cpp/unused-static-variable
+  - include: cs/dereferenced-value-is-always-null
+  - include: cs/web/requiressl-not-set
+  - include: cs/zipslip
+  - include: cs/reference-equality-on-valuetypes
+  - include: cs/stringbuilder-initialized-with-character
+  - include: cs/cleartext-storage-of-sensitive-information
+  - include: cs/unused-collection
+  - include: cs/empty-collection
+  - include: cs/web/xss
+  - include: cs/redos
+  - include: cs/equals-on-unrelated-types
+  - include: cs/exposure-of-sensitive-information
+  - include: cs/session-reuse
+  - include: cs/unsafe-sync-on-field
+  - include: cs/hardcoded-connection-string-credentials
+  - include: cs/hardcoded-credentials
+  - include: cs/impossible-array-cast
+  - include: cs/code-injection
+  - include: cs/inconsistent-lock-sequence
+  - include: cs/information-exposure-through-exception
+  - include: cs/sensitive-data-transmission
+  - include: cs/invalid-format-string
+  - include: cs/ldap-injection
+  - include: cs/log-forging
+  - include: cs/web/missing-token-validation
+  - include: cs/format-argument-missing
+  - include: cs/web/missing-x-frame-options
+  - include: cs/index-out-of-bounds
+  - include: cs/loss-of-precision
+  - include: cs/non-short-circuit
+  - include: cs/recursive-equals-call
+  - include: cs/regex-injection
+  - include: cs/resource-injection
+  - include: cs/self-assignment
+  - include: cs/sql-injection
+  - include: cs/command-line-injection
+  - include: cs/path-injection
+  - include: cs/uncontrolled-format-string
+  - include: cs/xml/insecure-dtd-handling
+  - include: cs/web/unvalidated-url-redirection
+  - include: cs/user-controlled-bypass
+  - include: cs/use-of-vulnerable-package
+  - include: cs/xml/xpath-injection
+  - include: cs/invalid-dynamic-call
+  - include: cs/class-missing-equals
+  - include: cs/unsafe-double-checked-lock
+  - include: cs/unsynchronized-getter
+  - include: cs/stored-ldap-injection
+  - include: cs/recursive-operator-equals-call
+  - include: cs/second-order-sql-injection
+  - include: cs/web/stored-xss
+  - include: cs/xml/stored-xpath-injection
+  - include: cs/stored-command-line-injection
+  - include: cs/unsynchronized-static-access
+  - include: cs/coalesce-of-identical-expressions
+  - include: cs/web/directory-browse-enabled
+  - include: cs/call-to-gc
+  - include: cs/call-to-obsolete-method
+  - include: cs/constant-condition
+  - include: cs/test-for-negative-container-size
+  - include: cs/web/debug-binary
+  - include: cs/useless-if-statement
+  - include: cs/catch-nullreferenceexception
+  - include: cs/linq/useless-select
+  - include: cs/rethrown-exception-variable
+  - include: cs/call-to-object-tostring
+  - include: cs/useless-assignment-to-local
+  - include: cs/locked-wait
+  - include: cs/constant-comparison
+  - include: cs/comparison-of-identical-expressions
+  - include: cs/web/broad-cookie-domain
+  - include: cs/web/broad-cookie-path
+  - include: cs/web/persistent-cookie
+  - include: cs/dereferenced-value-may-be-null
+  - include: cs/downcast-of-this
+  - include: cs/type-test-of-this
+  - include: cs/empty-block
+  - include: cs/empty-lock-statement
+  - include: cs/ecb-encryption
+  - include: cs/field-masks-base-field
+  - include: cs/gethashcode-is-not-defined
+  - include: cs/web/disabled-header-checking
+  - include: cs/insecure-randomness
+  - include: cs/lock-this
+  - include: cs/local-not-disposed
+  - include: cs/web/missing-global-error-handler
+  - include: cs/nested-loops-with-same-variable
+  - include: cs/null-argument-to-equals
+  - include: cs/unused-property-value
+  - include: cs/unchecked-cast-in-equals
+  - include: cs/format-argument-unused
+  - include: cs/unused-label
+  - include: cs/unvalidated-local-pointer-arithmetic
+  - include: cs/weak-encryption
+  - include: cs/inadequate-rsa-padding
+  - include: cs/insufficient-key-size
+  - include: cs/linq/inconsistent-enumeration
+  - include: cs/cast-from-abstract-to-concrete-collection
+  - include: cs/useless-cast-to-self
+  - include: cs/dispose-not-called-on-throw
+  - include: cs/empty-password-in-configuration
+  - include: cs/equality-on-floats
+  - include: cs/equals-uses-as
+  - include: cs/equals-uses-is
+  - include: cs/class-name-comparison
+  - include: cs/inconsistent-compareto-and-equals
+  - include: cs/inconsistent-equals-and-gethashcode
+  - include: cs/mishandling-japanese-era
+  - include: cs/misleading-indentation
+  - include: cs/password-in-configuration
+  - include: cs/wrong-compareto-signature
+  - include: cs/wrong-equals-signature
+  - include: cs/reference-equality-with-object
+  - include: cs/thread-unsafe-icryptotransform-captured-in-lambda
+  - include: cs/thread-unsafe-icryptotransform-field-in-class
+  - include: cs/unsafe-year-construction
+  - include: cs/useless-type-test
+  - include: cs/useless-upcast
+  - include: cs/web/ambiguous-client-variable
+  - include: cs/web/ambiguous-server-variable
+  - include: cs/virtual-call-in-constructor
+  - include: cs/class-implements-icloneable
+  - include: cs/empty-catch-block
+  - include: cs/string-concatenation-in-loop
+  - include: cs/stringbuilder-creation-in-loop
+  - include: cs/too-many-ref-parameters
+  - include: cs/asp/response-write
+  - include: cs/complex-block
+  - include: cs/call-to-unmanaged-code
+  - include: cs/cast-of-this-to-type-parameter
+  - include: cs/chained-type-tests
+  - include: cs/class-name-matches-base-class
+  - include: cs/compilation-error
+  - include: cs/compilation-message
+  - include: cs/complex-condition
+  - include: cs/duplicate-class
+  - include: cs/duplicate-method
+  - include: cs/equals-on-arrays
+  - include: cs/expose-implementation
+  - include: cs/extraction-error
+  - include: cs/extraction-message
+  - include: cs/catch-of-all-exceptions
+  - include: cs/coupled-types
+  - include: cs/inefficient-containskey
+  - include: cs/local-shadows-member
+  - include: cs/missed-readonly-modifier
+  - include: cs/missed-using-statement
+  - include: cs/linq/missed-all
+  - include: cs/linq/missed-cast
+  - include: cs/linq/missed-oftype
+  - include: cs/linq/missed-select
+  - include: cs/linq/missed-where
+  - include: cs/missed-ternary-operator
+  - include: cs/xmldoc/missing-summary
+  - include: cs/xml/missing-validation
+  - include: cs/duplicate-file
+  - include: cs/similar-method
+  - include: cs/similar-file
+  - include: cs/nested-if-statements
+  - include: cs/useless-tostring-call
+  - include: cs/static-field-written-by-instance
+  - include: cs/unmanaged-code
+  - include: cs/simplifiable-boolean-expression
+  - include: cs/web/file-upload
+  - include: cs/useless-gethashcode-call
+  - include: java/string-buffer-char-init
+  - include: java/comparison-of-identical-expressions
+  - include: java/unused-container
+  - include: java/empty-container
+  - include: java/contradictory-type-checks
+  - include: java/dereferenced-value-is-always-null
+  - include: java/equals-on-unrelated-types
+  - include: java/equals-on-arrays
+  - include: java/hashing-without-hashcode
+  - include: java/inconsistent-equals-and-hashcode
+  - include: java/unsynchronized-getter
+  - include: java/missing-format-argument
+  - include: java/non-final-call-in-constructor
+  - include: java/reference-equality-of-boxed-types
+  - include: java/redundant-assignment
+  - include: java/sync-on-boxed-types
+  - include: java/type-mismatch-access
+  - include: java/type-mismatch-modification
+  - include: java/comparison-with-nan
+  - include: java/zipslip
+  - include: java/index-out-of-bounds
+  - include: java/concatenated-command-line
+  - include: java/cleartext-storage-in-cookie
+  - include: java/xss
+  - include: java/unsafe-deserialization
+  - include: java/unsafe-double-checked-locking
+  - include: java/unchecked-cast-in-equals
+  - include: java/insecure-cookie
+  - include: java/http-response-splitting
+  - include: java/stack-trace-exposure
+  - include: java/sql-injection
+  - include: java/concatenated-sql-query
+  - include: java/world-writable-file-read
+  - include: java/xxe
+  - include: java/command-line-injection
+  - include: java/path-injection
+  - include: java/unvalidated-url-redirection
+  - include: java/predictable-seed
+  - include: java/tainted-format-string
+  - include: java/tainted-numeric-cast
+  - include: java/tainted-permissions-check
+  - include: java/ineffective-annotation-present-check
+  - include: java/run-finalizers-on-exit
+  - include: java/missing-super-finalize
+  - include: java/unsafe-sync-on-field
+  - include: java/hardcoded-credential-api-call
+  - include: java/missing-call-to-super-clone
+  - include: java/missing-clone-method
+  - include: java/wrong-compareto-signature
+  - include: java/wrong-equals-signature
+  - include: java/sleep-with-lock-held
+  - include: java/unreleased-lock
+  - include: java/user-controlled-bypass
+  - include: java/wait-on-condition-interface
+  - include: java/non-null-boxed-variable
+  - include: java/abstract-to-concrete-cast
+  - include: java/constant-loop-condition
+  - include: java/test-for-negative-container-size
+  - include: java/evaluation-to-constant
+  - include: java/implicit-cast-in-compound-assignment
+  - include: java/inefficient-output-stream
+  - include: java/unimplementable-interface
+  - include: java/iterable-wraps-iterator
+  - include: java/iterator-implements-iterable
+  - include: java/misleading-indentation
+  - include: java/non-sync-override
+  - include: java/integer-multiplication-cast-to-long
+  - include: java/subtle-inherited-call
+  - include: java/unused-format-argument
+  - include: java/constant-comparison
+  - include: java/useless-null-check
+  - include: java/useless-type-test
+  - include: java/whitespace-contradicts-precedence
+  - include: java/dereferenced-expr-may-be-null
+  - include: java/dereferenced-value-may-be-null
+  - include: java/database-resource-leak
+  - include: java/input-resource-leak
+  - include: java/output-resource-leak
+  - include: java/unsafe-double-checked-locking-init-order
+  - include: java/unreachable-catch-clause
+  - include: java/wrong-swing-event-adapter-signature
+  - include: java/wrong-junit-suite-signature
+  - include: java/iterator-remove-failure
+  - include: java/cleartext-storage-in-properties
+  - include: java/comparison-with-wider-type
+  - include: java/non-overriding-package-private
+  - include: java/empty-zip-file-entry
+  - include: java/non-short-circuit-evaluation
+  - include: java/relative-path-command
+  - include: java/missing-no-arg-constructor-on-externalizable
+  - include: java/field-masks-super-field
+  - include: java/improper-validation-of-array-index
+  - include: java/improper-validation-of-array-construction
+  - include: java/inconsistent-compareto-and-equals
+  - include: java/inconsistent-sync-writeobject
+  - include: java/abs-of-random
+  - include: java/incorrect-serial-version-uid
+  - include: java/unreachable-exit-in-loop
+  - include: java/missing-case-in-switch
+  - include: java/multiplication-of-remainder
+  - include: java/iterator-hasnext-calls-next
+  - include: java/notify-instead-of-notify-all
+  - include: java/socket-auth-race-condition
+  - include: java/random-used-once
+  - include: java/wrong-readresolve-signature
+  - include: java/reference-equality-on-strings
+  - include: java/missing-no-arg-constructor-on-serializable
+  - include: java/non-serializable-inner-class
+  - include: java/wrong-object-serialization-signature
+  - include: java/spin-on-field
+  - include: java/thread-start-in-constructor
+  - include: java/thread-unsafe-dateformat
+  - include: java/toctou-race-condition
+  - include: java/type-bound-extends-final
+  - include: java/type-variable-hides-type
+  - include: java/equals-typo
+  - include: java/hashcode-typo
+  - include: java/tostring-typo
+  - include: java/uncontrolled-arithmetic
+  - include: java/unsafe-get-resource
+  - include: java/weak-cryptographic-algorithm
+  - include: java/potentially-weak-cryptographic-algorithm
+  - include: java/potentially-dangerous-function
+  - include: java/tainted-arithmetic
+  - include: java/print-array
+  - include: java/missing-space-in-concatenation
+  - include: java/unknown-javadoc-parameter
+  - include: java/jdk-internal-api-access
+  - include: java/chained-type-tests
+  - include: java/class-name-matches-super-class
+  - include: java/confusing-method-name
+  - include: java/confusing-method-signature
+  - include: java/constants-only-interface
+  - include: java/deprecated-call
+  - include: java/call-to-thread-run
+  - include: java/duplicate-anonymous-class
+  - include: java/duplicate-method
+  - include: java/internal-representation-exposure
+  - include: java/ignored-error-status-of-call
+  - include: java/inefficient-empty-string-test
+  - include: java/inefficient-boxed-constructor
+  - include: java/inefficient-string-constructor
+  - include: java/inefficient-key-set-iterator
+  - include: java/non-static-nested-class
+  - include: java/inconsistent-javadoc-throws
+  - include: java/uncaught-number-format-exception
+  - include: java/missing-override-annotation
+  - include: java/duplicate-class
+  - include: java/duplicate-file
+  - include: java/similar-method
+  - include: java/similar-file
+  - include: java/local-shadows-field
+  - include: java/underscore-identifier
+  - include: java/local-variable-is-never-read
+  - include: java/unused-reference-type
+  - include: java/unused-label
+  - include: java/call-to-object-tostring
+  - include: java/unused-parameter
+  - include: java/useless-tostring-call
+  - include: js/variable-use-in-temporal-dead-zone
+  - include: js/assignment-to-constant
+  - include: js/regex/back-reference-to-negative-lookahead
+  - include: js/regex/back-reference-before-group
+  - include: js/comparison-with-nan
+  - include: js/variable-initialization-conflict
+  - include: js/nested-function-reference-in-default-parameter
+  - include: js/disabling-electron-websecurity
+  - include: js/duplicate-parameter-name
+  - include: js/enabling-electron-insecure-content
+  - include: js/inconsistent-loop-direction
+  - include: js/non-linear-pattern
+  - include: js/overwritten-property
+  - include: js/shift-out-of-range
+  - include: js/regex/unmatchable-caret
+  - include: js/regex/unmatchable-dollar
+  - include: js/for-in-comprehension
+  - include: js/useless-type-test
+  - include: js/yield-outside-generator
+  - include: js/zipslip
+  - include: js/property-assignment-on-primitive
+  - include: js/clear-text-storage-of-sensitive-data
+  - include: js/clear-text-logging
+  - include: js/xss
+  - include: js/client-side-unvalidated-url-redirection
+  - include: js/code-injection
+  - include: js/function-declaration-conflict
+  - include: js/cors-misconfiguration-for-credentials
+  - include: js/cross-window-information-leak
+  - include: js/sql-injection
+  - include: js/host-header-forgery-in-email-generation
+  - include: js/illegal-invocation
+  - include: js/angular/incompatible-service
+  - include: js/incorrect-suffix-check
+  - include: js/redos
+  - include: js/invalid-prototype-value
+  - include: js/call-to-non-callable
+  - include: js/missing-this-qualifier
+  - include: js/missing-token-validation
+  - include: js/node/missing-exports-qualifier
+  - include: js/missing-rate-limiting
+  - include: js/property-access-on-non-object
+  - include: js/prototype-pollution
+  - include: js/reflected-xss
+  - include: js/regex-injection
+  - include: js/stored-xss
+  - include: js/syntax-error
+  - include: js/type-confusion-through-parameter-tampering
+  - include: js/unbound-event-handler-receiver
+  - include: js/command-line-injection
+  - include: js/path-injection
+  - include: js/unsafe-dynamic-method-access
+  - include: js/unused-loop-variable
+  - include: js/strict-mode-call-stack-introspection
+  - include: js/incomplete-object-initialization
+  - include: js/mixed-static-instance-this-access
+  - include: js/xxe
+  - include: js/xpath-injection
+  - include: js/xss-through-exception
+  - include: js/hardcoded-data-interpreted-as-code
+  - include: js/request-forgery
+  - include: js/user-controlled-bypass
+  - include: js/node/assignment-to-exports-variable
+  - include: js/conditional-comment
+  - include: js/deletion-of-non-property
+  - include: js/angular/dependency-injection-mismatch
+  - include: js/react/direct-state-mutation
+  - include: js/angular/disabling-sce
+  - include: js/angular/double-compilation
+  - include: js/duplicate-condition
+  - include: js/regex/duplicate-in-character-class
+  - include: js/angular/duplicate-dependency
+  - include: js/duplicate-html-attribute
+  - include: js/duplicate-property
+  - include: js/duplicate-switch-case
+  - include: js/regex/empty-character-class
+  - include: js/useless-expression
+  - include: js/redundant-operation
+  - include: js/implicit-operand-conversion
+  - include: js/inconsistent-use-of-new
+  - include: js/stack-trace-exposure
+  - include: js/angular/insecure-url-whitelist
+  - include: js/malformed-html-id
+  - include: js/misleading-indentation-after-control-statement
+  - include: js/misleading-indentation-of-dangling-else
+  - include: js/missing-space-in-concatenation
+  - include: js/misspelled-variable-name
+  - include: js/label-in-switch
+  - include: js/react/inconsistent-state-update
+  - include: js/unsafe-external-link
+  - include: js/identity-replacement
+  - include: js/useless-assignment-in-return
+  - include: js/superfluous-trailing-arguments
+  - include: js/regex/unbound-back-reference
+  - include: js/unreachable-statement
+  - include: js/angular/expression-in-url-attribute
+  - include: js/non-standard-language-feature
+  - include: js/useless-assignment-to-local
+  - include: js/trivial-conditional
+  - include: js/setter-return
+  - include: js/use-before-declaration
+  - include: js/whitespace-contradicts-precedence
+  - include: js/with-statement
+  - include: js/duplicate-html-id
+  - include: js/vue/arrow-method-on-vue-instance
+  - include: js/comparison-between-incompatible-types
+  - include: js/unsafe-deserialization
+  - include: js/double-escaping
+  - include: js/hardcoded-credentials
+  - include: js/incomplete-hostname-regexp
+  - include: js/incomplete-sanitization
+  - include: js/incomplete-url-substring-sanitization
+  - include: js/ineffective-parameter-type
+  - include: js/insecure-randomness
+  - include: js/loop-iteration-skipped-due-to-shifting
+  - include: js/missing-dot-length-in-comparison
+  - include: js/angular/missing-explicit-injection
+  - include: js/missing-variable-declaration
+  - include: js/index-out-of-bounds
+  - include: js/angular/repeated-dependency-injection
+  - include: js/redundant-assignment
+  - include: js/server-side-unvalidated-url-redirection
+  - include: js/string-instead-of-regex
+  - include: js/template-syntax-in-string-literal
+  - include: js/unknown-directive
+  - include: js/react/unsupported-state-update-in-lifecycle-method
+  - include: js/unused-index-variable
+  - include: js/react/unused-or-undefined-state-property
+  - include: js/unvalidated-dynamic-method-call
+  - include: js/weak-cryptographic-algorithm
+  - include: js/tainted-format-string
+  - include: js/insufficient-password-hash
+  - include: js/useless-assignment-to-property
+  - include: js/useless-comparison-test
+  - include: js/xml-bomb
+  - include: js/comparison-of-identical-expressions
+  - include: js/conflicting-html-attribute
+  - include: js/node/cyclic-import
+  - include: js/angular/dead-event-listener
+  - include: js/file-access-to-http
+  - include: js/indirect-command-line-injection
+  - include: js/loop-bound-injection
+  - include: js/regex/missing-regexp-anchor
+  - include: js/nested-loops-with-same-variable
+  - include: js/http-to-file-access
+  - include: js/password-in-configuration-file
+  - include: js/remote-property-injection
+  - include: js/return-outside-function
+  - include: js/bitwise-sign-check
+  - include: js/node/unused-npm-dependency
+  - include: js/useless-assignment-to-global
+  - include: js/arguments-redefinition
+  - include: js/eval-like-call
+  - include: js/duplicate-variable-declaration
+  - include: js/automatic-semicolon-insertion
+  - include: js/unclear-operator-precedence
+  - include: js/unneeded-defensive-code
+  - include: js/unused-local-variable
+  - include: js/jsdoc/malformed-param-tag
+  - include: js/too-many-parameters
+  - include: js/jsdoc/unknown-parameter
+  - include: js/json-in-javascript-file
+  - include: js/single-run-loop
+  - include: js/misspelled-identifier
+  - include: js/omitted-array-element
+  - include: js/ignored-setter-parameter
+  - include: js/jsdoc/missing-parameter
+  - include: js/angular/unused-dependency
+  - include: js/unused-property
+  - include: py/init-method-is-generator
+  - include: py/explicit-return-in-init
+  - include: py/slots-in-old-style-class
+  - include: py/super-in-old-style
+  - include: py/asserts-tuple
+  - include: py/illegal-raise
+  - include: py/inconsistent-mro
+  - include: py/mismatched-multiple-assignment
+  - include: py/mutable-descriptor
+  - include: py/nested-loops-with-same-variable-reused
+  - include: py/useless-except
+  - include: py/property-in-old-style-class
+  - include: py/redundant-assignment
+  - include: py/hash-unhashable-value
+  - include: py/unreachable-except
+  - include: py/unused-exception-object
+  - include: py/call/wrong-named-argument
+  - include: py/call/wrong-named-class-argument
+  - include: py/percent-format/wrong-arguments
+  - include: py/call/wrong-arguments
+  - include: py/call/wrong-number-class-arguments
+  - include: py/iter-returns-non-iterator
+  - include: py/use-of-input
+  - include: py/paramiko-missing-host-key-validation
+  - include: py/side-effect-in-assert
+  - include: py/bind-socket-all-network-interfaces
+  - include: py/clear-text-logging-sensitive-data
+  - include: py/clear-text-storage-sensitive-data
+  - include: py/code-injection
+  - include: py/unsafe-deserialization
+  - include: py/encoding-error
+  - include: py/undefined-export
+  - include: py/super-not-enclosing-class
+  - include: py/flask-debug
+  - include: py/percent-format/not-mapping
+  - include: py/str-format/mixed-fields
+  - include: py/stack-trace-exposure
+  - include: py/insecure-temporary-file
+  - include: py/iteration-string-and-sequence
+  - include: py/iter-returns-non-self
+  - include: py/loop-variable-capture
+  - include: py/member-test-non-container
+  - include: py/inheritance/incorrect-overridden-signature
+  - include: py/inheritance/incorrect-overriding-signature
+  - include: py/missing-call-to-delete
+  - include: py/missing-call-to-init
+  - include: py/str-format/missing-named-argument
+  - include: py/modification-of-default-value
+  - include: py/unsafe-cyclic-import
+  - include: py/call-to-non-callable
+  - include: py/non-iterable-in-for-loop
+  - include: py/reflective-xss
+  - include: py/special-method-wrong-signature
+  - include: py/sql-injection
+  - include: py/attribute-shadows-method
+  - include: py/unused-loop-variable
+  - include: py/syntax-error
+  - include: py/str-format/missing-argument
+  - include: py/command-line-injection
+  - include: py/path-injection
+  - include: py/regex/unmatchable-caret
+  - include: py/regex/unmatchable-dollar
+  - include: py/percent-format/unsupported-character
+  - include: py/url-redirection
+  - include: py/weak-crypto-key
+  - include: py/tarslip
+  - include: py/hardcoded-credentials
+  - include: py/jinja2/autoescape-false
+  - include: py/uninitialized-local-variable
+  - include: py/request-without-cert-validation
+  - include: py/return-or-yield-outside-function
+  - include: py/undefined-placeholder-variable
+  - include: py/explicit-call-to-delete
+  - include: py/use-of-apply
+  - include: py/comparison-of-constants
+  - include: py/comparison-of-identical-expressions
+  - include: py/constant-conditional-expression
+  - include: py/deprecated-slice-method
+  - include: py/duplicate-key-dict-literal
+  - include: py/regex/duplicate-in-character-class
+  - include: py/import-deprecated-module
+  - include: py/incomplete-ordering
+  - include: py/equals-hash-mismatch
+  - include: py/inconsistent-equality
+  - include: py/leaking-list-comprehension
+  - include: py/comparison-missing-self
+  - include: py/modification-of-locals
+  - include: py/multiple-calls-to-delete
+  - include: py/multiple-calls-to-init
+  - include: py/raise-not-implemented
+  - include: py/raises-tuple
+  - include: py/truncated-division
+  - include: py/inheritance/signature-mismatch
+  - include: py/unguarded-next-in-generator
+  - include: py/redundant-else
+  - include: py/unnecessary-pass
+  - include: py/unreachable-statement
+  - include: py/str-format/surplus-named-argument
+  - include: py/redundant-global-declaration
+  - include: py/use-of-exit-or-quit
+  - include: py/multiple-definition
+  - include: py/missing-equals
+  - include: py/init-calls-subclass
+  - include: py/comparison-using-is
+  - include: py/conflicting-attributes
+  - include: py/insecure-default-protocol
+  - include: py/implicit-string-concatenation-in-list
+  - include: py/incomplete-hostname-regexp
+  - include: py/incomplete-url-substring-sanitization
+  - include: py/regex/incomplete-special-group
+  - include: py/redundant-comparison
+  - include: py/unnecessary-delete
+  - include: py/str-format/surplus-argument
+  - include: py/weak-cryptographic-algorithm
+  - include: py/insecure-protocol
+  - include: py/procedure-return-value-used
+  - include: py/exit-from-finally
+  - include: py/file-not-closed
+  - include: py/import-of-mutable-attribute
+  - include: py/overly-permissive-file
+  - include: py/overwritten-inherited-attribute
+  - include: py/pythagorean
+  - include: py/polluting-import
+  - include: py/regex/backspace-escape
+  - include: py/catch-base-exception
+  - include: py/not-named-self
+  - include: py/imprecise-assert
+  - include: py/import-own-module
+  - include: py/repeated-import
+  - include: py/import-and-import-from
+  - include: py/nested-loops-with-same-variable
+  - include: py/unexpected-raise-in-special-method
+  - include: py/should-use-with
+  - include: py/similar-function
+  - include: py/test-equals-none
+  - include: py/unused-import
+  - include: py/unused-local-variable
+  - include: py/commented-out-code
+  - include: py/old-style-octal-literal
+  - include: py/cyclic-import
+  - include: py/duplicate-function
+  - include: py/empty-except
+  - include: py/mixed-returns
+  - include: py/not-named-cls
+  - include: py/mostly-duplicate-class
+  - include: py/mostly-duplicate-file
+  - include: py/mostly-similar-file
+  - include: py/overly-complex-delete
+  - include: py/mixed-tuple-returns
+  - include: py/ineffectual-statement
+  - include: py/unnecessary-lambda
+  - include: py/unused-global-variable
+  - include: py/print-during-import
+
+# ::::::::
+# Extraction
+# ::::::::
+extraction: 
+#   cpp:
+#     after_prepare:
+#       - mkdir -p $LGTM_WORKSPACE/latest-gcc-symlinks
+#       - ln -s /usr/bin/g++-6 $LGTM_WORKSPACE/latest-gcc-symlinks/g++
+#       - ln -s /usr/bin/gcc-6 $LGTM_WORKSPACE/latest-gcc-symlinks/gcc
+#       - export PATH=$LGTM_WORKSPACE/latest-gcc-symlinks:$PATH
+#       - export GNU_MAKE=make
+#       - export GIT=true
+#     configure:
+#       command:
+#         - ./prepare_deps
+#     before_index:
+#       - export BOOST_DIR=$LGTM_SRC/boost
+#       - export GTEST_DIR=$LGTM_SRC/googletest
+#       - export HUNSPELL_DIR=$LGTM_SRC/hunspell
+#       - export CRYPTOPP_DIR=$LGTM_SRC/cryptopp
+#     index:
+#       build_command:
+#         - $GNU_MAKE -j2 -s
+#       all_solutions: true
+#       solution: 
+#         - myProject.sln
+#       msbuild:
+#         arguments: /p:Platform=x64 /p:Configuration=Release
+#         configuration:
+#         platform:
+#         target:
+#       nuget_restore: false
+#       vstools_version: 10
+#   csharp:
+#     after_prepare:
+#       - export PATH=$LGTM_WORKSPACE/tools:$PATH
+#     index:
+#       all_solutions: true
+#       solution: 
+#         - myProject.sln
+#       build_command:
+#         - ./example-compile-all.sh
+#       buildless: true
+#       dotnet:
+#         arguments: "example_arg"
+#         version: 2.1
+#       msbuild:
+#         arguments: /P:WarningLevel=2
+#         configuration: release
+#         platform: x86
+#         target: notest
+#       nuget_restore: false
+#       vstools_version: 10
+#       extractor: "--fast"
+#   cobol:
+#     after_prepare:
+#       - export PATH=$LGTM_WORKSPACE/tools:$PATH
+#     index:
+#       format: "variable"
+#       tab_length: 2
+#       preprocessing: false
+#       source_globs:
+#       - "**.cbl"
+#       - "**.CBL"
+#       - "**.cob"
+#       - "**.cobol"
+#       - "**.COB"
+#       library_globs:
+#       - "**.CPY"
+#       - "**.COPY"
+#   java:
+#     after_prepare:
+#       - export PATH=$LGTM_WORKSPACE/tools:$PATH
+#     index:
+#       gradle:
+#         version: 4.4
+#       build_command: ./compile-all.sh
+#       java_version: 11
+#       properties_files: true
+#       maven:
+#         settings_file: /opt/share/settings.xml
+#         toolchains_file: /opt/share/toolchains.xml
+#         version: 3.5.2
+#       xml_mode: all
+  javascript:
+#     after_prepare:
+    index:
+#       include:
+#         - src/js
+      exclude:
+        - "**/thirdparty/lib/*"
+        - "**/node_modules/*"
+      filetypes:
+        ".jsm": "js"
+        ".mjs": "js"
+        ".tmpl": "html"
+      filters:
+        - exclude: "**/node_modules/*"
+        - include: "**/*.ts"
+      typescript: full
+      xml_mode: all
+#   python:
+#     after_prepare:
+#       - export PATH=$LGTM_WORKSPACE/tools:$PATH
+#     python_setup:
+#       exclude_requirements:
+#         - pywin32
+#       requirements:
+#         - Pillow
+#       requirements_files:
+#         - required-packages.txt
+#       setup_py: new-setup.py
+#       version: 3
+#     before_index:
+#       - antlr4 -Dlanguage=Python3 Grammar.g4
+#     index:
+#       exclude:
+#         - legacy-implementation
+#         - thirdparty/libs
+#       filters:
+#        - exclude: "**/documentation/examples/snippets/*.py"
+#        - include: "**/documentation/examples/test_application/*"
+#       include:
+#         - example/to/include
