@@ -3,7 +3,7 @@ author: "hugoalh"
 description: "Send message to Discord via webhook, support variables."
 inputs:
   discord_webhook_url:
-    description: "[String] Discord webhook url (do not add `/github` at the back)."
+    description: "[Secret String] Discord webhook url (do not add `/github` at the back)."
     required: true
   discord_webhook_name:
     description: "[String] Discord webhook display name (i.e.: the sender's name)."
@@ -14,8 +14,9 @@ inputs:
     required: false
     default: "%N/A%"
   message:
-    description: "[String]"
+    description: "[String (Mode `text`)]; [Stringified JSON (Mode `embed`)]"
     required: true
+    default: "Hello, world!"
   variables:
     description: "[Stringified JSON] Use in the message."
     required: false
