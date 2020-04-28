@@ -1,0 +1,32 @@
+name: "Send To Discord"
+author: "hugoalh"
+description: "Send message to Discord via webhook, support variables."
+inputs:
+  discord_webhook_url:
+    description: "[String] Discord webhook url (do not add `/github` at the back)."
+    required: true
+  discord_webhook_name:
+    description: "[String] Discord webhook display name (i.e.: the sender's name)."
+    required: false
+    default: "%N/A%"
+  discord_webhook_avatarurl:
+    description: "[String] Discord webhook avatar url."
+    required: false
+    default: "%N/A%"
+  message:
+    description: "[String]"
+    required: true
+  variables:
+    description: "[Stringified JSON] Use in the message."
+    required: false
+    default: "%N/A%"
+  mode:
+    description: "[String] Message in `text` or `embed`."
+    required: true
+    default: "text"
+runs:
+  using: "node12"
+  main: "main.js"
+branding:
+  icon: "send"
+  color: "blue"
