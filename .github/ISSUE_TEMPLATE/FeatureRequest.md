@@ -4,7 +4,6 @@ about: Suggest an idea
 title: ""
 labels: ""
 assignees: ""
-
 ---
 
 

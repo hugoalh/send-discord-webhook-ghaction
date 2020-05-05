@@ -13,18 +13,22 @@ inputs:
     description: "[String] Discord webhook avatar url."
     required: false
     default: "%N/A%"
-  message:
-    description: "[String (Mode `text`)]; [Stringified JSON (Mode `embed`)]"
-    required: true
-    default: "Hello, world!"
-  variables:
-    description: "[Stringified JSON] Use in the message."
-    required: false
-    default: "%N/A%"
-  mode:
-    description: "[String] Send message in `text` or `embed` mode."
+  message_mode:
+    description: "[String] Send message in `text`, `embed`, or `both` mode."
     required: true
     default: "text"
+  message_content:
+    description: "[String (Message Mode `text`)]; [Stringified JSON (Message Mode `embed`, `both`)]"
+    required: true
+    default: "Hello, world!"
+  message_variables:
+    description: "[Stringified JSON] Variables list use in the message content. Can import data from \"Release Fetcher\" or other actions."
+    required: false
+    default: "%N/A%"
+  message_colour:
+    description: "[String] Only use in message mode `embed` and `both`, support `RANDOM`, `INVISIBLE`, and 6-digit RGB hex with prefix `#`."
+    required: false
+    default: "INVISIBLE"
 runs:
   using: "node12"
   main: "main.js"

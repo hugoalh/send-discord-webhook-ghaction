@@ -22,7 +22,6 @@
 	"dependencies": {
 		"@actions/core": "^1.2.3",
 		"@actions/github": "^2.1.1",
-		"discord-webhook-node": "^1.0.7",
 		"discord.hook": "^3.0.0",
 		"flat": "^5.0.0"
 	},
