@@ -3,32 +3,76 @@ author: "hugoalh"
 description: "Send message to Discord via webhook, support variables."
 inputs:
   discord_webhook_url:
-    description: "[Secret String] Discord webhook url (do not add `/github` at the back)."
+    description: "[Secret String] Discord webhook url."
     required: true
   discord_webhook_name:
     description: "[String] Discord webhook display name (i.e.: the sender's name)."
     required: false
-    default: "%N/A%"
+    default: null
   discord_webhook_avatarurl:
     description: "[String] Discord webhook avatar url."
     required: false
-    default: "%N/A%"
+    default: null
   message_mode:
     description: "[String] Send message in `text`, `embed`, or `both` mode."
-    required: true
-    default: "text"
-  message_content:
-    description: "[String (Message Mode `text`)]; [Stringified JSON (Message Mode `embed`, `both`)]"
-    required: true
-    default: "Hello, world!"
-  message_variables:
-    description: "[Stringified JSON] Variables list use in the message content. Can import data from \"Release Fetcher\" or other actions."
     required: false
-    default: "%N/A%"
-  message_colour:
-    description: "[String] Only use in message mode `embed` and `both`, support `RANDOM`, `INVISIBLE`, and 6-digit RGB hex with prefix `#`."
+    default: "text"
+  message_text:
+    description: "[String (Mode `text`, `both`)]"
+    required: false
+    default: "Hello, world!"
+  message_embed_colour:
+    description: "[String (Mode `embed`, `both`)] Colour that display at the left side of the embed; in `RANDOM`, `INVISIBLE`, or 6-digit RGB hex with prefix `#`."
     required: false
     default: "INVISIBLE"
+  message_embed_author_name:
+    description: "[String (Mode `embed`, `both`)]"
+    required: false
+    default: null
+  message_embed_author_url:
+    description: "[String (Mode `embed`, `both`)]"
+    required: false
+    default: null
+  message_embed_author_avatarurl:
+    description: "[String (Mode `embed`, `both`)]"
+    required: false
+    default: null
+  message_embed_title:
+    description: "[String (Mode `embed`, `both`)]"
+    required: false
+    default: null
+  message_embed_titleurl:
+    description: "[String (Mode `embed`, `both`)]"
+    required: false
+    default: null
+  message_embed_description:
+    description: "[String (Mode `embed`, `both`)]"
+    required: false
+    default: null
+  message_embed_thumbnailurl:
+    description: "[String (Mode `embed`, `both`)]"
+    required: false
+    default: null
+  message_embed_imageurl:
+    description: "[String (Mode `embed`, `both`)]"
+    required: false
+    default: null
+  message_embed_fields:
+    description: "[Stringified Array (Mode `embed`, `both`)]"
+    required: false
+    default: null
+  message_embed_footer_iconurl:
+    description: "[String (Mode `embed`, `both`)]"
+    required: false
+    default: null
+  message_embed_footer_text:
+    description: "[String (Mode `embed`, `both`)]"
+    required: false
+    default: null
+  message_variables:
+    description: "[Stringified JSON] Variables list that use in the message content. Can import data from \"Release Fetcher\" or other places."
+    required: false
+    default: null
 runs:
   using: "node12"
   main: "main.js"
