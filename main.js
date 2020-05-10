@@ -12,21 +12,24 @@ const GitHubAction = {
 	Core: require("@actions/core"),
 	GitHub: require("@actions/github")
 };
+const DiscordJS = require("discord.js");
 const JSONFlatten = require("flat").flatten;
-const DiscordWebhook = require("discord.hook");
 
 /*::::::::
 Data Handle
 ::::::::*/
 const DiscordWebhookUrl = GitHubAction.Core.getInput("discord_webhook_url");
-if (DiscordWebhookUrl.search(/^https:\/\/discordapp.com\/api\/webhooks\/[0-9]+\//u) == -1) {
+let DiscordWebhookUrl_Split;
+if (DiscordWebhookUrl.search(/^https:\/\/discord(?:app)?.com\/api\/webhooks\/[0-9]+\//u) == 0) {
+	DiscordWebhookUrl_Split = DiscordWebhookUrl.replace(/^https:\/\/discord(?:app)?.com\/api\/webhooks\//u, "").split("/");
+} else {
 	GitHubAction.Core.setFailed(`Discord Webhook Url is not from Discord, or invalid.`);
 };
-const DiscordWebhookUrl_Split = DiscordWebhookUrl.replace(/^https:\/\/discordapp.com\/api\/webhooks\//u, "").split("/");
-const DiscordWebhookClient = new DiscordWebhook.Client(DiscordWebhookUrl_Split[0], DiscordWebhookUrl_Split[1]);
-var MessageContent = GitHubAction.Core.getInput("message_content");
+const DiscordWebhookClient = new DiscordJS.WebhookClient(DiscordWebhookUrl_Split[0], DiscordWebhookUrl_Split[1]);
 var MessageVariables = GitHubAction.Core.getInput("message_variables");
-if (MessageVariables != "%N/A%") {
+if (MessageVariables == null && MessageVariables == "null" && MessageVariables == "") {
+	MessageVariables == null;
+} else {
 	try {
 		MessageVariables = JSON.parse(MessageVariables);
 		MessageVariables = JSONFlatten(
@@ -38,11 +41,11 @@ if (MessageVariables != "%N/A%") {
 	} catch (error) {
 		GitHubAction.Core.setFailed(`Fail to parse message variables: ${error}`);
 	};
-	if (MessageContent.search(/%(?:[^ ]*)%/gu) != -1) {
+/*	if (MessageContent.search(/%(?:[^ ]*)%/gu) != -1) {
 		Object.keys(MessageVariables).forEach((value, index) => {
 			MessageContent = MessageContent.replace(new RegExp(`%${value}%`, "gu"), MessageVariables[value]);
 		});
-	};
+	};*/
 };
 const MessageMode = GitHubAction.Core.getInput("message_mode");
 var DiscordWebhookName = GitHubAction.Core.getInput("discord_webhook_name");

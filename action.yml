@@ -18,61 +18,69 @@ inputs:
     required: false
     default: "text"
   message_text:
-    description: "[String (Mode `text`, `both`)]"
+    description: "[String (Mode `text`, `both`)] Text message."
     required: false
     default: "Hello, world!"
   message_embed_colour:
-    description: "[String (Mode `embed`, `both`)] Colour that display at the left side of the embed; in `RANDOM`, `INVISIBLE`, or 6-digit RGB hex with prefix `#`."
+    description: "[String (Mode `embed`, `both`)] Colour that display at the left border of the embed message; in `RANDOM`, `INVISIBLE`, or 6-digit RGB hex with prefix `#`."
     required: false
     default: "INVISIBLE"
   message_embed_author_name:
-    description: "[String (Mode `embed`, `both`)]"
+    description: "[String (Mode `embed`, `both`)] Author name of the embed message."
     required: false
     default: null
   message_embed_author_url:
-    description: "[String (Mode `embed`, `both`)]"
+    description: "[String (Mode `embed`, `both`)] Url on the author name."
     required: false
     default: null
   message_embed_author_avatarurl:
-    description: "[String (Mode `embed`, `both`)]"
+    description: "[String (Mode `embed`, `both`)] Author avatar url."
     required: false
     default: null
   message_embed_title:
-    description: "[String (Mode `embed`, `both`)]"
+    description: "[String (Mode `embed`, `both`)] Embed message title."
     required: false
     default: null
   message_embed_titleurl:
-    description: "[String (Mode `embed`, `both`)]"
+    description: "[String (Mode `embed`, `both`)] Url on the title."
     required: false
     default: null
   message_embed_description:
-    description: "[String (Mode `embed`, `both`)]"
+    description: "[String (Mode `embed`, `both`)] Embed message description."
     required: false
     default: null
   message_embed_thumbnailurl:
-    description: "[String (Mode `embed`, `both`)]"
+    description: "[String (Mode `embed`, `both`)] Embed message thumbnail."
     required: false
     default: null
   message_embed_imageurl:
-    description: "[String (Mode `embed`, `both`)]"
+    description: "[String (Mode `embed`, `both`)] Embed message image url."
     required: false
     default: null
   message_embed_fields:
-    description: "[Stringified Array (Mode `embed`, `both`)]"
+    description: "[Stringified Array (Mode `embed`, `both`)] Embed message fields."
     required: false
     default: null
   message_embed_footer_iconurl:
-    description: "[String (Mode `embed`, `both`)]"
+    description: "[String (Mode `embed`, `both`)] Embed message footer icon url."
     required: false
     default: null
   message_embed_footer_text:
-    description: "[String (Mode `embed`, `both`)]"
+    description: "[String (Mode `embed`, `both`)] Embed message footer text."
     required: false
     default: null
-  message_variables:
+  message_variables_list:
     description: "[Stringified JSON] Variables list that use in the message content. Can import data from \"Release Fetcher\" or other places."
     required: false
     default: null
+  message_variables_prefix:
+    description: "[String] Prefix of the variables."
+    required: false
+    default: "%"
+  message_variables_suffix:
+    description: "[String] Suffix of the variables."
+    required: false
+    default: "%"
 runs:
   using: "node12"
   main: "main.js"
