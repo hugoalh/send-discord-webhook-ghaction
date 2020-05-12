@@ -10,8 +10,8 @@
 	},
 	"keywords": [
 		"github-action",
-		"release",
-		"fetcher"
+		"send",
+		"discord"
 	],
 	"author": "hugoalh",
 	"license": "MIT",
@@ -22,7 +22,6 @@
 	"dependencies": {
 		"@actions/core": "^1.2.4",
 		"@actions/github": "^2.2.0",
-		"discord.js": "^12.2.0",
 		"flat": "^5.0.0"
 	},
 	"devDependencies": {
