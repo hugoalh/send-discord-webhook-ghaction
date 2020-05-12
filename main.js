@@ -21,7 +21,7 @@ const JSONFlatten = require("flat").flatten;
 Data Handle
 ::::::::*/
 function DetermineIsNull(Input) {
-	if (Input == null || Input == "null" || Input == "" || Input == [] || Input == {}) {
+	if (Input == null || Input == "null" || Input == "" || Input == [] || Input == {} || Input == undefined || Input == "undefined") {
 		return true;
 	};
 	return false;
@@ -187,6 +187,33 @@ Promise.allSettled([
 					};
 					if (DetermineIsNull(Input["MessageEmbedVideoUrl"]) == false) {
 						Output.embeds[0].video.url = Input["MessageEmbedVideoUrl"];
+					};
+				}).catch((error) => { }),
+				new Promise((resolve, reject) => {
+					if (DetermineIsNull(Input["MessageEmbedFields"]) == false) {
+						Input["MessageEmbedFields"].split("-;-", 25).forEach((value, index) => {
+							let FieldSection = value.split("-,-", 3);
+							if (DetermineIsNull(FieldSection[0]) == false && DetermineIsNull(FieldSection[1]) == false) {
+								if (FieldSection[0].length > 256) {
+									FieldSection[0] = `${FieldSection[0].slice(0, 252)}...`;
+								};
+								if (FieldSection[1].length > 1024) {
+									FieldSection[1] = `${FieldSection[1].slice(0, 1020)}...`;
+								};
+								if (DetermineIsNull(FieldSection[2]) == false) {
+									if (FieldSection[2] == true || FieldSection[2] == "true") {
+										FieldSection[2] = true;
+									}
+								} else {
+									FieldSection[2] = false;
+								};
+								Output.embeds[0].fields[index] = {
+									name: FieldSection[0],
+									value: FieldSection[1],
+									inline: FieldSection[2]
+								};
+							};
+						});
 					};
 				}).catch((error) => { })
 			]);
