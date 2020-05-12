@@ -12,8 +12,7 @@ const NodeJS = {
 	HTTPS: require("https")
 };
 const GitHubAction = {
-	Core: require("@actions/core"),
-	GitHub: require("@actions/github")
+	Core: require("@actions/core")
 };
 const JSONFlatten = require("flat").flatten;
 
@@ -38,12 +37,6 @@ if (DiscordWebhookUrl.search(/^https:\/\/(?:canary.)?discord(?:app)?.com\/api\/w
 	GitHubAction.Core.setFailed(`Invalid Discord webhook url!`);
 };
 const Output = {
-	embeds: [
-		{
-			color: null,
-			fields: []
-		}
-	],
 	allowed_mentions: {
 		parse: [
 			"roles",
@@ -139,7 +132,9 @@ Promise.allSettled([
 			Promise.allSettled([
 				new Promise((resolve, reject) => {
 					if (DetermineIsNull(Input["MessageEmbedAuthorName"]) == false && Input["MessageEmbedAuthorName"].length >= 2 && Input["MessageEmbedAuthorName"].length <= 32) {
-						Output.embeds[0].author.name = Input["MessageEmbedAuthorName"];
+						Output.embeds[0].author = {
+							name: Input["MessageEmbedAuthorName"]
+						};
 						if (DetermineIsNull(Input["MessageEmbedAuthorAvatarUrl"]) == false) {
 							Output.embeds[0].author.icon_url = Input["MessageEmbedAuthorAvatarUrl"];
 						};
@@ -172,7 +167,9 @@ Promise.allSettled([
 						if (Input["MessageEmbedFooterText"].length > 2048) {
 							Input["MessageEmbedFooterText"] = `${Input["MessageEmbedFooterText"].slice(0, 2044)}...`;
 						};
-						Output.embeds[0].footer.text = Input["MessageEmbedFooterText"];
+						Output.embeds[0].footer = {
+							text: Input["MessageEmbedFooterText"]
+						};
 						if (DetermineIsNull(Input["MessageEmbedFooterIconUrl"]) == false) {
 							Output.embeds[0].footer.icon_url = Input["MessageEmbedFooterIconUrl"];
 						};
@@ -180,18 +177,25 @@ Promise.allSettled([
 				}).catch((error) => { }),
 				new Promise((resolve, reject) => {
 					if (DetermineIsNull(Input["MessageEmbedImageUrl"]) == false) {
-						Output.embeds[0].image.url = Input["MessageEmbedImageUrl"];
+						Output.embeds[0].image = {
+							url: Input["MessageEmbedImageUrl"]
+						};
 					};
 					if (DetermineIsNull(Input["MessageEmbedThumbnailUrl"]) == false) {
-						Output.embeds[0].thumbnail.url = Input["MessageEmbedThumbnailUrl"];
+						Output.embeds[0].thumbnail = {
+							url: Input["MessageEmbedThumbnailUrl"]
+						};
 					};
 					if (DetermineIsNull(Input["MessageEmbedVideoUrl"]) == false) {
-						Output.embeds[0].video.url = Input["MessageEmbedVideoUrl"];
+						Output.embeds[0].video = {
+							url: Input["MessageEmbedVideoUrl"]
+						};
 					};
 				}).catch((error) => { }),
 				new Promise((resolve, reject) => {
 					if (DetermineIsNull(Input["MessageEmbedFields"]) == false) {
-						Input["MessageEmbedFields"].split("-;-", 25).forEach((value, index) => {
+						Output.embeds[0].fields = [];
+						Input["MessageEmbedFields"].split("-|-", 25).forEach((value, index) => {
 							let FieldSection = value.split("-,-", 3);
 							if (DetermineIsNull(FieldSection[0]) == false && DetermineIsNull(FieldSection[1]) == false) {
 								if (FieldSection[0].length > 256) {
@@ -207,11 +211,11 @@ Promise.allSettled([
 								} else {
 									FieldSection[2] = false;
 								};
-								Output.embeds[0].fields[index] = {
+								Output.embeds[0].fields.push({
 									name: FieldSection[0],
 									value: FieldSection[1],
 									inline: FieldSection[2]
-								};
+								});
 							};
 						});
 					};
