@@ -6,7 +6,7 @@ inputs:
     description: "[Secret String] Discord webhook url."
     required: true
   discord_webhook_name:
-    description: "[String] Discord webhook display name (i.e.: the sender's name)."
+    description: "[String] Discord webhook display name (i.e.: the sender's name), 2 ~ 32 charactors."
     required: false
   discord_webhook_avatarurl:
     description: "[String] Discord webhook avatar url."
@@ -16,14 +16,14 @@ inputs:
     required: false
     default: "false"
   message_text:
-    description: "[String] Text message, must less than or equal to 2000 charactors."
+    description: "[String] Text message, <= 2000 charactors."
     required: false
   message_embed_colour:
     description: "[String] Colour that display at the left border of the embed message; in `RANDOM`, `INVISIBLE`, 6-digit RGB hex with prefix `#`, or decimal."
     required: false
     default: "INVISIBLE"
   message_embed_author_name:
-    description: "[String] Author name of the embed message."
+    description: "[String] Author name of the embed message, 2 ~ 32 charactors."
     required: false
   message_embed_author_url:
     description: "[String] Url on the author name of the embed message."
@@ -32,19 +32,22 @@ inputs:
     description: "[String] Author avatar url of the embed message."
     required: false
   message_embed_title:
-    description: "[String] Embed message title."
+    description: "[String] Embed message title, <= 256 charactors."
     required: false
   message_embed_titleurl:
     description: "[String] Url on the title of the embed message."
     required: false
   message_embed_description:
-    description: "[String] Embed message description."
+    description: "[String] Embed message description, <= 2048 charactors."
     required: false
   message_embed_thumbnailurl:
     description: "[String] Embed message thumbnail."
     required: false
   message_embed_imageurl:
     description: "[String] Embed message image url."
+    required: false
+  message_embed_videourl:
+    description: "[String] Embed message video url."
     required: false
   message_embed_fields:
     description: "[Stringified Array] Embed message fields."

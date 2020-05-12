@@ -40,24 +40,8 @@ if (DiscordWebhookUrl.search(/^https:\/\/(?:canary.)?discord(?:app)?.com\/api\/w
 const Output = {
 	embeds: [
 		{
-			title: null,
-			description: null,
-			url: null,
 			color: null,
-			footer: {
-				text: null,
-				icon_url: null
-			},
-			image: {
-				url: null
-			},
-			thumbnail: {
-				url: null
-			},
-			video: {
-				url: null
-			},
-			fields: []// JSON: name, value, inline?
+			fields: []
 		}
 	],
 	allowed_mentions: {
@@ -79,11 +63,11 @@ if (DetermineIsNull(MessageVariablesJoin) == true) {
 	MessageVariablesJoin = ".";
 };
 var MessageVariablesPrefix = GitHubAction.Core.getInput("message_variables_prefix");
-if (DetermineIsNull(MessageVariablesJoin) == true) {
+if (DetermineIsNull(MessageVariablesPrefix) == true) {
 	MessageVariablesPrefix = "%";
 };
 var MessageVariablesSuffix = GitHubAction.Core.getInput("message_variables_suffix");
-if (DetermineIsNull(MessageVariablesJoin) == true) {
+if (DetermineIsNull(MessageVariablesSuffix) == true) {
 	MessageVariablesSuffix = "%";
 };
 var MessageVariablesList = GitHubAction.Core.getInput("message_variables_list");
@@ -99,6 +83,7 @@ const Input = {
 	"MessageEmbedDescription": GitHubAction.Core.getInput("message_embed_description"),
 	"MessageEmbedThumbnailUrl": GitHubAction.Core.getInput("message_embed_thumbnailurl"),
 	"MessageEmbedImageUrl": GitHubAction.Core.getInput("message_embed_imageurl"),
+	"MessageEmbedVideoUrl": GitHubAction.Core.getInput("message_embed_videourl"),
 	"MessageEmbedFields": GitHubAction.Core.getInput("message_embed_fields"),
 	"MessageEmbedFooterIconUrl": GitHubAction.Core.getInput("message_embed_footer_iconurl"),
 	"MessageEmbedFooterText": GitHubAction.Core.getInput("message_embed_footer_text")
@@ -131,7 +116,7 @@ if (DetermineIsNull(MessageVariablesList) == false) {
 };
 Promise.allSettled([
 	new Promise((resolve, reject) => {
-		if (DetermineIsNull(Input["DiscordWebhookName"]) == false) {
+		if (DetermineIsNull(Input["DiscordWebhookName"]) == false && Input["DiscordWebhookName"].length >= 2 && Input["DiscordWebhookName"].length <= 32) {
 			Output.username = Input["DiscordWebhookName"];
 		};
 		if (DetermineIsNull(Input["DiscordWebhookAvatarUrl"]) == false) {
@@ -139,7 +124,7 @@ Promise.allSettled([
 		};
 		if (DetermineIsNull(Input["MessageText"]) == false) {
 			if (Input["MessageText"].length > 2000) {
-				Input["MessageText"] = `${Input["MessageText"].slice(0, 1997)}...`;
+				Input["MessageText"] = `${Input["MessageText"].slice(0, 1996)}...`;
 			};
 			Output.content = Input["MessageText"];
 		};
@@ -161,6 +146,47 @@ Promise.allSettled([
 						if (DetermineIsNull(Input["MessageEmbedAuthorUrl"]) == false) {
 							Output.embeds[0].author.url = Input["MessageEmbedAuthorUrl"];
 						};
+					};
+				}).catch((error) => { }),
+				new Promise((resolve, reject) => {
+					if (DetermineIsNull(Input["MessageEmbedTitle"]) == false) {
+						if (Input["MessageEmbedTitle"].length > 256) {
+							Input["MessageEmbedTitle"] = `${Input["MessageEmbedTitle"].slice(0, 252)}...`;
+						};
+						Output.embeds[0].title = Input["MessageEmbedTitle"];
+						if (DetermineIsNull(Input["MessageEmbedTitleUrl"]) == false) {
+							Output.embeds[0].url = Input["MessageEmbedTitleUrl"];
+						};
+					};
+				}).catch((error) => { }),
+				new Promise((resolve, reject) => {
+					if (DetermineIsNull(Input["MessageEmbedDescription"]) == false) {
+						if (Input["MessageEmbedDescription"].length > 2048) {
+							Input["MessageEmbedDescription"] = `${Input["MessageEmbedDescription"].slice(0, 2044)}...`;
+						};
+						Output.embeds[0].description = Input["MessageEmbedDescription"];
+					};
+				}).catch((error) => { }),
+				new Promise((resolve, reject) => {
+					if (DetermineIsNull(Input["MessageEmbedFooterText"]) == false) {
+						if (Input["MessageEmbedFooterText"].length > 2048) {
+							Input["MessageEmbedFooterText"] = `${Input["MessageEmbedFooterText"].slice(0, 2044)}...`;
+						};
+						Output.embeds[0].footer.text = Input["MessageEmbedFooterText"];
+						if (DetermineIsNull(Input["MessageEmbedFooterIconUrl"]) == false) {
+							Output.embeds[0].footer.icon_url = Input["MessageEmbedFooterIconUrl"];
+						};
+					};
+				}).catch((error) => { }),
+				new Promise((resolve, reject) => {
+					if (DetermineIsNull(Input["MessageEmbedImageUrl"]) == false) {
+						Output.embeds[0].image.url = Input["MessageEmbedImageUrl"];
+					};
+					if (DetermineIsNull(Input["MessageEmbedThumbnailUrl"]) == false) {
+						Output.embeds[0].thumbnail.url = Input["MessageEmbedThumbnailUrl"];
+					};
+					if (DetermineIsNull(Input["MessageEmbedVideoUrl"]) == false) {
+						Output.embeds[0].video.url = Input["MessageEmbedVideoUrl"];
 					};
 				}).catch((error) => { })
 			]);
