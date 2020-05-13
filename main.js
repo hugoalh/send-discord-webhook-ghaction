@@ -63,6 +63,7 @@ var MessageVariablesSuffix = GitHubAction.Core.getInput("message_variables_suffi
 if (DetermineIsNull(MessageVariablesSuffix) == true) {
 	MessageVariablesSuffix = "%";
 };
+var MessageEmbedColour = GitHubAction.Core.getInput("message_embed_colour");
 var MessageVariablesList = GitHubAction.Core.getInput("message_variables_list");
 const Input = {
 	"DiscordWebhookName": GitHubAction.Core.getInput("discord_webhook_name"),
@@ -83,7 +84,9 @@ const Input = {
 };
 if (DetermineIsNull(MessageVariablesList) == false) {
 	try {
-		MessageVariablesList = JSON.parse(MessageVariablesList);
+		if (typeof MessageVariablesList != "object") {
+			MessageVariablesList = JSON.parse(MessageVariablesList);
+		};
 		MessageVariablesList = JSONFlatten(
 			MessageVariablesList,
 			{
@@ -126,10 +129,43 @@ Promise.allSettled([
 		if (DetermineIsNull(Input["MessageEmbedAuthorName"]) == false || DetermineIsNull(Input["MessageEmbedTitle"]) == false || DetermineIsNull(Input["MessageEmbedDescription"]) == false || DetermineIsNull(Input["MessageEmbedThumbnailUrl"]) == false || DetermineIsNull(Input["MessageEmbedImageUrl"]) == false || DetermineIsNull(Input["MessageEmbedFields"]) == false || DetermineIsNull(Input["MessageEmbedFooterIconUrl"]) == false || DetermineIsNull(Input["MessageEmbedFooterText"]) == false) {
 			Output.embeds = [
 				{
-					color: null
+					color: 0
 				}
 			];
 			Promise.allSettled([
+				new Promise((resolve, reject) => {
+					if (DetermineIsNull(MessageEmbedColour) == false) {
+						MessageEmbedColour = MessageEmbedColour.toUpperCase();
+						let Colour = {};
+						if (MessageEmbedColour == "RANDOM") {
+							Colour = {
+								R: Math.floor(Math.random() * 256),
+								G: Math.floor(Math.random() * 256),
+								B: Math.floor(Math.random() * 256)
+							};
+						} else if (MessageEmbedColour.search(/[0-9]{1,3},[0-9]{1,3},[0-9]{1,3}/u) == 0) {
+							MessageEmbedColour = MessageEmbedColour.split(",");
+							Colour = {
+								R: Number(MessageEmbedColour[0]),
+								G: Number(MessageEmbedColour[1]),
+								B: Number(MessageEmbedColour[2])
+							};
+							Object.keys(Colour).forEach((key, index) => {
+								if (Colour[key] > 255) {
+									Colour[key] = Math.floor(Math.random() * 256);
+								};
+							});
+						} else {
+							Colour = {
+								R: 0,
+								G: 0,
+								B: 0
+							};
+						};
+						let Result = Colour.R * 65536 + Colour.G * 256 + Colour.B;
+						Output.embeds[0].color = Result;
+					};
+				}).catch((error) => { }),
 				new Promise((resolve, reject) => {
 					if (DetermineIsNull(Input["MessageEmbedAuthorName"]) == false && Input["MessageEmbedAuthorName"].length >= 2 && Input["MessageEmbedAuthorName"].length <= 32) {
 						Output.embeds[0].author = {
@@ -207,6 +243,8 @@ Promise.allSettled([
 								if (DetermineIsNull(FieldSection[2]) == false) {
 									if (FieldSection[2] == true || FieldSection[2] == "true") {
 										FieldSection[2] = true;
+									} else {
+										FieldSection[2] = false;
 									};
 								} else {
 									FieldSection[2] = false;

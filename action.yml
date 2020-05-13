@@ -19,7 +19,7 @@ inputs:
     description: "[String <= 2000 charactors] Text message."
     required: false
   message_embed_colour:
-    description: "[String] Colour that display at the left border of the embed message; in `RANDOM`, `INVISIBLE`, 6-digit RGB hex with prefix `#`, or decimal."
+    description: "[String] Colour that display at the left border of the embed message; in `RANDOM`, `INVISIBLE`, or RGB split with `,`."
     required: false
     default: "INVISIBLE"
   message_embed_author_name:
