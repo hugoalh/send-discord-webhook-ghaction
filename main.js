@@ -207,7 +207,7 @@ Promise.allSettled([
 								if (DetermineIsNull(FieldSection[2]) == false) {
 									if (FieldSection[2] == true || FieldSection[2] == "true") {
 										FieldSection[2] = true;
-									}
+									};
 								} else {
 									FieldSection[2] = false;
 								};
@@ -237,14 +237,24 @@ const RequestOption = {
 		"Content-Length": RequestPayload.length
 	}
 };
-const NewRequest = NodeJS.HTTPS.request(DiscordWebhookUrl, RequestOption, (result) => {
-	console.log(`Status Code: ${result.statusCode}`);
-	result.on("data", (delta) => {
-		process.stdout.write(delta);
-	});
-});
-NewRequest.on("error", (error) => {
-	GitHubAction.Core.setFailed(error);
-});
+const NewRequest = NodeJS.HTTPS.request(
+	DiscordWebhookUrl,
+	RequestOption,
+	(result) => {
+		console.log(`Status Code: ${result.statusCode}`);
+		result.on(
+			"data",
+			(delta) => {
+				process.stdout.write(delta);
+			}
+		);
+	}
+);
+NewRequest.on(
+	"error",
+	(error) => {
+		GitHubAction.Core.setFailed(error);
+	}
+);
 NewRequest.write(RequestPayload);
 NewRequest.end();
