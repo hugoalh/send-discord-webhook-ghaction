@@ -50,7 +50,7 @@ inputs:
     description: "[String] Embed message video url."
     required: false
   message_embed_fields:
-    description: "[Stringified Magic Array] Embed message fields."
+    description: "[Stringified Array] Embed message fields."
     required: false
   message_embed_footer_iconurl:
     description: "[String] Embed message footer icon url, required \"message_embed_footer_text\"."
