@@ -59,7 +59,7 @@ inputs:
     description: "[String <= 2048 charactors] Embed message footer text."
     required: false
   message_variables_list:
-    description: "[Stringified JSON] Variables list that use in the message content. Can import data from \"Release Fetcher\" or other places."
+    description: "[Stringified JSON] Variables list that use in the message content. Can import data from other places."
     required: false
   message_variables_prefix:
     description: "[String] Prefix of the variables."
