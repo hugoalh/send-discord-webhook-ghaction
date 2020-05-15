@@ -1,43 +1,45 @@
-name: Workflow Example
+name: "Workflow Example"
 on:
   release:
-    types: [published, prereleased]
+    types:
+    - "published"
 jobs:
-  fetch:
-    name: Fetch
-    runs-on: ubuntu-latest
-    outputs:
-      release_data: ${{steps.step1.outputs.release_data}}
+  send-to-discord:
+    name: "Send To Discord"
+    runs-on: "ubuntu-latest"
+    needs: 
+    - "fetch-data"
     steps:
-      - id: step1
-        uses: hugoalh/GitHubAction.ReleaseFetcher@v0
-  send_to_discord:
-    name: Send To Discord
-    runs-on: ubuntu-latest
-    needs: [fetch]
-    steps:
-      - id: step2
-        uses: hugoalh/GitHubAction.SendToDiscord@v0
-        with:
-          discord_webhook_url: 
-          discord_webhook_name: 
-          discord_webhook_avatarurl: 
-          message_tts: 
-          message_text: 
-          message_embed_colour: 
-          message_embed_author_name: 
-          message_embed_author_url: 
-          message_embed_author_avatarurl: 
-          message_embed_title: 
-          message_embed_titleurl: 
-          message_embed_description: 
-          message_embed_thumbnailurl: 
-          message_embed_imageurl: 
-          message_embed_videourl: 
-          message_embed_fields: 
-          message_embed_footer_iconurl: 
-          message_embed_footer_text: 
-          message_variables_list: ${{needs.fetch.outputs.release_data}}
-          message_variables_prefix: \%
-          message_variables_suffix: \%
-          message_variables_join: .
+    - id: "setup-nodejs"
+      name: "Setup NodeJS"
+      uses: "actions/setup-node"
+      with:
+        node-version: "12"
+    - id: "setup-nodejs-dependencies"
+      name: "Setup NodeJS Dependencies"
+      run: npm install
+    - id: "main"
+      uses: "hugoalh/GitHubAction.SendToDiscord@0"
+      with:
+        discord_webhook_url: "${{secrets.DISCORD_WEBHOOK_URL}}"
+        discord_webhook_name: 
+        discord_webhook_avatarurl: 
+        message_tts: 
+        message_text: 
+        message_embed_colour: 
+        message_embed_author_name: 
+        message_embed_author_url: 
+        message_embed_author_avatarurl: 
+        message_embed_title: 
+        message_embed_titleurl: 
+        message_embed_description: 
+        message_embed_thumbnailurl: 
+        message_embed_imageurl: 
+        message_embed_videourl: 
+        message_embed_fields: 
+        message_embed_footer_iconurl: 
+        message_embed_footer_text: 
+        message_variables_list: "${{needs.fetch-data.outputs.release_data}}"
+        message_variables_prefix: "%"
+        message_variables_suffix: "%"
+        message_variables_join: "."
