@@ -19,7 +19,7 @@ jobs:
       name: "Setup NodeJS Dependencies"
       run: npm install
     - id: "main"
-      uses: "hugoalh/GitHubAction.SendToDiscord@0"
+      uses: "hugoalh/GitHubAction.SendToDiscord@v0"
       with:
         discord_webhook_url: "${{secrets.DISCORD_WEBHOOK_URL}}"
         discord_webhook_name: 
