@@ -10,15 +10,7 @@ jobs:
     needs: 
     - "fetch-data"
     steps:
-    - id: "setup-nodejs"
-      name: "Setup NodeJS"
-      uses: "actions/setup-node"
-      with:
-        node-version: "12"
-    - id: "setup-nodejs-dependencies"
-      name: "Setup NodeJS Dependencies"
-      run: npm install
-    - id: "main"
+    - id: "send-to-discord_main"
       uses: "hugoalh/GitHubAction.SendToDiscord@v0"
       with:
         discord_webhook_url: "${{secrets.DISCORD_WEBHOOK_URL}}"
