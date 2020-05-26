@@ -9,9 +9,10 @@
 		"url": "git+https://github.com/hugoalh/GitHubAction.SendToDiscord.git"
 	},
 	"keywords": [
-		"github-action",
+		"github-actions",
 		"send",
-		"discord"
+		"discord",
+		"webhook"
 	],
 	"author": "hugoalh",
 	"license": "MIT",
