@@ -20,21 +20,154 @@ const JSONFlatten = require("flat").flatten;
 Data Handle
 ::::::::*/
 function DetermineIsNull(Input) {
-	if (Input == null || Input == "null" || Input == "" || Input == [] || Input == {} || Input == undefined || Input == "undefined") {
+	if (Input == null ||
+		Input == "null" ||
+		Input == "" ||
+		Input == [] ||
+		Input == {} ||
+		Input == "{}" ||
+		Input == undefined ||
+		Input == "undefined"
+	) {
 		return true;
 	};
 	return false;
 };
-var DiscordWebhookUrl = GitHubAction.Core.getInput(
-	"discord_webhook_url",
-	{
-		required: true
-	}
-);
-if (DiscordWebhookUrl.search(/^https:\/\/(?:canary.)?discord(?:app)?.com\/api\/webhooks\/[0-9]+\//u) == 0 && DiscordWebhookUrl.search("/github") != (DiscordWebhookUrl.length - "/github".length - 1)) {
-	DiscordWebhookUrl = DiscordWebhookUrl.replace(/^https:\/\/(?:canary.)?discord(?:app)?.com\/api\/webhooks\//u, "https://discordapp.com/api/webhooks/");
+const Input_CannotVariable = {};
+[
+	"Webhook_ID",
+	"Webhook_Token",
+	"Message_UseTextToSpeech",
+	"Message_Embed_Colour",
+	"Message_Embed_FieldSplit",
+	"Variable_Prefix",
+	"Variable_Suffix",
+	"Variable_Join"
+].forEach((value, index) => {
+	Input_CannotVariable[value] = GitHubAction.Core.getInput(value);
+});
+const Input_CanVariable = {};
+[
+	"Webhook_Name",
+	"Webhook_AvatarUrl",
+	"Message_Text",
+	"Message_Embed_AuthorName",
+	"Message_Embed_AuthorUrl",
+	"Message_Embed_AuthorAvatarUrl",
+	"Message_Embed_Title",
+	"Message_Embed_TitleUrl",
+	"Message_Embed_Description",
+	"Message_Embed_ThumbnailUrl",
+	"Message_Embed_ImageUrl",
+	"Message_Embed_VideoUrl",
+	"Message_Embed_FooterIconUrl",
+	"Message_Embed_FooterText"
+].forEach((value, index) => {
+	Input_CanVariable[value] = GitHubAction.Core.getInput(value);
+});
+if (DetermineIsNull(Input_CannotVariable["Webhook_ID"]) == false && DetermineIsNull(Input_CannotVariable["Webhook_Token"]) == false) {
+	Input_CannotVariable["Webhook_Url"] = `https://discordapp.com/api/webhooks/${Input_CannotVariable["Webhook_ID"]}/${Input_CannotVariable["Webhook_Token"]}`;
 } else {
-	GitHubAction.Core.setFailed(`Invalid Discord webhook url!`);
+	GitHubAction.Core.setFailed("Invalid webhook ID or token!");
+};
+var Input_MessageEmbedFields = [];
+for (let index = 0; index < 25; index++) {
+	let Key = GitHubAction.Core.getInput(`Message_Embed_Field_${index}_Key`),
+		Value = GitHubAction.Core.getInput(`Message_Embed_Field_${index}_Value`),
+		IsInline = GitHubAction.Core.getInput(`Message_Embed_Field_${index}_IsInline`);
+	if (DetermineIsNull(Key) == false && DetermineIsNull(Value) == false) {
+		if (IsInline == true || IsInline == "true") {
+			IsInline = true;
+		} else {
+			IsInline = false;
+		};
+		Input_MessageEmbedFields.push(
+			{
+				name: Key,
+				value: Value,
+				inline: IsInline
+			}
+		);
+	} else {
+		GitHubAction.Core.info(`Message embed field #${index} is null, ignore remains.`);
+		break;
+	};
+};
+var Input_VariableLists = {};
+for (let index = 0; index < 10; index++) {
+	let Name = GitHubAction.Core.getInput(`Variable_List_${index}_Name`),
+		Data = GitHubAction.Core.getInput(`Variable_List_${index}_Data`);
+	if (DetermineIsNull(Data) == false) {
+		try {
+			if (typeof Data != "object") {
+				Data = JSON.parse(Data);
+			};
+		} catch (error) {
+			GitHubAction.Core.setFailed(`Fail to parse variable list #${index}: ${error}`);
+		};
+		if (DetermineIsNull(Name) == false) {
+			Input_VariableLists[Name] = Data;
+		} else {
+			Input_VariableLists[index] = Data;
+		};
+	} else {
+		GitHubAction.Core.info(`Variable list #${index} is null, ignore remains.`);
+		break;
+	};
+};
+if (DetermineIsNull(Input_CannotVariable["Variable_Join"]) == true) {
+	Input_CannotVariable["Variable_Join"] = "_";
+};
+if (DetermineIsNull(Input_CannotVariable["Variable_Prefix"]) == true) {
+	Input_CannotVariable["Variable_Prefix"] = "%";
+};
+if (DetermineIsNull(Input_CannotVariable["Variable_Suffix"]) == true) {
+	Input_CannotVariable["Variable_Suffix"] = "%";
+};
+if (DetermineIsNull(Input_VariableLists) == false) {
+	if (Object.keys(Input_VariableLists).length == 1) {
+		Input_VariableLists = Object.values(Input_VariableLists)[0];
+	};
+	try {
+		Input_VariableLists = JSONFlatten(
+			Input_VariableLists,
+			{
+				delimiter: Input_CannotVariable["Variable_Join"],
+				overwrite: true
+			}
+		);
+	} catch (error) {
+		GitHubAction.Core.setFailed(`Fail to flatten variable list: ${error}`);
+	};
+	Promise.allSettled(
+		Object.keys(Input_CanVariable).map((Item, index) => {
+			new Promise((resolve, reject) => {
+				Object.keys(Input_VariableLists).forEach((Key, index) => {
+					Input_CanVariable[Item] = Input_CanVariable[Item].replace(
+						new RegExp(`${Input_CannotVariable["Variable_Prefix"]}${Key}${Input_CannotVariable["Variable_Suffix"]}`, "gu"),
+						Input_VariableLists[Key]
+					);
+				});
+			}).catch((error) => { });
+		})
+	);
+	Promise.allSettled(
+		Input_MessageEmbedFields.map((Field, index_0) => {
+			new Promise((resolve, reject) => {
+				Object.keys(Input_VariableLists).forEach((Key, index_1) => {
+					[
+						"name",
+						"value"
+					].forEach((SubKey, index_2) => {
+						Input_MessageEmbedFields[index_0][SubKey] = Input_MessageEmbedFields[index_0][SubKey].replace(
+							new RegExp(`${Input_CannotVariable["Variable_Prefix"]}${Key}${Input_CannotVariable["Variable_Suffix"]}`, "gu"),
+							Input_VariableLists[Key]
+						);
+					});
+				});
+			}).catch((error) => { });
+		})
+	);
 };
 const Output = {
 	allowed_mentions: {
@@ -45,88 +178,38 @@ const Output = {
 		]
 	}
 };
-var MessageTTS = GitHubAction.Core.getInput("message_tts");
-if (MessageTTS == true || MessageTTS == "true") {
-	Output.tts = true;
-} else {
-	Output.tts = false;
-};
-var MessageVariablesJoin = GitHubAction.Core.getInput("message_variables_join");
-if (DetermineIsNull(MessageVariablesJoin) == true) {
-	MessageVariablesJoin = ".";
-};
-var MessageVariablesPrefix = GitHubAction.Core.getInput("message_variables_prefix");
-if (DetermineIsNull(MessageVariablesPrefix) == true) {
-	MessageVariablesPrefix = "%";
-};
-var MessageVariablesSuffix = GitHubAction.Core.getInput("message_variables_suffix");
-if (DetermineIsNull(MessageVariablesSuffix) == true) {
-	MessageVariablesSuffix = "%";
-};
-var MessageEmbedColour = GitHubAction.Core.getInput("message_embed_colour");
-var MessageVariablesList = GitHubAction.Core.getInput("message_variables_list");
-const Input = {
-	"DiscordWebhookName": GitHubAction.Core.getInput("discord_webhook_name"),
-	"DiscordWebhookAvatarUrl": GitHubAction.Core.getInput("discord_webhook_avatarurl"),
-	"MessageText": GitHubAction.Core.getInput("message_text"),
-	"MessageEmbedAuthorName": GitHubAction.Core.getInput("message_embed_author_name"),
-	"MessageEmbedAuthorUrl": GitHubAction.Core.getInput("message_embed_author_url"),
-	"MessageEmbedAuthorAvatarUrl": GitHubAction.Core.getInput("message_embed_author_avatarurl"),
-	"MessageEmbedTitle": GitHubAction.Core.getInput("message_embed_title"),
-	"MessageEmbedTitleUrl": GitHubAction.Core.getInput("message_embed_titleurl"),
-	"MessageEmbedDescription": GitHubAction.Core.getInput("message_embed_description"),
-	"MessageEmbedThumbnailUrl": GitHubAction.Core.getInput("message_embed_thumbnailurl"),
-	"MessageEmbedImageUrl": GitHubAction.Core.getInput("message_embed_imageurl"),
-	"MessageEmbedVideoUrl": GitHubAction.Core.getInput("message_embed_videourl"),
-	"MessageEmbedFields": GitHubAction.Core.getInput("message_embed_fields"),
-	"MessageEmbedFooterIconUrl": GitHubAction.Core.getInput("message_embed_footer_iconurl"),
-	"MessageEmbedFooterText": GitHubAction.Core.getInput("message_embed_footer_text")
-};
-if (DetermineIsNull(MessageVariablesList) == false) {
-	try {
-		if (typeof MessageVariablesList != "object") {
-			MessageVariablesList = JSON.parse(MessageVariablesList);
-		};
-		MessageVariablesList = JSONFlatten(
-			MessageVariablesList,
-			{
-				delimiter: MessageVariablesJoin,
-				overwrite: true
-			}
-		);
-	} catch (error) {
-		GitHubAction.Core.setFailed(`Fail to parse message variables: ${error}`);
-	};
-	Promise.allSettled(
-		Object.keys(Input).map((key, index) => {
-			new Promise((resolve, reject) => {
-				Object.keys(MessageVariablesList).forEach((value, index) => {
-					Input[key] = Input[key].replace(
-						new RegExp(`${MessageVariablesPrefix}${value}${MessageVariablesSuffix}`, "gu"),
-						MessageVariablesList[value]
-					);
-				});
-			}).catch((error) => { });
-		})
-	);
-};
 Promise.allSettled([
 	new Promise((resolve, reject) => {
-		if (DetermineIsNull(Input["DiscordWebhookName"]) == false && Input["DiscordWebhookName"].length >= 2 && Input["DiscordWebhookName"].length <= 32) {
-			Output.username = Input["DiscordWebhookName"];
-		};
-		if (DetermineIsNull(Input["DiscordWebhookAvatarUrl"]) == false) {
-			Output.avatar_url = Input["DiscordWebhookAvatarUrl"];
-		};
-		if (DetermineIsNull(Input["MessageText"]) == false) {
-			if (Input["MessageText"].length > 2000) {
-				Input["MessageText"] = `${Input["MessageText"].slice(0, 1996)}...`;
-			};
-			Output.content = Input["MessageText"];
+		if (Input_CannotVariable["Message_UseTextToSpeech"] == true || Input_CannotVariable["Message_UseTextToSpeech"] == "true") {
+			Output.tts = true;
+		} else {
+			Output.tts = false;
 		};
 	}).catch((error) => { }),
 	new Promise((resolve, reject) => {
-		if (DetermineIsNull(Input["MessageEmbedAuthorName"]) == false || DetermineIsNull(Input["MessageEmbedTitle"]) == false || DetermineIsNull(Input["MessageEmbedDescription"]) == false || DetermineIsNull(Input["MessageEmbedThumbnailUrl"]) == false || DetermineIsNull(Input["MessageEmbedImageUrl"]) == false || DetermineIsNull(Input["MessageEmbedFields"]) == false || DetermineIsNull(Input["MessageEmbedFooterIconUrl"]) == false || DetermineIsNull(Input["MessageEmbedFooterText"]) == false) {
+		if (DetermineIsNull(Input_CanVariable["Webhook_Name"]) == false && Input_CanVariable["Webhook_Name"].length >= 2 && Input_CanVariable["Webhook_Name"].length <= 32) {
+			Output.username = Input_CanVariable["Webhook_Name"];
+		};
+		if (DetermineIsNull(Input_CanVariable["Webhook_AvatarUrl"]) == false) {
+			Output.avatar_url = Input_CanVariable["Webhook_AvatarUrl"];
+		};
+		if (DetermineIsNull(Input_CanVariable["Message_Text"]) == false) {
+			if (Input_CanVariable["Message_Text"].length > 2000) {
+				Input_CanVariable["Message_Text"] = `${Input_CanVariable["Message_Text"].slice(0, 1996)}...`;
+			};
+			Output.content = Input_CanVariable["Message_Text"];
+		};
+	}).catch((error) => { }),
+	new Promise((resolve, reject) => {
+		if (DetermineIsNull(Input_CanVariable["Message_Embed_AuthorName"]) == false ||
+			DetermineIsNull(Input_CanVariable["Message_Embed_Title"]) == false ||
+			DetermineIsNull(Input_CanVariable["Message_Embed_Description"]) == false ||
+			DetermineIsNull(Input_CanVariable["Message_Embed_ThumbnailUrl"]) == false ||
+			DetermineIsNull(Input_CanVariable["Message_Embed_ImageUrl"]) == false ||
+			DetermineIsNull(Input_CanVariable["Message_Embed_VideoUrl"]) == false ||
+			DetermineIsNull(Input_MessageEmbedFields) == false ||
+			DetermineIsNull(Input_CanVariable["Message_Embed_FooterText"]) == false
+		) {
 			Output.embeds = [
 				{
 					color: 0
@@ -134,128 +217,165 @@ Promise.allSettled([
 			];
 			Promise.allSettled([
 				new Promise((resolve, reject) => {
-					if (DetermineIsNull(MessageEmbedColour) == false) {
-						MessageEmbedColour = MessageEmbedColour.toUpperCase();
+					if (DetermineIsNull(Input_CannotVariable["Message_Embed_Colour"]) == false) {
+						Input_CannotVariable["Message_Embed_Colour"] = Input_CannotVariable["Message_Embed_Colour"].toUpperCase();
 						let Colour = {};
-						if (MessageEmbedColour == "RANDOM") {
-							Colour = {
-								R: Math.floor(Math.random() * 256),
-								G: Math.floor(Math.random() * 256),
-								B: Math.floor(Math.random() * 256)
-							};
-						} else if (MessageEmbedColour.search(/[0-9]{1,3},[0-9]{1,3},[0-9]{1,3}/u) == 0) {
-							MessageEmbedColour = MessageEmbedColour.split(",");
-							Colour = {
-								R: Number(MessageEmbedColour[0]),
-								G: Number(MessageEmbedColour[1]),
-								B: Number(MessageEmbedColour[2])
-							};
-							Object.keys(Colour).forEach((key, index) => {
-								if (Colour[key] > 255) {
-									Colour[key] = Math.floor(Math.random() * 256);
+						switch (Input_CannotVariable["Message_Embed_Colour"]) {
+							case "RANDOM":
+								Colour = {
+									R: Math.floor(Math.random() * 256),
+									G: Math.floor(Math.random() * 256),
+									B: Math.floor(Math.random() * 256)
 								};
-							});
-						} else {
-							Colour = {
-								R: 0,
-								G: 0,
-								B: 0
-							};
+								break;
+							case "DISCORDBLURPLE":
+								Colour = {
+									R: 114,
+									G: 137,
+									B: 218
+								};
+								break;
+							case "WHITE":
+								Colour = {
+									R: 255,
+									G: 255,
+									B: 255
+								};
+								break;
+							case "BLACK":
+								Colour = {
+									R: 0,
+									G: 0,
+									B: 0
+								};
+								break;
+							case "DISCORDGREYPLE":
+								Colour = {
+									R: 153,
+									G: 170,
+									B: 181
+								};
+								break;
+							case "DISCORDDARK":
+								Colour = {
+									R: 44,
+									G: 47,
+									B: 51
+								};
+								break;
+							case "DISCORDBLACK":
+								Colour = {
+									R: 35,
+									G: 39,
+									B: 42
+								};
+								break;
+							default:
+								if (Input_CannotVariable["Message_Embed_Colour"].search(/[0-9]{1,3},[0-9]{1,3},[0-9]{1,3}/u) == 0) {
+									Input_CannotVariable["Message_Embed_Colour"] = Input_CannotVariable["Message_Embed_Colour"].split(",");
+									Colour = {
+										R: Number(Input_CannotVariable["Message_Embed_Colour"][0]),
+										G: Number(Input_CannotVariable["Message_Embed_Colour"][1]),
+										B: Number(Input_CannotVariable["Message_Embed_Colour"][2])
+									};
+									Object.keys(Colour).forEach((key, index) => {
+										if (Colour[key] > 255) {
+											Colour[key] = 255;
+										};
+									});
+								} else {
+									Colour = {
+										R: 0,
+										G: 0,
+										B: 0
+									};
+								};
+								break;
 						};
-						let Result = Colour.R * 65536 + Colour.G * 256 + Colour.B;
-						Output.embeds[0].color = Result;
+						Output.embeds[0].color = Colour.R * 65536 + Colour.G * 256 + Colour.B;
 					};
 				}).catch((error) => { }),
 				new Promise((resolve, reject) => {
-					if (DetermineIsNull(Input["MessageEmbedAuthorName"]) == false && Input["MessageEmbedAuthorName"].length >= 2 && Input["MessageEmbedAuthorName"].length <= 32) {
+					if (DetermineIsNull(Input_CanVariable["Message_Embed_AuthorName"]) == false && Input_CanVariable["Message_Embed_AuthorName"].length >= 2 && Input_CanVariable["Message_Embed_AuthorName"].length <= 32) {
 						Output.embeds[0].author = {
-							name: Input["MessageEmbedAuthorName"]
+							name: Input_CanVariable["Message_Embed_AuthorName"]
 						};
-						if (DetermineIsNull(Input["MessageEmbedAuthorAvatarUrl"]) == false) {
-							Output.embeds[0].author.icon_url = Input["MessageEmbedAuthorAvatarUrl"];
+						if (DetermineIsNull(Input_CanVariable["Message_Embed_AuthorAvatarUrl"]) == false) {
+							Output.embeds[0].author.icon_url = Input_CanVariable["Message_Embed_AuthorAvatarUrl"];
 						};
-						if (DetermineIsNull(Input["MessageEmbedAuthorUrl"]) == false) {
-							Output.embeds[0].author.url = Input["MessageEmbedAuthorUrl"];
-						};
-					};
-				}).catch((error) => { }),
-				new Promise((resolve, reject) => {
-					if (DetermineIsNull(Input["MessageEmbedTitle"]) == false) {
-						if (Input["MessageEmbedTitle"].length > 256) {
-							Input["MessageEmbedTitle"] = `${Input["MessageEmbedTitle"].slice(0, 252)}...`;
-						};
-						Output.embeds[0].title = Input["MessageEmbedTitle"];
-						if (DetermineIsNull(Input["MessageEmbedTitleUrl"]) == false) {
-							Output.embeds[0].url = Input["MessageEmbedTitleUrl"];
+						if (DetermineIsNull(Input_CanVariable["Message_Embed_AuthorUrl"]) == false) {
+							Output.embeds[0].author.url = Input_CanVariable["Message_Embed_AuthorUrl"];
 						};
 					};
 				}).catch((error) => { }),
 				new Promise((resolve, reject) => {
-					if (DetermineIsNull(Input["MessageEmbedDescription"]) == false) {
-						if (Input["MessageEmbedDescription"].length > 2048) {
-							Input["MessageEmbedDescription"] = `${Input["MessageEmbedDescription"].slice(0, 2044)}...`;
+					if (DetermineIsNull(Input_CanVariable["Message_Embed_Title"]) == false) {
+						if (Input_CanVariable["Message_Embed_Title"].length > 256) {
+							Input_CanVariable["Message_Embed_Title"] = `${Input_CanVariable["Message_Embed_Title"].slice(0, 252)}...`;
 						};
-						Output.embeds[0].description = Input["MessageEmbedDescription"];
+						Output.embeds[0].title = Input_CanVariable["Message_Embed_Title"];
+						if (DetermineIsNull(Input_CanVariable["Message_Embed_TitleUrl"]) == false) {
+							Output.embeds[0].url = Input_CanVariable["Message_Embed_TitleUrl"];
+						};
 					};
 				}).catch((error) => { }),
 				new Promise((resolve, reject) => {
-					if (DetermineIsNull(Input["MessageEmbedFooterText"]) == false) {
-						if (Input["MessageEmbedFooterText"].length > 2048) {
-							Input["MessageEmbedFooterText"] = `${Input["MessageEmbedFooterText"].slice(0, 2044)}...`;
+					if (DetermineIsNull(Input_CanVariable["Message_Embed_Description"]) == false) {
+						if (Input_CanVariable["Message_Embed_Description"].length > 2048) {
+							Input_CanVariable["Message_Embed_Description"] = `${Input_CanVariable["Message_Embed_Description"].slice(0, 2044)}...`;
+						};
+						Output.embeds[0].description = Input_CanVariable["Message_Embed_Description"];
+					};
+				}).catch((error) => { }),
+				new Promise((resolve, reject) => {
+					if (DetermineIsNull(Input_CanVariable["Message_Embed_FooterText"]) == false) {
+						if (Input_CanVariable["Message_Embed_FooterText"].length > 2048) {
+							Input_CanVariable["Message_Embed_FooterText"] = `${Input_CanVariable["Message_Embed_FooterText"].slice(0, 2044)}...`;
 						};
 						Output.embeds[0].footer = {
-							text: Input["MessageEmbedFooterText"]
+							text: Input_CanVariable["Message_Embed_FooterText"]
 						};
-						if (DetermineIsNull(Input["MessageEmbedFooterIconUrl"]) == false) {
-							Output.embeds[0].footer.icon_url = Input["MessageEmbedFooterIconUrl"];
+						if (DetermineIsNull(Input_CanVariable["Message_Embed_FooterIconUrl"]) == false) {
+							Output.embeds[0].footer.icon_url = Input_CanVariable["Message_Embed_FooterIconUrl"];
 						};
 					};
 				}).catch((error) => { }),
 				new Promise((resolve, reject) => {
-					if (DetermineIsNull(Input["MessageEmbedImageUrl"]) == false) {
+					if (DetermineIsNull(Input_CanVariable["Message_Embed_ImageUrl"]) == false) {
 						Output.embeds[0].image = {
-							url: Input["MessageEmbedImageUrl"]
+							url: Input_CanVariable["Message_Embed_ImageUrl"]
 						};
 					};
-					if (DetermineIsNull(Input["MessageEmbedThumbnailUrl"]) == false) {
+					if (DetermineIsNull(Input_CanVariable["Message_Embed_ThumbnailUrl"]) == false) {
 						Output.embeds[0].thumbnail = {
-							url: Input["MessageEmbedThumbnailUrl"]
+							url: Input_CanVariable["Message_Embed_ThumbnailUrl"]
 						};
 					};
-					if (DetermineIsNull(Input["MessageEmbedVideoUrl"]) == false) {
+					if (DetermineIsNull(Input_CanVariable["Message_Embed_VideoUrl"]) == false) {
 						Output.embeds[0].video = {
-							url: Input["MessageEmbedVideoUrl"]
+							url: Input_CanVariable["Message_Embed_VideoUrl"]
 						};
 					};
 				}).catch((error) => { }),
 				new Promise((resolve, reject) => {
-					if (DetermineIsNull(Input["MessageEmbedFields"]) == false) {
-						Output.embeds[0].fields = [];
-						Input["MessageEmbedFields"].split("-|-", 25).forEach((value, index) => {
-							let FieldSection = value.split("-,-", 3);
-							if (DetermineIsNull(FieldSection[0]) == false && DetermineIsNull(FieldSection[1]) == false) {
-								if (FieldSection[0].length > 256) {
-									FieldSection[0] = `${FieldSection[0].slice(0, 252)}...`;
+					if (DetermineIsNull(Input_MessageEmbedFields) == false) {
+						Input_MessageEmbedFields.forEach((Slot, index) => {
+							if (DetermineIsNull(Slot.name) == false) {
+								if (Slot.name.length > 256) {
+									Input_MessageEmbedFields[index].name = `${Slot.name.slice(0, 252)}...`;
 								};
-								if (FieldSection[1].length > 1024) {
-									FieldSection[1] = `${FieldSection[1].slice(0, 1020)}...`;
+							} else {
+								Input_MessageEmbedFields[index].name = "-";
+							};
+							if (DetermineIsNull(Slot.value) == false) {
+								if (Slot.value.length > 1024) {
+									Input_MessageEmbedFields[index].value = `${Slot.value.slice(0, 1020)}...`;
 								};
-								if (DetermineIsNull(FieldSection[2]) == false) {
-									if (FieldSection[2] == true || FieldSection[2] == "true") {
-										FieldSection[2] = true;
-									} else {
-										FieldSection[2] = false;
-									};
-								} else {
-									FieldSection[2] = false;
-								};
-								Output.embeds[0].fields.push({
-									name: FieldSection[0],
-									value: FieldSection[1],
-									inline: FieldSection[2]
-								});
+							} else {
+								Input_MessageEmbedFields[index].value = "-";
 							};
 						});
+						Output.embeds[0].fields = Input_MessageEmbedFields;
 					};
 				}).catch((error) => { })
 			]);
@@ -266,18 +386,18 @@ Promise.allSettled([
 /*::::::::
 Send
 ::::::::*/
-const RequestPayload = JSON.stringify(Output);
-const RequestOption = {
+const Request_Payload = JSON.stringify(Output);
+const Request_Option = {
 	port: 443,
 	method: "POST",
 	headers: {
 		"Content-Type": "application/json",
-		"Content-Length": RequestPayload.length
+		"Content-Length": Request_Payload.length
 	}
 };
-const NewRequest = NodeJS.HTTPS.request(
-	DiscordWebhookUrl,
-	RequestOption,
+const Request_Node = NodeJS.HTTPS.request(
+	Input_CannotVariable["Webhook_Url"],
+	Request_Option,
 	(result) => {
 		console.log(`Status Code: ${result.statusCode}`);
 		result.on(
@@ -288,11 +408,11 @@ const NewRequest = NodeJS.HTTPS.request(
 		);
 	}
 );
-NewRequest.on(
+Request_Node.on(
 	"error",
 	(error) => {
 		GitHubAction.Core.setFailed(error);
 	}
 );
-NewRequest.write(RequestPayload);
-NewRequest.end();
+Request_Node.write(Request_Payload);
+Request_Node.end();

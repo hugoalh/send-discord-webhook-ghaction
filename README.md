@@ -48,67 +48,48 @@ Send message to Discord via webhook, support variables.
 
 ### 📥 Input
 
-| **Key** | **Required?** | **Type** | **Description** | **Support Variables?** |
-|:----|:---:|:----|:----|:---:|
-| `discord_webhook_url` | ✔ | Secret String | Discord webhook url; Do not add `/github` at the back! |  |
-| `discord_webhook_name` |  | String, 2 \~ 32 charactors | Discord webhook display name (i.e.: the sender's name), this can override the default username of the webhook. Must between 2 and 32 charactors, otherwise will ignore. | ✔ |
-| `discord_webhook_avatarurl` |  | String | Discord webhook avatar url (i.e.: the sender's avatar), this can override the default avatar of the webhook. The url of the image must be in format of JPEG/JPG, or PNG. GIF is not supported due to the Discord limitation. | ✔ |
-| `message_tts` |  | Stringified Boolean | Text to speech on this message. `true` to enable, `false` to disable (default). |  |
-| `message_text` |  | String, <= 2000 charactors | Text message. Must less than 2000 charactors, otherwise will crop.| ✔ |
-| `message_embed_colour` | When have embed content | String | Colour that display at the left border of the embed message, support `RANDOM`, `INVISIBLE` (default), or RGB split with `,` (e.g.: `256,128,64`). |  |
-| `message_embed_author_name` | When have "message_embed_author_url" | String, 2 \~ 32 charactors | Author name of the embed message. Must between 2 and 32 charactors, otherwise will ignore. | ✔ |
-| `message_embed_author_url` |  | String | Url on the author name of the embed message. | ✔ |
-| `message_embed_author_avatarurl` |  | String | Author avatar url of the embed message. The url of the image must be in format of JPEG/JPG, or PNG. GIF is not supported due to the Discord limitation. | ✔ |
-| `message_embed_title` | When have "message_embed_titleurl" | String, <= 256 charactors | Embed message title. Must less than 256 charactors, otherwise will crop. | ✔ |
-| `message_embed_titleurl` |  | String | Url on the title of the embed message. | ✔ |
-| `message_embed_description` |  | String, <= 2048 charactors | Embed message description. Must less than 2048 charactors, otherwise will crop. | ✔ |
-| `message_embed_thumbnailurl` |  | String | Embed message thumbnail. The url of the image must be in format of JPEG/JPG, PNG, or GIF. | ✔ |
-| `message_embed_imageurl` |  | String | Embed message image url. The url of the image must be in format of JPEG/JPG, PNG, or GIF. | ✔ |
-| `message_embed_videourl` |  | String | Embed message video url. Support YouTube only! | ✔ |
-| `message_embed_fields` |  | Stringified Array | Embed message fields. | ✔ |
-| `message_embed_footer_iconurl` |  | String | Embed message footer icon url, required "message_embed_footer_text". The url of the image must be in format of JPEG/JPG, or PNG. GIF is not supported due to the Discord limitation. | ✔ |
-| `message_embed_footer_text` |  | String, <= 2048 charactors | Embed message footer text. Must less than 2048 charactors, otherwise will crop. | ✔ |
-| `message_variables_list` |  | Stringified JSON | Variables list that use in the message content. Can import data from other places. | N/A |
-| `message_variables_prefix` |  | String | Prefix of the variables. Default to `%`. | N/A |
-| `message_variables_suffix` |  | String | Suffix of the variables. Default to `%`. | N/A |
-| `message_variables_join` |  | String | Join of the variables if the variables list has depth. Default to `.`. | N/A |
+#### Not support variable
+
+| **Key** | **Require? / Require Condition?** | <div align="center">**Type**</div> | <div align="center">**Description**</div> |
+|:---:|:---:|:----|:----|
+| `Webhook_ID` | ✔ | Secret String | Webhook ID. If the webhook url is `https://discordapp.com/api/webhooks/70971114/ueyzeWxB_8bb1zMhL`, then the webhook ID will be `70971114`. |
+| `Webhook_Token` | ✔ | Secret String | Webhook token. If the webhook url is `https://discordapp.com/api/webhooks/70971114/ueyzeWxB_8bb1zMhL`, then the webhook token will be `ueyzeWxB_8bb1zMhL`. |
+| `Message_UseTextToSpeech` |  | Stringified Boolean | Use text to speech for this message. Default: `false`. |
+| `Message_Embed_Colour` | When have embed | String | Left border's colour of the embed, support `RANDOM`, `INVISIBLE` (default), `DISCORDBLURPLE`, `WHITE`, `BLACK`, `DISCORDGREYPLE`, `DISCORDDARK`, `DISCORDBLACK`, or RGB split with `,` (example: `256,128,64`). |
+| `Message_Embed_FieldSplit` |  | String | Charactor(s) to split in the fields. Default: `-;-`. |
+| `Message_Embed_Field_<Number>_IsInline` |  | Stringified Boolean | Use inline for this embed field. Number start at `0`, maximum 25 fields. Default: `false`. |
+| `Variable_List_<Number>_Name` |  | String | Namespace for this variable list. Only use when having multiple variable lists. Number start at `0`, maximum 10 variable lists. |
+| `Variable_List_<Number>_Data` | When have `Variable_List_<Number>_Name` | Stringified JSON | Variable list that will use in the message. Number start at `0`, maximum 10 variable lists. |
+| `Variable_Prefix` |  | String | Variable prefix. Default: `%`. |
+| `Variable_Suffix` |  | String | Variable suffix. Default: `%`. |
+| `Variable_Join` |  | String | Variable join if having multiple variable lists, and/or variable list has depth. Default: `_`. |
+
+#### Support variable (& optional)
+
+| **Key<br />(Require Condition?)** | <div align="center">**Type**</div> | <div align="center">**Description**</div> |
+|:---:|:----|:----|
+| `Webhook_Name` | String, 2 \~ 32 charactors | Webhook display name (i.e.: the sender's name), this can override the default username of the webhook. Automatically ignore when not between 2 and 32 charactors. |
+| `Webhook_AvatarUrl` | String | Webhook avatar url (i.e.: the sender's avatar), this can override the default avatar of the webhook. The url of the image must be in format of JPEG/JPG, or PNG. GIF is not supported due to the Discord limitation. |
+| `Message_Text` | String, <= 2000 charactors | Text. Automatically crop when more than 2000 charactors.|
+| `Message_Embed_AuthorName`<br />(When have `Message_Embed_AuthorUrl`) | String, 2 \~ 32 charactors | Embed author name. Automatically ignore when not between 2 and 32 charactors. |
+| `Message_Embed_AuthorUrl` | String | Embed author url. |
+| `Message_Embed_AuthorAvatarUrl` | String | Embed author avatar url. The url of the image must be in format of JPEG/JPG, or PNG. GIF is not supported due to the Discord limitation. |
+| `Message_Embed_Title`<br />(When have `Message_Embed_TitleUrl`) | String, <= 256 charactors | Embed title. Automatically crop when more than 256 charactors. |
+| `Message_Embed_TitleUrl` | String | Embed title url. |
+| `Message_Embed_Description` | String, <= 2048 charactors | Embed description. Automatically crop when more than 2048 charactors. |
+| `Message_Embed_ThumbnailUrl` | String | Embed thumbnail url. The url of the image must be in format of JPEG/JPG, PNG, or GIF. |
+| `Message_Embed_ImageUrl` | String | Embed image url. The url of the image must be in format of JPEG/JPG, PNG, or GIF. |
+| `Message_Embed_VideoUrl` | String | Embed video url. Support YouTube only! |
+| `Message_Embed_Field_<Number>_Key`<br />(When have `Message_Embed_Field_<Number>_Value`) | String | Key for this embed field. Number start at `0`, maximum 25 fields. |
+| `Message_Embed_Field_<Number>_Value`<br />(When have `Message_Embed_Field_<Number>_Key`) | String | Value for this embed field. Number start at `0`, maximum 25 fields. |
+| `Message_Embed_FooterIconUrl`<br />(When have `Message_Embed_FooterText`) | String | Embed footer icon url. The url of the image must be in format of JPEG/JPG, or PNG. GIF is not supported due to the Discord limitation. |
+| `Message_Embed_FooterText` | String, <= 2048 charactors | Embed footer text. Automatically crop when more than 2048 charactors. |
 
 ### 📓 Guide
 
 - [Discord Webhook: Creating a webhook](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks)
 - [Discord Webhook: API](https://discord.com/developers/docs/resources/webhook#execute-webhook)
 - [GitHub Actions: Creating and storing encrypted secrets](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets)
-
-#### Relationship between `message_variables_list`, `message_variables_prefix`, `message_variables_suffix`, and `message_variables_join`
-
-Example of `message_variables_list`:
-
-```yml
-- message_variables_list: '{"snippet":{"world":"Hello, world!"},"test":"Say hi to me!"}'
-```
-
-By default: 
-
-```
-message_variables_prefix = "%"
-message_variables_suffix = "%"
-message_variables_join = "."
-```
-
-So the example of `message_variables_list` will convert to:
-
-```json
-{
-  "snippet.world": "Hello, world!",
-  "test": "Say hi to me!"
-}
-```
-
-And to use it:
-
-```
-Some text, %snippet.world% %test% => Some text, Hello, world! Say hi to me!
-```
 
 ## 🐛 Issue
 

@@ -2,77 +2,388 @@ name: "Send To Discord"
 author: "hugoalh"
 description: "Send message to Discord via webhook, support variables."
 inputs:
-  discord_webhook_url:
-    description: "[Secret String] Discord webhook url."
+  Webhook_ID:
+    description: "[Secret String] Webhook ID."
     required: true
-  discord_webhook_name:
-    description: "[String 2 ~ 32 charactors] Discord webhook display name (i.e.: the sender's name)."
+  Webhook_Token:
+    description: "[Secret String] Webhook token."
+    required: true
+  Webhook_Name:
+    description: "[String, 2 ~ 32 charactors] Webhook display name (i.e.: the sender's name)."
     required: false
-  discord_webhook_avatarurl:
-    description: "[String] Discord webhook avatar url."
+  Webhook_AvatarUrl:
+    description: "[String] Webhook avatar url (i.e.: the sender's avatar)."
     required: false
-  message_tts:
-    description: "[Stringified Boolean] Text to speech (TTS)."
+  Message_UseTextToSpeech:
+    description: "[Stringified Boolean] Use text to speech (TTS) for this message."
     required: false
     default: "false"
-  message_text:
-    description: "[String <= 2000 charactors] Text message."
+  Message_Text:
+    description: "[String, <= 2000 charactors] Text."
     required: false
-  message_embed_colour:
-    description: "[String] Colour that display at the left border of the embed message; in `RANDOM`, `INVISIBLE`, or RGB split with `,`."
+  Message_Embed_Colour:
+    description: "[String] Left border's colour of the embed."
     required: false
     default: "INVISIBLE"
-  message_embed_author_name:
-    description: "[String 2 ~ 32 charactors] Author name of the embed message."
+  Message_Embed_AuthorName:
+    description: "[String, 2 ~ 32 charactors] Embed author name."
     required: false
-  message_embed_author_url:
-    description: "[String] Url on the author name of the embed message."
+  Message_Embed_AuthorUrl:
+    description: "[String] Embed author url."
     required: false
-  message_embed_author_avatarurl:
-    description: "[String] Author avatar url of the embed message."
+  Message_Embed_AuthorAvatarUrl:
+    description: "[String] Embed author avatar url."
     required: false
-  message_embed_title:
-    description: "[String <= 256 charactors] Embed message title."
+  Message_Embed_Title:
+    description: "[String, <= 256 charactors] Embed title."
     required: false
-  message_embed_titleurl:
-    description: "[String] Url on the title of the embed message, required \"message_embed_title\"."
+  Message_Embed_TitleUrl:
+    description: "[String] Embed title url."
     required: false
-  message_embed_description:
-    description: "[String <= 2048 charactors] Embed message description."
+  Message_Embed_Description:
+    description: "[String, <= 2048 charactors] Embed description."
     required: false
-  message_embed_thumbnailurl:
-    description: "[String] Embed message thumbnail."
+  Message_Embed_ThumbnailUrl:
+    description: "[String] Embed thumbnail url."
     required: false
-  message_embed_imageurl:
-    description: "[String] Embed message image url."
+  Message_Embed_ImageUrl:
+    description: "[String] Embed image url."
     required: false
-  message_embed_videourl:
-    description: "[String] Embed message video url."
+  Message_Embed_VideoUrl:
+    description: "[String] Embed video url."
     required: false
-  message_embed_fields:
-    description: "[Stringified Array] Embed message fields."
+  Message_Embed_FieldSplit:
+    description: "[String] Charactor(s) to split in the fields."
     required: false
-  message_embed_footer_iconurl:
-    description: "[String] Embed message footer icon url, required \"message_embed_footer_text\"."
+    default: "-;-"
+  Message_Embed_Field_0_Key:
+    description: "[String] Key for this embed field."
     required: false
-  message_embed_footer_text:
-    description: "[String <= 2048 charactors] Embed message footer text."
+  Message_Embed_Field_0_Value:
+    description: "[String] Value for this embed field."
     required: false
-  message_variables_list:
-    description: "[Stringified JSON] Variables list that use in the message content. Can import data from other places."
+  Message_Embed_Field_0_IsInline:
+    description: "[String] Use inline for this embed field."
     required: false
-  message_variables_prefix:
-    description: "[String] Prefix of the variables."
+    default: "false"
+  Message_Embed_Field_1_Key:
+    description: "[String] Key for this embed field."
+    required: false
+  Message_Embed_Field_1_Value:
+    description: "[String] Value for this embed field."
+    required: false
+  Message_Embed_Field_1_IsInline:
+    description: "[String] Use inline for this embed field."
+    required: false
+    default: "false"
+  Message_Embed_Field_2_Key:
+    description: "[String] Key for this embed field."
+    required: false
+  Message_Embed_Field_2_Value:
+    description: "[String] Value for this embed field."
+    required: false
+  Message_Embed_Field_2_IsInline:
+    description: "[String] Use inline for this embed field."
+    required: false
+    default: "false"
+  Message_Embed_Field_3_Key:
+    description: "[String] Key for this embed field."
+    required: false
+  Message_Embed_Field_3_Value:
+    description: "[String] Value for this embed field."
+    required: false
+  Message_Embed_Field_3_IsInline:
+    description: "[String] Use inline for this embed field."
+    required: false
+    default: "false"
+  Message_Embed_Field_4_Key:
+    description: "[String] Key for this embed field."
+    required: false
+  Message_Embed_Field_4_Value:
+    description: "[String] Value for this embed field."
+    required: false
+  Message_Embed_Field_4_IsInline:
+    description: "[String] Use inline for this embed field."
+    required: false
+    default: "false"
+  Message_Embed_Field_5_Key:
+    description: "[String] Key for this embed field."
+    required: false
+  Message_Embed_Field_5_Value:
+    description: "[String] Value for this embed field."
+    required: false
+  Message_Embed_Field_5_IsInline:
+    description: "[String] Use inline for this embed field."
+    required: false
+    default: "false"
+  Message_Embed_Field_6_Key:
+    description: "[String] Key for this embed field."
+    required: false
+  Message_Embed_Field_6_Value:
+    description: "[String] Value for this embed field."
+    required: false
+  Message_Embed_Field_6_IsInline:
+    description: "[String] Use inline for this embed field."
+    required: false
+    default: "false"
+  Message_Embed_Field_7_Key:
+    description: "[String] Key for this embed field."
+    required: false
+  Message_Embed_Field_7_Value:
+    description: "[String] Value for this embed field."
+    required: false
+  Message_Embed_Field_7_IsInline:
+    description: "[String] Use inline for this embed field."
+    required: false
+    default: "false"
+  Message_Embed_Field_8_Key:
+    description: "[String] Key for this embed field."
+    required: false
+  Message_Embed_Field_8_Value:
+    description: "[String] Value for this embed field."
+    required: false
+  Message_Embed_Field_8_IsInline:
+    description: "[String] Use inline for this embed field."
+    required: false
+    default: "false"
+  Message_Embed_Field_9_Key:
+    description: "[String] Key for this embed field."
+    required: false
+  Message_Embed_Field_9_Value:
+    description: "[String] Value for this embed field."
+    required: false
+  Message_Embed_Field_9_IsInline:
+    description: "[String] Use inline for this embed field."
+    required: false
+    default: "false"
+  Message_Embed_Field_10_Key:
+    description: "[String] Key for this embed field."
+    required: false
+  Message_Embed_Field_10_Value:
+    description: "[String] Value for this embed field."
+    required: false
+  Message_Embed_Field_10_IsInline:
+    description: "[String] Use inline for this embed field."
+    required: false
+    default: "false"
+  Message_Embed_Field_11_Key:
+    description: "[String] Key for this embed field."
+    required: false
+  Message_Embed_Field_11_Value:
+    description: "[String] Value for this embed field."
+    required: false
+  Message_Embed_Field_11_IsInline:
+    description: "[String] Use inline for this embed field."
+    required: false
+    default: "false"
+  Message_Embed_Field_12_Key:
+    description: "[String] Key for this embed field."
+    required: false
+  Message_Embed_Field_12_Value:
+    description: "[String] Value for this embed field."
+    required: false
+  Message_Embed_Field_12_IsInline:
+    description: "[String] Use inline for this embed field."
+    required: false
+    default: "false"
+  Message_Embed_Field_13_Key:
+    description: "[String] Key for this embed field."
+    required: false
+  Message_Embed_Field_13_Value:
+    description: "[String] Value for this embed field."
+    required: false
+  Message_Embed_Field_13_IsInline:
+    description: "[String] Use inline for this embed field."
+    required: false
+    default: "false"
+  Message_Embed_Field_14_Key:
+    description: "[String] Key for this embed field."
+    required: false
+  Message_Embed_Field_14_Value:
+    description: "[String] Value for this embed field."
+    required: false
+  Message_Embed_Field_14_IsInline:
+    description: "[String] Use inline for this embed field."
+    required: false
+    default: "false"
+  Message_Embed_Field_15_Key:
+    description: "[String] Key for this embed field."
+    required: false
+  Message_Embed_Field_15_Value:
+    description: "[String] Value for this embed field."
+    required: false
+  Message_Embed_Field_15_IsInline:
+    description: "[String] Use inline for this embed field."
+    required: false
+    default: "false"
+  Message_Embed_Field_16_Key:
+    description: "[String] Key for this embed field."
+    required: false
+  Message_Embed_Field_16_Value:
+    description: "[String] Value for this embed field."
+    required: false
+  Message_Embed_Field_16_IsInline:
+    description: "[String] Use inline for this embed field."
+    required: false
+    default: "false"
+  Message_Embed_Field_17_Key:
+    description: "[String] Key for this embed field."
+    required: false
+  Message_Embed_Field_17_Value:
+    description: "[String] Value for this embed field."
+    required: false
+  Message_Embed_Field_17_IsInline:
+    description: "[String] Use inline for this embed field."
+    required: false
+    default: "false"
+  Message_Embed_Field_18_Key:
+    description: "[String] Key for this embed field."
+    required: false
+  Message_Embed_Field_18_Value:
+    description: "[String] Value for this embed field."
+    required: false
+  Message_Embed_Field_18_IsInline:
+    description: "[String] Use inline for this embed field."
+    required: false
+    default: "false"
+  Message_Embed_Field_19_Key:
+    description: "[String] Key for this embed field."
+    required: false
+  Message_Embed_Field_19_Value:
+    description: "[String] Value for this embed field."
+    required: false
+  Message_Embed_Field_19_IsInline:
+    description: "[String] Use inline for this embed field."
+    required: false
+    default: "false"
+  Message_Embed_Field_20_Key:
+    description: "[String] Key for this embed field."
+    required: false
+  Message_Embed_Field_20_Value:
+    description: "[String] Value for this embed field."
+    required: false
+  Message_Embed_Field_20_IsInline:
+    description: "[String] Use inline for this embed field."
+    required: false
+    default: "false"
+  Message_Embed_Field_21_Key:
+    description: "[String] Key for this embed field."
+    required: false
+  Message_Embed_Field_21_Value:
+    description: "[String] Value for this embed field."
+    required: false
+  Message_Embed_Field_21_IsInline:
+    description: "[String] Use inline for this embed field."
+    required: false
+    default: "false"
+  Message_Embed_Field_22_Key:
+    description: "[String] Key for this embed field."
+    required: false
+  Message_Embed_Field_22_Value:
+    description: "[String] Value for this embed field."
+    required: false
+  Message_Embed_Field_22_IsInline:
+    description: "[String] Use inline for this embed field."
+    required: false
+    default: "false"
+  Message_Embed_Field_23_Key:
+    description: "[String] Key for this embed field."
+    required: false
+  Message_Embed_Field_23_Value:
+    description: "[String] Value for this embed field."
+    required: false
+  Message_Embed_Field_23_IsInline:
+    description: "[String] Use inline for this embed field."
+    required: false
+    default: "false"
+  Message_Embed_Field_24_Key:
+    description: "[String] Key for this embed field."
+    required: false
+  Message_Embed_Field_24_Value:
+    description: "[String] Value for this embed field."
+    required: false
+  Message_Embed_Field_24_IsInline:
+    description: "[String] Use inline for this embed field."
+    required: false
+    default: "false"
+  Message_Embed_FooterIconUrl:
+    description: "[String] Embed footer icon url."
+    required: false
+  Message_Embed_FooterText:
+    description: "[String, <= 2048 charactors] Embed footer text."
+    required: false
+  Variable_List_0_Name:
+    description: "[String] Namespace for this variable list."
+    required: false
+  Variable_List_0_Data:
+    description: "[Stringified JSON] Variable list that will use in the message."
+    required: false
+  Variable_List_1_Name:
+    description: "[String] Namespace for this variable list."
+    required: false
+  Variable_List_1_Data:
+    description: "[Stringified JSON] Variable list that will use in the message."
+    required: false
+  Variable_List_2_Name:
+    description: "[String] Namespace for this variable list."
+    required: false
+  Variable_List_2_Data:
+    description: "[Stringified JSON] Variable list that will use in the message."
+    required: false
+  Variable_List_3_Name:
+    description: "[String] Namespace for this variable list."
+    required: false
+  Variable_List_3_Data:
+    description: "[Stringified JSON] Variable list that will use in the message."
+    required: false
+  Variable_List_4_Name:
+    description: "[String] Namespace for this variable list."
+    required: false
+  Variable_List_4_Data:
+    description: "[Stringified JSON] Variable list that will use in the message."
+    required: false
+  Variable_List_5_Name:
+    description: "[String] Namespace for this variable list."
+    required: false
+  Variable_List_5_Data:
+    description: "[Stringified JSON] Variable list that will use in the message."
+    required: false
+  Variable_List_6_Name:
+    description: "[String] Namespace for this variable list."
+    required: false
+  Variable_List_6_Data:
+    description: "[Stringified JSON] Variable list that will use in the message."
+    required: false
+  Variable_List_7_Name:
+    description: "[String] Namespace for this variable list."
+    required: false
+  Variable_List_7_Data:
+    description: "[Stringified JSON] Variable list that will use in the message."
+    required: false
+  Variable_List_8_Name:
+    description: "[String] Namespace for this variable list."
+    required: false
+  Variable_List_8_Data:
+    description: "[Stringified JSON] Variable list that will use in the message."
+    required: false
+  Variable_List_9_Name:
+    description: "[String] Namespace for this variable list."
+    required: false
+  Variable_List_9_Data:
+    description: "[Stringified JSON] Variable list that will use in the message."
+    required: false
+  Variable_Prefix:
+    description: "[String] Variable prefix."
     required: false
     default: "%"
-  message_variables_suffix:
-    description: "[String] Suffix of the variables."
+  Variable_Suffix:
+    description: "[String] Variable suffix."
     required: false
     default: "%"
-  message_variables_join:
-    description: "[String] Join of the variables if the variables list has depth."
+  Variable_Join:
+    description: "[String] Variable join if having multiple variable lists, and/or variable list has depth."
     required: false
-    default: "."
+    default: "_"
 runs:
   using: "node12"
   main: "main.js"
