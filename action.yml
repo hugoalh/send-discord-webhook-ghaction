@@ -57,253 +57,253 @@ inputs:
     required: false
     default: "-;-"
   Message_Embed_Field_0_Key:
-    description: "[String] Key for this embed field."
+    description: "[String, <= 256 charactors] Key for this embed field."
     required: false
   Message_Embed_Field_0_Value:
-    description: "[String] Value for this embed field."
+    description: "[String, <= 1024 charactors] Value for this embed field."
     required: false
   Message_Embed_Field_0_IsInline:
-    description: "[String] Use inline for this embed field."
+    description: "[Stringified Boolean] Use inline for this embed field."
     required: false
     default: "false"
   Message_Embed_Field_1_Key:
-    description: "[String] Key for this embed field."
+    description: "[String, <= 256 charactors] Key for this embed field."
     required: false
   Message_Embed_Field_1_Value:
-    description: "[String] Value for this embed field."
+    description: "[String, <= 1024 charactors] Value for this embed field."
     required: false
   Message_Embed_Field_1_IsInline:
-    description: "[String] Use inline for this embed field."
+    description: "[Stringified Boolean] Use inline for this embed field."
     required: false
     default: "false"
   Message_Embed_Field_2_Key:
-    description: "[String] Key for this embed field."
+    description: "[String, <= 256 charactors] Key for this embed field."
     required: false
   Message_Embed_Field_2_Value:
-    description: "[String] Value for this embed field."
+    description: "[String, <= 1024 charactors] Value for this embed field."
     required: false
   Message_Embed_Field_2_IsInline:
-    description: "[String] Use inline for this embed field."
+    description: "[Stringified Boolean] Use inline for this embed field."
     required: false
     default: "false"
   Message_Embed_Field_3_Key:
-    description: "[String] Key for this embed field."
+    description: "[String, <= 256 charactors] Key for this embed field."
     required: false
   Message_Embed_Field_3_Value:
-    description: "[String] Value for this embed field."
+    description: "[String, <= 1024 charactors] Value for this embed field."
     required: false
   Message_Embed_Field_3_IsInline:
-    description: "[String] Use inline for this embed field."
+    description: "[Stringified Boolean] Use inline for this embed field."
     required: false
     default: "false"
   Message_Embed_Field_4_Key:
-    description: "[String] Key for this embed field."
+    description: "[String, <= 256 charactors] Key for this embed field."
     required: false
   Message_Embed_Field_4_Value:
-    description: "[String] Value for this embed field."
+    description: "[String, <= 1024 charactors] Value for this embed field."
     required: false
   Message_Embed_Field_4_IsInline:
-    description: "[String] Use inline for this embed field."
+    description: "[Stringified Boolean] Use inline for this embed field."
     required: false
     default: "false"
   Message_Embed_Field_5_Key:
-    description: "[String] Key for this embed field."
+    description: "[String, <= 256 charactors] Key for this embed field."
     required: false
   Message_Embed_Field_5_Value:
-    description: "[String] Value for this embed field."
+    description: "[String, <= 1024 charactors] Value for this embed field."
     required: false
   Message_Embed_Field_5_IsInline:
-    description: "[String] Use inline for this embed field."
+    description: "[Stringified Boolean] Use inline for this embed field."
     required: false
     default: "false"
   Message_Embed_Field_6_Key:
-    description: "[String] Key for this embed field."
+    description: "[String, <= 256 charactors] Key for this embed field."
     required: false
   Message_Embed_Field_6_Value:
-    description: "[String] Value for this embed field."
+    description: "[String, <= 1024 charactors] Value for this embed field."
     required: false
   Message_Embed_Field_6_IsInline:
-    description: "[String] Use inline for this embed field."
+    description: "[Stringified Boolean] Use inline for this embed field."
     required: false
     default: "false"
   Message_Embed_Field_7_Key:
-    description: "[String] Key for this embed field."
+    description: "[String, <= 256 charactors] Key for this embed field."
     required: false
   Message_Embed_Field_7_Value:
-    description: "[String] Value for this embed field."
+    description: "[String, <= 1024 charactors] Value for this embed field."
     required: false
   Message_Embed_Field_7_IsInline:
-    description: "[String] Use inline for this embed field."
+    description: "[Stringified Boolean] Use inline for this embed field."
     required: false
     default: "false"
   Message_Embed_Field_8_Key:
-    description: "[String] Key for this embed field."
+    description: "[String, <= 256 charactors] Key for this embed field."
     required: false
   Message_Embed_Field_8_Value:
-    description: "[String] Value for this embed field."
+    description: "[String, <= 1024 charactors] Value for this embed field."
     required: false
   Message_Embed_Field_8_IsInline:
-    description: "[String] Use inline for this embed field."
+    description: "[Stringified Boolean] Use inline for this embed field."
     required: false
     default: "false"
   Message_Embed_Field_9_Key:
-    description: "[String] Key for this embed field."
+    description: "[String, <= 256 charactors] Key for this embed field."
     required: false
   Message_Embed_Field_9_Value:
-    description: "[String] Value for this embed field."
+    description: "[String, <= 1024 charactors] Value for this embed field."
     required: false
   Message_Embed_Field_9_IsInline:
-    description: "[String] Use inline for this embed field."
+    description: "[Stringified Boolean] Use inline for this embed field."
     required: false
     default: "false"
   Message_Embed_Field_10_Key:
-    description: "[String] Key for this embed field."
+    description: "[String, <= 256 charactors] Key for this embed field."
     required: false
   Message_Embed_Field_10_Value:
-    description: "[String] Value for this embed field."
+    description: "[String, <= 1024 charactors] Value for this embed field."
     required: false
   Message_Embed_Field_10_IsInline:
-    description: "[String] Use inline for this embed field."
+    description: "[Stringified Boolean] Use inline for this embed field."
     required: false
     default: "false"
   Message_Embed_Field_11_Key:
-    description: "[String] Key for this embed field."
+    description: "[String, <= 256 charactors] Key for this embed field."
     required: false
   Message_Embed_Field_11_Value:
-    description: "[String] Value for this embed field."
+    description: "[String, <= 1024 charactors] Value for this embed field."
     required: false
   Message_Embed_Field_11_IsInline:
-    description: "[String] Use inline for this embed field."
+    description: "[Stringified Boolean] Use inline for this embed field."
     required: false
     default: "false"
   Message_Embed_Field_12_Key:
-    description: "[String] Key for this embed field."
+    description: "[String, <= 256 charactors] Key for this embed field."
     required: false
   Message_Embed_Field_12_Value:
-    description: "[String] Value for this embed field."
+    description: "[String, <= 1024 charactors] Value for this embed field."
     required: false
   Message_Embed_Field_12_IsInline:
-    description: "[String] Use inline for this embed field."
+    description: "[Stringified Boolean] Use inline for this embed field."
     required: false
     default: "false"
   Message_Embed_Field_13_Key:
-    description: "[String] Key for this embed field."
+    description: "[String, <= 256 charactors] Key for this embed field."
     required: false
   Message_Embed_Field_13_Value:
-    description: "[String] Value for this embed field."
+    description: "[String, <= 1024 charactors] Value for this embed field."
     required: false
   Message_Embed_Field_13_IsInline:
-    description: "[String] Use inline for this embed field."
+    description: "[Stringified Boolean] Use inline for this embed field."
     required: false
     default: "false"
   Message_Embed_Field_14_Key:
-    description: "[String] Key for this embed field."
+    description: "[String, <= 256 charactors] Key for this embed field."
     required: false
   Message_Embed_Field_14_Value:
-    description: "[String] Value for this embed field."
+    description: "[String, <= 1024 charactors] Value for this embed field."
     required: false
   Message_Embed_Field_14_IsInline:
-    description: "[String] Use inline for this embed field."
+    description: "[Stringified Boolean] Use inline for this embed field."
     required: false
     default: "false"
   Message_Embed_Field_15_Key:
-    description: "[String] Key for this embed field."
+    description: "[String, <= 256 charactors] Key for this embed field."
     required: false
   Message_Embed_Field_15_Value:
-    description: "[String] Value for this embed field."
+    description: "[String, <= 1024 charactors] Value for this embed field."
     required: false
   Message_Embed_Field_15_IsInline:
-    description: "[String] Use inline for this embed field."
+    description: "[Stringified Boolean] Use inline for this embed field."
     required: false
     default: "false"
   Message_Embed_Field_16_Key:
-    description: "[String] Key for this embed field."
+    description: "[String, <= 256 charactors] Key for this embed field."
     required: false
   Message_Embed_Field_16_Value:
-    description: "[String] Value for this embed field."
+    description: "[String, <= 1024 charactors] Value for this embed field."
     required: false
   Message_Embed_Field_16_IsInline:
-    description: "[String] Use inline for this embed field."
+    description: "[Stringified Boolean] Use inline for this embed field."
     required: false
     default: "false"
   Message_Embed_Field_17_Key:
-    description: "[String] Key for this embed field."
+    description: "[String, <= 256 charactors] Key for this embed field."
     required: false
   Message_Embed_Field_17_Value:
-    description: "[String] Value for this embed field."
+    description: "[String, <= 1024 charactors] Value for this embed field."
     required: false
   Message_Embed_Field_17_IsInline:
-    description: "[String] Use inline for this embed field."
+    description: "[Stringified Boolean] Use inline for this embed field."
     required: false
     default: "false"
   Message_Embed_Field_18_Key:
-    description: "[String] Key for this embed field."
+    description: "[String, <= 256 charactors] Key for this embed field."
     required: false
   Message_Embed_Field_18_Value:
-    description: "[String] Value for this embed field."
+    description: "[String, <= 1024 charactors] Value for this embed field."
     required: false
   Message_Embed_Field_18_IsInline:
-    description: "[String] Use inline for this embed field."
+    description: "[Stringified Boolean] Use inline for this embed field."
     required: false
     default: "false"
   Message_Embed_Field_19_Key:
-    description: "[String] Key for this embed field."
+    description: "[String, <= 256 charactors] Key for this embed field."
     required: false
   Message_Embed_Field_19_Value:
-    description: "[String] Value for this embed field."
+    description: "[String, <= 1024 charactors] Value for this embed field."
     required: false
   Message_Embed_Field_19_IsInline:
-    description: "[String] Use inline for this embed field."
+    description: "[Stringified Boolean] Use inline for this embed field."
     required: false
     default: "false"
   Message_Embed_Field_20_Key:
-    description: "[String] Key for this embed field."
+    description: "[String, <= 256 charactors] Key for this embed field."
     required: false
   Message_Embed_Field_20_Value:
-    description: "[String] Value for this embed field."
+    description: "[String, <= 1024 charactors] Value for this embed field."
     required: false
   Message_Embed_Field_20_IsInline:
-    description: "[String] Use inline for this embed field."
+    description: "[Stringified Boolean] Use inline for this embed field."
     required: false
     default: "false"
   Message_Embed_Field_21_Key:
-    description: "[String] Key for this embed field."
+    description: "[String, <= 256 charactors] Key for this embed field."
     required: false
   Message_Embed_Field_21_Value:
-    description: "[String] Value for this embed field."
+    description: "[String, <= 1024 charactors] Value for this embed field."
     required: false
   Message_Embed_Field_21_IsInline:
-    description: "[String] Use inline for this embed field."
+    description: "[Stringified Boolean] Use inline for this embed field."
     required: false
     default: "false"
   Message_Embed_Field_22_Key:
-    description: "[String] Key for this embed field."
+    description: "[String, <= 256 charactors] Key for this embed field."
     required: false
   Message_Embed_Field_22_Value:
-    description: "[String] Value for this embed field."
+    description: "[String, <= 1024 charactors] Value for this embed field."
     required: false
   Message_Embed_Field_22_IsInline:
-    description: "[String] Use inline for this embed field."
+    description: "[Stringified Boolean] Use inline for this embed field."
     required: false
     default: "false"
   Message_Embed_Field_23_Key:
-    description: "[String] Key for this embed field."
+    description: "[String, <= 256 charactors] Key for this embed field."
     required: false
   Message_Embed_Field_23_Value:
-    description: "[String] Value for this embed field."
+    description: "[String, <= 1024 charactors] Value for this embed field."
     required: false
   Message_Embed_Field_23_IsInline:
-    description: "[String] Use inline for this embed field."
+    description: "[Stringified Boolean] Use inline for this embed field."
     required: false
     default: "false"
   Message_Embed_Field_24_Key:
-    description: "[String] Key for this embed field."
+    description: "[String, <= 256 charactors] Key for this embed field."
     required: false
   Message_Embed_Field_24_Value:
-    description: "[String] Value for this embed field."
+    description: "[String, <= 1024 charactors] Value for this embed field."
     required: false
   Message_Embed_Field_24_IsInline:
-    description: "[String] Use inline for this embed field."
+    description: "[Stringified Boolean] Use inline for this embed field."
     required: false
     default: "false"
   Message_Embed_FooterIconUrl:

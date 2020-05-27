@@ -80,8 +80,8 @@ Send message to Discord via webhook, support variables.
 | `Message_Embed_ThumbnailUrl` | String | Embed thumbnail url. The url of the image must be in format of JPEG/JPG, PNG, or GIF. |
 | `Message_Embed_ImageUrl` | String | Embed image url. The url of the image must be in format of JPEG/JPG, PNG, or GIF. |
 | `Message_Embed_VideoUrl` | String | Embed video url. Support YouTube only! |
-| `Message_Embed_Field_<Number>_Key`<br />(When have `Message_Embed_Field_<Number>_Value`) | String | Key for this embed field. Number start at `0`, maximum 25 fields. |
-| `Message_Embed_Field_<Number>_Value`<br />(When have `Message_Embed_Field_<Number>_Key`) | String | Value for this embed field. Number start at `0`, maximum 25 fields. |
+| `Message_Embed_Field_<Number>_Key`<br />(When have `Message_Embed_Field_<Number>_Value`) | String, <= 256 charactors | Key for this embed field. Number start at `0`, maximum 25 fields. Automatically crop when more than 256 charactors. |
+| `Message_Embed_Field_<Number>_Value`<br />(When have `Message_Embed_Field_<Number>_Key`) | String, <= 1024 charactors | Value for this embed field. Number start at `0`, maximum 25 fields. Automatically crop when more than 1024 charactors. |
 | `Message_Embed_FooterIconUrl`<br />(When have `Message_Embed_FooterText`) | String | Embed footer icon url. The url of the image must be in format of JPEG/JPG, or PNG. GIF is not supported due to the Discord limitation. |
 | `Message_Embed_FooterText` | String, <= 2048 charactors | Embed footer text. Automatically crop when more than 2048 charactors. |
 

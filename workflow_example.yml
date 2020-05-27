@@ -7,31 +7,126 @@ jobs:
   send-to-discord:
     name: "Send To Discord"
     runs-on: "ubuntu-latest"
-    needs: 
+    needs:
     - "fetch-data"
     steps:
-    - id: "send-to-discord_main"
-      uses: "hugoalh/GitHubAction.SendToDiscord@v0"
+    - id: "send-to-discord-main"
+      uses: "hugoalh/GitHubAction.SendToDiscord@v0.3.0"
       with:
-        discord_webhook_url: "${{secrets.DISCORD_WEBHOOK_URL}}"
-        discord_webhook_name: 
-        discord_webhook_avatarurl: 
-        message_tts: 
-        message_text: 
-        message_embed_colour: 
-        message_embed_author_name: 
-        message_embed_author_url: 
-        message_embed_author_avatarurl: 
-        message_embed_title: 
-        message_embed_titleurl: 
-        message_embed_description: 
-        message_embed_thumbnailurl: 
-        message_embed_imageurl: 
-        message_embed_videourl: 
-        message_embed_fields: 
-        message_embed_footer_iconurl: 
-        message_embed_footer_text: 
-        message_variables_list: "${{needs.fetch-data.outputs.release_data}}"
-        message_variables_prefix: "%"
-        message_variables_suffix: "%"
-        message_variables_join: "."
+        Webhook_ID: "${{secrets.Discord_Webhook_ID}}"
+        Webhook_Token: "${{secrets.Discord_Webhook_Token}}"
+#        Webhook_Name:
+#        Webhook_AvatarUrl:
+        Message_UseTextToSpeech: "false"
+        Message_Text: "Hello, world!"
+#        Message_Embed_Colour:
+#        Message_Embed_AuthorName:
+#        Message_Embed_AuthorUrl:
+#        Message_Embed_AuthorAvatarUrl:
+#        Message_Embed_Title:
+#        Message_Embed_TitleUrl:
+#        Message_Embed_Description:
+#        Message_Embed_ThumbnailUrl:
+#        Message_Embed_ImageUrl:
+#        Message_Embed_VideoUrl:
+#        Message_Embed_FieldSplit:
+#        Message_Embed_Field_0_Key:
+#        Message_Embed_Field_0_Value:
+#        Message_Embed_Field_0_IsInline:
+#        Message_Embed_Field_1_Key:
+#        Message_Embed_Field_1_Value:
+#        Message_Embed_Field_1_IsInline:
+#        Message_Embed_Field_2_Key:
+#        Message_Embed_Field_2_Value:
+#        Message_Embed_Field_2_IsInline:
+#        Message_Embed_Field_3_Key:
+#        Message_Embed_Field_3_Value:
+#        Message_Embed_Field_3_IsInline:
+#        Message_Embed_Field_4_Key:
+#        Message_Embed_Field_4_Value:
+#        Message_Embed_Field_4_IsInline:
+#        Message_Embed_Field_5_Key:
+#        Message_Embed_Field_5_Value:
+#        Message_Embed_Field_5_IsInline:
+#        Message_Embed_Field_6_Key:
+#        Message_Embed_Field_6_Value:
+#        Message_Embed_Field_6_IsInline:
+#        Message_Embed_Field_7_Key:
+#        Message_Embed_Field_7_Value:
+#        Message_Embed_Field_7_IsInline:
+#        Message_Embed_Field_8_Key:
+#        Message_Embed_Field_8_Value:
+#        Message_Embed_Field_8_IsInline:
+#        Message_Embed_Field_9_Key:
+#        Message_Embed_Field_9_Value:
+#        Message_Embed_Field_9_IsInline:
+#        Message_Embed_Field_10_Key:
+#        Message_Embed_Field_10_Value:
+#        Message_Embed_Field_10_IsInline:
+#        Message_Embed_Field_11_Key:
+#        Message_Embed_Field_11_Value:
+#        Message_Embed_Field_11_IsInline:
+#        Message_Embed_Field_12_Key:
+#        Message_Embed_Field_12_Value:
+#        Message_Embed_Field_12_IsInline:
+#        Message_Embed_Field_13_Key:
+#        Message_Embed_Field_13_Value:
+#        Message_Embed_Field_13_IsInline:
+#        Message_Embed_Field_14_Key:
+#        Message_Embed_Field_14_Value:
+#        Message_Embed_Field_14_IsInline:
+#        Message_Embed_Field_15_Key:
+#        Message_Embed_Field_15_Value:
+#        Message_Embed_Field_15_IsInline:
+#        Message_Embed_Field_16_Key:
+#        Message_Embed_Field_16_Value:
+#        Message_Embed_Field_16_IsInline:
+#        Message_Embed_Field_17_Key:
+#        Message_Embed_Field_17_Value:
+#        Message_Embed_Field_17_IsInline:
+#        Message_Embed_Field_18_Key:
+#        Message_Embed_Field_18_Value:
+#        Message_Embed_Field_18_IsInline:
+#        Message_Embed_Field_19_Key:
+#        Message_Embed_Field_19_Value:
+#        Message_Embed_Field_19_IsInline:
+#        Message_Embed_Field_20_Key:
+#        Message_Embed_Field_20_Value:
+#        Message_Embed_Field_20_IsInline:
+#        Message_Embed_Field_21_Key:
+#        Message_Embed_Field_21_Value:
+#        Message_Embed_Field_21_IsInline:
+#        Message_Embed_Field_22_Key:
+#        Message_Embed_Field_22_Value:
+#        Message_Embed_Field_22_IsInline:
+#        Message_Embed_Field_23_Key:
+#        Message_Embed_Field_23_Value:
+#        Message_Embed_Field_23_IsInline:
+#        Message_Embed_Field_24_Key:
+#        Message_Embed_Field_24_Value:
+#        Message_Embed_Field_24_IsInline:
+#        Message_Embed_FooterIconUrl:
+#        Message_Embed_FooterText:
+#        Variable_List_0_Name:
+        Variable_List_0_Data: "${{needs.fetch-data.outputs.Data}}"
+#        Variable_List_1_Name:
+#        Variable_List_1_Data:
+#        Variable_List_2_Name:
+#        Variable_List_2_Data:
+#        Variable_List_3_Name:
+#        Variable_List_3_Data:
+#        Variable_List_4_Name:
+#        Variable_List_4_Data:
+#        Variable_List_5_Name:
+#        Variable_List_5_Data:
+#        Variable_List_6_Name:
+#        Variable_List_6_Data:
+#        Variable_List_7_Name:
+#        Variable_List_7_Data:
+#        Variable_List_8_Name:
+#        Variable_List_8_Data:
+#        Variable_List_9_Name:
+#        Variable_List_9_Data:
+        Variable_Prefix: "%"
+        Variable_Suffix: "%"
+        Variable_Join: "_"
