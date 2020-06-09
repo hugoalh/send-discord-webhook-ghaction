@@ -52,38 +52,37 @@ Send message to Discord via webhook, support variables.
 
 | **Key** | **Require? / Require Condition?** | <div align="center">**Type**</div> | <div align="center">**Description**</div> |
 |:---:|:---:|:----|:----|
-| `Webhook_ID` | ✔ | Secret String | Webhook ID. If the webhook url is `https://discordapp.com/api/webhooks/70971114/ueyzeWxB_8bb1zMhL`, then the webhook ID will be `70971114`. |
-| `Webhook_Token` | ✔ | Secret String | Webhook token. If the webhook url is `https://discordapp.com/api/webhooks/70971114/ueyzeWxB_8bb1zMhL`, then the webhook token will be `ueyzeWxB_8bb1zMhL`. |
-| `Message_UseTextToSpeech` |  | Stringified Boolean | Use text to speech for this message. Default: `false`. |
-| `Message_Embed_Colour` | When have embed | String | Left border's colour of the embed, support `RANDOM`, `INVISIBLE` (default), `DISCORDBLURPLE`, `WHITE`, `BLACK`, `DISCORDGREYPLE`, `DISCORDDARK`, `DISCORDBLACK`, or RGB split with `,` (example: `256,128,64`). |
-| `Message_Embed_FieldSplit` |  | String | Charactor(s) to split in the fields. Default: `-;-`. |
-| `Message_Embed_Field_<Number>_IsInline` |  | Stringified Boolean | Use inline for this embed field. Number start at `0`, maximum 25 fields. Default: `false`. |
-| `Variable_List_<Number>_Name` |  | String | Namespace for this variable list. Only use when having multiple variable lists. Number start at `0`, maximum 10 variable lists. |
-| `Variable_List_<Number>_Data` | When have `Variable_List_<Number>_Name` | Stringified JSON | Variable list that will use in the message. Number start at `0`, maximum 10 variable lists. |
-| `Variable_Prefix` |  | String | Variable prefix. Default: `%`. |
-| `Variable_Suffix` |  | String | Variable suffix. Default: `%`. |
-| `Variable_Join` |  | String | Variable join if having multiple variable lists, and/or variable list has depth. Default: `_`. |
+| `webhook_id` | ✔ | Secret String | Webhook ID. If the webhook url is `https://discordapp.com/api/webhooks/70971114/ueyzeWxB_8bb1zMhL`, then the webhook ID will be `70971114`. |
+| `webhook_token` | ✔ | Secret String | Webhook token. If the webhook url is `https://discordapp.com/api/webhooks/70971114/ueyzeWxB_8bb1zMhL`, then the webhook token will be `ueyzeWxB_8bb1zMhL`. |
+| `message_usetexttospeech` |  | Stringified Boolean | Use text to speech for this message. Default: `false`. |
+| `message_embed_colour` | When have embed | String | Left border's colour of the embed, support `RANDOM`, `INVISIBLE` (default), `DISCORDBLURPLE`, `WHITE`, `BLACK`, `DISCORDGREYPLE`, `DISCORDDARK`, `DISCORDBLACK`, or RGB split with `,` (example: `256,128,64`). |
+| `message_embed_field_<Number>_isinline` |  | Stringified Boolean | Use inline for this embed field. Number start at `0`, maximum 25 fields. Default: `false`. |
+| `variable_list_<Number>_name` |  | String | Namespace for this variable list. Only use when having multiple variable lists. Number start at `0`, maximum 10 variable lists. |
+| `variable_list_<Number>_data` | When have `variable_list_<Number>_name` | Stringified JSON | Variable list that will use in the message. Number start at `0`, maximum 10 variable lists. |
+| `variable_prefix` |  | String | Variable prefix. Default: `%`. |
+| `variable_suffix` |  | String | Variable suffix. Default: `%`. |
+| `variable_join` |  | String | Variable join if having multiple variable lists, and/or variable list has depth. Default: `_`. |
 
 #### Support variable (& optional)
 
 | **Key<br />(Require Condition?)** | <div align="center">**Type**</div> | <div align="center">**Description**</div> |
 |:---:|:----|:----|
-| `Webhook_Name` | String, 2 \~ 32 charactors | Webhook display name (i.e.: the sender's name), this can override the default username of the webhook. Automatically ignore when not between 2 and 32 charactors. |
-| `Webhook_AvatarUrl` | String | Webhook avatar url (i.e.: the sender's avatar), this can override the default avatar of the webhook. The url of the image must be in format of JPEG/JPG, or PNG. GIF is not supported due to the Discord limitation. |
-| `Message_Text` | String, <= 2000 charactors | Text. Automatically crop when more than 2000 charactors.|
-| `Message_Embed_AuthorName`<br />(When have `Message_Embed_AuthorUrl`) | String, 2 \~ 32 charactors | Embed author name. Automatically ignore when not between 2 and 32 charactors. |
-| `Message_Embed_AuthorUrl` | String | Embed author url. |
-| `Message_Embed_AuthorAvatarUrl` | String | Embed author avatar url. The url of the image must be in format of JPEG/JPG, or PNG. GIF is not supported due to the Discord limitation. |
-| `Message_Embed_Title`<br />(When have `Message_Embed_TitleUrl`) | String, <= 256 charactors | Embed title. Automatically crop when more than 256 charactors. |
-| `Message_Embed_TitleUrl` | String | Embed title url. |
-| `Message_Embed_Description` | String, <= 2048 charactors | Embed description. Automatically crop when more than 2048 charactors. |
-| `Message_Embed_ThumbnailUrl` | String | Embed thumbnail url. The url of the image must be in format of JPEG/JPG, PNG, or GIF. |
-| `Message_Embed_ImageUrl` | String | Embed image url. The url of the image must be in format of JPEG/JPG, PNG, or GIF. |
-| `Message_Embed_VideoUrl` | String | Embed video url. Support YouTube only! |
-| `Message_Embed_Field_<Number>_Key`<br />(When have `Message_Embed_Field_<Number>_Value`) | String, <= 256 charactors | Key for this embed field. Number start at `0`, maximum 25 fields. Automatically crop when more than 256 charactors. |
-| `Message_Embed_Field_<Number>_Value`<br />(When have `Message_Embed_Field_<Number>_Key`) | String, <= 1024 charactors | Value for this embed field. Number start at `0`, maximum 25 fields. Automatically crop when more than 1024 charactors. |
-| `Message_Embed_FooterIconUrl`<br />(When have `Message_Embed_FooterText`) | String | Embed footer icon url. The url of the image must be in format of JPEG/JPG, or PNG. GIF is not supported due to the Discord limitation. |
-| `Message_Embed_FooterText` | String, <= 2048 charactors | Embed footer text. Automatically crop when more than 2048 charactors. |
+| `webhook_name` | String, 2 \~ 32 charactors | Webhook display name (i.e.: the sender's name), this can override the default username of the webhook. Automatically ignore when not between 2 and 32 charactors. |
+| `webhook_avatarurl` | String | Webhook avatar url (i.e.: the sender's avatar), this can override the default avatar of the webhook. The url of the image must be in format of JPEG/JPG, or PNG. GIF is not supported due to the Discord limitation. |
+| `message_text` | String, <= 2000 charactors | Text. Automatically crop when more than 2000 charactors.|
+| `message_embed_authorname`<br />(When have `message_embed_authorurl`) | String, 2 \~ 32 charactors | Embed author name. Automatically ignore when not between 2 and 32 charactors. |
+| `message_embed_authorurl` | String | Embed author url. |
+| `message_embed_authoravatarurl` | String | Embed author avatar url. The url of the image must be in format of JPEG/JPG, or PNG. GIF is not supported due to the Discord limitation. |
+| `message_embed_title`<br />(When have `message_embed_titleurl`) | String, <= 256 charactors | Embed title. Automatically crop when more than 256 charactors. |
+| `message_embed_titleurl` | String | Embed title url. |
+| `message_embed_description` | String, <= 2048 charactors | Embed description. Automatically crop when more than 2048 charactors. |
+| `message_embed_thumbnailurl` | String | Embed thumbnail url. The url of the image must be in format of JPEG/JPG, PNG, or GIF. |
+| `message_embed_imageurl` | String | Embed image url. The url of the image must be in format of JPEG/JPG, PNG, or GIF. |
+| `message_embed_videourl` | String | Embed video url. Support YouTube only! |
+| `message_embed_field_<Number>_key`<br />(When have `message_embed_field_<Number>_value`) | String, <= 256 charactors | Key for this embed field. Number start at `0`, maximum 25 fields. Automatically crop when more than 256 charactors. |
+| `message_embed_field_<Number>_value`<br />(When have `message_embed_field_<Number>_key`) | String, <= 1024 charactors | Value for this embed field. Number start at `0`, maximum 25 fields. Automatically crop when more than 1024 charactors. |
+| `message_embed_footericonurl`<br />(When have `message_embed_footertext`) | String | Embed footer icon url. The url of the image must be in format of JPEG/JPG, or PNG. GIF is not supported due to the Discord limitation. |
+| `message_embed_footertext` | String, <= 2048 charactors | Embed footer text. Automatically crop when more than 2048 charactors. |
 
 ### 📓 Guide
 

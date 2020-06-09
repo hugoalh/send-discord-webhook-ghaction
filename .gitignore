@@ -5,168 +5,131 @@
 #   Language:
 #     Git-Configuration
 #   Last Update:
-#     2019-12-07
+#     2020-06-09
 # ==================
-# ::::::::
-# General
-# ::::::::
-$RECYCLE.BIN/
-*.bak
-*.lnk
-*.log
-*.stackdump
-*.tmp
+_compareTemp
+_notes
+._*
+.~lock.*#
 .AppleDB
 .AppleDesktop
 .AppleDouble
-.DS_Store
+.apt_generated/*
+.buildlog
+.bundle
+.bzr/*
+.cache
+.cache-main
+.com.apple.timemachine.donotpresent
 .DocumentRevisions-V100
+.dropbox
+.dropbox.attr
+.dropbox.cache
+.DS_Store
+.dynamodb/*
+.ensime_cache/*
+.env
+.env.test
+.eslintcache
+.fseventsd
+.fuse_hidden*
+.fusebox/*
+.grunt
+.history
+.lock-wscript
 .LSOverride
+.next
+.nfs*
+.ninja_log
+.node_repl_history
+.npm
+.nuxt
+.nyc_output
+.recommenders
+.recommenders/*
+.serverless/*
+.setting/*
+.settings/*
 .Spotlight-V100
 .TemporaryItems
 .Trash-*
 .Trashes
 .VolumeIcon.icns
-._*
-.com.apple.timemachine.donotpresent
-.fseventsd
-.fuse_hidden*
-.nfs*
-.setting/
-.settings/
-[Bb]ackup/
-[Dd]ebug/
+.vscode/*
+.vuepress/dist
+.yarn-integrity
+[Bb]ackup/*
+[Dd]ebug/*
 [Dd]esktop.ini
-[Rr]eport/
-[Rr]reports/
-[Tt]Thumbs.db:encryptable
-[Tt]emp/
-[Tt]est/
+[Rr]eport/*
+[Rr]reports/*
+[Tt]emp/*
+[Tt]est/*
 [Tt]humbs.db
-ehthumbs.db
-ehthumbs_vista.db
-
-# ::::::::
-# Catalog
-# ::::::::
-# Anjuta (Local configuration folder and symbol database)
-/.anjuta/
-/.anjuta_sym_db.db
-
-# Ansible
-*.retry
-
-# Backup
+[Tt]humbs.db:encryptable
+*.~vsd*
+*.autosave
+*.bak
 *.gho
+*.lcov
+*.lnk
+*.log
 *.ori
 *.orig
-
-# Bazaar
-.bzr/
-# .bzrignore
-
-# BricxCC
-*.sym
-
-# CVS
-/CVS/
-**/CVS/
-# .cvsignore
-# */.cvsignore
-
-# Calabash / Cucumber
-rerun/
-screenshots/
-screenshot*.png
-
-# Bundler
-.bundle
-# vendor
-
-# DartEditor
-.buildlog
-
-# Adobe Dreamweaver
-_notes
-_compareTemp
-# config/
-# configs/
-dwsync.xml
-# dw_php_codehinting.config
-
-# Dropbox
-.dropbox
-.dropbox.attr
-.dropbox.cache
-
-# Eclipse
-.recommenders
-.recommenders/
-.apt_generated/
-.cache-main
-
-# Ensime
-.ensime_cache/
-
-# FlexBuilder
-bin-debug/
-
-# JetBrains
-crashlytics.properties
-crashlytics-build.properties
-
-# LibreOffice
-.~lock.*#
-
-# MatLab
-*.autosave
-
-# Microsoft Office
-~$*.doc*
-~$*.xls*
-*.xlk
-~$*.ppt*
-*.~vsd*
-
-# ModelSim
-vsim.dbg
-
-# NetBeans
-**/nbproject/private/
-
-# Ninja
-.ninja_log
-
-# PSoCCreator
-*/codegentemp
-*.rpt
-
-# PuTTY (Private key)
+*.pid
+*.pid.lock
 *.ppk
-
-# Simple Build Tool
-.history
-.cache
-
-# SublimeText
-*.tmlanguage.cache
-*.tmPreferences.cache
+*.retry
+*.rpt
+*.seed
+*.stackdump
 *.stTheme.cache
-Package Control.cache/
-
-# SynopsysVCS
-urgReport/
-ucli.key
-
-# TortoiseGit
+*.sym
+*.tmlanguage.cache
+*.tmp
+*.tmPreferences.cache
+*.tsbuildinfo
+*.xlk
+**/CVS/*
+**/IntegrationServer/logs/*
+**/nbproject/private/*
+*/codegentemp
+/.anjuta_sym_db.db
+/.anjuta/*
 /.tgitconfig
-
-# Virtuoso
-panic*.log.*
+/CVS/*
+~$*.doc*
+~$*.ppt*
+~$*.xls*
+$RECYCLE.BIN/*
 abstract.log*
+bin-debug/*
+bower_components
+build/Release
+coverage
+crashlytics-build.properties
+crashlytics.properties
+dwsync.xml
+ehthumbs_vista.db
+ehthumbs.db
+jspm_packages/*
+lerna-debug.log*
+lib-cov
+logs
+npm-debug.log*
+Package Control.cache/*
+panic*.log.*
+pids
+reference/*
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+rerun/*
+screenshot*.png
+screenshots/*
+typings/*
+ucli.key
+urgReport/*
+vsim.dbg
+yarn-debug.log*
+yarn-error.log*
 
-# Visual Studio Code
-.vscode/
-
-# WebMethods
-**/IntegrationServer/logs/
+!node_modules/*

@@ -8,125 +8,122 @@ jobs:
     name: "Send To Discord"
     runs-on: "ubuntu-latest"
     needs:
-    - "fetch-data"
+    - "fetch-payload-data"
     steps:
     - id: "send-to-discord-main"
-      uses: "hugoalh/GitHubAction.SendToDiscord@v0.3.0"
+      uses: "hugoalh/GitHubAction.SendToDiscord@v0.3.1"
       with:
-        Webhook_ID: "${{secrets.Discord_Webhook_ID}}"
-        Webhook_Token: "${{secrets.Discord_Webhook_Token}}"
-#        Webhook_Name:
-#        Webhook_AvatarUrl:
-        Message_UseTextToSpeech: "false"
-        Message_Text: "Hello, world!"
-#        Message_Embed_Colour:
-#        Message_Embed_AuthorName:
-#        Message_Embed_AuthorUrl:
-#        Message_Embed_AuthorAvatarUrl:
-#        Message_Embed_Title:
-#        Message_Embed_TitleUrl:
-#        Message_Embed_Description:
-#        Message_Embed_ThumbnailUrl:
-#        Message_Embed_ImageUrl:
-#        Message_Embed_VideoUrl:
-#        Message_Embed_FieldSplit:
-#        Message_Embed_Field_0_Key:
-#        Message_Embed_Field_0_Value:
-#        Message_Embed_Field_0_IsInline:
-#        Message_Embed_Field_1_Key:
-#        Message_Embed_Field_1_Value:
-#        Message_Embed_Field_1_IsInline:
-#        Message_Embed_Field_2_Key:
-#        Message_Embed_Field_2_Value:
-#        Message_Embed_Field_2_IsInline:
-#        Message_Embed_Field_3_Key:
-#        Message_Embed_Field_3_Value:
-#        Message_Embed_Field_3_IsInline:
-#        Message_Embed_Field_4_Key:
-#        Message_Embed_Field_4_Value:
-#        Message_Embed_Field_4_IsInline:
-#        Message_Embed_Field_5_Key:
-#        Message_Embed_Field_5_Value:
-#        Message_Embed_Field_5_IsInline:
-#        Message_Embed_Field_6_Key:
-#        Message_Embed_Field_6_Value:
-#        Message_Embed_Field_6_IsInline:
-#        Message_Embed_Field_7_Key:
-#        Message_Embed_Field_7_Value:
-#        Message_Embed_Field_7_IsInline:
-#        Message_Embed_Field_8_Key:
-#        Message_Embed_Field_8_Value:
-#        Message_Embed_Field_8_IsInline:
-#        Message_Embed_Field_9_Key:
-#        Message_Embed_Field_9_Value:
-#        Message_Embed_Field_9_IsInline:
-#        Message_Embed_Field_10_Key:
-#        Message_Embed_Field_10_Value:
-#        Message_Embed_Field_10_IsInline:
-#        Message_Embed_Field_11_Key:
-#        Message_Embed_Field_11_Value:
-#        Message_Embed_Field_11_IsInline:
-#        Message_Embed_Field_12_Key:
-#        Message_Embed_Field_12_Value:
-#        Message_Embed_Field_12_IsInline:
-#        Message_Embed_Field_13_Key:
-#        Message_Embed_Field_13_Value:
-#        Message_Embed_Field_13_IsInline:
-#        Message_Embed_Field_14_Key:
-#        Message_Embed_Field_14_Value:
-#        Message_Embed_Field_14_IsInline:
-#        Message_Embed_Field_15_Key:
-#        Message_Embed_Field_15_Value:
-#        Message_Embed_Field_15_IsInline:
-#        Message_Embed_Field_16_Key:
-#        Message_Embed_Field_16_Value:
-#        Message_Embed_Field_16_IsInline:
-#        Message_Embed_Field_17_Key:
-#        Message_Embed_Field_17_Value:
-#        Message_Embed_Field_17_IsInline:
-#        Message_Embed_Field_18_Key:
-#        Message_Embed_Field_18_Value:
-#        Message_Embed_Field_18_IsInline:
-#        Message_Embed_Field_19_Key:
-#        Message_Embed_Field_19_Value:
-#        Message_Embed_Field_19_IsInline:
-#        Message_Embed_Field_20_Key:
-#        Message_Embed_Field_20_Value:
-#        Message_Embed_Field_20_IsInline:
-#        Message_Embed_Field_21_Key:
-#        Message_Embed_Field_21_Value:
-#        Message_Embed_Field_21_IsInline:
-#        Message_Embed_Field_22_Key:
-#        Message_Embed_Field_22_Value:
-#        Message_Embed_Field_22_IsInline:
-#        Message_Embed_Field_23_Key:
-#        Message_Embed_Field_23_Value:
-#        Message_Embed_Field_23_IsInline:
-#        Message_Embed_Field_24_Key:
-#        Message_Embed_Field_24_Value:
-#        Message_Embed_Field_24_IsInline:
-#        Message_Embed_FooterIconUrl:
-#        Message_Embed_FooterText:
-#        Variable_List_0_Name:
-        Variable_List_0_Data: "${{needs.fetch-data.outputs.Data}}"
-#        Variable_List_1_Name:
-#        Variable_List_1_Data:
-#        Variable_List_2_Name:
-#        Variable_List_2_Data:
-#        Variable_List_3_Name:
-#        Variable_List_3_Data:
-#        Variable_List_4_Name:
-#        Variable_List_4_Data:
-#        Variable_List_5_Name:
-#        Variable_List_5_Data:
-#        Variable_List_6_Name:
-#        Variable_List_6_Data:
-#        Variable_List_7_Name:
-#        Variable_List_7_Data:
-#        Variable_List_8_Name:
-#        Variable_List_8_Data:
-#        Variable_List_9_Name:
-#        Variable_List_9_Data:
-        Variable_Prefix: "%"
-        Variable_Suffix: "%"
-        Variable_Join: "_"
+        webhook_id: "${{secrets.DISCORD_WEBHOOK_ID}}"
+        webhook_token: "${{secrets.DISCORD_WEBHOOK_TOKEN}}"
+        message_usetexttospeech: "false"
+        message_text: "Hello, world!"
+#        message_embed_colour:
+#        message_embed_authorname:
+#        message_embed_authorurl:
+#        message_embed_authoravatarurl:
+#        message_embed_title:
+#        message_embed_titleurl:
+#        message_embed_description:
+#        message_embed_thumbnailurl:
+#        message_embed_imageurl:
+#        message_embed_videourl:
+#        message_embed_field_0_key:
+#        message_embed_field_0_value:
+#        message_embed_field_0_isinline:
+#        message_embed_field_1_key:
+#        message_embed_field_1_value:
+#        message_embed_field_1_isinline:
+#        message_embed_field_2_key:
+#        message_embed_field_2_value:
+#        message_embed_field_2_isinline:
+#        message_embed_field_3_key:
+#        message_embed_field_3_value:
+#        message_embed_field_3_isinline:
+#        message_embed_field_4_key:
+#        message_embed_field_4_value:
+#        message_embed_field_4_isinline:
+#        message_embed_field_5_key:
+#        message_embed_field_5_value:
+#        message_embed_field_5_isinline:
+#        message_embed_field_6_key:
+#        message_embed_field_6_value:
+#        message_embed_field_6_isinline:
+#        message_embed_field_7_key:
+#        message_embed_field_7_value:
+#        message_embed_field_7_isinline:
+#        message_embed_field_8_key:
+#        message_embed_field_8_value:
+#        message_embed_field_8_isinline:
+#        message_embed_field_9_key:
+#        message_embed_field_9_value:
+#        message_embed_field_9_isinline:
+#        message_embed_field_10_key:
+#        message_embed_field_10_value:
+#        message_embed_field_10_isinline:
+#        message_embed_field_11_key:
+#        message_embed_field_11_value:
+#        message_embed_field_11_isinline:
+#        message_embed_field_12_key:
+#        message_embed_field_12_value:
+#        message_embed_field_12_isinline:
+#        message_embed_field_13_key:
+#        message_embed_field_13_value:
+#        message_embed_field_13_isinline:
+#        message_embed_field_14_key:
+#        message_embed_field_14_value:
+#        message_embed_field_14_isinline:
+#        message_embed_field_15_key:
+#        message_embed_field_15_value:
+#        message_embed_field_15_isinline:
+#        message_embed_field_16_key:
+#        message_embed_field_16_value:
+#        message_embed_field_16_isinline:
+#        message_embed_field_17_key:
+#        message_embed_field_17_value:
+#        message_embed_field_17_isinline:
+#        message_embed_field_18_key:
+#        message_embed_field_18_value:
+#        message_embed_field_18_isinline:
+#        message_embed_field_19_key:
+#        message_embed_field_19_value:
+#        message_embed_field_19_isinline:
+#        message_embed_field_20_key:
+#        message_embed_field_20_value:
+#        message_embed_field_20_isinline:
+#        message_embed_field_21_key:
+#        message_embed_field_21_value:
+#        message_embed_field_21_isinline:
+#        message_embed_field_22_key:
+#        message_embed_field_22_value:
+#        message_embed_field_22_isinline:
+#        message_embed_field_23_key:
+#        message_embed_field_23_value:
+#        message_embed_field_23_isinline:
+#        message_embed_field_24_key:
+#        message_embed_field_24_value:
+#        message_embed_field_24_isinline:
+#        message_embed_footericonurl:
+#        message_embed_footertext:
+#        variable_list_0_name:
+        variable_list_0_data: "${{needs.fetch-payload-data.outputs.payload-data}}"
+#        variable_list_1_name:
+#        variable_list_1_data:
+#        variable_list_2_name:
+#        variable_list_2_data:
+#        variable_list_3_name:
+#        variable_list_3_data:
+#        variable_list_4_name:
+#        variable_list_4_data:
+#        variable_list_5_name:
+#        variable_list_5_data:
+#        variable_list_6_name:
+#        variable_list_6_data:
+#        variable_list_7_name:
+#        variable_list_7_data:
+#        variable_list_8_name:
+#        variable_list_8_data:
+#        variable_list_9_name:
+#        variable_list_9_data:
+        variable_prefix: "%"
+        variable_suffix: "%"
+        variable_join: "."
