@@ -135,3 +135,40 @@ jobs:
         variable_prefix: "%"
         variable_suffix: "%"
         variable_join: "."
+  send-to-ifttt:
+    name: "Send To IFTTT"
+    runs-on: "ubuntu-latest"
+    needs:
+    - "fetch-payload-data"
+    steps:
+    - id: "send-to-ifttt-main"
+      uses: "hugoalh/GitHubAction.SendToIFTTT@master"
+      with:
+        webhook_eventname: "githubaction_twitter"
+        webhook_key: "${{secrets.IFTTT_WEBHOOK_KEY}}"
+        value1: "[GitHub Action] Send To Discord version %release.name% is released and available on GitHub!\n%release.html_url%"
+#        value2:
+#        value3:
+#        variable_list_0_name:
+        variable_list_0_data: "${{needs.fetch-payload-data.outputs.payload-data}}"
+#        variable_list_1_name:
+#        variable_list_1_data:
+#        variable_list_2_name:
+#        variable_list_2_data:
+#        variable_list_3_name:
+#        variable_list_3_data:
+#        variable_list_4_name:
+#        variable_list_4_data:
+#        variable_list_5_name:
+#        variable_list_5_data:
+#        variable_list_6_name:
+#        variable_list_6_data:
+#        variable_list_7_name:
+#        variable_list_7_data:
+#        variable_list_8_name:
+#        variable_list_8_data:
+#        variable_list_9_name:
+#        variable_list_9_data:
+        variable_prefix: "%"
+        variable_suffix: "%"
+        variable_join: "."
