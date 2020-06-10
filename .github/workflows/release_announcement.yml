@@ -1,22 +1,30 @@
-name: "Workflow Example"
+name: "Release Announcement"
 on:
   release:
     types:
     - "published"
 jobs:
+  fetch-payload-data:
+    name: "Fetch Payload Data"
+    runs-on: "ubuntu-latest"
+    outputs:
+      payload-data: "${{steps.fetch-payload-data-main.outputs.data}}"
+    steps:
+    - id: "fetch-payload-data-main"
+      uses: "hugoalh/GitHubAction.EventPayloadFetcher@master"
   send-to-discord:
     name: "Send To Discord"
     runs-on: "ubuntu-latest"
-    needs:
+    needs: 
     - "fetch-payload-data"
     steps:
     - id: "send-to-discord-main"
-      uses: "hugoalh/GitHubAction.SendToDiscord@v1.0.0"
+      uses: "hugoalh/GitHubAction.SendToDiscord@master"
       with:
         webhook_id: "${{secrets.DISCORD_WEBHOOK_ID}}"
         webhook_token: "${{secrets.DISCORD_WEBHOOK_TOKEN}}"
         message_usetexttospeech: "false"
-        message_text: "Hello, world!"
+        message_text: "**__[GitHub Action] Send To Discord__**\nVersion %release.name% is released and available on GitHub!\n%release.html_url%"
 #        message_embed_colour:
 #        message_embed_authorname:
 #        message_embed_authorurl:

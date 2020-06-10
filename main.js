@@ -65,7 +65,7 @@ const Input_CanVariable = {};
 	Input_CanVariable[value] = GitHubAction.Core.getInput(value);
 });
 if (DetermineIsNull(Input_CannotVariable["webhook_id"]) == false && DetermineIsNull(Input_CannotVariable["webhook_token"]) == false) {
-	Input_CannotVariable["webhook_url"] = `https://discordapp.com/api/webhooks/${Input_CannotVariable["webhook_id"]}/${Input_CannotVariable["webhook_token"]}`;
+	Input_CannotVariable["webhook_url"] = `https://discord.com/api/webhooks/${Input_CannotVariable["webhook_id"]}/${Input_CannotVariable["webhook_token"]}`;
 } else {
 	GitHubAction.Core.setFailed("Invalid webhook ID or token!");
 };
