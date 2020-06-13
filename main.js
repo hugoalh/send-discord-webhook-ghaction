@@ -295,7 +295,10 @@ Promise.allSettled([
 					};
 				}).catch((error) => { }),
 				new Promise((resolve, reject) => {
-					if (determineIsNull(inputCanVariable["message_embed_authorname"]) == false && inputCanVariable["message_embed_authorname"].length >= 2 && inputCanVariable["message_embed_authorname"].length <= 32) {
+					if (determineIsNull(inputCanVariable["message_embed_authorname"]) == false) {
+						if (inputCanVariable["message_embed_authorname"].length > 256) {
+							inputCanVariable["message_embed_authorname"] = `${inputCanVariable["message_embed_authorname"].slice(0, 252)}...`;
+						};
 						output.embeds[0].author = {
 							name: inputCanVariable["message_embed_authorname"]
 						};
@@ -358,17 +361,17 @@ Promise.allSettled([
 				}).catch((error) => { }),
 				new Promise((resolve, reject) => {
 					if (determineIsNull(inputMessageEmbedFields) == false) {
-						inputMessageEmbedFields.forEach((Slot, index) => {
-							if (determineIsNull(Slot.name) == false) {
-								if (Slot.name.length > 256) {
-									inputMessageEmbedFields[index].name = `${Slot.name.slice(0, 252)}...`;
+						inputMessageEmbedFields.forEach((slot, index) => {
+							if (determineIsNull(slot.name) == false) {
+								if (slot.name.length > 256) {
+									inputMessageEmbedFields[index].name = `${slot.name.slice(0, 252)}...`;
 								};
 							} else {
 								inputMessageEmbedFields[index].name = "-";
 							};
-							if (determineIsNull(Slot.value) == false) {
-								if (Slot.value.length > 1024) {
-									inputMessageEmbedFields[index].value = `${Slot.value.slice(0, 1020)}...`;
+							if (determineIsNull(slot.value) == false) {
+								if (slot.value.length > 1024) {
+									inputMessageEmbedFields[index].value = `${slot.value.slice(0, 1020)}...`;
 								};
 							} else {
 								inputMessageEmbedFields[index].value = "-";
