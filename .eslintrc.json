@@ -60,8 +60,7 @@
 				"allowSingleLine": true
 			}
 		],
-		"callback-return": "warn",
-		"camelcase": "off",
+		"camelcase": "warn",
 		"capitalized-comments": "off",
 		"class-methods-use-this": "warn",
 		"comma-dangle": "warn",
@@ -111,10 +110,8 @@
 		],
 		"generator-star-spacing": "warn",
 		"getter-return": "warn",
-		"global-require": "warn",
 		"grouped-accessor-pairs": "warn",
 		"guard-for-in": "off",
-		"handle-callback-err": "warn",
 		"id-blacklist": "warn",
 		"id-length": [
 			"warn",
@@ -150,8 +147,8 @@
 		"max-classes-per-file": "off",
 		"max-depth": "off",
 		"max-len": "off",
-		"max-lines": "off",
 		"max-lines-per-function": "off",
+		"max-lines": "off",
 		"max-nested-callbacks": "warn",
 		"max-params": [
 			"warn",
@@ -159,8 +156,8 @@
 				"max": 5
 			}
 		],
-		"max-statements": "off",
 		"max-statements-per-line": "warn",
+		"max-statements": "off",
 		"multiline-comment-style": "off",
 		"multiline-ternary": [
 			"warn",
@@ -197,15 +194,15 @@
 		"no-duplicate-case": "warn",
 		"no-duplicate-imports": "warn",
 		"no-else-return": "warn",
+		"no-empty-character-class": "warn",
+		"no-empty-function": "warn",
+		"no-empty-pattern": "warn",
 		"no-empty": [
 			"warn",
 			{
 				"allowEmptyCatch": true
 			}
 		],
-		"no-empty-character-class": "warn",
-		"no-empty-function": "warn",
-		"no-empty-pattern": "warn",
 		"no-eq-null": "warn",
 		"no-eval": "warn",
 		"no-ex-assign": "warn",
@@ -288,7 +285,6 @@
 				"allowSamePrecedence": true
 			}
 		],
-		"no-mixed-requires": "warn",
 		"no-mixed-spaces-and-tabs": "warn",
 		"no-multi-assign": "warn",
 		"no-multi-spaces": "warn",
@@ -296,32 +292,27 @@
 		"no-multiple-empty-lines": "warn",
 		"no-negated-condition": "warn",
 		"no-nested-ternary": "warn",
-		"no-new": "off",
 		"no-new-func": "warn",
 		"no-new-object": "warn",
-		"no-new-require": "warn",
 		"no-new-symbol": "warn",
 		"no-new-wrappers": "warn",
+		"no-new": "off",
 		"no-obj-calls": "warn",
-		"no-octal": "warn",
 		"no-octal-escape": "warn",
+		"no-octal": "warn",
 		"no-param-reassign": "off",
-		"no-path-concat": "warn",
 		"no-plusplus": [
 			"warn",
 			{
 				"allowForLoopAfterthoughts": true
 			}
 		],
-		"no-process-env": "warn",
-		"no-process-exit": "warn",
 		"no-proto": "warn",
 		"no-prototype-builtins": "warn",
 		"no-redeclare": "warn",
 		"no-regex-spaces": "warn",
 		"no-restricted-globals": "warn",
 		"no-restricted-imports": "warn",
-		"no-restricted-modules": "warn",
 		"no-restricted-properties": "warn",
 		"no-restricted-syntax": "warn",
 		"no-return-assign": "warn",
@@ -331,10 +322,9 @@
 		"no-self-compare": "warn",
 		"no-sequences": "warn",
 		"no-setter-return": "warn",
-		"no-shadow": "warn",
 		"no-shadow-restricted-names": "warn",
+		"no-shadow": "warn",
 		"no-sparse-arrays": "warn",
-		"no-sync": "warn",
 		"no-tabs": [
 			"warn",
 			{
@@ -346,8 +336,8 @@
 		"no-this-before-super": "warn",
 		"no-throw-literal": "warn",
 		"no-trailing-spaces": "warn",
-		"no-undef": "warn",
 		"no-undef-init": "warn",
+		"no-undef": "warn",
 		"no-undefined": "off",
 		"no-underscore-dangle": "warn",
 		"no-unexpected-multiline": "warn",
@@ -373,6 +363,16 @@
 		"no-warning-comments": "warn",
 		"no-whitespace-before-property": "warn",
 		"no-with": "warn",
+		"node/callback-return": "warn",
+		"node/global-require": "warn",
+		"node/handle-callback-err": "warn",
+		"node/no-mixed-requires": "warn",
+		"node/no-new-require": "warn",
+		"node/no-path-concat": "warn",
+		"node/no-process-env": "warn",
+		"node/no-process-exit": "warn",
+		"node/no-restricted-require": "warn",
+		"node/no-sync": "warn",
 		"nonblock-statement-body-position": "warn",
 		"object-curly-newline": [
 			"warn",
@@ -390,8 +390,8 @@
 			"warn",
 			"consistent-as-needed"
 		],
+		"one-var-declaration-per-line": "off",
 		"one-var": "off",
-		"one-var-declaration-per-line": "warn",
 		"operator-assignment": "warn",
 		"operator-linebreak": "warn",
 		"padded-blocks": [
@@ -440,9 +440,9 @@
 		"require-unicode-regexp": "warn",
 		"require-yield": "warn",
 		"rest-spread-spacing": "warn",
-		"semi": "warn",
 		"semi-spacing": "warn",
 		"semi-style": "warn",
+		"semi": "warn",
 		"sort-imports": "off",
 		"sort-keys": "off",
 		"sort-vars": "off",
