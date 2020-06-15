@@ -11,7 +11,7 @@ jobs:
     - "fetch-payload-data"
     steps:
     - id: "send-to-discord-main"
-      uses: "hugoalh/GitHubAction.SendToDiscord@v1.1.0"
+      uses: "hugoalh/GitHubAction.SendToDiscord@v1.1.1"
       with:
         webhook_id: "${{secrets.DISCORD_WEBHOOK_ID}}"
         webhook_token: "${{secrets.DISCORD_WEBHOOK_TOKEN}}"
