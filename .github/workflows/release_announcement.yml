@@ -24,14 +24,14 @@ jobs:
         webhook_id: "${{secrets.DISCORD_WEBHOOK_ID}}"
         webhook_token: "${{secrets.DISCORD_WEBHOOK_TOKEN}}"
         message_usetexttospeech: "false"
-        message_text: "**__[GitHub Action] Send To Discord__**\nVersion %release.name% is released and available on GitHub!\n%release.html_url%"
-#        message_embed_colour:
+#        message_text:
+        message_embed_colour: "16,116,231"
 #        message_embed_authorname:
 #        message_embed_authorurl:
 #        message_embed_authoravatarurl:
-#        message_embed_title:
-#        message_embed_titleurl:
-#        message_embed_description:
+        message_embed_title: "[GitHub Action] Send To Discord"
+        message_embed_titleurl: "https://github.com/hugoalh/GitHubAction.SendToDiscord"
+        message_embed_description: "Version %release.name% is released and available on GitHub!\n%release.html_url%"
 #        message_embed_thumbnailurl:
 #        message_embed_imageurl:
 #        message_embed_videourl:
@@ -111,7 +111,7 @@ jobs:
 #        message_embed_field_24_value:
 #        message_embed_field_24_isinline:
 #        message_embed_footericonurl:
-#        message_embed_footertext:
+        message_embed_footertext: "[GitHub Action] Send To Discord @hugoalh (`hugoalh/GitHubAction.SendToDiscord`)"
 #        variable_list_0_name:
         variable_list_0_data: "${{needs.fetch-payload-data.outputs.payload-data}}"
 #        variable_list_1_name:
