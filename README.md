@@ -10,34 +10,37 @@
   <img src="https://img.shields.io/github/forks/hugoalh/GitHubAction.SendToDiscord?style=flat-square&logo=github" />
 </div>
 
-<table>
+<table align="right">
   <tr>
     <td align="center">
-      <b>Author & Contributor</b><br />
+      <b>Contributor</b><br />
       <img src="https://img.shields.io/github/contributors/hugoalh/GitHubAction.SendToDiscord?style=flat-square&color=000000&label=%20" />
     </td>
     <td><a href="https://github.com/hugoalh">hugoalh</a></td>
   </tr>
   <tr>
     <td align="center"><b>License</b></td>
-    <td>MIT</td>
+    <td><a href="./LICENSE.md">MIT</a></td>
   </tr>
   <tr>
     <td align="center"><b>Release</b></td>
     <td>
-      <b>Stable: </b><img src="https://img.shields.io/github/release/hugoalh/GitHubAction.SendToDiscord?style=flat-square&color=000000&label=%20" /> (<img src="https://img.shields.io/github/release-date/hugoalh/GitHubAction.SendToDiscord?style=flat-square&color=000000&label=%20" />); <b>Latest: </b><img src="https://img.shields.io/github/release/hugoalh/GitHubAction.SendToDiscord?include_prereleases&style=flat-square&color=000000&label=%20" /> (<img src="https://img.shields.io/github/release-date-pre/hugoalh/GitHubAction.SendToDiscord?style=flat-square&color=000000&label=%20" />)
+      <b>Stable: </b><img src="https://img.shields.io/github/release/hugoalh/GitHubAction.SendToDiscord?style=flat-square&color=000000&label=%20" /> (<img src="https://img.shields.io/github/release-date/hugoalh/GitHubAction.SendToDiscord?style=flat-square&color=000000&label=%20" />)<br />
+      <b>Latest: </b><img src="https://img.shields.io/github/release/hugoalh/GitHubAction.SendToDiscord?include_prereleases&style=flat-square&color=000000&label=%20" /> (<img src="https://img.shields.io/github/release-date-pre/hugoalh/GitHubAction.SendToDiscord?style=flat-square&color=000000&label=%20" />)
     </td>
   </tr>
   <tr>
     <td align="center"><b>Issue</b></td>
     <td>
-      <b>Open: </b><img src="https://img.shields.io/github/issues-raw/hugoalh/GitHubAction.SendToDiscord?style=flat-square&color=000000&label=%20" />; <b>Closed: </b><img src="https://img.shields.io/github/issues-closed-raw/hugoalh/GitHubAction.SendToDiscord?style=flat-square&color=000000&label=%20" />
+      <b>Open: </b><img src="https://img.shields.io/github/issues-raw/hugoalh/GitHubAction.SendToDiscord?style=flat-square&color=000000&label=%20" /><br />
+      <b>Closed: </b><img src="https://img.shields.io/github/issues-closed-raw/hugoalh/GitHubAction.SendToDiscord?style=flat-square&color=000000&label=%20" />
     </td>
   </tr>
   <tr>
     <td align="center"><b>Pull Request</b></td>
     <td>
-      <b>Open: </b><img src="https://img.shields.io/github/issues-pr-raw/hugoalh/GitHubAction.SendToDiscord?style=flat-square&color=000000&label=%20" />; <b>Closed: </b><img src="https://img.shields.io/github/issues-pr-closed-raw/hugoalh/GitHubAction.SendToDiscord?style=flat-square&color=000000&label=%20" />
+      <b>Open: </b><img src="https://img.shields.io/github/issues-pr-raw/hugoalh/GitHubAction.SendToDiscord?style=flat-square&color=000000&label=%20" /><br />
+      <b>Closed: </b><img src="https://img.shields.io/github/issues-pr-closed-raw/hugoalh/GitHubAction.SendToDiscord?style=flat-square&color=000000&label=%20" />
     </td>
   </tr>
 </table>
@@ -46,9 +49,11 @@
 
 Send message to Discord via webhook, support variables.
 
+## 🛠 Configuration
+
 ### 📥 Input
 
-#### Not support variable
+**Not support variable:**
 
 | **Key** | **Require? / Require Condition?** | <div align="center">**Type**</div> | <div align="center">**Description**</div> |
 |:---:|:---:|:----|:----|
@@ -63,26 +68,34 @@ Send message to Discord via webhook, support variables.
 | `variable_suffix` |  | String | Variable suffix. Default: `%`. |
 | `variable_join` |  | String | Variable join if having multiple variable lists, and/or variable list has depth. Default: `_`. |
 
-#### Support variable (& optional)
+**Support variable (& optional):**
 
-| **Key<br />(Require Condition?)** | <div align="center">**Type**</div> | <div align="center">**Description**</div> |
-|:---:|:----|:----|
-| `webhook_name` | String, 2 \~ 32 characters | Webhook display name (i.e.: the sender's name), this can override the default username of the webhook. Automatically ignore when not between 2 and 32 characters. |
-| `webhook_avatarurl` | String | Webhook avatar url (i.e.: the sender's avatar), this can override the default avatar of the webhook. The url of the image must be in format of JPEG/JPG, or PNG. GIF is not supported due to the Discord limitation. |
-| `message_text` | String, <= 2000 characters | Text. Automatically crop when more than 2000 characters.|
-| `message_embed_authorname`<br />(When have `message_embed_authorurl`) | String, <= 256 characters | Embed author name. Automatically crop when more than 256 characters. |
-| `message_embed_authorurl` | String | Embed author url. |
-| `message_embed_authoravatarurl` | String | Embed author avatar url. The url of the image must be in format of JPEG/JPG, or PNG. GIF is not supported due to the Discord limitation. |
-| `message_embed_title`<br />(When have `message_embed_titleurl`) | String, <= 256 characters | Embed title. Automatically crop when more than 256 characters. |
-| `message_embed_titleurl` | String | Embed title url. |
-| `message_embed_description` | String, <= 2048 characters | Embed description. Automatically crop when more than 2048 characters. |
-| `message_embed_thumbnailurl` | String | Embed thumbnail url. The url of the image must be in format of JPEG/JPG, PNG, or GIF. |
-| `message_embed_imageurl` | String | Embed image url. The url of the image must be in format of JPEG/JPG, PNG, or GIF. |
-| `message_embed_videourl` | String | Embed video url. Support YouTube only! |
-| `message_embed_field_<Number>_key`<br />(When have `message_embed_field_<Number>_value`) | String, <= 256 characters | Key for this embed field. Number start at `0`, maximum 25 fields. Automatically crop when more than 256 characters. |
-| `message_embed_field_<Number>_value`<br />(When have `message_embed_field_<Number>_key`) | String, <= 1024 characters | Value for this embed field. Number start at `0`, maximum 25 fields. Automatically crop when more than 1024 characters. |
-| `message_embed_footericonurl`<br />(When have `message_embed_footertext`) | String | Embed footer icon url. The url of the image must be in format of JPEG/JPG, or PNG. GIF is not supported due to the Discord limitation. |
-| `message_embed_footertext` | String, <= 2048 characters | Embed footer text. Automatically crop when more than 2048 characters. |
+| **Key** | **Require Condition?** | <div align="center">**Type**</div> | <div align="center">**Description**</div> |
+|:---:|:---:|:----|:----|
+| `webhook_name` |  | String, 2 \~ 32 characters | Webhook display name (i.e.: the sender's name), this can override the default username of the webhook. Automatically ignore when not between 2 and 32 characters. |
+| `webhook_avatarurl` |  | String | Webhook avatar url (i.e.: the sender's avatar), this can override the default avatar of the webhook. The url of the image must be in format of JPEG/JPG, or PNG. GIF is not supported due to the Discord limitation. |
+| `message_text` |  | String, <= 2000 characters | Text. Automatically crop when more than 2000 characters.|
+| `message_embed_authorname` | When have `message_embed_authorurl` | String, <= 256 characters | Embed author name. Automatically crop when more than 256 characters. |
+| `message_embed_authorurl` |  | String | Embed author url. |
+| `message_embed_authoravatarurl` |  | String | Embed author avatar url. The url of the image must be in format of JPEG/JPG, or PNG. GIF is not supported due to the Discord limitation. |
+| `message_embed_title` | When have `message_embed_titleurl` | String, <= 256 characters | Embed title. Automatically crop when more than 256 characters. |
+| `message_embed_titleurl` |  | String | Embed title url. |
+| `message_embed_description` |  | String, <= 2048 characters | Embed description. Automatically crop when more than 2048 characters. |
+| `message_embed_thumbnailurl` |  | String | Embed thumbnail url. The url of the image must be in format of JPEG/JPG, PNG, or GIF. |
+| `message_embed_imageurl` |  | String | Embed image url. The url of the image must be in format of JPEG/JPG, PNG, or GIF. |
+| `message_embed_videourl` |  | String | Embed video url. Support YouTube only! |
+| `message_embed_field_<Number>_key` | When have `message_embed_field_<Number>_value` | String, <= 256 characters | Key for this embed field. Number start at `0`, maximum 25 fields. Automatically crop when more than 256 characters. |
+| `message_embed_field_<Number>_value` | When have `message_embed_field_<Number>_key` | String, <= 1024 characters | Value for this embed field. Number start at `0`, maximum 25 fields. Automatically crop when more than 1024 characters. |
+| `message_embed_footericonurl` | When have `message_embed_footertext` | String | Embed footer icon url. The url of the image must be in format of JPEG/JPG, or PNG. GIF is not supported due to the Discord limitation. |
+| `message_embed_footertext` |  | String, <= 2048 characters | Embed footer text. Automatically crop when more than 2048 characters. |
+
+### 📤 Output
+
+*N/A*.
+
+### Example
+
+*See [workflow_example.yml](./workflow_example.yml)*.
 
 ### 📓 Guide
 
