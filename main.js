@@ -1,6 +1,6 @@
 /*==================
 [GitHub Action] Send To Discord
-	Author & Contributor:
+	Contributor:
 		hugoalh
 	Language:
 		NodeJS 14
