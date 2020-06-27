@@ -1,6 +1,6 @@
 {
 	"name": "githubaction.sendtodiscord",
-	"version": "1.1.1",
+	"version": "1.1.2",
 	"description": "Send message to Discord via webhook, support variables.",
 	"main": "main.js",
 	"scripts": {},
@@ -24,7 +24,5 @@
 		"@actions/core": "^1.2.4",
 		"flat": "^5.0.0"
 	},
-	"devDependencies": {
-		"eslint": "^7.2.0"
-	}
+	"devDependencies": {}
 }
