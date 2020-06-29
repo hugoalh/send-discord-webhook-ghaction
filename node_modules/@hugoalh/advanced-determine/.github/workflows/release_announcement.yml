@@ -1,0 +1,174 @@
+name: "Release Announcement"
+on:
+  release:
+    types:
+    - "published"
+jobs:
+  fetch-payload-data:
+    name: "Fetch Payload Data"
+    runs-on: "ubuntu-latest"
+    outputs:
+      payload-data: "${{steps.fetch-payload-data-main.outputs.data}}"
+    steps:
+    - id: "fetch-payload-data-main"
+      uses: "hugoalh/GitHubAction.EventPayloadFetcher@master"
+  send-to-discord:
+    name: "Send To Discord"
+    runs-on: "ubuntu-latest"
+    needs: 
+    - "fetch-payload-data"
+    steps:
+    - id: "send-to-discord-main"
+      uses: "hugoalh/GitHubAction.SendToDiscord@master"
+      with:
+        webhook_id: "${{secrets.DISCORD_WEBHOOK_ID}}"
+        webhook_token: "${{secrets.DISCORD_WEBHOOK_TOKEN}}"
+        message_usetexttospeech: "false"
+#        message_text:
+        message_embed_colour: "2,110,0"
+#        message_embed_authorname:
+#        message_embed_authorurl:
+#        message_embed_authoravatarurl:
+        message_embed_title: "[NodeJS] Advanced Determine"
+#        message_embed_titleurl:
+        message_embed_description: "Version %release.name% is released and available on GitHub!\n%release.html_url%"
+#        message_embed_thumbnailurl:
+#        message_embed_imageurl:
+#        message_embed_videourl:
+        message_embed_field_0_key: "GitHub"
+        message_embed_field_0_value: "https://github.com/hugoalh/NodeJS.AdvancedDetermine"
+        message_embed_field_0_isinline: "false"
+        message_embed_field_1_key: "NPMJS"
+        message_embed_field_1_value: "https://www.npmjs.com/package/@hugoalh/advanced-determine"
+        message_embed_field_1_isinline: "false"
+#        message_embed_field_2_key:
+#        message_embed_field_2_value:
+#        message_embed_field_2_isinline:
+#        message_embed_field_3_key:
+#        message_embed_field_3_value:
+#        message_embed_field_3_isinline:
+#        message_embed_field_4_key:
+#        message_embed_field_4_value:
+#        message_embed_field_4_isinline:
+#        message_embed_field_5_key:
+#        message_embed_field_5_value:
+#        message_embed_field_5_isinline:
+#        message_embed_field_6_key:
+#        message_embed_field_6_value:
+#        message_embed_field_6_isinline:
+#        message_embed_field_7_key:
+#        message_embed_field_7_value:
+#        message_embed_field_7_isinline:
+#        message_embed_field_8_key:
+#        message_embed_field_8_value:
+#        message_embed_field_8_isinline:
+#        message_embed_field_9_key:
+#        message_embed_field_9_value:
+#        message_embed_field_9_isinline:
+#        message_embed_field_10_key:
+#        message_embed_field_10_value:
+#        message_embed_field_10_isinline:
+#        message_embed_field_11_key:
+#        message_embed_field_11_value:
+#        message_embed_field_11_isinline:
+#        message_embed_field_12_key:
+#        message_embed_field_12_value:
+#        message_embed_field_12_isinline:
+#        message_embed_field_13_key:
+#        message_embed_field_13_value:
+#        message_embed_field_13_isinline:
+#        message_embed_field_14_key:
+#        message_embed_field_14_value:
+#        message_embed_field_14_isinline:
+#        message_embed_field_15_key:
+#        message_embed_field_15_value:
+#        message_embed_field_15_isinline:
+#        message_embed_field_16_key:
+#        message_embed_field_16_value:
+#        message_embed_field_16_isinline:
+#        message_embed_field_17_key:
+#        message_embed_field_17_value:
+#        message_embed_field_17_isinline:
+#        message_embed_field_18_key:
+#        message_embed_field_18_value:
+#        message_embed_field_18_isinline:
+#        message_embed_field_19_key:
+#        message_embed_field_19_value:
+#        message_embed_field_19_isinline:
+#        message_embed_field_20_key:
+#        message_embed_field_20_value:
+#        message_embed_field_20_isinline:
+#        message_embed_field_21_key:
+#        message_embed_field_21_value:
+#        message_embed_field_21_isinline:
+#        message_embed_field_22_key:
+#        message_embed_field_22_value:
+#        message_embed_field_22_isinline:
+#        message_embed_field_23_key:
+#        message_embed_field_23_value:
+#        message_embed_field_23_isinline:
+#        message_embed_field_24_key:
+#        message_embed_field_24_value:
+#        message_embed_field_24_isinline:
+#        message_embed_footericonurl:
+        message_embed_footertext: "[GitHub Action] Send To Discord @hugoalh (`hugoalh/GitHubAction.SendToDiscord`)"
+#        variable_list_0_name:
+        variable_list_0_data: "${{needs.fetch-payload-data.outputs.payload-data}}"
+#        variable_list_1_name:
+#        variable_list_1_data:
+#        variable_list_2_name:
+#        variable_list_2_data:
+#        variable_list_3_name:
+#        variable_list_3_data:
+#        variable_list_4_name:
+#        variable_list_4_data:
+#        variable_list_5_name:
+#        variable_list_5_data:
+#        variable_list_6_name:
+#        variable_list_6_data:
+#        variable_list_7_name:
+#        variable_list_7_data:
+#        variable_list_8_name:
+#        variable_list_8_data:
+#        variable_list_9_name:
+#        variable_list_9_data:
+        variable_prefix: "%"
+        variable_suffix: "%"
+        variable_join: "."
+  send-to-ifttt:
+    name: "Send To IFTTT"
+    runs-on: "ubuntu-latest"
+    needs:
+    - "fetch-payload-data"
+    steps:
+    - id: "send-to-ifttt-main"
+      uses: "hugoalh/GitHubAction.SendToIFTTT@master"
+      with:
+        webhook_eventname: "githubaction_twitter"
+        webhook_key: "${{secrets.IFTTT_WEBHOOK_KEY}}"
+        value1: "[NodeJS] Advanced Determine version %release.name% is released and available on GitHub!\n%release.html_url%"
+#        value2:
+#        value3:
+#        variable_list_0_name:
+        variable_list_0_data: "${{needs.fetch-payload-data.outputs.payload-data}}"
+#        variable_list_1_name:
+#        variable_list_1_data:
+#        variable_list_2_name:
+#        variable_list_2_data:
+#        variable_list_3_name:
+#        variable_list_3_data:
+#        variable_list_4_name:
+#        variable_list_4_data:
+#        variable_list_5_name:
+#        variable_list_5_data:
+#        variable_list_6_name:
+#        variable_list_6_data:
+#        variable_list_7_name:
+#        variable_list_7_data:
+#        variable_list_8_name:
+#        variable_list_8_data:
+#        variable_list_9_name:
+#        variable_list_9_data:
+        variable_prefix: "%"
+        variable_suffix: "%"
+        variable_join: "."

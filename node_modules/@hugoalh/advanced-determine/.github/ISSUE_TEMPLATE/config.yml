@@ -1,0 +1,8 @@
+# ==================
+# hugoalh's Repository Resource - GitHub Issues Configuration
+#   Language:
+#     YAML
+#   Last Update:
+#     2020-06-28
+# ==================
+blank_issues_enabled: false
