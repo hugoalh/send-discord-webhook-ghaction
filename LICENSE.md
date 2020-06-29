@@ -1,10 +1,8 @@
 # MIT License
 
-**Version:**
-1.0
+**Version:** 1.0
 
-**Source:**
-[Open Source Initiative](https://opensource.org/licenses/MIT)
+**Source:** [Open Source Initiative](https://opensource.org/licenses/MIT)
 
 ## Quick Read
 

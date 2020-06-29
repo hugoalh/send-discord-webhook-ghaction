@@ -1,28 +1,30 @@
 ---
-name: Bug Report
-about: Report a bug
+name: "Bug Report"
+about: "Report a bug."
 title: ""
 labels: ""
 assignees: ""
 ---
-## Description
+## Describe
+
+*What the bug is?*
 
 
 
 ## Version
 
-> [Optional] Leaving this slot blank will default to the newest released version.
+*Must be a supported version(s) listed in the [security policy](https://github.com/hugoalh/GitHubAction.SendToDiscord/security/policy). (Leaving this slot blank will default to the newest released version.)*
 
 
 
-## Step(s) To Reproduce Bug
+## To Reproduce
 
-> [Optional] If this bug can be reproduce repeatly, please list your step(s)!
+*\[Optional\] If this bug can be reproduce repeatedly, please list your step(s)!*
 
 
 
 ## Expected Behavior
 
-> [Optional] What thing(s) should expected to happen?
+*\[Optional\] What thing(s) should expected to happen?*
 
 

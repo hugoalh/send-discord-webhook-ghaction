@@ -1,11 +1,9 @@
 # ==================
 # hugoalh's Repository Resource - Git Ignore
-#   Contributor:
-#     hugoalh
 #   Language:
 #     Git-Configuration
 #   Last Update:
-#     2020-06-09
+#     2020-06-28
 # ==================
 _compareTemp
 _notes
@@ -116,6 +114,7 @@ jspm_packages/*
 lerna-debug.log*
 lib-cov
 logs
+node_modules/*
 npm-debug.log*
 Package Control.cache/*
 panic*.log.*
@@ -131,5 +130,3 @@ urgReport/*
 vsim.dbg
 yarn-debug.log*
 yarn-error.log*
-
-!node_modules/*
