@@ -1,7 +1,5 @@
 /*==================
 [GitHub Action] Send To Discord
-	Contributor:
-		hugoalh
 	Language:
 		NodeJS 14
 ==================*/
@@ -14,26 +12,13 @@ const nodeJS = {
 const githubAction = {
 	Core: require("@actions/core")
 };
+const customNullDetermine = require("./customnulldetermine.js");
 const jsonFlatten = require("flat").flatten;
 
 /*::::::::
 Data Handle
 ::::::::*/
-function determineIsNull(input) {
-	if (input === null ||
-		input === "null" ||
-		input === "" ||
-		input === [] ||
-		input === {} ||
-		input === "{}" ||
-		input === undefined ||
-		input === "undefined"
-	) {
-		return true;
-	};
-	return false;
-};
-const inputCannotVariable = {};
+let inputCannotVariable = {};
 [
 	"webhook_id",
 	"webhook_token",
@@ -45,7 +30,7 @@ const inputCannotVariable = {};
 ].forEach((value, index) => {
 	inputCannotVariable[value] = githubAction.Core.getInput(value);
 });
-const inputCanVariable = {};
+let inputCanVariable = {};
 [
 	"webhook_name",
 	"webhook_avatarurl",
@@ -64,7 +49,7 @@ const inputCanVariable = {};
 ].forEach((value, index) => {
 	inputCanVariable[value] = githubAction.Core.getInput(value);
 });
-if (determineIsNull(inputCannotVariable["webhook_id"]) == false && determineIsNull(inputCannotVariable["webhook_token"]) == false) {
+if (customNullDetermine(inputCannotVariable["webhook_id"]) == false && customNullDetermine(inputCannotVariable["webhook_token"]) == false) {
 	inputCannotVariable["webhook_url"] = `https://discord.com/api/webhooks/${inputCannotVariable["webhook_id"]}/${inputCannotVariable["webhook_token"]}`;
 } else {
 	githubAction.Core.setFailed("Invalid webhook ID or token!");
@@ -74,7 +59,7 @@ for (let index = 0; index < 25; index++) {
 	let key = githubAction.Core.getInput(`message_embed_field_${index}_key`),
 		value = githubAction.Core.getInput(`message_embed_field_${index}_value`),
 		isInline = githubAction.Core.getInput(`message_embed_field_${index}_isinline`);
-	if (determineIsNull(key) == false && determineIsNull(value) == false) {
+	if (customNullDetermine(key) == false && customNullDetermine(value) == false) {
 		if (isInline == true || isInline == "true") {
 			isInline = true;
 		} else {
@@ -96,7 +81,7 @@ let inputVariableLists = {};
 for (let index = 0; index < 10; index++) {
 	let name = githubAction.Core.getInput(`variable_list_${index}_name`),
 		data = githubAction.Core.getInput(`variable_list_${index}_data`);
-	if (determineIsNull(data) == false) {
+	if (customNullDetermine(data) == false) {
 		try {
 			if (typeof data != "object") {
 				data = JSON.parse(data);
@@ -104,7 +89,7 @@ for (let index = 0; index < 10; index++) {
 		} catch (error) {
 			githubAction.Core.setFailed(`Fail to parse variable list #${index}: ${error}`);
 		};
-		if (determineIsNull(name) == false) {
+		if (customNullDetermine(name) == false) {
 			inputVariableLists[name] = data;
 		} else {
 			inputVariableLists[index] = data;
@@ -114,16 +99,16 @@ for (let index = 0; index < 10; index++) {
 		break;
 	};
 };
-if (determineIsNull(inputCannotVariable["variable_join"]) == true) {
+if (customNullDetermine(inputCannotVariable["variable_join"]) == true) {
 	inputCannotVariable["variable_join"] = "_";
 };
-if (determineIsNull(inputCannotVariable["variable_prefix"]) == true) {
+if (customNullDetermine(inputCannotVariable["variable_prefix"]) == true) {
 	inputCannotVariable["variable_prefix"] = "%";
 };
-if (determineIsNull(inputCannotVariable["variable_suffix"]) == true) {
+if (customNullDetermine(inputCannotVariable["variable_suffix"]) == true) {
 	inputCannotVariable["variable_suffix"] = "%";
 };
-if (determineIsNull(inputVariableLists) == false) {
+if (customNullDetermine(inputVariableLists) == false) {
 	if (Object.keys(inputVariableLists).length == 1) {
 		inputVariableLists = Object.values(inputVariableLists)[0];
 	};
@@ -168,7 +153,7 @@ if (determineIsNull(inputVariableLists) == false) {
 		})
 	);
 };
-const output = {
+let output = {
 	allowed_mentions: {
 		parse: [
 			"roles",
@@ -186,13 +171,13 @@ Promise.allSettled([
 		};
 	}).catch((error) => { }),
 	new Promise((resolve, reject) => {
-		if (determineIsNull(inputCanVariable["webhook_name"]) == false && inputCanVariable["webhook_name"].length >= 2 && inputCanVariable["webhook_name"].length <= 32) {
+		if (customNullDetermine(inputCanVariable["webhook_name"]) == false && inputCanVariable["webhook_name"].length >= 2 && inputCanVariable["webhook_name"].length <= 32) {
 			output.username = inputCanVariable["webhook_name"];
 		};
-		if (determineIsNull(inputCanVariable["webhook_avatarurl"]) == false) {
+		if (customNullDetermine(inputCanVariable["webhook_avatarurl"]) == false) {
 			output.avatar_url = inputCanVariable["webhook_avatarurl"];
 		};
-		if (determineIsNull(inputCanVariable["message_text"]) == false) {
+		if (customNullDetermine(inputCanVariable["message_text"]) == false) {
 			if (inputCanVariable["message_text"].length > 2000) {
 				inputCanVariable["message_text"] = `${inputCanVariable["message_text"].slice(0, 1996)}...`;
 			};
@@ -200,14 +185,14 @@ Promise.allSettled([
 		};
 	}).catch((error) => { }),
 	new Promise((resolve, reject) => {
-		if (determineIsNull(inputCanVariable["message_embed_authorname"]) == false ||
-			determineIsNull(inputCanVariable["message_embed_title"]) == false ||
-			determineIsNull(inputCanVariable["message_embed_description"]) == false ||
-			determineIsNull(inputCanVariable["message_embed_thumbnailurl"]) == false ||
-			determineIsNull(inputCanVariable["message_embed_imageurl"]) == false ||
-			determineIsNull(inputCanVariable["message_embed_videourl"]) == false ||
-			determineIsNull(inputMessageEmbedFields) == false ||
-			determineIsNull(inputCanVariable["message_embed_footertext"]) == false
+		if (customNullDetermine(inputCanVariable["message_embed_authorname"]) == false ||
+			customNullDetermine(inputCanVariable["message_embed_title"]) == false ||
+			customNullDetermine(inputCanVariable["message_embed_description"]) == false ||
+			customNullDetermine(inputCanVariable["message_embed_thumbnailurl"]) == false ||
+			customNullDetermine(inputCanVariable["message_embed_imageurl"]) == false ||
+			customNullDetermine(inputCanVariable["message_embed_videourl"]) == false ||
+			customNullDetermine(inputMessageEmbedFields) == false ||
+			customNullDetermine(inputCanVariable["message_embed_footertext"]) == false
 		) {
 			output.embeds = [
 				{
@@ -216,7 +201,7 @@ Promise.allSettled([
 			];
 			Promise.allSettled([
 				new Promise((resolve, reject) => {
-					if (determineIsNull(inputCannotVariable["message_embed_colour"]) == false) {
+					if (customNullDetermine(inputCannotVariable["message_embed_colour"]) == false) {
 						inputCannotVariable["message_embed_colour"] = inputCannotVariable["message_embed_colour"].toUpperCase();
 						let colour = {};
 						switch (inputCannotVariable["message_embed_colour"]) {
@@ -295,34 +280,34 @@ Promise.allSettled([
 					};
 				}).catch((error) => { }),
 				new Promise((resolve, reject) => {
-					if (determineIsNull(inputCanVariable["message_embed_authorname"]) == false) {
+					if (customNullDetermine(inputCanVariable["message_embed_authorname"]) == false) {
 						if (inputCanVariable["message_embed_authorname"].length > 256) {
 							inputCanVariable["message_embed_authorname"] = `${inputCanVariable["message_embed_authorname"].slice(0, 252)}...`;
 						};
 						output.embeds[0].author = {
 							name: inputCanVariable["message_embed_authorname"]
 						};
-						if (determineIsNull(inputCanVariable["message_embed_authoravatarurl"]) == false) {
+						if (customNullDetermine(inputCanVariable["message_embed_authoravatarurl"]) == false) {
 							output.embeds[0].author.icon_url = inputCanVariable["message_embed_authoravatarurl"];
 						};
-						if (determineIsNull(inputCanVariable["message_embed_authorurl"]) == false) {
+						if (customNullDetermine(inputCanVariable["message_embed_authorurl"]) == false) {
 							output.embeds[0].author.url = inputCanVariable["message_embed_authorurl"];
 						};
 					};
 				}).catch((error) => { }),
 				new Promise((resolve, reject) => {
-					if (determineIsNull(inputCanVariable["message_embed_title"]) == false) {
+					if (customNullDetermine(inputCanVariable["message_embed_title"]) == false) {
 						if (inputCanVariable["message_embed_title"].length > 256) {
 							inputCanVariable["message_embed_title"] = `${inputCanVariable["message_embed_title"].slice(0, 252)}...`;
 						};
 						output.embeds[0].title = inputCanVariable["message_embed_title"];
-						if (determineIsNull(inputCanVariable["message_embed_titleurl"]) == false) {
+						if (customNullDetermine(inputCanVariable["message_embed_titleurl"]) == false) {
 							output.embeds[0].url = inputCanVariable["message_embed_titleurl"];
 						};
 					};
 				}).catch((error) => { }),
 				new Promise((resolve, reject) => {
-					if (determineIsNull(inputCanVariable["message_embed_description"]) == false) {
+					if (customNullDetermine(inputCanVariable["message_embed_description"]) == false) {
 						if (inputCanVariable["message_embed_description"].length > 2048) {
 							inputCanVariable["message_embed_description"] = `${inputCanVariable["message_embed_description"].slice(0, 2044)}...`;
 						};
@@ -330,46 +315,46 @@ Promise.allSettled([
 					};
 				}).catch((error) => { }),
 				new Promise((resolve, reject) => {
-					if (determineIsNull(inputCanVariable["message_embed_footertext"]) == false) {
+					if (customNullDetermine(inputCanVariable["message_embed_footertext"]) == false) {
 						if (inputCanVariable["message_embed_footertext"].length > 2048) {
 							inputCanVariable["message_embed_footertext"] = `${inputCanVariable["message_embed_footertext"].slice(0, 2044)}...`;
 						};
 						output.embeds[0].footer = {
 							text: inputCanVariable["message_embed_footertext"]
 						};
-						if (determineIsNull(inputCanVariable["message_embed_footericonurl"]) == false) {
+						if (customNullDetermine(inputCanVariable["message_embed_footericonurl"]) == false) {
 							output.embeds[0].footer.icon_url = inputCanVariable["message_embed_footericonurl"];
 						};
 					};
 				}).catch((error) => { }),
 				new Promise((resolve, reject) => {
-					if (determineIsNull(inputCanVariable["message_embed_imageurl"]) == false) {
+					if (customNullDetermine(inputCanVariable["message_embed_imageurl"]) == false) {
 						output.embeds[0].image = {
 							url: inputCanVariable["message_embed_imageurl"]
 						};
 					};
-					if (determineIsNull(inputCanVariable["message_embed_thumbnailurl"]) == false) {
+					if (customNullDetermine(inputCanVariable["message_embed_thumbnailurl"]) == false) {
 						output.embeds[0].thumbnail = {
 							url: inputCanVariable["message_embed_thumbnailurl"]
 						};
 					};
-					if (determineIsNull(inputCanVariable["message_embed_videourl"]) == false) {
+					if (customNullDetermine(inputCanVariable["message_embed_videourl"]) == false) {
 						output.embeds[0].video = {
 							url: inputCanVariable["message_embed_videourl"]
 						};
 					};
 				}).catch((error) => { }),
 				new Promise((resolve, reject) => {
-					if (determineIsNull(inputMessageEmbedFields) == false) {
+					if (customNullDetermine(inputMessageEmbedFields) == false) {
 						inputMessageEmbedFields.forEach((slot, index) => {
-							if (determineIsNull(slot.name) == false) {
+							if (customNullDetermine(slot.name) == false) {
 								if (slot.name.length > 256) {
 									inputMessageEmbedFields[index].name = `${slot.name.slice(0, 252)}...`;
 								};
 							} else {
 								inputMessageEmbedFields[index].name = "-";
 							};
-							if (determineIsNull(slot.value) == false) {
+							if (customNullDetermine(slot.value) == false) {
 								if (slot.value.length > 1024) {
 									inputMessageEmbedFields[index].value = `${slot.value.slice(0, 1020)}...`;
 								};

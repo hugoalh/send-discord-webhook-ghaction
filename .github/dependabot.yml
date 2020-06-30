@@ -1,0 +1,48 @@
+# ==================
+# hugoalh's Repository Resource - GitHub Dependabot
+#   Language:
+#     YAML
+#   Last Update:
+#     2020-04-29
+# ==================
+version: 2
+updates:
+#  - package-ecosystem: "gitsubmodule"
+#    directory: "/"
+#    schedule:
+#      interval: "daily"
+#      time: "00:00"
+#    assignees:
+#      - "hugoalh"
+#    labels:
+#      - "dependency"
+#    open-pull-requests-limit: 128
+#    pull-request-branch-name:
+#      separator: "/"
+#    rebase-strategy: "disabled"
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "daily"
+      time: "00:00"
+    assignees:
+      - "hugoalh"
+    labels:
+      - "dependency"
+    open-pull-requests-limit: 128
+    pull-request-branch-name:
+      separator: "/"
+    rebase-strategy: "disabled"
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "daily"
+      time: "00:00"
+    assignees:
+      - "hugoalh"
+    labels:
+      - "dependency"
+    open-pull-requests-limit: 128
+    pull-request-branch-name:
+      separator: "/"
+    rebase-strategy: "disabled"

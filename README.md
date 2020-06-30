@@ -1,49 +1,22 @@
-# <div align="center">[GitHub Action] Send To Discord</div>
+# [GitHub Action] Send To Discord
 
-<div align="center">
-  <code>hugoalh/GitHubAction.SendToDiscord</code><br />
-  <img src="https://img.shields.io/github/languages/count/hugoalh/GitHubAction.SendToDiscord?style=flat-square&logo=github" />
-  <img src="https://img.shields.io/github/languages/top/hugoalh/GitHubAction.SendToDiscord?style=flat-square&logo=github" />
-  <img src="https://img.shields.io/github/repo-size/hugoalh/GitHubAction.SendToDiscord?style=flat-square&logo=github" />
-  <img src="https://img.shields.io/github/watchers/hugoalh/GitHubAction.SendToDiscord?style=flat-square&logo=github" />
-  <img src="https://img.shields.io/github/stars/hugoalh/GitHubAction.SendToDiscord?style=flat-square&logo=github" />
-  <img src="https://img.shields.io/github/forks/hugoalh/GitHubAction.SendToDiscord?style=flat-square&logo=github" />
-</div>
+[`hugoalh/GitHubAction.SendToDiscord`](https://github.com/hugoalh/GitHubAction.SendToDiscord)
 
-<table align="right">
-  <tr>
-    <td align="center">
-      <b>Contributor</b><br />
-      <img src="https://img.shields.io/github/contributors/hugoalh/GitHubAction.SendToDiscord?style=flat-square&color=000000&label=%20" />
-    </td>
-    <td><a href="https://github.com/hugoalh">hugoalh</a></td>
-  </tr>
-  <tr>
-    <td align="center"><b>License</b></td>
-    <td><a href="./LICENSE.md">MIT</a></td>
-  </tr>
-  <tr>
-    <td align="center"><b>Release</b></td>
-    <td>
-      <b>Stable: </b><img src="https://img.shields.io/github/release/hugoalh/GitHubAction.SendToDiscord?style=flat-square&color=000000&label=%20" /> (<img src="https://img.shields.io/github/release-date/hugoalh/GitHubAction.SendToDiscord?style=flat-square&color=000000&label=%20" />)<br />
-      <b>Latest: </b><img src="https://img.shields.io/github/release/hugoalh/GitHubAction.SendToDiscord?include_prereleases&style=flat-square&color=000000&label=%20" /> (<img src="https://img.shields.io/github/release-date-pre/hugoalh/GitHubAction.SendToDiscord?style=flat-square&color=000000&label=%20" />)
-    </td>
-  </tr>
-  <tr>
-    <td align="center"><b>Issue</b></td>
-    <td>
-      <b>Open: </b><img src="https://img.shields.io/github/issues-raw/hugoalh/GitHubAction.SendToDiscord?style=flat-square&color=000000&label=%20" /><br />
-      <b>Closed: </b><img src="https://img.shields.io/github/issues-closed-raw/hugoalh/GitHubAction.SendToDiscord?style=flat-square&color=000000&label=%20" />
-    </td>
-  </tr>
-  <tr>
-    <td align="center"><b>Pull Request</b></td>
-    <td>
-      <b>Open: </b><img src="https://img.shields.io/github/issues-pr-raw/hugoalh/GitHubAction.SendToDiscord?style=flat-square&color=000000&label=%20" /><br />
-      <b>Closed: </b><img src="https://img.shields.io/github/issues-pr-closed-raw/hugoalh/GitHubAction.SendToDiscord?style=flat-square&color=000000&label=%20" />
-    </td>
-  </tr>
-</table>
+[![](https://img.shields.io/github/contributors/hugoalh/GitHubAction.SendToDiscord?style=flat-square&logo=github)](https://github.com/hugoalh/GitHubAction.SendToDiscord/graphs/contributors)
+[![](https://img.shields.io/github/license/hugoalh/GitHubAction.SendToDiscord?style=flat-square&logo=github)](https://github.com/hugoalh/GitHubAction.SendToDiscord/blob/master/LICENSE.md)
+![](https://img.shields.io/github/languages/count/hugoalh/GitHubAction.SendToDiscord?style=flat-square&logo=github)
+![](https://img.shields.io/github/languages/top/hugoalh/GitHubAction.SendToDiscord?style=flat-square&logo=github)
+![](https://img.shields.io/github/repo-size/hugoalh/GitHubAction.SendToDiscord?style=flat-square&logo=github)
+![](https://img.shields.io/github/languages/code-size/hugoalh/GitHubAction.SendToDiscord?style=flat-square&logo=github)
+![](https://img.shields.io/github/watchers/hugoalh/GitHubAction.SendToDiscord?style=flat-square&logo=github)
+![](https://img.shields.io/github/stars/hugoalh/GitHubAction.SendToDiscord?style=flat-square&logo=github)
+![](https://img.shields.io/github/forks/hugoalh/GitHubAction.SendToDiscord?style=flat-square&logo=github)
+[![](https://img.shields.io/lgtm/alerts/g/hugoalh/GitHubAction.SendToDiscord.svg?style=flat-square&logo=lgtm&label=%20)](https://lgtm.com/projects/g/hugoalh/GitHubAction.SendToDiscord/alerts)
+[![](https://img.shields.io/lgtm/grade/javascript/g/hugoalh/GitHubAction.SendToDiscord.svg?style=flat-square&logo=lgtm)](https://lgtm.com/projects/g/hugoalh/GitHubAction.SendToDiscord/context:javascript)
+
+| **[Release](https://github.com/hugoalh/GitHubAction.SendToDiscord/releases)** ![](https://img.shields.io/github/downloads/hugoalh/GitHubAction.SendToDiscord/total?style=flat-square&color=000000&label=%20) | **[Issue](https://github.com/hugoalh/GitHubAction.SendToDiscord/issues?q=is%3Aissue)** | **[Pull Request](https://github.com/hugoalh/GitHubAction.SendToDiscord/pulls?q=is%3Apr)** |
+|:----|:----|:----|
+| **Stable:** ![](https://img.shields.io/github/release/hugoalh/GitHubAction.SendToDiscord?sort=semver&style=flat-square&color=000000&label=%20) (![](https://img.shields.io/github/release-date/hugoalh/GitHubAction.SendToDiscord?style=flat-square&color=000000&label=%20))<br />**Latest:** ![](https://img.shields.io/github/release/hugoalh/GitHubAction.SendToDiscord?include_prereleases&sort=semver&style=flat-square&color=000000&label=%20) (![](https://img.shields.io/github/release-date-pre/hugoalh/GitHubAction.SendToDiscord?style=flat-square&color=000000&label=%20)) | **Open:** ![](https://img.shields.io/github/issues-raw/hugoalh/GitHubAction.SendToDiscord?style=flat-square&color=000000&label=%20)<br />**Closed:** ![](https://img.shields.io/github/issues-closed-raw/hugoalh/GitHubAction.SendToDiscord?style=flat-square&color=000000&label=%20) | **Open:** ![](https://img.shields.io/github/issues-pr-raw/hugoalh/GitHubAction.SendToDiscord?style=flat-square&color=000000&label=%20)<br />**Closed:** ![](https://img.shields.io/github/issues-pr-closed-raw/hugoalh/GitHubAction.SendToDiscord?style=flat-square&color=000000&label=%20) |
 
 ## 📜 Description
 
@@ -55,8 +28,8 @@ Send message to Discord via webhook, support variables.
 
 **Not support variable:**
 
-| **Key** | **Require? / Require Condition?** | <div align="center">**Type**</div> | <div align="center">**Description**</div> |
-|:---:|:---:|:----|:----|
+| **Key** | **Require? / Require Condition?** | **Type** | **Description** |
+|:----|:----|:----|:----|
 | `webhook_id` | ✔ | Secret String | Webhook ID. If the webhook url is `https://discordapp.com/api/webhooks/70971114/ueyzeWxB_8bb1zMhL`, then the webhook ID will be `70971114`. |
 | `webhook_token` | ✔ | Secret String | Webhook token. If the webhook url is `https://discordapp.com/api/webhooks/70971114/ueyzeWxB_8bb1zMhL`, then the webhook token will be `ueyzeWxB_8bb1zMhL`. |
 | `message_usetexttospeech` |  | Stringified Boolean | Use text to speech for this message. Default: `false`. |
@@ -70,8 +43,8 @@ Send message to Discord via webhook, support variables.
 
 **Support variable (& optional):**
 
-| **Key** | **Require Condition?** | <div align="center">**Type**</div> | <div align="center">**Description**</div> |
-|:---:|:---:|:----|:----|
+| **Key** | **Require Condition?** | **Type** | **Description** |
+|:----|:----|:----|:----|
 | `webhook_name` |  | String, 2 \~ 32 characters | Webhook display name (i.e.: the sender's name), this can override the default username of the webhook. Automatically ignore when not between 2 and 32 characters. |
 | `webhook_avatarurl` |  | String | Webhook avatar url (i.e.: the sender's avatar), this can override the default avatar of the webhook. The url of the image must be in format of JPEG/JPG, or PNG. GIF is not supported due to the Discord limitation. |
 | `message_text` |  | String, <= 2000 characters | Text. Automatically crop when more than 2000 characters.|
@@ -102,7 +75,3 @@ Send message to Discord via webhook, support variables.
 - [Discord Webhook: Creating a webhook](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks)
 - [Discord Webhook: API](https://discord.com/developers/docs/resources/webhook#execute-webhook)
 - [GitHub Actions: Creating and storing encrypted secrets](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets)
-
-## 🐛 Issue
-
-Found any issue in this project? Submit the issue via [GitHub](https://github.com/hugoalh/GitHubAction.SendToDiscord/issues).
