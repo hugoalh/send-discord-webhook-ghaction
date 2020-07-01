@@ -22,7 +22,7 @@
 	"homepage": "https://github.com/hugoalh/GitHubAction.SendToDiscord#readme",
 	"dependencies": {
 		"@actions/core": "^1.2.4",
-		"@hugoalh/advanced-determine": "^1.2.1",
+		"@hugoalh/advanced-determine": "^1.2.2",
 		"flat": "^5.0.0"
 	},
 	"devDependencies": {}
