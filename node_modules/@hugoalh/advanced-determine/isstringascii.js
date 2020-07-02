@@ -1,17 +1,18 @@
 /*==================
-[NodeJS] Advanced Determine - Is String All Upper Case
+[NodeJS] Advanced Determine - Is String ASCII
 	Language:
 		NodeJS 14
 ==================*/
 const isString = require("./isstring.js");
-function isStringAllUpperCase(item) {
+function isStringASCII(item) {
 	if (isString(item) == false) {
 		throw new TypeError(`Invalid type of "item"! Require type of string.`);
 	};
-	const bin = item.toUpperCase();
-	if (item !== bin) {
-		return false;
+	for (let index = 0; index < item.length; index++) {
+		if (item.charCodeAt(index) > 127) {
+			return false;
+		};
 	};
 	return true;
 };
-module.exports = isStringAllUpperCase;
+module.exports = isStringASCII;

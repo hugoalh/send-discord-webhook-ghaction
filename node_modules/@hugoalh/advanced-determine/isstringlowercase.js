@@ -1,10 +1,10 @@
 /*==================
-[NodeJS] Advanced Determine - Is String All Lower Case
+[NodeJS] Advanced Determine - Is String Lower Case
 	Language:
 		NodeJS 14
 ==================*/
 const isString = require("./isstring.js");
-function isStringAllLowerCase(item) {
+function isStringLowerCase(item) {
 	if (isString(item) == false) {
 		throw new TypeError(`Invalid type of "item"! Require type of string.`);
 	};
@@ -14,4 +14,4 @@ function isStringAllLowerCase(item) {
 	};
 	return true;
 };
-module.exports = isStringAllLowerCase;
+module.exports = isStringLowerCase;

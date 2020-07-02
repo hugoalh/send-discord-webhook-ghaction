@@ -36,18 +36,20 @@ A library to provide a better and more accuracy way to determine item's type.
 
 |  | **Description** |
 |:----|:----|
-| `allIs(type/option, ...items)` | **type {string.lowerCase}:** Type to determine, e.g.: `"regexp"`, `"stringifyjson"`.<br />**option {array[string.lowerCase, boolean = false]}:** Type to determine with fuzzy mode options, e.g.: `["string", false]`.<br />**...items {\*}:** Support infinity arguments.<br /><br />Return `true` when items are all meet the `true` determine requirement; Return `false` otherwise. |
-| `isNull(item, fuzzyMode?)` | ***fuzzyMode {boolean = false}:*** Enable fuzzy mode.<br /><br />Return `true` when item is `null`, `""`, `[]`, `{}`, or `"null"` (only in fuzzy mode); Return `false` otherwise. |
+| - `allIs(type, ...items)`<br />- `allIs(option, ...items)` | **type {string.lowerCase}:** Type to determine, e.g.: `"regexp"`, `"stringifyjson"`.<br />**option {array[string.lowerCase, boolean = false]}:** Type to determine with determiner options, e.g.: `["string", true]`.<br />**...items {\*}:** Support infinity arguments.<br /><br />Return `true` when items are all meet the `true` determine requirement; Return `false` otherwise. |
+| `isNull(item, fuzzyMode?)` | ***fuzzyMode {boolean = false}:*** Enable fuzzy mode.<br /><br />Return `true` when item is `null`, `""`, `[]`, `{}`, or `"null"` (fuzzy mode only); Return `false` otherwise. |
 | `isArray(item)` | Return `true` when item is array and has length (i.e.: > 0); Return `null` when item is array but no length (i.e.: = 0); Return `false` otherwise. |
-| `isBuffer(item)` |  |
-| `isDate(item)` |  |
+| `isBuffer(item)` | Check if the item is buffer. |
+| `isDate(item)` | Check if the item is date. |
 | `isJSON(item)` | Return `true` when item is JSON and has length (i.e.: > 0); Return `null` when item is JSON but no length (i.e.: = 0); Return `false` otherwise. |
 | `isNumber(item)` | Return `false` when item is type of bigint, or `NaN`. |
-| `isRegExp(item)` |  |
-| `isString(item, fuzzyMode?)` | ***fuzzyMode {boolean = false}:*** Enable fuzzy mode.<br /><br />Return `true` when item is string and has length (i.e.: > 0); Return `null` when item is string but no length (i.e.: = 0), or item is `"null"` (only in fuzzy mode); Return `false` otherwise. |
-| `isStringAllLowerCase(item)` |  |
-| `isStringAllUpperCase(item)` |  |
+| - `isRegularExpression(item)`<br />- `isRegExp(item)` | Check if the item is regular expression. |
+| `isString(item, fuzzyMode?)` | ***fuzzyMode {boolean = false}:*** Enable fuzzy mode.<br /><br />Return `true` when item is string and has length (i.e.: > 0); Return `null` when item is string but no length (i.e.: = 0), or item is `"null"` (fuzzy mode only); Return `false` otherwise. |
+| `isStringLowerCase(item)` | Check if the string is all lowercase. |
+| `isStringUpperCase(item)` | Check if the string is all uppercase. |
+| `isStringASCII(item)` | Check if the string is all ASCII. |
 | `isStringifyJSON(item)` | Return `true` when item is stringify JSON and has length (i.e.: > 0); Return `null` when item is stringify JSON but no length (i.e.: = 0); Return `false` otherwise. |
+| `isUndefined(item, fuzzyMode?)` | ***fuzzyMode {boolean = false}:*** Enable fuzzy mode.<br /><br />Return `true` when item is `undefined`, or `"undefined"` (fuzzy mode only); Return `false` otherwise. |
 
 ### Example
 
