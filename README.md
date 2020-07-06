@@ -70,7 +70,7 @@ Send message to Discord via webhook, support variables.
 
 *See [workflow_example.yml](./workflow_example.yml)*.
 
-### 📓 Guide
+### 📚 Guide
 
 - [Discord Webhook: Creating a webhook](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks)
 - [Discord Webhook: API](https://discord.com/developers/docs/resources/webhook#execute-webhook)

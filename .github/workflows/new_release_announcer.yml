@@ -1,4 +1,4 @@
-name: "Release Announcement"
+name: "New Release Announcer"
 on:
   release:
     types:
@@ -11,7 +11,7 @@ jobs:
       payload-data: "${{steps.fetch-payload-data-main.outputs.data}}"
     steps:
     - id: "fetch-payload-data-main"
-      uses: "hugoalh/GitHubAction.EventPayloadFetcher@master"
+      uses: "hugoalh/GitHubAction.EventPayloadFetcher@v1.1.2"
   send-to-discord:
     name: "Send To Discord"
     runs-on: "ubuntu-latest"
@@ -19,7 +19,7 @@ jobs:
     - "fetch-payload-data"
     steps:
     - id: "send-to-discord-main"
-      uses: "hugoalh/GitHubAction.SendToDiscord@master"
+      uses: "hugoalh/GitHubAction.SendToDiscord@v1.1.3"
       with:
         webhook_id: "${{secrets.DISCORD_WEBHOOK_ID}}"
         webhook_token: "${{secrets.DISCORD_WEBHOOK_TOKEN}}"
@@ -111,7 +111,7 @@ jobs:
 #        message_embed_field_24_value:
 #        message_embed_field_24_isinline:
 #        message_embed_footericonurl:
-        message_embed_footertext: "[GitHub Action] Send To Discord @hugoalh (`hugoalh/GitHubAction.SendToDiscord`)"
+#        message_embed_footertext:
 #        variable_list_0_name:
         variable_list_0_data: "${{needs.fetch-payload-data.outputs.payload-data}}"
 #        variable_list_1_name:
@@ -142,7 +142,7 @@ jobs:
     - "fetch-payload-data"
     steps:
     - id: "send-to-ifttt-main"
-      uses: "hugoalh/GitHubAction.SendToIFTTT@master"
+      uses: "hugoalh/GitHubAction.SendToIFTTT@v1.1.3"
       with:
         webhook_eventname: "githubaction_twitter"
         webhook_key: "${{secrets.IFTTT_WEBHOOK_KEY}}"

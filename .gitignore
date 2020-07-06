@@ -3,11 +3,12 @@
 #   Language:
 #     Git-Configuration
 #   Last Update:
-#     2020-06-28
+#     2020-07-05
 # ==================
 _compareTemp
 _notes
 ._*
+.*.swp
 .~lock.*#
 .AppleDB
 .AppleDesktop
@@ -32,7 +33,9 @@ _notes
 .fseventsd
 .fuse_hidden*
 .fusebox/*
+.git
 .grunt
+.hg
 .history
 .lock-wscript
 .LSOverride
@@ -41,6 +44,7 @@ _notes
 .ninja_log
 .node_repl_history
 .npm
+.npmrc
 .nuxt
 .nyc_output
 .recommenders
@@ -49,12 +53,14 @@ _notes
 .setting/*
 .settings/*
 .Spotlight-V100
+.svn
 .TemporaryItems
 .Trash-*
 .Trashes
 .VolumeIcon.icns
 .vscode/*
 .vuepress/dist
+.wafpickle-*
 .yarn-integrity
 [Bb]ackup/*
 [Dd]ebug/*
@@ -104,9 +110,11 @@ abstract.log*
 bin-debug/*
 bower_components
 build/Release
+config.gypi
 coverage
 crashlytics-build.properties
 crashlytics.properties
+CVS
 dwsync.xml
 ehthumbs_vista.db
 ehthumbs.db
