@@ -3,10 +3,18 @@
 	Language:
 		NodeJS 14
 ==================*/
+const internalService = require("./internalservice.js");
 const isString = require("./isstring.js");
+/**
+ * @function isStringASCII
+ * @alias isStrASCII
+ * @description Determine item is type of ASCII string or not.
+ * @param {string} item Item that need to determine.
+ * @returns {boolean} Determine result.
+ */
 function isStringASCII(item) {
 	if (isString(item) == false) {
-		throw new TypeError(`Invalid type of "item"! Require type of string.`);
+		return internalService.typeError(`Invalid type of "item"! Require type of string.`);
 	};
 	for (let index = 0; index < item.length; index++) {
 		if (item.charCodeAt(index) > 127) {

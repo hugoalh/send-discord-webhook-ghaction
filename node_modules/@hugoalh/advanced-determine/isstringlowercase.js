@@ -3,10 +3,18 @@
 	Language:
 		NodeJS 14
 ==================*/
+const internalService = require("./internalservice.js");
 const isString = require("./isstring.js");
+/**
+ * @function isStringLowerCase
+ * @alias isStrL
+ * @description Determine item is type of lowercase string or not.
+ * @param {string} item Item that need to determine.
+ * @returns {boolean} Determine result.
+ */
 function isStringLowerCase(item) {
 	if (isString(item) == false) {
-		throw new TypeError(`Invalid type of "item"! Require type of string.`);
+		return internalService.typeError(`Invalid type of "item"! Require type of string.`);
 	};
 	const bin = item.toLowerCase();
 	if (item !== bin) {
