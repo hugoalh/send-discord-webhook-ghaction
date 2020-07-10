@@ -3,13 +3,12 @@
 	Language:
 		NodeJS 14
 ==================*/
-const determine = require("@hugoalh/advanced-determine");
+const advancedDetermine = require("@hugoalh/advanced-determine");
 function customNullDetermine(item) {
 	if (
-		determine.isNull(item, true) == true ||
-		item === "{}" ||
-		item === undefined ||
-		item === "undefined"
+		advancedDetermine.isNull(item, { fuzzyMode: true }) == true ||
+		advancedDetermine.isStringifyJSON(item) == null ||
+		advancedDetermine.isUndefined(item, { fuzzyMode: true }) == true
 	) {
 		return true;
 	};

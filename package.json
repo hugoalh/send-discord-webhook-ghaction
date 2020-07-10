@@ -1,6 +1,6 @@
 {
 	"name": "githubaction.sendtodiscord",
-	"version": "1.1.4",
+	"version": "1.1.5",
 	"description": "Send message to Discord via webhook, support variables.",
 	"main": "main.js",
 	"repository": {
@@ -21,7 +21,7 @@
 	"homepage": "https://github.com/hugoalh/GitHubAction.SendToDiscord#readme",
 	"dependencies": {
 		"@actions/core": "^1.2.4",
-		"@hugoalh/advanced-determine": "^1.2.2",
+		"@hugoalh/advanced-determine": "^2.0.0",
 		"flat": "^5.0.0"
 	}
 }
