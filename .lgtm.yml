@@ -3,7 +3,7 @@
 #   Language:
 #     YAML
 #   Last Update:
-#     2020-06-28
+#     2020-07-14
 # ==================
 path_classifiers:
   docs:
@@ -877,7 +877,7 @@ queries:
   - include: "py/use-of-input"
   - include: "py/weak-cryptographic-algorithm"
   - include: "py/weak-crypto-key"
-extraction: 
+extraction:
 #   cpp:
 #     after_prepare:
 #       - mkdir -p $LGTM_WORKSPACE/latest-gcc-symlinks
@@ -898,7 +898,7 @@ extraction:
 #       build_command:
 #         - $GNU_MAKE -j2 -s
 #       all_solutions: true
-#       solution: 
+#       solution:
 #         - myProject.sln
 #       msbuild:
 #         arguments: /p:Platform=x64 /p:Configuration=Release
@@ -912,7 +912,7 @@ extraction:
 #       - export PATH=$LGTM_WORKSPACE/tools:$PATH
 #     index:
 #       all_solutions: true
-#       solution: 
+#       solution:
 #         - myProject.sln
 #       build_command:
 #         - ./example-compile-all.sh
