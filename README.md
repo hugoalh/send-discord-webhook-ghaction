@@ -33,7 +33,7 @@ Any
 
 #### Software
 
-NodeJS (v8+)
+NodeJS v12
 
 ### 📥 Input
 
