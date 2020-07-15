@@ -3,7 +3,9 @@
 #   Language:
 #     YAML
 #   Last Update:
-#     2020-07-14
+#     2020-07-15
+#   Schema:
+#     https://lgtm.com/help/lgtm/configuring-lgtm-analysis-project
 # ==================
 path_classifiers:
   docs:
@@ -11,10 +13,10 @@ path_classifiers:
     - "document/*"
     - "LICENSE*"
   test:
-    - "**/test/*"
+    - "**/*debug*.*"
     - "**/*test*.*"
     - "**/debug/*"
-    - "**/*debug*.*"
+    - "**/test/*"
   generated:
     - "compiled/*"
   library:
@@ -25,7 +27,7 @@ path_classifiers:
     - ".gitattributes"
     - ".gitignore"
     - ".gitmodules"
-    - "lgtm.yml"
+    - ".lgtm.yml"
     - "package-lock.json"
     - "package.json"
     - "webpack.config.js"
@@ -878,94 +880,11 @@ queries:
   - include: "py/weak-cryptographic-algorithm"
   - include: "py/weak-crypto-key"
 extraction:
-#   cpp:
-#     after_prepare:
-#       - mkdir -p $LGTM_WORKSPACE/latest-gcc-symlinks
-#       - ln -s /usr/bin/g++-6 $LGTM_WORKSPACE/latest-gcc-symlinks/g++
-#       - ln -s /usr/bin/gcc-6 $LGTM_WORKSPACE/latest-gcc-symlinks/gcc
-#       - export PATH=$LGTM_WORKSPACE/latest-gcc-symlinks:$PATH
-#       - export GNU_MAKE=make
-#       - export GIT=true
-#     configure:
-#       command:
-#         - ./prepare_deps
-#     before_index:
-#       - export BOOST_DIR=$LGTM_SRC/boost
-#       - export GTEST_DIR=$LGTM_SRC/googletest
-#       - export HUNSPELL_DIR=$LGTM_SRC/hunspell
-#       - export CRYPTOPP_DIR=$LGTM_SRC/cryptopp
-#     index:
-#       build_command:
-#         - $GNU_MAKE -j2 -s
-#       all_solutions: true
-#       solution:
-#         - myProject.sln
-#       msbuild:
-#         arguments: /p:Platform=x64 /p:Configuration=Release
-#         configuration:
-#         platform:
-#         target:
-#       nuget_restore: false
-#       vstools_version: 10
-#   csharp:
-#     after_prepare:
-#       - export PATH=$LGTM_WORKSPACE/tools:$PATH
-#     index:
-#       all_solutions: true
-#       solution:
-#         - myProject.sln
-#       build_command:
-#         - ./example-compile-all.sh
-#       buildless: true
-#       dotnet:
-#         arguments: "example_arg"
-#         version: 2.1
-#       msbuild:
-#         arguments: /P:WarningLevel=2
-#         configuration: release
-#         platform: x86
-#         target: notest
-#       nuget_restore: false
-#       vstools_version: 10
-#       extractor: "--fast"
-#   cobol:
-#     after_prepare:
-#       - export PATH=$LGTM_WORKSPACE/tools:$PATH
-#     index:
-#       format: "variable"
-#       tab_length: 2
-#       preprocessing: false
-#       source_globs:
-#       - "**.cbl"
-#       - "**.CBL"
-#       - "**.cob"
-#       - "**.cobol"
-#       - "**.COB"
-#       library_globs:
-#       - "**.CPY"
-#       - "**.COPY"
-#   java:
-#     after_prepare:
-#       - export PATH=$LGTM_WORKSPACE/tools:$PATH
-#     index:
-#       gradle:
-#         version: 4.4
-#       build_command: ./compile-all.sh
-#       java_version: 11
-#       properties_files: true
-#       maven:
-#         settings_file: /opt/share/settings.xml
-#         toolchains_file: /opt/share/toolchains.xml
-#         version: 3.5.2
-#       xml_mode: all
   javascript:
-#     after_prepare:
     index:
-#       include:
-#         - src/js
       exclude:
-        - "**/thirdparty/lib/*"
         - "**/node_modules/*"
+        - "**/thirdparty/lib/*"
       filetypes:
         ".mjs": "js"
         ".tmpl": "html"
@@ -974,26 +893,3 @@ extraction:
         - include: "**/*.ts"
       typescript: "full"
       xml_mode: "all"
-#   python:
-#     after_prepare:
-#       - export PATH=$LGTM_WORKSPACE/tools:$PATH
-#     python_setup:
-#       exclude_requirements:
-#         - pywin32
-#       requirements:
-#         - Pillow
-#       requirements_files:
-#         - required-packages.txt
-#       setup_py: new-setup.py
-#       version: 3
-#     before_index:
-#       - antlr4 -Dlanguage=Python3 Grammar.g4
-#     index:
-#       exclude:
-#         - legacy-implementation
-#         - thirdparty/libs
-#       filters:
-#        - exclude: "**/documentation/examples/snippets/*.py"
-#        - include: "**/documentation/examples/test_application/*"
-#       include:
-#         - example/to/include
