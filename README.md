@@ -11,6 +11,7 @@
 ![](https://img.shields.io/github/watchers/hugoalh/GitHubAction.SendToDiscord?style=flat-square&logo=github)
 ![](https://img.shields.io/github/stars/hugoalh/GitHubAction.SendToDiscord?style=flat-square&logo=github)
 ![](https://img.shields.io/github/forks/hugoalh/GitHubAction.SendToDiscord?style=flat-square&logo=github)
+[![](https://www.codefactor.io/repository/github/hugoalh/githubaction.sendtodiscord/badge)](https://www.codefactor.io/repository/github/hugoalh/githubaction.sendtodiscord)
 [![](https://img.shields.io/lgtm/alerts/g/hugoalh/GitHubAction.SendToDiscord.svg?style=flat-square&logo=lgtm&label=%20)](https://lgtm.com/projects/g/hugoalh/GitHubAction.SendToDiscord/alerts)
 [![](https://img.shields.io/lgtm/grade/javascript/g/hugoalh/GitHubAction.SendToDiscord.svg?style=flat-square&logo=lgtm)](https://lgtm.com/projects/g/hugoalh/GitHubAction.SendToDiscord/context:javascript)
 
@@ -23,6 +24,16 @@
 Send message to Discord via webhook, support variables.
 
 ## 🛠 Configuration
+
+### 🏗 Environment
+
+#### Operating System
+
+Any
+
+#### Software
+
+NodeJS (v8+)
 
 ### 📥 Input
 
