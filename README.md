@@ -41,8 +41,8 @@ NodeJS v12
 
 | **Key** | **Require? / Require Condition?** | **Type** | **Description** |
 |:----|:----|:----|:----|
-| `webhook_id` | ✔ | Secret String | Webhook ID. If the webhook url is `https://discordapp.com/api/webhooks/70971114/ueyzeWxB_8bb1zMhL`, then the webhook ID will be `70971114`. |
-| `webhook_token` | ✔ | Secret String | Webhook token. If the webhook url is `https://discordapp.com/api/webhooks/70971114/ueyzeWxB_8bb1zMhL`, then the webhook token will be `ueyzeWxB_8bb1zMhL`. |
+| `webhook_id` | ✔ | Secret String | Webhook ID. If the webhook url is `https://discord.com/api/webhooks/70971114/ueyzeWxB_8bb1zMhL`, then the webhook ID will be `70971114`. |
+| `webhook_token` | ✔ | Secret String | Webhook token. If the webhook url is `https://discord.com/api/webhooks/70971114/ueyzeWxB_8bb1zMhL`, then the webhook token will be `ueyzeWxB_8bb1zMhL`. |
 | `message_usetexttospeech` |  | Stringified Boolean | Use text to speech for this message. Default: `false`. |
 | `message_embed_colour` | When have embed | String | Left border's colour of the embed, support `RANDOM`, `INVISIBLE` (default), `DISCORDBLURPLE`, `WHITE`, `BLACK`, `DISCORDGREYPLE`, `DISCORDDARK`, `DISCORDBLACK`, or RGB split with `,` (example: `256,128,64`). |
 | `message_embed_field_<Number>_isinline` |  | Stringified Boolean | Use inline for this embed field. Number start at `0`, maximum 25 fields. Default: `false`. |
