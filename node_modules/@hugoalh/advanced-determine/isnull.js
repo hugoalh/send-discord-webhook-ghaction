@@ -11,15 +11,15 @@ const isString = require("./isstring.js");
  * @alias isNul
  * @description Determine item is type of null or not.
  * @param {*} item Item that need to determine.
- * @param {object} [configuration] Configuration.
+ * @param {object} [option] Option.
  * @returns {boolean} Determine result.
  */
-function isNull(item, configuration) {
+function isNull(item, option) {
 	return (
 		item === null ||
 		isArray(item) == null ||
 		isJSON(item) == null ||
-		isString(item, configuration) == null
+		isString(item, option) == null
 	);
 };
 module.exports = isNull;

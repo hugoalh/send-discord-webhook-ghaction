@@ -3,62 +3,47 @@
 	Language:
 		NodeJS 14
 ==================*/
-/*::::::::
-Import Module
-::::::::*/
-const nodeJS = {
-	https: require("https")
-};
+const https = require("https");
 const githubAction = {
-	Core: require("@actions/core")
+	core: require("@actions/core")
 };
 const customNullDetermine = require("./customnulldetermine.js");
 const jsonFlatten = require("flat").flatten;
-
-/*::::::::
-Data Handle
-::::::::*/
-let inputCannotVariable = {};
-[
-	"webhook_id",
-	"webhook_token",
-	"message_usetexttospeech",
-	"message_embed_colour",
-	"variable_prefix",
-	"variable_suffix",
-	"variable_join"
-].forEach((value, index) => {
-	inputCannotVariable[value] = githubAction.Core.getInput(value);
-});
-let inputCanVariable = {};
-[
-	"webhook_name",
-	"webhook_avatarurl",
-	"message_text",
-	"message_embed_authorname",
-	"message_embed_authorurl",
-	"message_embed_authoravatarurl",
-	"message_embed_title",
-	"message_embed_titleurl",
-	"message_embed_description",
-	"message_embed_thumbnailurl",
-	"message_embed_imageurl",
-	"message_embed_videourl",
-	"message_embed_footericonurl",
-	"message_embed_footertext"
-].forEach((value, index) => {
-	inputCanVariable[value] = githubAction.Core.getInput(value);
-});
-if (customNullDetermine(inputCannotVariable["webhook_id"]) == false && customNullDetermine(inputCannotVariable["webhook_token"]) == false) {
-	inputCannotVariable["webhook_url"] = `https://discord.com/api/webhooks/${inputCannotVariable["webhook_id"]}/${inputCannotVariable["webhook_token"]}`;
+let inputCannotVariable = {
+	webhookID: githubAction.core.getInput("webhook_id"),
+	webhookToken: githubAction.core.getInput("webhook_token"),
+	messageUseTextToSpeech: githubAction.core.getInput("message_usetexttospeech"),
+	messageEmbedColour: githubAction.core.getInput("message_embed_colour"),
+	variablePrefix: githubAction.core.getInput("variable_prefix"),
+	variableSuffix: githubAction.core.getInput("variable_suffix"),
+	variableJoin: githubAction.core.getInput("variable_join")
+};
+let inputCanVariable = {
+	webhookName: githubAction.core.getInput("webhook_name"),
+	webhookAvatarUrl: githubAction.core.getInput("webhook_avatarurl"),
+	messageText: githubAction.core.getInput("message_text"),
+	messageEmbedAuthorName: githubAction.core.getInput("message_embed_authorname"),
+	messageEmbedAuthorUrl: githubAction.core.getInput("message_embed_authorurl"),
+	messageEmbedAuthorAvatarUrl: githubAction.core.getInput("message_embed_authoravatarurl"),
+	messageEmbedTitle: githubAction.core.getInput("message_embed_title"),
+	messageEmbedTitleUrl: githubAction.core.getInput("message_embed_titleurl"),
+	messageEmbedDescription: githubAction.core.getInput("message_embed_description"),
+	messageEmbedThumbnailUrl: githubAction.core.getInput("message_embed_thumbnailurl"),
+	messageEmbedImageUrl: githubAction.core.getInput("message_embed_imageurl"),
+	messageEmbedVideoUrl: githubAction.core.getInput("message_embed_videourl"),
+	messageEmbedFooterIconUrl: githubAction.core.getInput("message_embed_footericonurl"),
+	messageEmbedFooterText: githubAction.core.getInput("message_embed_footertext")
+};
+if (customNullDetermine(inputCannotVariable.webhookID) == false && customNullDetermine(inputCannotVariable.webhookToken) == false) {
+	inputCannotVariable.webhookUrl = `https://discord.com/api/webhooks/${inputCannotVariable.webhookID}/${inputCannotVariable.webhookToken}`;
 } else {
-	githubAction.Core.setFailed("Invalid webhook ID or token!");
+	githubAction.core.setFailed(`Invalid type of "webhook_id" or "webhook_token"! Require type of string.`);
 };
 let inputMessageEmbedFields = [];
 for (let index = 0; index < 25; index++) {
-	let key = githubAction.Core.getInput(`message_embed_field_${index}_key`),
-		value = githubAction.Core.getInput(`message_embed_field_${index}_value`),
-		isInline = githubAction.Core.getInput(`message_embed_field_${index}_isinline`);
+	let key = githubAction.core.getInput(`message_embed_field_${index}_key`),
+		value = githubAction.core.getInput(`message_embed_field_${index}_value`),
+		isInline = githubAction.core.getInput(`message_embed_field_${index}_isinline`);
 	if (customNullDetermine(key) == false && customNullDetermine(value) == false) {
 		if (isInline == true || isInline == "true") {
 			isInline = true;
@@ -73,21 +58,21 @@ for (let index = 0; index < 25; index++) {
 			}
 		);
 	} else {
-		githubAction.Core.info(`Message embed field #${index} is null, ignore remains.`);
+		githubAction.core.info(`Message embed field #${index} is null, ignore remains.`);
 		break;
 	};
 };
 let inputVariableLists = {};
 for (let index = 0; index < 10; index++) {
-	let name = githubAction.Core.getInput(`variable_list_${index}_name`),
-		data = githubAction.Core.getInput(`variable_list_${index}_data`);
+	let name = githubAction.core.getInput(`variable_list_${index}_name`),
+		data = githubAction.core.getInput(`variable_list_${index}_data`);
 	if (customNullDetermine(data) == false) {
 		try {
 			if (typeof data != "object") {
 				data = JSON.parse(data);
 			};
 		} catch (error) {
-			githubAction.Core.setFailed(`Fail to parse variable list #${index}: ${error}`);
+			githubAction.core.setFailed(`Fail to parse variable list #${index}: ${error}`);
 		};
 		if (customNullDetermine(name) == false) {
 			inputVariableLists[name] = data;
@@ -95,18 +80,18 @@ for (let index = 0; index < 10; index++) {
 			inputVariableLists[index] = data;
 		};
 	} else {
-		githubAction.Core.info(`Variable list #${index} is null, ignore remains.`);
+		githubAction.core.info(`Variable list #${index} is null, ignore remains.`);
 		break;
 	};
 };
-if (customNullDetermine(inputCannotVariable["variable_join"]) == true) {
-	inputCannotVariable["variable_join"] = "_";
+if (customNullDetermine(inputCannotVariable.variableJoin) == true) {
+	inputCannotVariable.variableJoin = "_";
 };
-if (customNullDetermine(inputCannotVariable["variable_prefix"]) == true) {
-	inputCannotVariable["variable_prefix"] = "%";
+if (customNullDetermine(inputCannotVariable.variablePrefix) == true) {
+	inputCannotVariable.variablePrefix = "%";
 };
-if (customNullDetermine(inputCannotVariable["variable_suffix"]) == true) {
-	inputCannotVariable["variable_suffix"] = "%";
+if (customNullDetermine(inputCannotVariable.variableSuffix) == true) {
+	inputCannotVariable.variableSuffix = "%";
 };
 if (customNullDetermine(inputVariableLists) == false) {
 	if (Object.keys(inputVariableLists).length == 1) {
@@ -116,19 +101,19 @@ if (customNullDetermine(inputVariableLists) == false) {
 		inputVariableLists = jsonFlatten(
 			inputVariableLists,
 			{
-				delimiter: inputCannotVariable["variable_join"],
+				delimiter: inputCannotVariable.variableJoin,
 				overwrite: true
 			}
 		);
 	} catch (error) {
-		githubAction.Core.setFailed(`Fail to flatten variable list: ${error}`);
+		githubAction.core.setFailed(`Fail to flatten variable list: ${error}`);
 	};
 	Promise.allSettled(
 		Object.keys(inputCanVariable).map((item, index) => {
 			new Promise((resolve, reject) => {
 				Object.keys(inputVariableLists).forEach((key, index) => {
 					inputCanVariable[item] = inputCanVariable[item].replace(
-						new RegExp(`${inputCannotVariable["variable_prefix"]}${key}${inputCannotVariable["variable_suffix"]}`, "gu"),
+						new RegExp(`${inputCannotVariable.variablePrefix}${key}${inputCannotVariable.variableSuffix}`, "gu"),
 						inputVariableLists[key]
 					);
 				});
@@ -144,7 +129,7 @@ if (customNullDetermine(inputVariableLists) == false) {
 						"value"
 					].forEach((subKey, index_2) => {
 						inputMessageEmbedFields[index_0][subKey] = inputMessageEmbedFields[index_0][subKey].replace(
-							new RegExp(`${inputCannotVariable["variable_prefix"]}${key}${inputCannotVariable["variable_suffix"]}`, "gu"),
+							new RegExp(`${inputCannotVariable.variablePrefix}${key}${inputCannotVariable.variableSuffix}`, "gu"),
 							inputVariableLists[key]
 						);
 					});
@@ -164,35 +149,35 @@ let output = {
 };
 Promise.allSettled([
 	new Promise((resolve, reject) => {
-		if (inputCannotVariable["message_usetexttospeech"] == true || inputCannotVariable["message_usetexttospeech"] == "true") {
+		if (inputCannotVariable.messageUseTextToSpeech == true || inputCannotVariable.messageUseTextToSpeech == "true") {
 			output.tts = true;
 		} else {
 			output.tts = false;
 		};
 	}).catch((error) => { }),
 	new Promise((resolve, reject) => {
-		if (customNullDetermine(inputCanVariable["webhook_name"]) == false && inputCanVariable["webhook_name"].length >= 2 && inputCanVariable["webhook_name"].length <= 32) {
-			output.username = inputCanVariable["webhook_name"];
+		if (customNullDetermine(inputCanVariable.webhookName) == false && inputCanVariable.webhookName.length >= 2 && inputCanVariable.webhookName.length <= 32) {
+			output.username = inputCanVariable.webhookName;
 		};
-		if (customNullDetermine(inputCanVariable["webhook_avatarurl"]) == false) {
-			output.avatar_url = inputCanVariable["webhook_avatarurl"];
+		if (customNullDetermine(inputCanVariable.webhookAvatarUrl) == false) {
+			output.avatar_url = inputCanVariable.webhookAvatarUrl;
 		};
-		if (customNullDetermine(inputCanVariable["message_text"]) == false) {
-			if (inputCanVariable["message_text"].length > 2000) {
-				inputCanVariable["message_text"] = `${inputCanVariable["message_text"].slice(0, 1996)}...`;
+		if (customNullDetermine(inputCanVariable.messageText) == false) {
+			if (inputCanVariable.messageText.length > 2000) {
+				inputCanVariable.messageText = `${inputCanVariable.messageText.slice(0, 1996)}...`;
 			};
-			output.content = inputCanVariable["message_text"];
+			output.content = inputCanVariable.messageText;
 		};
 	}).catch((error) => { }),
 	new Promise((resolve, reject) => {
-		if (customNullDetermine(inputCanVariable["message_embed_authorname"]) == false ||
-			customNullDetermine(inputCanVariable["message_embed_title"]) == false ||
-			customNullDetermine(inputCanVariable["message_embed_description"]) == false ||
-			customNullDetermine(inputCanVariable["message_embed_thumbnailurl"]) == false ||
-			customNullDetermine(inputCanVariable["message_embed_imageurl"]) == false ||
-			customNullDetermine(inputCanVariable["message_embed_videourl"]) == false ||
+		if (customNullDetermine(inputCanVariable.messageEmbedAuthorName) == false ||
+			customNullDetermine(inputCanVariable.messageEmbedTitle) == false ||
+			customNullDetermine(inputCanVariable.messageEmbedDescription) == false ||
+			customNullDetermine(inputCanVariable.messageEmbedThumbnailUrl) == false ||
+			customNullDetermine(inputCanVariable.messageEmbedImageUrl) == false ||
+			customNullDetermine(inputCanVariable.messageEmbedVideoUrl) == false ||
 			customNullDetermine(inputMessageEmbedFields) == false ||
-			customNullDetermine(inputCanVariable["message_embed_footertext"]) == false
+			customNullDetermine(inputCanVariable.messageEmbedFooterText) == false
 		) {
 			output.embeds = [
 				{
@@ -201,10 +186,10 @@ Promise.allSettled([
 			];
 			Promise.allSettled([
 				new Promise((resolve, reject) => {
-					if (customNullDetermine(inputCannotVariable["message_embed_colour"]) == false) {
-						inputCannotVariable["message_embed_colour"] = inputCannotVariable["message_embed_colour"].toUpperCase();
+					if (customNullDetermine(inputCannotVariable.messageEmbedColour) == false) {
+						inputCannotVariable.messageEmbedColour = inputCannotVariable.messageEmbedColour.toUpperCase();
 						let colour = {};
-						switch (inputCannotVariable["message_embed_colour"]) {
+						switch (inputCannotVariable.messageEmbedColour) {
 							case "RANDOM":
 								colour = {
 									R: Math.floor(Math.random() * 256),
@@ -255,12 +240,12 @@ Promise.allSettled([
 								};
 								break;
 							default:
-								if (inputCannotVariable["message_embed_colour"].search(/[0-9]{1,3},[0-9]{1,3},[0-9]{1,3}/u) == 0) {
-									inputCannotVariable["message_embed_colour"] = inputCannotVariable["message_embed_colour"].split(",");
+								if (inputCannotVariable.messageEmbedColour.search(/[0-9]{1,3},[0-9]{1,3},[0-9]{1,3}/u) == 0) {
+									inputCannotVariable.messageEmbedColour = inputCannotVariable.messageEmbedColour.split(",");
 									colour = {
-										R: Number(inputCannotVariable["message_embed_colour"][0]),
-										G: Number(inputCannotVariable["message_embed_colour"][1]),
-										B: Number(inputCannotVariable["message_embed_colour"][2])
+										R: Number(inputCannotVariable.messageEmbedColour[0]),
+										G: Number(inputCannotVariable.messageEmbedColour[1]),
+										B: Number(inputCannotVariable.messageEmbedColour[2])
 									};
 									Object.keys(colour).forEach((key, index) => {
 										if (colour[key] > 255) {
@@ -280,67 +265,67 @@ Promise.allSettled([
 					};
 				}).catch((error) => { }),
 				new Promise((resolve, reject) => {
-					if (customNullDetermine(inputCanVariable["message_embed_authorname"]) == false) {
-						if (inputCanVariable["message_embed_authorname"].length > 256) {
-							inputCanVariable["message_embed_authorname"] = `${inputCanVariable["message_embed_authorname"].slice(0, 252)}...`;
+					if (customNullDetermine(inputCanVariable.messageEmbedAuthorName) == false) {
+						if (inputCanVariable.messageEmbedAuthorName.length > 256) {
+							inputCanVariable.messageEmbedAuthorName = `${inputCanVariable.messageEmbedAuthorName.slice(0, 252)}...`;
 						};
 						output.embeds[0].author = {
-							name: inputCanVariable["message_embed_authorname"]
+							name: inputCanVariable.messageEmbedAuthorName
 						};
-						if (customNullDetermine(inputCanVariable["message_embed_authoravatarurl"]) == false) {
-							output.embeds[0].author.icon_url = inputCanVariable["message_embed_authoravatarurl"];
+						if (customNullDetermine(inputCanVariable.messageEmbedAuthorAvatarUrl) == false) {
+							output.embeds[0].author.icon_url = inputCanVariable.messageEmbedAuthorAvatarUrl;
 						};
-						if (customNullDetermine(inputCanVariable["message_embed_authorurl"]) == false) {
-							output.embeds[0].author.url = inputCanVariable["message_embed_authorurl"];
-						};
-					};
-				}).catch((error) => { }),
-				new Promise((resolve, reject) => {
-					if (customNullDetermine(inputCanVariable["message_embed_title"]) == false) {
-						if (inputCanVariable["message_embed_title"].length > 256) {
-							inputCanVariable["message_embed_title"] = `${inputCanVariable["message_embed_title"].slice(0, 252)}...`;
-						};
-						output.embeds[0].title = inputCanVariable["message_embed_title"];
-						if (customNullDetermine(inputCanVariable["message_embed_titleurl"]) == false) {
-							output.embeds[0].url = inputCanVariable["message_embed_titleurl"];
+						if (customNullDetermine(inputCanVariable.messageEmbedAuthorUrl) == false) {
+							output.embeds[0].author.url = inputCanVariable.messageEmbedAuthorUrl;
 						};
 					};
 				}).catch((error) => { }),
 				new Promise((resolve, reject) => {
-					if (customNullDetermine(inputCanVariable["message_embed_description"]) == false) {
-						if (inputCanVariable["message_embed_description"].length > 2048) {
-							inputCanVariable["message_embed_description"] = `${inputCanVariable["message_embed_description"].slice(0, 2044)}...`;
+					if (customNullDetermine(inputCanVariable.messageEmbedTitle) == false) {
+						if (inputCanVariable.messageEmbedTitle.length > 256) {
+							inputCanVariable.messageEmbedTitle = `${inputCanVariable.messageEmbedTitle.slice(0, 252)}...`;
 						};
-						output.embeds[0].description = inputCanVariable["message_embed_description"];
+						output.embeds[0].title = inputCanVariable.messageEmbedTitle;
+						if (customNullDetermine(inputCanVariable.messageEmbedTitleUrl) == false) {
+							output.embeds[0].url = inputCanVariable.messageEmbedTitleUrl;
+						};
 					};
 				}).catch((error) => { }),
 				new Promise((resolve, reject) => {
-					if (customNullDetermine(inputCanVariable["message_embed_footertext"]) == false) {
-						if (inputCanVariable["message_embed_footertext"].length > 2048) {
-							inputCanVariable["message_embed_footertext"] = `${inputCanVariable["message_embed_footertext"].slice(0, 2044)}...`;
+					if (customNullDetermine(inputCanVariable.messageEmbedDescription) == false) {
+						if (inputCanVariable.messageEmbedDescription.length > 2048) {
+							inputCanVariable.messageEmbedDescription = `${inputCanVariable.messageEmbedDescription.slice(0, 2044)}...`;
+						};
+						output.embeds[0].description = inputCanVariable.messageEmbedDescription;
+					};
+				}).catch((error) => { }),
+				new Promise((resolve, reject) => {
+					if (customNullDetermine(inputCanVariable.messageEmbedFooterText) == false) {
+						if (inputCanVariable.messageEmbedFooterText.length > 2048) {
+							inputCanVariable.messageEmbedFooterText = `${inputCanVariable.messageEmbedFooterText.slice(0, 2044)}...`;
 						};
 						output.embeds[0].footer = {
-							text: inputCanVariable["message_embed_footertext"]
+							text: inputCanVariable.messageEmbedFooterText
 						};
-						if (customNullDetermine(inputCanVariable["message_embed_footericonurl"]) == false) {
-							output.embeds[0].footer.icon_url = inputCanVariable["message_embed_footericonurl"];
+						if (customNullDetermine(inputCanVariable.messageEmbedFooterIconUrl) == false) {
+							output.embeds[0].footer.icon_url = inputCanVariable.messageEmbedFooterIconUrl;
 						};
 					};
 				}).catch((error) => { }),
 				new Promise((resolve, reject) => {
-					if (customNullDetermine(inputCanVariable["message_embed_imageurl"]) == false) {
+					if (customNullDetermine(inputCanVariable.messageEmbedImageUrl) == false) {
 						output.embeds[0].image = {
-							url: inputCanVariable["message_embed_imageurl"]
+							url: inputCanVariable.messageEmbedImageUrl
 						};
 					};
-					if (customNullDetermine(inputCanVariable["message_embed_thumbnailurl"]) == false) {
+					if (customNullDetermine(inputCanVariable.messageEmbedThumbnailUrl) == false) {
 						output.embeds[0].thumbnail = {
-							url: inputCanVariable["message_embed_thumbnailurl"]
+							url: inputCanVariable.messageEmbedThumbnailUrl
 						};
 					};
-					if (customNullDetermine(inputCanVariable["message_embed_videourl"]) == false) {
+					if (customNullDetermine(inputCanVariable.messageEmbedVideoUrl) == false) {
 						output.embeds[0].video = {
-							url: inputCanVariable["message_embed_videourl"]
+							url: inputCanVariable.messageEmbedVideoUrl
 						};
 					};
 				}).catch((error) => { }),
@@ -369,10 +354,6 @@ Promise.allSettled([
 		};
 	}).catch((error) => { })
 ]);
-
-/*::::::::
-Send
-::::::::*/
 const requestPayload = JSON.stringify(output);
 const requestOption = {
 	port: 443,
@@ -382,8 +363,8 @@ const requestOption = {
 		"Content-Length": requestPayload.length
 	}
 };
-const requestNode = nodeJS.https.request(
-	inputCannotVariable["webhook_url"],
+const requestNode = https.request(
+	inputCannotVariable.webhookUrl,
 	requestOption,
 	(result) => {
 		console.log(`Status Code: ${result.statusCode}`);
@@ -398,7 +379,7 @@ const requestNode = nodeJS.https.request(
 requestNode.on(
 	"error",
 	(error) => {
-		githubAction.Core.setFailed(error);
+		githubAction.core.setFailed(error);
 	}
 );
 requestNode.write(requestPayload);

@@ -23,7 +23,7 @@ let ignoreTypeErrorValue = false;
 /**
  * @function ignoreGeneralError
  * @description Globally ignore general error to prevent script stop executing.
- * @param {(boolean|undefined)} [mode] Enable or disable this feature; Query current value.
+ * @param {(boolean|undefined)} [mode] Enable/Disable this feature; Query current value.
  * @returns {(boolean|undefined)}
  */
 function ignoreGeneralError(mode) {
@@ -36,7 +36,7 @@ function ignoreGeneralError(mode) {
 /**
  * @function ignoreRangeError
  * @description Globally ignore range error to prevent script stop executing.
- * @param {(boolean|undefined)} [mode] Enable or disable this feature; Query current value.
+ * @param {(boolean|undefined)} [mode] Enable/Disable this feature; Query current value.
  * @returns {(boolean|undefined)}
  */
 function ignoreRangeError(mode) {
@@ -49,7 +49,7 @@ function ignoreRangeError(mode) {
 /**
  * @function ignoreReferenceError
  * @description Globally ignore reference error to prevent script stop executing.
- * @param {(boolean|undefined)} [mode] Enable or disable this feature; Query current value.
+ * @param {(boolean|undefined)} [mode] Enable/Disable this feature; Query current value.
  * @returns {(boolean|undefined)}
  */
 function ignoreReferenceError(mode) {
@@ -62,7 +62,7 @@ function ignoreReferenceError(mode) {
 /**
  * @function ignoreTypeError
  * @description Globally ignore type error to prevent script stop executing.
- * @param {(boolean|undefined)} [mode] Enable or disable this feature; Query current value.
+ * @param {(boolean|undefined)} [mode] Enable/Disable this feature; Query current value.
  * @returns {(boolean|undefined)}
  */
 function ignoreTypeError(mode) {
@@ -75,7 +75,7 @@ function ignoreTypeError(mode) {
 /**
  * @function ignoreAllErrors
  * @description Globally ignore all of the errors to prevent script stop executing.
- * @param {boolean} mode Enable or disable this feature.
+ * @param {boolean} mode Enable/Disable this feature.
  * @returns {undefined}
  */
 function ignoreAllErrors(mode) {
