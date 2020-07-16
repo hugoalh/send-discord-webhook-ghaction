@@ -7,7 +7,8 @@ const advancedDetermine = require("@hugoalh/advanced-determine");
 function customNullDetermine(item) {
 	if (
 		advancedDetermine.isNull(item, { fuzzyMode: true }) == true ||
-		advancedDetermine.isStringifyJSON(item) == null ||
+		item === {} ||
+		item === "{}" ||
 		advancedDetermine.isUndefined(item, { fuzzyMode: true }) == true
 	) {
 		return true;
