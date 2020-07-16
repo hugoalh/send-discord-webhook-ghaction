@@ -4,14 +4,14 @@
 
 | **Version** | **Support** |
 |:----|:----|
-| v1.1.5 | ✔ |
-| < v1.1.5 | ❌ |
+| v1.1.6 | ✔ |
+| < v1.1.6 | ❌ |
 
 ### Buggy
 
 Version(s) that listed in here were confirmed contains bug(s), and forever not supported (even if listed as a supported version).
 
-*(N/A)*
+- v1.1.5
 
 ## Report Vulnerability
 
