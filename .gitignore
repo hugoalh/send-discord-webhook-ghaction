@@ -122,6 +122,7 @@ jspm_packages/*
 lerna-debug.log*
 lib-cov
 logs
+node_modules/*
 npm-debug.log*
 Package Control.cache/*
 panic*.log.*
@@ -137,5 +138,3 @@ urgReport/*
 vsim.dbg
 yarn-debug.log*
 yarn-error.log*
-
-!node_modules/*
