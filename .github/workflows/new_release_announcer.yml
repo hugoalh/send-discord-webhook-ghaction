@@ -11,7 +11,7 @@ jobs:
       payload-data: "${{steps.fetch-payload-data-main.outputs.data}}"
     steps:
       - id: "fetch-payload-data-main"
-        uses: "hugoalh/GitHubAction.EventPayloadFetcher@v1.1.2"
+        uses: "hugoalh/GitHubAction.EventPayloadFetcher@v2.0.0"
   send-to-discord:
     name: "Send To Discord"
     runs-on: "ubuntu-latest"
