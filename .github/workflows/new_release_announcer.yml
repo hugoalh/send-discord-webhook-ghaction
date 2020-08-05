@@ -142,7 +142,7 @@ jobs:
       - "fetch-payload-data"
     steps:
       - id: "send-to-ifttt-main"
-        uses: "hugoalh/GitHubAction.SendToIFTTT@v1.1.3"
+        uses: "hugoalh/GitHubAction.SendToIFTTT@v1.1.7"
         with:
           webhook_eventname: "githubaction_twitter"
           webhook_key: "${{secrets.IFTTT_WEBHOOK_KEY}}"
