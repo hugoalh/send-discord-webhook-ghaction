@@ -22,6 +22,6 @@
 	"dependencies": {
 		"@actions/core": "^1.2.4",
 		"@hugoalh/advanced-determine": "^2.0.2",
-		"flat": "^5.0.0"
+		"flat": "^5.0.2"
 	}
 }
