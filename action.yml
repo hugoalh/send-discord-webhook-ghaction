@@ -3,381 +3,324 @@ author: "hugoalh"
 description: "Send message to Discord via webhook, support variables."
 inputs:
   webhook_id:
-    description: "[Secret String] Webhook ID."
+    description: "{string.secret} Discord webhook ID."
     required: true
   webhook_token:
-    description: "[Secret String] Webhook token."
+    description: "{string.secret} Discord webhook token."
     required: true
   webhook_name:
-    description: "[String, 2 ~ 32 characters] Webhook display name (i.e.: the sender's name)."
+    description: "{string} Webhook display name (i.e.: the sender's name)."
     required: false
   webhook_avatarurl:
-    description: "[String] Webhook avatar url (i.e.: the sender's avatar)."
+    description: "{string} Webhook avatar url (i.e.: the sender's avatar)."
     required: false
   message_usetexttospeech:
-    description: "[Stringified Boolean] Use text to speech (TTS) for this message."
+    description: "{boolean} Use text to speech (TTS) for this message."
     required: false
     default: "false"
   message_text:
-    description: "[String, <= 2000 characters] Text."
+    description: "{string} Text."
     required: false
   message_embed_colour:
-    description: "[String] Left border's colour of the embed."
+    description: "{string} Left border's colour of the embed."
     required: false
     default: "INVISIBLE"
   message_embed_authorname:
-    description: "[String, <= 256 characters] Embed author name."
+    description: "{string} Embed author name."
     required: false
   message_embed_authorurl:
-    description: "[String] Embed author url."
+    description: "{string} Embed author url."
     required: false
   message_embed_authoravatarurl:
-    description: "[String] Embed author avatar url."
+    description: "{string} Embed author avatar url."
     required: false
   message_embed_title:
-    description: "[String, <= 256 characters] Embed title."
+    description: "{string} Embed title."
     required: false
   message_embed_titleurl:
-    description: "[String] Embed title url."
+    description: "{string} Embed title url."
     required: false
   message_embed_description:
-    description: "[String, <= 2048 characters] Embed description."
+    description: "{string} Embed description."
     required: false
   message_embed_thumbnailurl:
-    description: "[String] Embed thumbnail url."
+    description: "{string} Embed thumbnail url."
     required: false
   message_embed_imageurl:
-    description: "[String] Embed image url."
+    description: "{string} Embed image url."
     required: false
   message_embed_videourl:
-    description: "[String] Embed video url."
+    description: "{string} Embed video url."
     required: false
   message_embed_field_0_key:
-    description: "[String, <= 256 characters] Key for this embed field."
+    description: "{string} Key for this embed field."
     required: false
   message_embed_field_0_value:
-    description: "[String, <= 1024 characters] Value for this embed field."
+    description: "{string} Value for this embed field."
     required: false
   message_embed_field_0_isinline:
-    description: "[Stringified Boolean] Use inline for this embed field."
+    description: "{boolean} Use inline for this embed field."
     required: false
     default: "false"
   message_embed_field_1_key:
-    description: "[String, <= 256 characters] Key for this embed field."
+    description: "{string} Key for this embed field."
     required: false
   message_embed_field_1_value:
-    description: "[String, <= 1024 characters] Value for this embed field."
+    description: "{string} Value for this embed field."
     required: false
   message_embed_field_1_isinline:
-    description: "[Stringified Boolean] Use inline for this embed field."
+    description: "{boolean} Use inline for this embed field."
     required: false
     default: "false"
   message_embed_field_2_key:
-    description: "[String, <= 256 characters] Key for this embed field."
+    description: "{string} Key for this embed field."
     required: false
   message_embed_field_2_value:
-    description: "[String, <= 1024 characters] Value for this embed field."
+    description: "{string} Value for this embed field."
     required: false
   message_embed_field_2_isinline:
-    description: "[Stringified Boolean] Use inline for this embed field."
+    description: "{boolean} Use inline for this embed field."
     required: false
     default: "false"
   message_embed_field_3_key:
-    description: "[String, <= 256 characters] Key for this embed field."
+    description: "{string} Key for this embed field."
     required: false
   message_embed_field_3_value:
-    description: "[String, <= 1024 characters] Value for this embed field."
+    description: "{string} Value for this embed field."
     required: false
   message_embed_field_3_isinline:
-    description: "[Stringified Boolean] Use inline for this embed field."
+    description: "{boolean} Use inline for this embed field."
     required: false
     default: "false"
   message_embed_field_4_key:
-    description: "[String, <= 256 characters] Key for this embed field."
+    description: "{string} Key for this embed field."
     required: false
   message_embed_field_4_value:
-    description: "[String, <= 1024 characters] Value for this embed field."
+    description: "{string} Value for this embed field."
     required: false
   message_embed_field_4_isinline:
-    description: "[Stringified Boolean] Use inline for this embed field."
+    description: "{boolean} Use inline for this embed field."
     required: false
     default: "false"
   message_embed_field_5_key:
-    description: "[String, <= 256 characters] Key for this embed field."
+    description: "{string} Key for this embed field."
     required: false
   message_embed_field_5_value:
-    description: "[String, <= 1024 characters] Value for this embed field."
+    description: "{string} Value for this embed field."
     required: false
   message_embed_field_5_isinline:
-    description: "[Stringified Boolean] Use inline for this embed field."
+    description: "{boolean} Use inline for this embed field."
     required: false
     default: "false"
   message_embed_field_6_key:
-    description: "[String, <= 256 characters] Key for this embed field."
+    description: "{string} Key for this embed field."
     required: false
   message_embed_field_6_value:
-    description: "[String, <= 1024 characters] Value for this embed field."
+    description: "{string} Value for this embed field."
     required: false
   message_embed_field_6_isinline:
-    description: "[Stringified Boolean] Use inline for this embed field."
+    description: "{boolean} Use inline for this embed field."
     required: false
     default: "false"
   message_embed_field_7_key:
-    description: "[String, <= 256 characters] Key for this embed field."
+    description: "{string} Key for this embed field."
     required: false
   message_embed_field_7_value:
-    description: "[String, <= 1024 characters] Value for this embed field."
+    description: "{string} Value for this embed field."
     required: false
   message_embed_field_7_isinline:
-    description: "[Stringified Boolean] Use inline for this embed field."
+    description: "{boolean} Use inline for this embed field."
     required: false
     default: "false"
   message_embed_field_8_key:
-    description: "[String, <= 256 characters] Key for this embed field."
+    description: "{string} Key for this embed field."
     required: false
   message_embed_field_8_value:
-    description: "[String, <= 1024 characters] Value for this embed field."
+    description: "{string} Value for this embed field."
     required: false
   message_embed_field_8_isinline:
-    description: "[Stringified Boolean] Use inline for this embed field."
+    description: "{boolean} Use inline for this embed field."
     required: false
     default: "false"
   message_embed_field_9_key:
-    description: "[String, <= 256 characters] Key for this embed field."
+    description: "{string} Key for this embed field."
     required: false
   message_embed_field_9_value:
-    description: "[String, <= 1024 characters] Value for this embed field."
+    description: "{string} Value for this embed field."
     required: false
   message_embed_field_9_isinline:
-    description: "[Stringified Boolean] Use inline for this embed field."
+    description: "{boolean} Use inline for this embed field."
     required: false
     default: "false"
   message_embed_field_10_key:
-    description: "[String, <= 256 characters] Key for this embed field."
+    description: "{string} Key for this embed field."
     required: false
   message_embed_field_10_value:
-    description: "[String, <= 1024 characters] Value for this embed field."
+    description: "{string} Value for this embed field."
     required: false
   message_embed_field_10_isinline:
-    description: "[Stringified Boolean] Use inline for this embed field."
+    description: "{boolean} Use inline for this embed field."
     required: false
     default: "false"
   message_embed_field_11_key:
-    description: "[String, <= 256 characters] Key for this embed field."
+    description: "{string} Key for this embed field."
     required: false
   message_embed_field_11_value:
-    description: "[String, <= 1024 characters] Value for this embed field."
+    description: "{string} Value for this embed field."
     required: false
   message_embed_field_11_isinline:
-    description: "[Stringified Boolean] Use inline for this embed field."
+    description: "{boolean} Use inline for this embed field."
     required: false
     default: "false"
   message_embed_field_12_key:
-    description: "[String, <= 256 characters] Key for this embed field."
+    description: "{string} Key for this embed field."
     required: false
   message_embed_field_12_value:
-    description: "[String, <= 1024 characters] Value for this embed field."
+    description: "{string} Value for this embed field."
     required: false
   message_embed_field_12_isinline:
-    description: "[Stringified Boolean] Use inline for this embed field."
+    description: "{boolean} Use inline for this embed field."
     required: false
     default: "false"
   message_embed_field_13_key:
-    description: "[String, <= 256 characters] Key for this embed field."
+    description: "{string} Key for this embed field."
     required: false
   message_embed_field_13_value:
-    description: "[String, <= 1024 characters] Value for this embed field."
+    description: "{string} Value for this embed field."
     required: false
   message_embed_field_13_isinline:
-    description: "[Stringified Boolean] Use inline for this embed field."
+    description: "{boolean} Use inline for this embed field."
     required: false
     default: "false"
   message_embed_field_14_key:
-    description: "[String, <= 256 characters] Key for this embed field."
+    description: "{string} Key for this embed field."
     required: false
   message_embed_field_14_value:
-    description: "[String, <= 1024 characters] Value for this embed field."
+    description: "{string} Value for this embed field."
     required: false
   message_embed_field_14_isinline:
-    description: "[Stringified Boolean] Use inline for this embed field."
+    description: "{boolean} Use inline for this embed field."
     required: false
     default: "false"
   message_embed_field_15_key:
-    description: "[String, <= 256 characters] Key for this embed field."
+    description: "{string} Key for this embed field."
     required: false
   message_embed_field_15_value:
-    description: "[String, <= 1024 characters] Value for this embed field."
+    description: "{string} Value for this embed field."
     required: false
   message_embed_field_15_isinline:
-    description: "[Stringified Boolean] Use inline for this embed field."
+    description: "{boolean} Use inline for this embed field."
     required: false
     default: "false"
   message_embed_field_16_key:
-    description: "[String, <= 256 characters] Key for this embed field."
+    description: "{string} Key for this embed field."
     required: false
   message_embed_field_16_value:
-    description: "[String, <= 1024 characters] Value for this embed field."
+    description: "{string} Value for this embed field."
     required: false
   message_embed_field_16_isinline:
-    description: "[Stringified Boolean] Use inline for this embed field."
+    description: "{boolean} Use inline for this embed field."
     required: false
     default: "false"
   message_embed_field_17_key:
-    description: "[String, <= 256 characters] Key for this embed field."
+    description: "{string} Key for this embed field."
     required: false
   message_embed_field_17_value:
-    description: "[String, <= 1024 characters] Value for this embed field."
+    description: "{string} Value for this embed field."
     required: false
   message_embed_field_17_isinline:
-    description: "[Stringified Boolean] Use inline for this embed field."
+    description: "{boolean} Use inline for this embed field."
     required: false
     default: "false"
   message_embed_field_18_key:
-    description: "[String, <= 256 characters] Key for this embed field."
+    description: "{string} Key for this embed field."
     required: false
   message_embed_field_18_value:
-    description: "[String, <= 1024 characters] Value for this embed field."
+    description: "{string} Value for this embed field."
     required: false
   message_embed_field_18_isinline:
-    description: "[Stringified Boolean] Use inline for this embed field."
+    description: "{boolean} Use inline for this embed field."
     required: false
     default: "false"
   message_embed_field_19_key:
-    description: "[String, <= 256 characters] Key for this embed field."
+    description: "{string} Key for this embed field."
     required: false
   message_embed_field_19_value:
-    description: "[String, <= 1024 characters] Value for this embed field."
+    description: "{string} Value for this embed field."
     required: false
   message_embed_field_19_isinline:
-    description: "[Stringified Boolean] Use inline for this embed field."
+    description: "{boolean} Use inline for this embed field."
     required: false
     default: "false"
   message_embed_field_20_key:
-    description: "[String, <= 256 characters] Key for this embed field."
+    description: "{string} Key for this embed field."
     required: false
   message_embed_field_20_value:
-    description: "[String, <= 1024 characters] Value for this embed field."
+    description: "{string} Value for this embed field."
     required: false
   message_embed_field_20_isinline:
-    description: "[Stringified Boolean] Use inline for this embed field."
+    description: "{boolean} Use inline for this embed field."
     required: false
     default: "false"
   message_embed_field_21_key:
-    description: "[String, <= 256 characters] Key for this embed field."
+    description: "{string} Key for this embed field."
     required: false
   message_embed_field_21_value:
-    description: "[String, <= 1024 characters] Value for this embed field."
+    description: "{string} Value for this embed field."
     required: false
   message_embed_field_21_isinline:
-    description: "[Stringified Boolean] Use inline for this embed field."
+    description: "{boolean} Use inline for this embed field."
     required: false
     default: "false"
   message_embed_field_22_key:
-    description: "[String, <= 256 characters] Key for this embed field."
+    description: "{string} Key for this embed field."
     required: false
   message_embed_field_22_value:
-    description: "[String, <= 1024 characters] Value for this embed field."
+    description: "{string} Value for this embed field."
     required: false
   message_embed_field_22_isinline:
-    description: "[Stringified Boolean] Use inline for this embed field."
+    description: "{boolean} Use inline for this embed field."
     required: false
     default: "false"
   message_embed_field_23_key:
-    description: "[String, <= 256 characters] Key for this embed field."
+    description: "{string} Key for this embed field."
     required: false
   message_embed_field_23_value:
-    description: "[String, <= 1024 characters] Value for this embed field."
+    description: "{string} Value for this embed field."
     required: false
   message_embed_field_23_isinline:
-    description: "[Stringified Boolean] Use inline for this embed field."
+    description: "{boolean} Use inline for this embed field."
     required: false
     default: "false"
   message_embed_field_24_key:
-    description: "[String, <= 256 characters] Key for this embed field."
+    description: "{string} Key for this embed field."
     required: false
   message_embed_field_24_value:
-    description: "[String, <= 1024 characters] Value for this embed field."
+    description: "{string} Value for this embed field."
     required: false
   message_embed_field_24_isinline:
-    description: "[Stringified Boolean] Use inline for this embed field."
+    description: "{boolean} Use inline for this embed field."
     required: false
     default: "false"
   message_embed_footericonurl:
-    description: "[String] Embed footer icon url."
+    description: "{string} Embed footer icon url."
     required: false
   message_embed_footertext:
-    description: "[String, <= 2048 characters] Embed footer text."
+    description: "{string} Embed footer text."
     required: false
-  variable_list_0_name:
-    description: "[String] Namespace for this variable list."
-    required: false
-  variable_list_0_data:
-    description: "[Stringified JSON] Variable list that will use in the message."
-    required: false
-  variable_list_1_name:
-    description: "[String] Namespace for this variable list."
-    required: false
-  variable_list_1_data:
-    description: "[Stringified JSON] Variable list that will use in the message."
-    required: false
-  variable_list_2_name:
-    description: "[String] Namespace for this variable list."
-    required: false
-  variable_list_2_data:
-    description: "[Stringified JSON] Variable list that will use in the message."
-    required: false
-  variable_list_3_name:
-    description: "[String] Namespace for this variable list."
-    required: false
-  variable_list_3_data:
-    description: "[Stringified JSON] Variable list that will use in the message."
-    required: false
-  variable_list_4_name:
-    description: "[String] Namespace for this variable list."
-    required: false
-  variable_list_4_data:
-    description: "[Stringified JSON] Variable list that will use in the message."
-    required: false
-  variable_list_5_name:
-    description: "[String] Namespace for this variable list."
-    required: false
-  variable_list_5_data:
-    description: "[Stringified JSON] Variable list that will use in the message."
-    required: false
-  variable_list_6_name:
-    description: "[String] Namespace for this variable list."
-    required: false
-  variable_list_6_data:
-    description: "[Stringified JSON] Variable list that will use in the message."
-    required: false
-  variable_list_7_name:
-    description: "[String] Namespace for this variable list."
-    required: false
-  variable_list_7_data:
-    description: "[Stringified JSON] Variable list that will use in the message."
-    required: false
-  variable_list_8_name:
-    description: "[String] Namespace for this variable list."
-    required: false
-  variable_list_8_data:
-    description: "[Stringified JSON] Variable list that will use in the message."
-    required: false
-  variable_list_9_name:
-    description: "[String] Namespace for this variable list."
-    required: false
-  variable_list_9_data:
-    description: "[Stringified JSON] Variable list that will use in the message."
+  variable_list_external:
+    description: "{object.json} External variable list that will use in the data."
     required: false
   variable_prefix:
-    description: "[String] Variable prefix."
+    description: "{string} Variable prefix."
     required: false
     default: "%"
   variable_suffix:
-    description: "[String] Variable suffix."
+    description: "{string} Variable suffix."
     required: false
     default: "%"
   variable_join:
-    description: "[String] Variable join if having multiple variable lists, and/or variable list has depth."
+    description: "{string} Variable join if the variable list has depth."
     required: false
     default: "_"
 runs:

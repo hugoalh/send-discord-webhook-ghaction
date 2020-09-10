@@ -3,37 +3,26 @@
 #   Language:
 #     YAML
 #   Last Update:
-#     2020-07-15
+#     2020-08-04
 #   Schema:
-#     https://lgtm.com/help/lgtm/configuring-lgtm-analysis-project
+#     https://lgtm.com/help/lgtm/lgtm.yml-configuration-file
 # ==================
 path_classifiers:
-  docs:
-    - ".github/*"
-    - "document/*"
-    - "LICENSE*"
-  test:
-    - "**/*debug*.*"
-    - "**/*test*.*"
-    - "**/debug/*"
-    - "**/test/*"
   generated:
     - "compiled/*"
+  documentation: []
   library:
-    - "node_modules/*"
-  reference:
+    - "**/node_modules/*"
+    - "**/thirdparty/lib/*"
+  template:
     - "reference/*"
-  configuration:
-    - ".gitattributes"
-    - ".gitignore"
-    - ".gitmodules"
-    - ".lgtm.yml"
-    - "package-lock.json"
-    - "package.json"
-    - "webpack.config.js"
-  deprecated:
-    - "**/deprecated/*"
+  test:
+    - "**/*debug*.*"
     - "**/*deprecated*.*"
+    - "**/*test*.*"
+    - "**/debug/*"
+    - "**/deprecated/*"
+    - "**/test/*"
 queries:
   - include: "cpp/alloca-in-loop"
   - include: "cpp/allocation-too-small"
@@ -882,14 +871,11 @@ queries:
 extraction:
   javascript:
     index:
-      exclude:
-        - "**/node_modules/*"
-        - "**/thirdparty/lib/*"
       filetypes:
         ".mjs": "js"
         ".tmpl": "html"
+        ".yml": "yaml"
       filters:
-        - exclude: "**/node_modules/*"
         - include: "**/*.ts"
       typescript: "full"
       xml_mode: "all"

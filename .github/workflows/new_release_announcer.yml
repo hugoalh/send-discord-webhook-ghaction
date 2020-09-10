@@ -4,22 +4,12 @@ on:
     types:
       - "published"
 jobs:
-  fetch-payload-data:
-    name: "Fetch Payload Data"
-    runs-on: "ubuntu-latest"
-    outputs:
-      payload-data: "${{steps.fetch-payload-data-main.outputs.data}}"
-    steps:
-      - id: "fetch-payload-data-main"
-        uses: "hugoalh/GitHubAction.EventPayloadFetcher@v1.1.2"
   send-to-discord:
     name: "Send To Discord"
     runs-on: "ubuntu-latest"
-    needs:
-      - "fetch-payload-data"
     steps:
       - id: "send-to-discord-main"
-        uses: "hugoalh/GitHubAction.SendToDiscord@v1.1.6"
+        uses: "hugoalh/GitHubAction.SendToDiscord@v1.9999.0"
         with:
           webhook_id: "${{secrets.DISCORD_WEBHOOK_ID}}"
           webhook_token: "${{secrets.DISCORD_WEBHOOK_TOKEN}}"
@@ -31,7 +21,7 @@ jobs:
           # message_embed_authoravatarurl:
           message_embed_title: "[GitHub Action] Send To Discord"
           message_embed_titleurl: "https://github.com/hugoalh/GitHubAction.SendToDiscord"
-          message_embed_description: "Version %release.name% is released and available on GitHub!\n%release.html_url%"
+          message_embed_description: "Version %payload.release.name% is released and available on GitHub!\n%payload.release.html_url%"
           # message_embed_thumbnailurl:
           # message_embed_imageurl:
           # message_embed_videourl:
@@ -112,63 +102,23 @@ jobs:
           # message_embed_field_24_isinline:
           # message_embed_footericonurl:
           # message_embed_footertext:
-          # variable_list_0_name:
-          variable_list_0_data: "${{needs.fetch-payload-data.outputs.payload-data}}"
-          # variable_list_1_name:
-          # variable_list_1_data:
-          # variable_list_2_name:
-          # variable_list_2_data:
-          # variable_list_3_name:
-          # variable_list_3_data:
-          # variable_list_4_name:
-          # variable_list_4_data:
-          # variable_list_5_name:
-          # variable_list_5_data:
-          # variable_list_6_name:
-          # variable_list_6_data:
-          # variable_list_7_name:
-          # variable_list_7_data:
-          # variable_list_8_name:
-          # variable_list_8_data:
-          # variable_list_9_name:
-          # variable_list_9_data:
+          # variable_list_external:
           variable_prefix: "%"
           variable_suffix: "%"
           variable_join: "."
   send-to-ifttt:
     name: "Send To IFTTT"
     runs-on: "ubuntu-latest"
-    needs:
-      - "fetch-payload-data"
     steps:
       - id: "send-to-ifttt-main"
-        uses: "hugoalh/GitHubAction.SendToIFTTT@v1.1.3"
+        uses: "hugoalh/GitHubAction.SendToIFTTT@v2.0.0"
         with:
           webhook_eventname: "githubaction_twitter"
           webhook_key: "${{secrets.IFTTT_WEBHOOK_KEY}}"
-          value1: "[GitHub Action] Send To Discord version %release.name% is released and available on GitHub!\n%release.html_url%"
+          value1: "[GitHub Action] Send To Discord version %payload.release.name% is released and available on GitHub!\n%payload.release.html_url%"
           # value2:
           # value3:
-          # variable_list_0_name:
-          variable_list_0_data: "${{needs.fetch-payload-data.outputs.payload-data}}"
-          # variable_list_1_name:
-          # variable_list_1_data:
-          # variable_list_2_name:
-          # variable_list_2_data:
-          # variable_list_3_name:
-          # variable_list_3_data:
-          # variable_list_4_name:
-          # variable_list_4_data:
-          # variable_list_5_name:
-          # variable_list_5_data:
-          # variable_list_6_name:
-          # variable_list_6_data:
-          # variable_list_7_name:
-          # variable_list_7_data:
-          # variable_list_8_name:
-          # variable_list_8_data:
-          # variable_list_9_name:
-          # variable_list_9_data:
+          # variable_list_external:
           variable_prefix: "%"
           variable_suffix: "%"
           variable_join: "."

@@ -1,5 +1,5 @@
 # ==================
-# hugoalh's Repository Resource - Git Ignore
+# hugoalh's Repository Resource - NPM Ignore
 #   Language:
 #     Git-Configuration
 #   Last Update:
@@ -138,3 +138,11 @@ urgReport/*
 vsim.dbg
 yarn-debug.log*
 yarn-error.log*
+
+.eslintrc.json
+.gitattributes
+.github/*
+.gitignore
+.lgtm.yml
+.npmignore
+.npmrc

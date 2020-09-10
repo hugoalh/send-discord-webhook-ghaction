@@ -3,7 +3,7 @@
 #   Language:
 #     YAML
 #   Last Update:
-#     2020-07-15
+#     2020-08-18
 #   Schema:
 #     https://docs.github.com/en/github/administering-a-repository/configuration-options-for-dependency-updates
 # ==================
@@ -17,7 +17,8 @@ updates:
     assignees:
       - "hugoalh"
     labels:
-      - "dependency"
+      - "dependency📦"
+      - "unconfirm📋"
     open-pull-requests-limit: 128
     pull-request-branch-name:
       separator: "/"
@@ -30,7 +31,8 @@ updates:
     assignees:
       - "hugoalh"
     labels:
-      - "dependency"
+      - "dependency📦"
+      - "unconfirm📋"
     open-pull-requests-limit: 128
     pull-request-branch-name:
       separator: "/"

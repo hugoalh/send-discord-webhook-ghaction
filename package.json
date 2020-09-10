@@ -20,9 +20,10 @@
 		"url": "git+https://github.com/hugoalh/GitHubAction.SendToDiscord.git"
 	},
 	"dependencies": {
-		"@actions/core": "^1.2.4",
-		"@hugoalh/advanced-determine": "^3.0.0",
-		"flat": "^5.0.0"
+		"@actions/core": "^1.2.5",
+		"@actions/github": "^4.0.0",
+		"@hugoalh/advanced-determine": "^3.2.1",
+		"flat": "^5.0.2"
 	},
 	"engines": {
 		"node": ">= 10.0.0",
