@@ -9,7 +9,7 @@ jobs:
     runs-on: "ubuntu-latest"
     steps:
       - id: "send-to-discord-main"
-        uses: "hugoalh/GitHubAction.SendToDiscord@v1.9999.1"
+        uses: "hugoalh/GitHubAction.SendToDiscord@v1.9999.2"
         with:
           webhook_id: "${{secrets.DISCORD_WEBHOOK_ID}}"
           webhook_token: "${{secrets.DISCORD_WEBHOOK_TOKEN}}"
@@ -106,19 +106,19 @@ jobs:
           variable_prefix: "%"
           variable_suffix: "%"
           variable_join: "."
-  send-to-ifttt:
-    name: "Send To IFTTT"
-    runs-on: "ubuntu-latest"
-    steps:
-      - id: "send-to-ifttt-main"
-        uses: "hugoalh/GitHubAction.SendToIFTTT@v2.0.0"
-        with:
-          webhook_eventname: "githubaction_twitter"
-          webhook_key: "${{secrets.IFTTT_WEBHOOK_KEY}}"
-          value1: "[GitHub Action] Send To Discord version %payload.release.name% is released and available on GitHub!\n%payload.release.html_url%"
-          # value2:
-          # value3:
-          # variable_list_external:
-          variable_prefix: "%"
-          variable_suffix: "%"
-          variable_join: "."
+  # send-to-ifttt:
+  #   name: "Send To IFTTT"
+  #   runs-on: "ubuntu-latest"
+  #   steps:
+  #     - id: "send-to-ifttt-main"
+  #       uses: "hugoalh/GitHubAction.SendToIFTTT@v2.0.0"
+  #       with:
+  #         webhook_eventname: "githubaction_twitter"
+  #         webhook_key: "${{secrets.IFTTT_WEBHOOK_KEY}}"
+  #         value1: "[GitHub Action] Send To Discord version %payload.release.name% is released and available on GitHub!\n%payload.release.html_url%"
+  #         # value2:
+  #         # value3:
+  #         # variable_list_external:
+  #         variable_prefix: "%"
+  #         variable_suffix: "%"
+  #         variable_join: "."

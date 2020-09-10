@@ -213,7 +213,7 @@ if (advancedDetermine.isString(inputCanVariable.messageEmbedAuthorName) == true 
 			colourRGB = [35, 39, 42];
 			break;
 		default:
-			if (inputCannotVariable.messageEmbedColour.search(/^[0-9]{1,3},[0-9]{1,3},[0-9]{1,3}$/u) != -1) {
+			if (inputCannotVariable.messageEmbedColour.search(/^[0-9]{1,3},[0-9]{1,3},[0-9]{1,3}$/u) != 0) {
 				internalService.prefabReferenceError(`message_embed_colour`, "Unexpected colour scheme.");
 			};
 			inputCannotVariable.messageEmbedColour = inputCannotVariable.messageEmbedColour.split(",");
