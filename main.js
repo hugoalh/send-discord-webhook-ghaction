@@ -184,7 +184,7 @@ if (advancedDetermine.isString(inputCanVariable.messageEmbedAuthorName) == true 
 	advancedDetermine.isString(inputMessageEmbedFields) == true ||
 	advancedDetermine.isString(inputCanVariable.messageEmbedFooterText) == true
 ) {
-	output.embeds = [];
+	output.embeds = [{}];
 	if (advancedDetermine.isString(inputCannotVariable.messageEmbedColour) != true) {
 		internalService.prefabTypeError("message_embed_colour", "string");
 	};
