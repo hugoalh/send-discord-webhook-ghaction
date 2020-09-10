@@ -48,7 +48,7 @@ if (advancedDetermine.isString(inputCannotVariable.variableSuffix) != true) {
 if (advancedDetermine.isString(inputCannotVariable.webhookID) != true) {
 	internalService.prefabTypeError("webhook_id", "string");
 };
-if (advancedDetermine.isString(inputCanVariable.webhookToken) != true) {
+if (advancedDetermine.isString(inputCannotVariable.webhookToken) != true) {
 	internalService.prefabTypeError("webhook_token", "string");
 };
 let inputMessageEmbedFields = [];
