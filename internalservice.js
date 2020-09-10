@@ -1,5 +1,5 @@
 /*==================
-[GitHub Action] Send To IFTTT - Internal Service
+[GitHub Action] Send To Discord - Internal Service
 	Language:
 		NodeJS 14
 ==================*/
@@ -11,7 +11,7 @@
  */
 const preset = {
 	header: {
-		userAgent: `NodeJS/${process.version.replace(/v/giu, "")} GitHubAction.SendToIFTTT/2.0.0`
+		userAgent: `NodeJS/${process.version.replace(/v/giu, "")} GitHubAction.SendToDiscord/2.0.0`
 	}
 };
 /**
