@@ -2,7 +2,7 @@
 name: "文檔問題"
 about: "報告一個文檔問題。"
 title: ""
-labels: ""
+labels: "documentation📚,unconfirm📋"
 assignees: ""
 ---
 ## 頁面
@@ -19,6 +19,6 @@ assignees: ""
 
 ## 預期內容
 
-*\[選擇性\] 應該要有甚麼內容？*
+*［選擇性］應該要有甚麼內容？*
 
 

@@ -2,7 +2,7 @@
 name: "Documentation Issue"
 about: "Report a documentation issue."
 title: ""
-labels: ""
+labels: "documentation📚,unconfirm📋"
 assignees: ""
 ---
 ## Page

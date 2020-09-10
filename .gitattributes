@@ -3,7 +3,7 @@
 #   Language:
 #     Git-Configuration
 #   Last Update:
-#     2020-06-28
+#     2020-07-25
 # ==================
 * text=auto
 
@@ -22,6 +22,8 @@
 .jscsrc text
 .jshintignore text
 .jshintrc text
+.npmignore text
+.npmrc text
 .recommenders binary
 .slugignore text
 .stylelintrc text
@@ -360,7 +362,6 @@
 *.mxf binary
 *.njk text
 *.nmf binary
-*.npmignore text
 *.nrrd binary
 *.nsf binary
 *.nsv binary
