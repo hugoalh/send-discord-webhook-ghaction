@@ -21,7 +21,7 @@
 
 ## 📜 Description
 
-Send message to Discord via webhook, support variables.
+An action to send message to Discord via webhook, support variables.
 
 ## 🛠 Configuration
 
