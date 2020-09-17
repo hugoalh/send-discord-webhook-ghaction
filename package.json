@@ -22,7 +22,7 @@
 	"dependencies": {
 		"@actions/core": "^1.2.5",
 		"@actions/github": "^4.0.0",
-		"@hugoalh/advanced-determine": "^3.2.1",
+		"@hugoalh/advanced-determine": "^3.2.2",
 		"flat": "^5.0.2"
 	},
 	"engines": {
