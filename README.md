@@ -43,7 +43,7 @@ A GitHub action to send message to Discord via webhook, support variables.
   <tr>
     <td><b>Code Quality</b></td>
     <td>
-      <a href="https://www.codefactor.io/repository/github/hugoalh/githubaction.SendToDiscord"><img align="center" alt="CodeFactor Grade" src="https://img.shields.io/codefactor/grade/github/hugoalh/GitHubAction.SendToDiscord?logo=codefactor&logoColor=ffffff&style=flat-square" /></a>
+      <a href="https://www.codefactor.io/repository/github/hugoalh/githubaction.sendtodiscord"><img align="center" alt="CodeFactor Grade" src="https://img.shields.io/codefactor/grade/github/hugoalh/GitHubAction.SendToDiscord?logo=codefactor&logoColor=ffffff&style=flat-square" /></a>
       <a href="https://lgtm.com/projects/g/hugoalh/GitHubAction.SendToDiscord/alerts"><img align="center" alt="LGTM Alert" src="https://img.shields.io/lgtm/alerts/g/hugoalh/GitHubAction.SendToDiscord?label=%20&logo=lgtm&logoColor=ffffff&style=flat-square" /></a>
       <a href="https://lgtm.com/projects/g/hugoalh/GitHubAction.SendToDiscord/context:javascript"><img align="center" alt="LGTM Grade" src="https://img.shields.io/lgtm/grade/javascript/g/hugoalh/GitHubAction.SendToDiscord?logo=lgtm&logoColor=ffffff&style=flat-square" /></a>
     </td>
