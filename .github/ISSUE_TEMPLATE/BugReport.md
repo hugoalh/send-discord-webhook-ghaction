@@ -13,7 +13,7 @@ assignees: ""
 
 ## Version
 
-*Must be a supported version(s) listed in the [security policy](https://github.com/hugoalh/GitHubAction.SendToDiscord/security/policy). (Leaving this slot blank will default to the latest version.)*
+*Must be a supported version(s) listed in the "[Security Policy](https://github.com/hugoalh/GitHubAction.SendToDiscord/security/policy)".*
 
 
 

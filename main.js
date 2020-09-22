@@ -9,8 +9,8 @@ const githubAction = {
 	github: require("@actions/github")
 };
 const https = require("https");
-const internalService = require("./internalservice.js");
 const jsonFlatten = require("flat").flatten;
+let headerUserAgent = `NodeJS/${process.version.replace(/^v/giu, "")} GitHubAction.SendToDiscord(@hugoalh)/2.0.1`;
 let inputCannotVariable = {
 	messageEmbedColour: githubAction.core.getInput("message_embed_colour"),
 	messageUseTextToSpeech: githubAction.core.getInput("message_usetexttospeech"),
@@ -36,32 +36,32 @@ let inputCanVariable = {
 	webhookAvatarUrl: githubAction.core.getInput("webhook_avatarurl"),
 	webhookName: githubAction.core.getInput("webhook_name")
 };
-if (advancedDetermine.isString(inputCannotVariable.variableJoin) != true) {
-	internalService.prefabTypeError("variable_join", "string");
+if (advancedDetermine.isString(inputCannotVariable.variableJoin) !== true) {
+	throw new TypeError(`Argument "variable_join" must be type of string (non-nullable)! ([GitHub Action] Send To Discord)`);
 };
-if (advancedDetermine.isString(inputCannotVariable.variablePrefix) != true) {
-	internalService.prefabTypeError("variable_prefix", "string");
+if (advancedDetermine.isString(inputCannotVariable.variablePrefix) !== true) {
+	throw new TypeError(`Argument "variable_prefix" must be type of string (non-nullable)! ([GitHub Action] Send To Discord)`);
 };
-if (advancedDetermine.isString(inputCannotVariable.variableSuffix) != true) {
-	internalService.prefabTypeError("variable_suffix", "string");
+if (advancedDetermine.isString(inputCannotVariable.variableSuffix) !== true) {
+	throw new TypeError(`Argument "variable_suffix" must be type of string (non-nullable)! ([GitHub Action] Send To Discord)`);
 };
-if (advancedDetermine.isString(inputCannotVariable.webhookID) != true) {
-	internalService.prefabTypeError("webhook_id", "string");
+if (advancedDetermine.isString(inputCannotVariable.webhookID) !== true) {
+	throw new TypeError(`Argument "webhook_id" must be type of string (non-nullable)! ([GitHub Action] Send To Discord)`);
 };
-if (advancedDetermine.isString(inputCannotVariable.webhookToken) != true) {
-	internalService.prefabTypeError("webhook_token", "string");
+if (advancedDetermine.isString(inputCannotVariable.webhookToken) !== true) {
+	throw new TypeError(`Argument "webhook_token" must be type of string (non-nullable)! ([GitHub Action] Send To Discord)`);
 };
 let inputMessageEmbedFields = [];
 for (let index = 0; index < 25; index++) {
 	let key = githubAction.core.getInput(`message_embed_field_${index}_key`),
 		value = githubAction.core.getInput(`message_embed_field_${index}_value`),
 		isInline = githubAction.core.getInput(`message_embed_field_${index}_isinline`);
-	if (advancedDetermine.isString(key) != true && advancedDetermine.isString(value) != true) {
+	if (advancedDetermine.isString(key) !== true && advancedDetermine.isString(value) !== true) {
 		githubAction.core.info(`Message embed field #${index} is null, ignore remains.`);
 		break;
 	};
-	if (advancedDetermine.isBoolean(isInline, { allowStringify: true }) != true) {
-		internalService.prefabTypeError(`message_embed_field_${index}_isinline`, "boolean");
+	if (advancedDetermine.isBoolean(isInline, { allowStringify: true }) !== true) {
+		throw new TypeError(`Argument "message_embed_field_${index}_isinline" must be type of boolean! ([GitHub Action] Send To Discord)`);
 	};
 	isInline = (isInline === "true");
 	inputMessageEmbedFields.push(
@@ -76,44 +76,33 @@ let inputVariableListPayload = githubAction.github.context.payload;
 let inputVariableListExternal = githubAction.core.getInput(`variable_list_external`);
 switch (advancedDetermine.isString(inputVariableListExternal)) {
 	case false:
-		internalService.prefabTypeError("variable_list_external", "object.json");
+		throw new TypeError(`Argument "variable_list_external" must be type of object JSON! ([GitHub Action] Send To Discord)`);
 		break;
 	case null:
-		githubAction.core.info(`External variable list is null.`);
+		githubAction.core.info(`External variable list is null. ([GitHub Action] Send To Discord)`);
 		inputVariableListExternal = {};
 		break;
 	case true:
-		if (advancedDetermine.isStringifyJSON(inputVariableListExternal) == false) {
-			internalService.prefabTypeError("variable_list_external", "object.json");
+		if (advancedDetermine.isStringifyJSON(inputVariableListExternal) === false) {
+			throw new TypeError(`Argument "variable_list_external" must be type of object JSON! ([GitHub Action] Send To Discord)`);
 		};
-		try {
-			inputVariableListExternal = JSON.parse(inputVariableListExternal);
-		} catch (error) {
-			throw new Error(error);
-		};
+
+		inputVariableListExternal = JSON.parse(inputVariableListExternal);
 		break;
 	// No default case!
 };
-try {
-	inputVariableListPayload = jsonFlatten(
-		inputVariableListPayload,
-		{
-			delimiter: inputCannotVariable.variableJoin
-		}
-	);
-} catch (error) {
-	throw new Error(error);
-};
-try {
-	inputVariableListExternal = jsonFlatten(
-		inputVariableListExternal,
-		{
-			delimiter: inputCannotVariable.variableJoin
-		}
-	);
-} catch (error) {
-	throw new Error(error);
-};
+inputVariableListPayload = jsonFlatten(
+	inputVariableListPayload,
+	{
+		delimiter: inputCannotVariable.variableJoin
+	}
+);
+inputVariableListExternal = jsonFlatten(
+	inputVariableListExternal,
+	{
+		delimiter: inputCannotVariable.variableJoin
+	}
+);
 Object.keys(inputVariableListPayload).forEach((key) => {
 	Object.keys(inputCanVariable).forEach((element) => {
 		inputCanVariable[element] = inputCanVariable[element].replace(
@@ -159,34 +148,34 @@ let output = {
 		]
 	}
 };
-if (advancedDetermine.isBoolean(inputCannotVariable.messageUseTextToSpeech, { allowStringify: true }) != true) {
-	internalService.prefabTypeError(`message_usetexttospeech`, "boolean");
+if (advancedDetermine.isBoolean(inputCannotVariable.messageUseTextToSpeech, { allowStringify: true }) !== true) {
+	throw new TypeError(`Argument "message_usetexttospeech" must be type of boolean! ([GitHub Action] Send To Discord)`);
 };
 output.tts = (inputCannotVariable.messageUseTextToSpeech === "true");
-if (advancedDetermine.isString(inputCanVariable.webhookName) == true && inputCanVariable.webhookName.length >= 2 && inputCanVariable.webhookName.length <= 32) {
+if (advancedDetermine.isString(inputCanVariable.webhookName) === true && inputCanVariable.webhookName.length >= 2 && inputCanVariable.webhookName.length <= 32) {
 	output.username = inputCanVariable.webhookName;
 };
-if (advancedDetermine.isString(inputCanVariable.webhookAvatarUrl) == true) {
+if (advancedDetermine.isString(inputCanVariable.webhookAvatarUrl) === true) {
 	output.avatar_url = inputCanVariable.webhookAvatarUrl;
 };
-if (advancedDetermine.isString(inputCanVariable.messageText) == true) {
+if (advancedDetermine.isString(inputCanVariable.messageText) === true) {
 	if (inputCanVariable.messageText.length > 2000) {
 		inputCanVariable.messageText = `${inputCanVariable.messageText.slice(0, 1996)}...`;
 	};
 	output.content = inputCanVariable.messageText;
 };
-if (advancedDetermine.isString(inputCanVariable.messageEmbedAuthorName) == true ||
-	advancedDetermine.isString(inputCanVariable.messageEmbedTitle) == true ||
-	advancedDetermine.isString(inputCanVariable.messageEmbedDescription) == true ||
-	advancedDetermine.isString(inputCanVariable.messageEmbedThumbnailUrl) == true ||
-	advancedDetermine.isString(inputCanVariable.messageEmbedImageUrl) == true ||
-	advancedDetermine.isString(inputCanVariable.messageEmbedVideoUrl) == true ||
-	advancedDetermine.isString(inputMessageEmbedFields) == true ||
-	advancedDetermine.isString(inputCanVariable.messageEmbedFooterText) == true
+if (advancedDetermine.isString(inputCanVariable.messageEmbedAuthorName) === true ||
+	advancedDetermine.isString(inputCanVariable.messageEmbedTitle) === true ||
+	advancedDetermine.isString(inputCanVariable.messageEmbedDescription) === true ||
+	advancedDetermine.isString(inputCanVariable.messageEmbedThumbnailUrl) === true ||
+	advancedDetermine.isString(inputCanVariable.messageEmbedImageUrl) === true ||
+	advancedDetermine.isString(inputCanVariable.messageEmbedVideoUrl) === true ||
+	advancedDetermine.isString(inputMessageEmbedFields) === true ||
+	advancedDetermine.isString(inputCanVariable.messageEmbedFooterText) === true
 ) {
 	output.embeds = [{}];
-	if (advancedDetermine.isString(inputCannotVariable.messageEmbedColour) != true) {
-		internalService.prefabTypeError("message_embed_colour", "string");
+	if (advancedDetermine.isString(inputCannotVariable.messageEmbedColour) !== true) {
+		throw new TypeError(`Argument "message_embed_colour" must be type of string (non-nullable)! ([GitHub Action] Send To Discord)`);
 	};
 	inputCannotVariable.messageEmbedColour = inputCannotVariable.messageEmbedColour.toUpperCase();
 	let colourRGB = [];
@@ -213,8 +202,8 @@ if (advancedDetermine.isString(inputCanVariable.messageEmbedAuthorName) == true 
 			colourRGB = [35, 39, 42];
 			break;
 		default:
-			if (inputCannotVariable.messageEmbedColour.search(/^[0-9]{1,3},[0-9]{1,3},[0-9]{1,3}$/u) != 0) {
-				internalService.prefabReferenceError(`message_embed_colour`, "Unexpected colour scheme.");
+			if (inputCannotVariable.messageEmbedColour.search(/^[0-9]{1,3},[0-9]{1,3},[0-9]{1,3}$/u) !== 0) {
+				throw new SyntaxError(`Argument "message_embed_colour"'s value is not an expected colour scheme! Read the documentation for more information. ([GitHub Action] Send To Discord)`);
 			};
 			inputCannotVariable.messageEmbedColour = inputCannotVariable.messageEmbedColour.split(",");
 			colourRGB = [
@@ -224,79 +213,79 @@ if (advancedDetermine.isString(inputCanVariable.messageEmbedAuthorName) == true 
 			];
 			colourRGB.forEach((element) => {
 				if (
-					advancedDetermine.isNumberPositiveInteger(element) != true ||
+					advancedDetermine.isNumberPositiveInteger(element) !== true ||
 					element > 255
 				) {
-					internalService.prefabReferenceError(`message_embed_colour`, "R/G/B value must between 0 and 255.");
+					throw new RangeError(`Argument "message_embed_colour"'s value is not a RGB standard! Read the documentation for more information. ([GitHub Action] Send To Discord)`);
 				};
 			});
 			break;
 	};
 	output.embeds[0].color = colourRGB[0] * 65536 + colourRGB[1] * 256 + colourRGB[2];
-	if (advancedDetermine.isString(inputCanVariable.messageEmbedAuthorName) == true) {
+	if (advancedDetermine.isString(inputCanVariable.messageEmbedAuthorName) === true) {
 		if (inputCanVariable.messageEmbedAuthorName.length > 256) {
 			inputCanVariable.messageEmbedAuthorName = `${inputCanVariable.messageEmbedAuthorName.slice(0, 252)}...`;
 		};
 		output.embeds[0].author = {
 			name: inputCanVariable.messageEmbedAuthorName
 		};
-		if (advancedDetermine.isString(inputCanVariable.messageEmbedAuthorAvatarUrl) == true) {
+		if (advancedDetermine.isString(inputCanVariable.messageEmbedAuthorAvatarUrl) === true) {
 			output.embeds[0].author.icon_url = inputCanVariable.messageEmbedAuthorAvatarUrl;
 		};
-		if (advancedDetermine.isString(inputCanVariable.messageEmbedAuthorUrl) == true) {
+		if (advancedDetermine.isString(inputCanVariable.messageEmbedAuthorUrl) === true) {
 			output.embeds[0].author.url = inputCanVariable.messageEmbedAuthorUrl;
 		};
 	};
-	if (advancedDetermine.isString(inputCanVariable.messageEmbedTitle) == true) {
+	if (advancedDetermine.isString(inputCanVariable.messageEmbedTitle) === true) {
 		if (inputCanVariable.messageEmbedTitle.length > 256) {
 			inputCanVariable.messageEmbedTitle = `${inputCanVariable.messageEmbedTitle.slice(0, 252)}...`;
 		};
 		output.embeds[0].title = inputCanVariable.messageEmbedTitle;
-		if (advancedDetermine.isString(inputCanVariable.messageEmbedTitleUrl) == true) {
+		if (advancedDetermine.isString(inputCanVariable.messageEmbedTitleUrl) === true) {
 			output.embeds[0].url = inputCanVariable.messageEmbedTitleUrl;
 		};
 	};
-	if (advancedDetermine.isString(inputCanVariable.messageEmbedDescription) == true) {
+	if (advancedDetermine.isString(inputCanVariable.messageEmbedDescription) === true) {
 		if (inputCanVariable.messageEmbedDescription.length > 2048) {
 			inputCanVariable.messageEmbedDescription = `${inputCanVariable.messageEmbedDescription.slice(0, 2044)}...`;
 		};
 		output.embeds[0].description = inputCanVariable.messageEmbedDescription;
 	};
-	if (advancedDetermine.isString(inputCanVariable.messageEmbedFooterText) == true) {
+	if (advancedDetermine.isString(inputCanVariable.messageEmbedFooterText) === true) {
 		if (inputCanVariable.messageEmbedFooterText.length > 2048) {
 			inputCanVariable.messageEmbedFooterText = `${inputCanVariable.messageEmbedFooterText.slice(0, 2044)}...`;
 		};
 		output.embeds[0].footer = {
 			text: inputCanVariable.messageEmbedFooterText
 		};
-		if (advancedDetermine.isString(inputCanVariable.messageEmbedFooterIconUrl) == true) {
+		if (advancedDetermine.isString(inputCanVariable.messageEmbedFooterIconUrl) === true) {
 			output.embeds[0].footer.icon_url = inputCanVariable.messageEmbedFooterIconUrl;
 		};
 	};
-	if (advancedDetermine.isString(inputCanVariable.messageEmbedImageUrl) == true) {
+	if (advancedDetermine.isString(inputCanVariable.messageEmbedImageUrl) === true) {
 		output.embeds[0].image = {
 			url: inputCanVariable.messageEmbedImageUrl
 		};
 	};
-	if (advancedDetermine.isString(inputCanVariable.messageEmbedThumbnailUrl) == true) {
+	if (advancedDetermine.isString(inputCanVariable.messageEmbedThumbnailUrl) === true) {
 		output.embeds[0].thumbnail = {
 			url: inputCanVariable.messageEmbedThumbnailUrl
 		};
 	};
-	if (advancedDetermine.isString(inputCanVariable.messageEmbedVideoUrl) == true) {
+	if (advancedDetermine.isString(inputCanVariable.messageEmbedVideoUrl) === true) {
 		output.embeds[0].video = {
 			url: inputCanVariable.messageEmbedVideoUrl
 		};
 	};
 	inputMessageEmbedFields.forEach((field, index) => {
-		if (advancedDetermine.isString(field.name) == true) {
+		if (advancedDetermine.isString(field.name) === true) {
 			if (field.name.length > 256) {
 				inputMessageEmbedFields[index].name = `${field.name.slice(0, 252)}...`;
 			};
 		} else {
 			inputMessageEmbedFields[index].name = "-";
 		};
-		if (advancedDetermine.isString(field.value) == true) {
+		if (advancedDetermine.isString(field.value) === true) {
 			if (field.value.length > 1024) {
 				inputMessageEmbedFields[index].value = `${field.value.slice(0, 1020)}...`;
 			};
@@ -315,7 +304,7 @@ const requestNode = https.request(
 		headers: {
 			"Content-Type": "application/json",
 			"Content-Length": requestPayload.length,
-			"User-Agent": internalService.preset.header.userAgent
+			"User-Agent": headerUserAgent
 		}
 	},
 	(result) => {

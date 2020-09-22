@@ -13,7 +13,7 @@ assignees: ""
 
 ## 版本
 
-*必須是[安全政策](https://github.com/hugoalh/GitHubAction.SendToDiscord/security/policy)中列出的受支持版本。（將此欄保留為空白將會默認為最新版本。）*
+*必須是「[安全政策（英文）](https://github.com/hugoalh/GitHubAction.SendToDiscord/security/policy)」中列出的受支持版本。*
 
 
 

@@ -3,12 +3,12 @@
 		"amd": false,
 		"applescript": false,
 		"atomtest": false,
-		"browser": false,
-		"commonjs": false,
+		"browser": true,
+		"commonjs": true,
 		"embertest": false,
 		"es6": true,
-		"es2017": false,
-		"es2020": false,
+		"es2017": true,
+		"es2020": true,
 		"greasemonkey": false,
 		"jasmine": false,
 		"jest": false,
@@ -33,7 +33,7 @@
 			"impliedStrict": true,
 			"jsx": false
 		},
-		"ecmaVersion": 6,
+		"ecmaVersion": 2020,
 		"sourceType": "module"
 	},
 	"rules": {
@@ -84,7 +84,7 @@
 		"eol-last": "warn",
 		"eqeqeq": [
 			"warn",
-			"smart"
+			"always"
 		],
 		"for-direction": "warn",
 		"func-call-spacing": "warn",
