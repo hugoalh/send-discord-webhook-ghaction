@@ -12,11 +12,21 @@ The software is provided "as is", without warranty of any kind, express or impli
 
 *This is a short and simple table that mostly concluded this license about the permission(s), condition(s), and limitation(s); The license content section shall prevail.*
 
-|  |  |
-|:----|:----|
-| ✔ | Commercial, Distribution, Modification, Private Use |
-| ❌ | Liability, Warranty |
-
----
-
-[Open Source Initiative](https://opensource.org/licenses/MIT), v1.0.0
+<table>
+  <tr>
+    <td align="center">✔</td>
+    <td><ul>
+      <li>Commercial</li>
+      <li>Distribution</li>
+      <li>Modification</li>
+      <li>Private Use</li>
+    </ul></td>
+  </tr>
+  <tr>
+    <td align="center">❌</td>
+    <td><ul>
+      <li>Liability</li>
+      <li>Warranty</li>
+    </ul></td>
+  </tr>
+</table>

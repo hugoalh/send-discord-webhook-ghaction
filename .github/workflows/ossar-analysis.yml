@@ -1,0 +1,32 @@
+name: "OSSAR (Open Source Static Analysis Runner) Analysis"
+on:
+  push:
+    branches:
+      - "**"
+  pull_request:
+    branches:
+      - "**"
+jobs:
+  analysis:
+    name: "Analysis"
+    runs-on: "windows-latest"
+    steps:
+      - name: "Checkout Repository"
+        uses: "actions/checkout@v2"
+        with:
+          fetch-depth: 2
+      - name: "Checkout Pull Request"
+        if: "${{github.event_name == 'pull_request'}}"
+        run: "git checkout HEAD^2"
+      # Ensure a compatible version of dotnet is installed. The [Microsoft Security Code Analysis CLI](https://aka.ms/mscadocs) is built with dotnet v3.1.201. A version greater than or equal to v3.1.201 of dotnet must be installed on the agent in order to run this action. Remote agents already have a compatible version of dotnet installed and this step may be skipped. For local agents, ensure dotnet version 3.1.201 or later is installed by including this action:
+      # - name: "Install .NET"
+      #   uses: "actions/setup-dotnet@v1"
+      #   with:
+      #     dotnet-version: "3.1.x"
+      - name: "Analyze"
+        id: "ossar"
+        uses: "github/ossar-action@v1"
+      - name: "Upload Result"
+        uses: "github/codeql-action/upload-sarif@v1"
+        with:
+          sarif_file: "${{steps.ossar.outputs.sarifFile}}"

@@ -1,7 +1,7 @@
 /*==================
 [GitHub Action] Send To Discord
 	Language:
-		NodeJS 14
+		NodeJS/12.0.0
 ==================*/
 const advancedDetermine = require("@hugoalh/advanced-determine");
 const githubAction = {
@@ -10,7 +10,7 @@ const githubAction = {
 };
 const https = require("https");
 const jsonFlatten = require("flat").flatten;
-let headerUserAgent = `NodeJS/${process.version.replace(/^v/giu, "")} GitHubAction.SendToDiscord(@hugoalh)/2.0.1`;
+let headerUserAgent = `NodeJS/${process.version.replace(/^v/giu, "")} GitHubAction.SendToDiscord(@hugoalh)/2.0.2`;
 let inputCannotVariable = {
 	messageEmbedColour: githubAction.core.getInput("message_embed_colour"),
 	messageUseTextToSpeech: githubAction.core.getInput("message_usetexttospeech"),
@@ -57,7 +57,7 @@ for (let index = 0; index < 25; index++) {
 		value = githubAction.core.getInput(`message_embed_field_${index}_value`),
 		isInline = githubAction.core.getInput(`message_embed_field_${index}_isinline`);
 	if (advancedDetermine.isString(key) !== true && advancedDetermine.isString(value) !== true) {
-		githubAction.core.info(`Message embed field #${index} is null, ignore remains.`);
+		githubAction.core.info(`Message embed field #${index} is null, ignore remains. ([GitHub Action] Send To Discord)`);
 		break;
 	};
 	if (advancedDetermine.isBoolean(isInline, { allowStringify: true }) !== true) {
