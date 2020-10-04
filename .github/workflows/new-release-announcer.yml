@@ -9,7 +9,7 @@ jobs:
     runs-on: "ubuntu-latest"
     steps:
       - id: "send-to-discord-main"
-        uses: "hugoalh/GitHubAction.SendToDiscord@v2.0.1"
+        uses: "hugoalh/GitHubAction.SendToDiscord@v2.0.2"
         with:
           webhook_id: "${{secrets.DISCORD_WEBHOOK_ID}}"
           webhook_token: "${{secrets.DISCORD_WEBHOOK_TOKEN}}"
