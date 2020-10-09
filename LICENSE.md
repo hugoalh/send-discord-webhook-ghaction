@@ -16,7 +16,7 @@ The software is provided "as is", without warranty of any kind, express or impli
   <tr>
     <td align="center">✔</td>
     <td><ul>
-      <li>Commercial</li>
+      <li>Commercial Use</li>
       <li>Distribution</li>
       <li>Modification</li>
       <li>Private Use</li>
