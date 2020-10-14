@@ -3,39 +3,39 @@
 	Language:
 		NodeJS/12.0.0
 ==================*/
-const advancedDetermine = require("@hugoalh/advanced-determine");
-const githubAction = {
-	core: require("@actions/core"),
-	github: require("@actions/github")
-};
-const https = require("https");
-const jsonFlatten = require("flat").flatten;
-let headerUserAgent = `NodeJS/${process.version.replace(/^v/giu, "")} GitHubAction.SendToDiscord(@hugoalh)/2.0.2`;
-let inputCannotVariable = {
-	messageEmbedColour: githubAction.core.getInput("message_embed_colour"),
-	messageUseTextToSpeech: githubAction.core.getInput("message_usetexttospeech"),
-	variableJoin: githubAction.core.getInput("variable_join"),
-	variablePrefix: githubAction.core.getInput("variable_prefix"),
-	variableSuffix: githubAction.core.getInput("variable_suffix"),
-	webhookID: githubAction.core.getInput("webhook_id"),
-	webhookToken: githubAction.core.getInput("webhook_token")
-};
-let inputCanVariable = {
-	messageEmbedAuthorAvatarUrl: githubAction.core.getInput("message_embed_authoravatarurl"),
-	messageEmbedAuthorName: githubAction.core.getInput("message_embed_authorname"),
-	messageEmbedAuthorUrl: githubAction.core.getInput("message_embed_authorurl"),
-	messageEmbedDescription: githubAction.core.getInput("message_embed_description"),
-	messageEmbedFooterIconUrl: githubAction.core.getInput("message_embed_footericonurl"),
-	messageEmbedFooterText: githubAction.core.getInput("message_embed_footertext"),
-	messageEmbedImageUrl: githubAction.core.getInput("message_embed_imageurl"),
-	messageEmbedThumbnailUrl: githubAction.core.getInput("message_embed_thumbnailurl"),
-	messageEmbedTitle: githubAction.core.getInput("message_embed_title"),
-	messageEmbedTitleUrl: githubAction.core.getInput("message_embed_titleurl"),
-	messageEmbedVideoUrl: githubAction.core.getInput("message_embed_videourl"),
-	messageText: githubAction.core.getInput("message_text"),
-	webhookAvatarUrl: githubAction.core.getInput("webhook_avatarurl"),
-	webhookName: githubAction.core.getInput("webhook_name")
-};
+const advancedDetermine = require("@hugoalh/advanced-determine"),
+	githubAction = {
+		core: require("@actions/core"),
+		github: require("@actions/github")
+	},
+	https = require("https"),
+	jsonFlatten = require("flat").flatten;
+let headerUserAgent = `NodeJS/${process.version.replace(/^v/giu, "")} GitHubAction.SendToDiscord(@hugoalh)/2.0.3`,
+	inputCannotVariable = {
+		messageEmbedColour: githubAction.core.getInput("message_embed_colour"),
+		messageUseTextToSpeech: githubAction.core.getInput("message_usetexttospeech"),
+		variableJoin: githubAction.core.getInput("variable_join"),
+		variablePrefix: githubAction.core.getInput("variable_prefix"),
+		variableSuffix: githubAction.core.getInput("variable_suffix"),
+		webhookID: githubAction.core.getInput("webhook_id"),
+		webhookToken: githubAction.core.getInput("webhook_token")
+	},
+	inputCanVariable = {
+		messageEmbedAuthorAvatarUrl: githubAction.core.getInput("message_embed_authoravatarurl"),
+		messageEmbedAuthorName: githubAction.core.getInput("message_embed_authorname"),
+		messageEmbedAuthorUrl: githubAction.core.getInput("message_embed_authorurl"),
+		messageEmbedDescription: githubAction.core.getInput("message_embed_description"),
+		messageEmbedFooterIconUrl: githubAction.core.getInput("message_embed_footericonurl"),
+		messageEmbedFooterText: githubAction.core.getInput("message_embed_footertext"),
+		messageEmbedImageUrl: githubAction.core.getInput("message_embed_imageurl"),
+		messageEmbedThumbnailUrl: githubAction.core.getInput("message_embed_thumbnailurl"),
+		messageEmbedTitle: githubAction.core.getInput("message_embed_title"),
+		messageEmbedTitleUrl: githubAction.core.getInput("message_embed_titleurl"),
+		messageEmbedVideoUrl: githubAction.core.getInput("message_embed_videourl"),
+		messageText: githubAction.core.getInput("message_text"),
+		webhookAvatarUrl: githubAction.core.getInput("webhook_avatarurl"),
+		webhookName: githubAction.core.getInput("webhook_name")
+	};
 if (advancedDetermine.isString(inputCannotVariable.variableJoin) !== true) {
 	throw new TypeError(`Argument "variable_join" must be type of string (non-nullable)! ([GitHub Action] Send To Discord)`);
 };
@@ -72,8 +72,8 @@ for (let index = 0; index < 25; index++) {
 		}
 	);
 };
-let inputVariableListPayload = githubAction.github.context.payload;
-let inputVariableListExternal = githubAction.core.getInput(`variable_list_external`);
+let inputVariableListPayload = githubAction.github.context.payload,
+	inputVariableListExternal = githubAction.core.getInput(`variable_list_external`);
 switch (advancedDetermine.isString(inputVariableListExternal)) {
 	case false:
 		throw new TypeError(`Argument "variable_list_external" must be type of object JSON! ([GitHub Action] Send To Discord)`);
