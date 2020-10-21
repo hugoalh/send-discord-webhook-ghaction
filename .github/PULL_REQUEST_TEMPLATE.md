@@ -1,17 +1,6 @@
-## Changelog
-
-*(If the commit list is easily understandable, leaving this slot blank will default to the commit list.)*
-
-
-
-## Related Issue
-
-*\[Optional\] List of the related issue(s) if not suitable to list in the changelog.*
-
-
-
-## Remark
-
-*\[Optional\] Additional note(s).*
-
-
+> ### Suggested Content List
+>
+> - **Changelog:** What has changed?
+> - **Related Issue:** If the change(s) is related to the issue(s), list it's identification number.
+>
+> Please remove this list before submit!

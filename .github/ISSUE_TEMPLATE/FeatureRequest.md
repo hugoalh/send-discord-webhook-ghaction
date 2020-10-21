@@ -5,14 +5,9 @@ title: ""
 labels: "enhancement➕,unconfirm📋"
 assignees: ""
 ---
-## Describe
-
-*What you want?*
-
-
-
-## Expected Behavior
-
-*\[Optional\] What thing(s) should expected to happen?*
-
-
+> ### Suggested Content List
+>
+> - **Describe:** What feature do you want?
+> - **Expected Behavior:** What thing(s) should expected to happen?
+>
+> Please remove this list before submit!

@@ -3,7 +3,7 @@
 #   Language:
 #     YAML
 #   Last Update:
-#     2020-08-18
+#     2020-10-19
 #   Schema:
 #     https://docs.github.com/en/github/administering-a-repository/configuration-options-for-dependency-updates
 # ==================
@@ -14,12 +14,11 @@ updates:
     schedule:
       interval: "daily"
       time: "00:00"
-    assignees:
-      - "hugoalh"
+      timezone: "Etc/UTC"
     labels:
       - "dependency📦"
       - "unconfirm📋"
-    open-pull-requests-limit: 128
+    open-pull-requests-limit: 100
     pull-request-branch-name:
       separator: "/"
     rebase-strategy: "disabled"
@@ -28,12 +27,12 @@ updates:
     schedule:
       interval: "daily"
       time: "00:00"
-    assignees:
-      - "hugoalh"
+      timezone: "Etc/UTC"
     labels:
       - "dependency📦"
       - "unconfirm📋"
-    open-pull-requests-limit: 128
+    open-pull-requests-limit: 100
     pull-request-branch-name:
       separator: "/"
     rebase-strategy: "disabled"
+    versioning-strategy: "auto"

@@ -10,14 +10,12 @@
 > | ❌ | **No:** This is not supported due to this version(s) is too old. |
 > | ⚠ | **Issue:** This is not supported due to this version(s) is confirmed contains bug(s) and/or issue(s). |
 
-| **Version** | **Support** |
-|:---:|:---:|
-| v2.0.3 | L |
-| v2.0.2 | ✔ |
-| v2.0.1 | 👎 |
-| v2.0.0 | 👎 |
-| < v2 | ❌ |
-| v1.1.5 | ❌⚠ |
+| **Version** | **Targeted NodeJS Version** | **Support** |
+|:---:|:---:|:---:|
+| v3 | v12.0.0 |  |
+| v2.0 | v12.0.0 | L |
+| < v2 | v12.0.0 | ❌ |
+| v1.1.5 | v12.0.0 | ❌⚠ |
 
 ## Report Vulnerability
 
@@ -27,19 +25,12 @@ Send an email to anyone who listed in here (click the link to obtain the email a
 
 - [hugoalh](https://github.com/hugoalh)
 
-### Content
+### Suggested Content List
 
-Please include these content(s) in the email!
-
-#### Title
-
-- Project index (mostly start with `hugoalh/`)
-
-#### Body
-
-- Your GitHub account username (e.g.: `@xxxx`)
+- Your GitHub account username (e.g.: `@octocat`)
+- Project index (mostly start with `hugoalh-studio/`)
 - Affected version(s) (must be a supported version(s))
 - Affected file(s)
 - Issue(s) to cause this security issue
-- *\[Optional\]* Common Vulnerabilities and Exposures (CVE) Identifier (ID)
-- *\[Optional\]* Reference of this security issue
+- Common Vulnerabilities and Exposures (CVE) identification number(s)
+- Reference of this security issue

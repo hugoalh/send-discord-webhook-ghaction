@@ -5,20 +5,10 @@ title: ""
 labels: "documentation📚,unconfirm📋"
 assignees: ""
 ---
-## Page
-
-*List of the related page(s).*
-
-
-
-## Describe
-
-*What the issue is?*
-
-
-
-## Expected Content
-
-*\[Optional\] What content(s) should expected?*
-
-
+> ### Suggested Content List
+>
+> - **Describe:** What the issue is?
+> - **Page:** List of the related page(s).
+> - **Expected Content:** What content(s) should expected?
+>
+> Please remove this list before submit!
