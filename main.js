@@ -1,17 +1,17 @@
 /*==================
 [GitHub Action] Send To Discord
 	Language:
-		NodeJS/12.0.0
+		NodeJS/12.13.0
 ==================*/
 const advancedDetermine = require("@hugoalh/advanced-determine"),
 	githubAction = {
 		core: require("@actions/core"),
 		github: require("@actions/github")
 	},
-	https = require("https"),
-	jsonFlatten = require("flat").flatten;
-let headerUserAgent = `NodeJS/${process.version.replace(/^v/giu, "")} GitHubAction.SendToDiscord(@hugoalh)/2.0.3`,
-	inputCannotVariable = {
+	jsonFlatten = require("flat").flatten,
+	nodeFetch = require("node-fetch");
+githubAction.core.debug(`Import workflow arguments. ([GitHub Action] Send To Discord)`);
+let inputCannotVariable = {
 		messageEmbedColour: githubAction.core.getInput("message_embed_colour"),
 		messageUseTextToSpeech: githubAction.core.getInput("message_usetexttospeech"),
 		variableJoin: githubAction.core.getInput("variable_join"),
@@ -36,6 +36,7 @@ let headerUserAgent = `NodeJS/${process.version.replace(/^v/giu, "")} GitHubActi
 		webhookAvatarUrl: githubAction.core.getInput("webhook_avatarurl"),
 		webhookName: githubAction.core.getInput("webhook_name")
 	};
+githubAction.core.debug(`Analysis workflow arguments. ([GitHub Action] Send To Discord)`);
 if (advancedDetermine.isString(inputCannotVariable.variableJoin) !== true) {
 	throw new TypeError(`Argument "variable_join" must be type of string (non-nullable)! ([GitHub Action] Send To Discord)`);
 };
@@ -72,12 +73,12 @@ for (let index = 0; index < 25; index++) {
 		}
 	);
 };
+githubAction.core.debug(`Import, optimize, and tokenize variable list. ([GitHub Action] Send To Discord)`);
 let inputVariableListPayload = githubAction.github.context.payload,
 	inputVariableListExternal = githubAction.core.getInput(`variable_list_external`);
 switch (advancedDetermine.isString(inputVariableListExternal)) {
 	case false:
 		throw new TypeError(`Argument "variable_list_external" must be type of object JSON! ([GitHub Action] Send To Discord)`);
-		break;
 	case null:
 		githubAction.core.info(`External variable list is null. ([GitHub Action] Send To Discord)`);
 		inputVariableListExternal = {};
@@ -86,10 +87,10 @@ switch (advancedDetermine.isString(inputVariableListExternal)) {
 		if (advancedDetermine.isStringifyJSON(inputVariableListExternal) === false) {
 			throw new TypeError(`Argument "variable_list_external" must be type of object JSON! ([GitHub Action] Send To Discord)`);
 		};
-
 		inputVariableListExternal = JSON.parse(inputVariableListExternal);
 		break;
-	// No default case!
+	default:
+		break;
 };
 inputVariableListPayload = jsonFlatten(
 	inputVariableListPayload,
@@ -103,6 +104,7 @@ inputVariableListExternal = jsonFlatten(
 		delimiter: inputCannotVariable.variableJoin
 	}
 );
+githubAction.core.debug(`Apply variable into data. ([GitHub Action] Send To Discord)`);
 Object.keys(inputVariableListPayload).forEach((key) => {
 	Object.keys(inputCanVariable).forEach((element) => {
 		inputCanVariable[element] = inputCanVariable[element].replace(
@@ -139,6 +141,7 @@ Object.keys(inputVariableListExternal).forEach((key) => {
 		);
 	});
 });
+githubAction.core.debug(`Construct payload content. ([GitHub Action] Send To Discord)`);
 let output = {
 	allowed_mentions: {
 		parse: [
@@ -295,33 +298,27 @@ if (advancedDetermine.isString(inputCanVariable.messageEmbedAuthorName) === true
 	});
 	output.embeds[0].fields = inputMessageEmbedFields;
 };
-const requestPayload = JSON.stringify(output);
-const requestNode = https.request(
+githubAction.core.debug(`Finalize payload content. ([GitHub Action] Send To Discord)`);
+let requestPayload = JSON.stringify(output);
+githubAction.core.debug(`Send network request to Discord. ([GitHub Action] Send To Discord)`);
+nodeFetch(
 	`https://discord.com/api/webhooks/${inputCannotVariable.webhookID}/${inputCannotVariable.webhookToken}`,
 	{
-		port: 443,
-		method: "POST",
+		body: requestPayload,
+		follow: 5,
 		headers: {
 			"Content-Type": "application/json",
 			"Content-Length": requestPayload.length,
-			"User-Agent": headerUserAgent
-		}
-	},
-	(result) => {
-		console.log(`Status Code: ${result.statusCode}`);
-		result.on(
-			"data",
-			(delta) => {
-				process.stdout.write(delta);
-			}
-		);
+			"User-Agent": `NodeJS/${process.version.replace(/^v/giu, "")} node-fetch/2.6.1 GitHubAction.SendToDiscord(@hugoalh)/2.1.0`
+		},
+		method: "POST",
+		redirect: "follow"
 	}
-);
-requestNode.write(requestPayload);
-requestNode.on(
-	"error",
-	(error) => {
-		throw new Error(error);
-	}
-);
-requestNode.end();
+).catch((error) => {
+	throw error;
+}).then((result) => {
+	if (Math.floor(Number(result.status) / 100) !== 2) {
+		throw new Error(`Status Code: ${result.status} ([GitHub Action] Send To Discord)`);
+	};
+	githubAction.core.debug(`Status Code: ${result.status} ([GitHub Action] Send To Discord)`);
+});
