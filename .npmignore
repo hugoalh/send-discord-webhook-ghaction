@@ -139,10 +139,10 @@ vsim.dbg
 yarn-debug.log*
 yarn-error.log*
 
-.eslintrc.json
+.eslintrc.*
 .gitattributes
 .github/*
 .gitignore
-.lgtm.yml
+.lgtm.*
 .npmignore
 .npmrc

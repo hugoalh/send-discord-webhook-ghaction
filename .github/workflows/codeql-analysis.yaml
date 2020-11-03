@@ -1,0 +1,53 @@
+name: "CodeQL Analysis"
+on:
+  push:
+    branches:
+      - "**"
+  pull_request:
+    types:
+      - "opened"
+      - "edited"
+      - "reopened"
+      - "synchronize"
+jobs:
+  get-language-list:
+    name: "Get Language List"
+    runs-on: "ubuntu-latest"
+    outputs:
+      matrix: "${{steps.get-language-list-main.outputs.language}}"
+    steps:
+      - id: "get-language-list-main"
+        uses: "hugoalh/GitHubAction.LanguageList@v1.0.6"
+        with:
+          filter: "codeql"
+          lettercase: "lower"
+          format: "json"
+  analysis:
+    name: "Analysis"
+    needs:
+      - "get-language-list"
+    runs-on: "ubuntu-latest"
+    strategy:
+      fail-fast: false
+      matrix: "${{fromJSON(needs.get-language-list.outputs.matrix)}}"
+    steps:
+      - name: "Checkout Repository"
+        uses: "actions/checkout@v2.3.3"
+        with:
+          fetch-depth: 2
+      - name: "Checkout Pull Request"
+        if: "${{github.event_name == 'pull_request'}}"
+        run: "git checkout HEAD^2"
+      - name: "Initialize"
+        uses: "github/codeql-action/init@v1"
+        with:
+          languages: "${{matrix.language}}"
+          queries: "+security-and-quality"
+      # - name: "Auto-Build"
+      #   uses: "github/codeql-action/autobuild@v1"
+      # - name: "Build"
+      #   run: |
+      #     make bootstrap
+      #     make release
+      - name: "Analyze"
+        uses: "github/codeql-action/analyze@v1"
