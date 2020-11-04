@@ -2,12 +2,38 @@ name: "Send To Discord"
 author: "hugoalh"
 description: "Send message to Discord via webhook."
 inputs:
+  configuration:
+    description: "{(string||object.json)} Select to use workflow argument or configuration argument."
+    required: false
+    default: "false"
+  github_token:
+    description: "{string.secret} GitHub personal access token."
+    required: false
+    default: "${{github.token}}"
   webhook_id:
     description: "{string.secret} Discord webhook ID."
     required: true
   webhook_token:
     description: "{string.secret} Discord webhook token."
     required: true
+  variable_join:
+    description: "{string} Variable join if the variable list has depth."
+    required: false
+    default: "_"
+  variable_list_external:
+    description: "{object.json} External variable list that will use in the data."
+    required: false
+  variable_prefix:
+    description: "{string} Variable prefix."
+    required: false
+    default: "%"
+  variable_suffix:
+    description: "{string} Variable suffix."
+    required: false
+    default: "%"
+  message_text:
+    description: "{string} Text."
+    required: false
   webhook_name:
     description: "{string} Webhook display name (i.e.: the sender's name)."
     required: false
@@ -18,13 +44,34 @@ inputs:
     description: "{boolean} Use text to speech (TTS) for this message."
     required: false
     default: "false"
-  message_text:
-    description: "{string} Text."
+  message_embed_title:
+    description: "{string} Embed title."
+    required: false
+  message_embed_description:
+    description: "{string} Embed description."
+    required: false
+  message_embed_titleurl:
+    description: "{string} Embed title url."
     required: false
   message_embed_colour:
     description: "{string} Left border's colour of the embed."
     required: false
     default: "INVISIBLE"
+  message_embed_footertext:
+    description: "{string} Embed footer text."
+    required: false
+  message_embed_footericonurl:
+    description: "{string} Embed footer icon url."
+    required: false
+  message_embed_imageurl:
+    description: "{string} Embed image url."
+    required: false
+  message_embed_thumbnailurl:
+    description: "{string} Embed thumbnail url."
+    required: false
+  message_embed_videourl:
+    description: "{string} Embed video url."
+    required: false
   message_embed_authorname:
     description: "{string} Embed author name."
     required: false
@@ -33,24 +80,6 @@ inputs:
     required: false
   message_embed_authoravatarurl:
     description: "{string} Embed author avatar url."
-    required: false
-  message_embed_title:
-    description: "{string} Embed title."
-    required: false
-  message_embed_titleurl:
-    description: "{string} Embed title url."
-    required: false
-  message_embed_description:
-    description: "{string} Embed description."
-    required: false
-  message_embed_thumbnailurl:
-    description: "{string} Embed thumbnail url."
-    required: false
-  message_embed_imageurl:
-    description: "{string} Embed image url."
-    required: false
-  message_embed_videourl:
-    description: "{string} Embed video url."
     required: false
   message_embed_field_0_key:
     description: "{string} Key for this embed field."
@@ -302,27 +331,6 @@ inputs:
     description: "{boolean} Use inline for this embed field."
     required: false
     default: "false"
-  message_embed_footericonurl:
-    description: "{string} Embed footer icon url."
-    required: false
-  message_embed_footertext:
-    description: "{string} Embed footer text."
-    required: false
-  variable_list_external:
-    description: "{object.json} External variable list that will use in the data."
-    required: false
-  variable_prefix:
-    description: "{string} Variable prefix."
-    required: false
-    default: "%"
-  variable_suffix:
-    description: "{string} Variable suffix."
-    required: false
-    default: "%"
-  variable_join:
-    description: "{string} Variable join if the variable list has depth."
-    required: false
-    default: "_"
 runs:
   using: "node12"
   pre: "setup.js"

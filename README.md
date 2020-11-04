@@ -468,7 +468,7 @@ jobs:
       - id: "send-to-discord-main"
         uses: "hugoalh/GitHubAction.SendToDiscord@v3.0.0"
         with:
-          configuration: ".github/workflows/send-to-discord-configuration.json"
+          configuration: ".github/workflows_configuration/send-to-discord.json"
           webhook_id: "${{secrets.DISCORD_WEBHOOK_ID}}"
           webhook_token: "${{secrets.DISCORD_WEBHOOK_TOKEN}}"
           variable_join: "."
@@ -478,7 +478,7 @@ jobs:
 ```
 
 ```jsonc
-// Configutation file (.github/workflows/send-to-discord-configuration.json)
+// Configutation file (.github/workflows_configuration/send-to-discord.json)
 {
   "content": "Hello, world!",
   "username": "A Webhook Guy",
@@ -570,3 +570,4 @@ jobs:
 - [Discord Webhook: API](https://discord.com/developers/docs/resources/webhook#execute-webhook)
 - [GitHub: Webhook event payloads](https://docs.github.com/en/developers/webhooks-and-events/webhook-events-and-payloads)
 - [GitHub Actions: Creating and storing encrypted secrets](https://docs.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets)
+- [GitHub Actions: Enable debug logs](https://github.com/actions/toolkit/blob/main/docs/action-debugging.md#step-debug-logs)
