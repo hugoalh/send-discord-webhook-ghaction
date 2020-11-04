@@ -1,6 +1,6 @@
 name: "Send To Discord"
 author: "hugoalh"
-description: "Send message to Discord via webhook, support variables."
+description: "Send message to Discord via webhook."
 inputs:
   webhook_id:
     description: "{string.secret} Discord webhook ID."

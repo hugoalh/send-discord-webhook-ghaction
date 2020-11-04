@@ -1,7 +1,7 @@
 {
 	"name": "githubaction.sendtodiscord",
-	"version": "2.1.0-rc.1",
-	"description": "A GitHub action to send message to Discord via webhook, support variables.",
+	"version": "2.1.0-rc.2",
+	"description": "A GitHub action to send message to Discord via webhook.",
 	"keywords": [
 		"github-action",
 		"discord",
@@ -25,6 +25,10 @@
 		"@hugoalh/advanced-determine": "^4.0.0",
 		"flat": "^5.0.2",
 		"node-fetch": "^2.6.1"
+	},
+	"dynamicDependencies": {
+		"jsonc": "^2.0.0",
+		"yaml": "^1.10.0"
 	},
 	"engines": {
 		"node": ">= 12.13.0",

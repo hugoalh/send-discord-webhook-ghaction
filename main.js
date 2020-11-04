@@ -10,15 +10,10 @@ const advancedDetermine = require("@hugoalh/advanced-determine"),
 	},
 	jsonFlatten = require("flat").flatten,
 	nodeFetch = require("node-fetch");
-githubAction.core.debug(`Import workflow arguments. ([GitHub Action] Send To Discord)`);
+githubAction.core.debug(`Import workflow argument. ([GitHub Action] Send To Discord)`);
 let inputCannotVariable = {
 		messageEmbedColour: githubAction.core.getInput("message_embed_colour"),
-		messageUseTextToSpeech: githubAction.core.getInput("message_usetexttospeech"),
-		variableJoin: githubAction.core.getInput("variable_join"),
-		variablePrefix: githubAction.core.getInput("variable_prefix"),
-		variableSuffix: githubAction.core.getInput("variable_suffix"),
-		webhookID: githubAction.core.getInput("webhook_id"),
-		webhookToken: githubAction.core.getInput("webhook_token")
+		messageUseTextToSpeech: githubAction.core.getInput("message_usetexttospeech")
 	},
 	inputCanVariable = {
 		messageEmbedAuthorAvatarUrl: githubAction.core.getInput("message_embed_authoravatarurl"),
@@ -35,21 +30,30 @@ let inputCannotVariable = {
 		messageText: githubAction.core.getInput("message_text"),
 		webhookAvatarUrl: githubAction.core.getInput("webhook_avatarurl"),
 		webhookName: githubAction.core.getInput("webhook_name")
+	},
+	variableSystem = {
+		join: githubAction.core.getInput("variable_join"),
+		prefix: githubAction.core.getInput("variable_prefix"),
+		suffix: githubAction.core.getInput("variable_suffix")
+	},
+	webhook = {
+		identificationNumber: githubAction.core.getInput("webhook_id"),
+		token: githubAction.core.getInput("webhook_token")
 	};
-githubAction.core.debug(`Analysis workflow arguments. ([GitHub Action] Send To Discord)`);
-if (advancedDetermine.isString(inputCannotVariable.variableJoin) !== true) {
+githubAction.core.debug(`Analysis workflow argument. ([GitHub Action] Send To Discord)`);
+if (advancedDetermine.isString(variableSystem.join) !== true) {
 	throw new TypeError(`Argument "variable_join" must be type of string (non-nullable)! ([GitHub Action] Send To Discord)`);
 };
-if (advancedDetermine.isString(inputCannotVariable.variablePrefix) !== true) {
+if (advancedDetermine.isString(variableSystem.prefix) !== true) {
 	throw new TypeError(`Argument "variable_prefix" must be type of string (non-nullable)! ([GitHub Action] Send To Discord)`);
 };
-if (advancedDetermine.isString(inputCannotVariable.variableSuffix) !== true) {
+if (advancedDetermine.isString(variableSystem.suffix) !== true) {
 	throw new TypeError(`Argument "variable_suffix" must be type of string (non-nullable)! ([GitHub Action] Send To Discord)`);
 };
-if (advancedDetermine.isString(inputCannotVariable.webhookID) !== true) {
+if (advancedDetermine.isString(webhook.identificationNumber) !== true) {
 	throw new TypeError(`Argument "webhook_id" must be type of string (non-nullable)! ([GitHub Action] Send To Discord)`);
 };
-if (advancedDetermine.isString(inputCannotVariable.webhookToken) !== true) {
+if (advancedDetermine.isString(webhook.token) !== true) {
 	throw new TypeError(`Argument "webhook_token" must be type of string (non-nullable)! ([GitHub Action] Send To Discord)`);
 };
 let inputMessageEmbedFields = [];
@@ -73,71 +77,75 @@ for (let index = 0; index < 25; index++) {
 		}
 	);
 };
-githubAction.core.debug(`Import, optimize, and tokenize variable list. ([GitHub Action] Send To Discord)`);
-let inputVariableListPayload = githubAction.github.context.payload,
-	inputVariableListExternal = githubAction.core.getInput(`variable_list_external`);
-switch (advancedDetermine.isString(inputVariableListExternal)) {
+githubAction.core.debug(`Import variable list. ([GitHub Action] Send To Discord)`);
+variableSystem.list = {
+	external: githubAction.core.getInput(`variable_list_external`),
+	payload: githubAction.github.context.payload
+};
+githubAction.core.debug(`Analysis external variable list. ([GitHub Action] Send To Discord)`);
+switch (advancedDetermine.isString(variableSystem.list.external)) {
 	case false:
 		throw new TypeError(`Argument "variable_list_external" must be type of object JSON! ([GitHub Action] Send To Discord)`);
 	case null:
-		githubAction.core.info(`External variable list is null. ([GitHub Action] Send To Discord)`);
-		inputVariableListExternal = {};
+		githubAction.core.info(`External variable list is empty. ([GitHub Action] Send To Discord)`);
+		variableSystem.list.external = {};
 		break;
 	case true:
-		if (advancedDetermine.isStringifyJSON(inputVariableListExternal) === false) {
+		if (advancedDetermine.isStringifyJSON(variableSystem.list.external) === false) {
 			throw new TypeError(`Argument "variable_list_external" must be type of object JSON! ([GitHub Action] Send To Discord)`);
 		};
-		inputVariableListExternal = JSON.parse(inputVariableListExternal);
+		variableSystem.list.external = JSON.parse(variableSystem.list.external);
 		break;
 	default:
-		break;
+		throw new Error();
 };
-inputVariableListPayload = jsonFlatten(
-	inputVariableListPayload,
+githubAction.core.debug(`Tokenize variable list. ([GitHub Action] Send To Discord)`);
+variableSystem.list.external = jsonFlatten(
+	variableSystem.list.external,
 	{
-		delimiter: inputCannotVariable.variableJoin
+		delimiter: variableSystem.join
 	}
 );
-inputVariableListExternal = jsonFlatten(
-	inputVariableListExternal,
+variableSystem.list.payload = jsonFlatten(
+	variableSystem.list.payload,
 	{
-		delimiter: inputCannotVariable.variableJoin
+		delimiter: variableSystem.join
 	}
 );
-githubAction.core.debug(`Apply variable into data. ([GitHub Action] Send To Discord)`);
-Object.keys(inputVariableListPayload).forEach((key) => {
+githubAction.core.debug(`Replace variable in the data. ([GitHub Action] Send To Discord)`);
+Object.keys(variableSystem.list.payload).forEach((key) => {
 	Object.keys(inputCanVariable).forEach((element) => {
 		inputCanVariable[element] = inputCanVariable[element].replace(
-			new RegExp(`${inputCannotVariable.variablePrefix}payload${inputCannotVariable.variableJoin}${key}${inputCannotVariable.variableSuffix}`, "gu"),
-			inputVariableListPayload[key]
+			new RegExp(`${variableSystem.prefix}payload${variableSystem.join}${key}${variableSystem.suffix}`, "gu"),
+			variableSystem.list.payload[key]
 		);
 	});
 	inputMessageEmbedFields.forEach((field, index) => {
 		inputMessageEmbedFields[index].name = inputMessageEmbedFields[index].name.replace(
-			new RegExp(`${inputCannotVariable.variablePrefix}payload${inputCannotVariable.variableJoin}${key}${inputCannotVariable.variableSuffix}`, "gu"),
-			inputVariableListPayload[key]
+			new RegExp(`${variableSystem.prefix}payload${variableSystem.join}${key}${variableSystem.suffix}`, "gu"),
+			variableSystem.list.payload[key]
 		);
 		inputMessageEmbedFields[index].value = inputMessageEmbedFields[index].value.replace(
-			new RegExp(`${inputCannotVariable.variablePrefix}payload${inputCannotVariable.variableJoin}${key}${inputCannotVariable.variableSuffix}`, "gu"),
-			inputVariableListPayload[key]
+			new RegExp(`${variableSystem.prefix}payload${variableSystem.join}${key}${variableSystem.suffix}`, "gu"),
+			variableSystem.list.payload[key]
 		);
 	});
 });
-Object.keys(inputVariableListExternal).forEach((key) => {
+Object.keys(variableSystem.list.external).forEach((key) => {
 	Object.keys(inputCanVariable).forEach((element) => {
 		inputCanVariable[element] = inputCanVariable[element].replace(
-			new RegExp(`${inputCannotVariable.variablePrefix}external${inputCannotVariable.variableJoin}${key}${inputCannotVariable.variableSuffix}`, "gu"),
-			inputVariableListExternal[key]
+			new RegExp(`${variableSystem.prefix}external${variableSystem.join}${key}${variableSystem.suffix}`, "gu"),
+			variableSystem.list.external[key]
 		);
 	});
 	inputMessageEmbedFields.forEach((field, index) => {
 		inputMessageEmbedFields[index].name = inputMessageEmbedFields[index].name.replace(
-			new RegExp(`${inputCannotVariable.variablePrefix}external${inputCannotVariable.variableJoin}${key}${inputCannotVariable.variableSuffix}`, "gu"),
-			inputVariableListExternal[key]
+			new RegExp(`${variableSystem.prefix}external${variableSystem.join}${key}${variableSystem.suffix}`, "gu"),
+			variableSystem.list.external[key]
 		);
 		inputMessageEmbedFields[index].value = inputMessageEmbedFields[index].value.replace(
-			new RegExp(`${inputCannotVariable.variablePrefix}external${inputCannotVariable.variableJoin}${key}${inputCannotVariable.variableSuffix}`, "gu"),
-			inputVariableListExternal[key]
+			new RegExp(`${variableSystem.prefix}external${variableSystem.join}${key}${variableSystem.suffix}`, "gu"),
+			variableSystem.list.external[key]
 		);
 	});
 });
@@ -299,10 +307,11 @@ if (advancedDetermine.isString(inputCanVariable.messageEmbedAuthorName) === true
 	output.embeds[0].fields = inputMessageEmbedFields;
 };
 githubAction.core.debug(`Finalize payload content. ([GitHub Action] Send To Discord)`);
+githubAction.core.debug(`Export payload. ([GitHub Action] Send To Discord)`);
 let requestPayload = JSON.stringify(output);
 githubAction.core.debug(`Send network request to Discord. ([GitHub Action] Send To Discord)`);
 nodeFetch(
-	`https://discord.com/api/webhooks/${inputCannotVariable.webhookID}/${inputCannotVariable.webhookToken}`,
+	`https://discord.com/api/webhooks/${webhook.identificationNumber}/${webhook.token}`,
 	{
 		body: requestPayload,
 		follow: 5,
@@ -316,9 +325,9 @@ nodeFetch(
 	}
 ).catch((error) => {
 	throw error;
-}).then((result) => {
-	if (Math.floor(Number(result.status) / 100) !== 2) {
-		throw new Error(`Status Code: ${result.status} ([GitHub Action] Send To Discord)`);
+}).then((response) => {
+	if (Math.floor(Number(response.status) / 100) !== 2) {
+		throw new Error(`Status Code: ${response.status} ([GitHub Action] Send To Discord)`);
 	};
-	githubAction.core.debug(`Status Code: ${result.status} ([GitHub Action] Send To Discord)`);
+	githubAction.core.debug(`Status Code: ${response.status} ([GitHub Action] Send To Discord)`);
 });

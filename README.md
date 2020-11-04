@@ -11,7 +11,7 @@
   <img align="center" alt="GitHub Fork" src="https://img.shields.io/github/forks/hugoalh/GitHubAction.SendToDiscord?logo=github&logoColor=ffffff&style=flat-square" />
 </details>
 
-A GitHub action to send message to Discord via webhook, support variables.
+A GitHub action to send message to Discord via webhook.
 
 <table>
   <tr>
@@ -72,40 +72,273 @@ Any
 
 ### 📥 Input
 
-#### Not Support Variable
+<table>
+  <tr>
+    <td>
+      <b>Argument</b><br />
+      [C] Configuration (>= v3)<br />
+      [W] Workflow
+    </td>
+    <td>
+      <b>Type</b><br />
+      [E] Discord Emoji<br />
+      [F] Discord Markdown<br />
+      [M] Discord Mention<br />
+      [R] Require<br />
+      [V] Variable
+    </td>
+    <td><b>Description</b></td>
+  </tr>
+  <tr>
+    <td>
+      (>= v3)<br />
+      [W] <code>configuration</code>
+    </td>
+    <td><code>string = "false" || object.json</code></td>
+    <td>Select to use workflow argument or configuration argument.
+      <ul>
+        <li><b>Enable Externally:</b> A relative JSON, JSONC, YAML, or YML file path (end with <code>.json</code>, <code>.jsonc</code>, <code>.yaml</code>, or <code>.yml</code>) which in the same repository, file size must smaller than 1 MB (restricted by GitHub). Workflow argument will ignore when configuration argument is available.</li>
+        <li><b>Enable Locally:</b> A stringify JSON paste in here. Workflow argument will ignore when configuration argument is available.</li>
+        <li><b>Disable:</b> Use workflow argument.</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      (>= v3)<br />
+      [W] <code>github_token</code>
+    </td>
+    <td><code>string.secret = "${{github.token}}"</code></td>
+    <td>GitHub personal access token, only use when need to fetch the configuration file specify in <code>configuration</code>.</td>
+  </tr>
+  <tr>
+    <td>
+      [W] <code>webhook_id</code>
+    </td>
+    <td><code>string.secret</code><br />[R]</td>
+    <td>Discord webhook ID. If the webhook url is <code>https://discord.com/api/webhooks/70971114/ueyzeWxB_8bb1zMhL</code>, then the webhook ID will be <code>70971114</code>.</td>
+  </tr>
+  <tr>
+    <td>
+      [W] <code>webhook_token</code>
+    </td>
+    <td><code>string.secret</code><br />[R]</td>
+    <td>Discord webhook token. If the webhook url is <code>https://discord.com/api/webhooks/70971114/ueyzeWxB_8bb1zMhL</code>, then the webhook token will be <code>ueyzeWxB_8bb1zMhL</code>.</td>
+  </tr>
+  <tr>
+    <td>
+      [W] <code>variable_join</code>
+    </td>
+    <td><code>string = "_"</code></td>
+    <td>Variable join if the variable list has depth.</td>
+    </tr>
+  <tr>
+    <td>
+      [W] <code>variable_list_external</code>
+    </td>
+    <td><code>object.json</code></td>
+    <td>External variable list that will use in the data.</td>
+    </tr>
+  <tr>
+    <td>
+      [W] <code>variable_prefix</code>
+    </td>
+    <td><code>string = "%"</code></td>
+    <td>Variable prefix.</td>
+    </tr>
+  <tr>
+    <td>
+      [W] <code>variable_suffix</code>
+    </td>
+    <td><code>string = "%"</code></td>
+    <td>Variable suffix.</td>
+    </tr>
+  <tr>
+    <td>
+      [C] <code>content</code><br />
+      [W] <code>message_text</code>
+    </td>
+    <td><code>string</code><br />[E] [F] [M] [V]</td>
+    <td>Text. Automatically crop when more than 2000 characters.</td>
+  </tr>
+  <tr>
+    <td>
+      [C] <code>username</code><br />
+      [W] <code>webhook_name</code>
+    </td>
+    <td><code>string</code><br />[V]</td>
+    <td>Webhook display name (i.e.: the sender's name), this can override the default username of the webhook. Automatically ignore when not between 2 and 32 characters.</td>
+  </tr>
+  <tr>
+    <td>
+      [C] <code>avatar_url</code><br />
+      [W] <code>webhook_avatarurl</code>
+    </td>
+    <td><code>string</code><br />[V]</td>
+    <td>Webhook avatar url (i.e.: the sender's avatar), this can override the default avatar of the webhook. The image url must be in format of JPEG/JPG, or PNG. GIF is not supported due to restricted by Discord.</td>
+  </tr>
+  <tr>
+    <td>
+      [C] <code>tts</code><br />
+      [W] <code>message_usetexttospeech</code>
+    </td>
+    <td><code>boolean = false</code></td>
+    <td>Use text to speech for this message.</td>
+  </tr>
+  <tr>
+    <td>
+      [C] <code>embeds.&ltArray&gt</code><br />
+      [W] <code>message_embed</code>
+    </td>
+    <td></td>
+    <td>Embed(s) for this message. For configuration argument, number start at <code>0</code>, maximum 10 embeds per message; For workflow argument, maximum 1 embed per message.</td>
+  </tr>
+  <tr>
+    <td>
+      [C] <code>embeds.&ltArray&gt.title</code><br />
+      [W] <code>message_embed_title</code>
+    </td>
+    <td><code>string</code><br />[R] When have <code>embeds.&ltArray&gt.url</code><br />[E] [F] [V]</td>
+    <td>Embed title. Automatically crop when more than 256 characters.</td>
+  </tr>
+  <tr>
+    <td>
+      [C] <code>embeds.&ltArray&gt.description</code><br />
+      [W] <code>message_embed_description</code>
+    </td>
+    <td><code>string</code><br />[E] [F] [M] [V]</td>
+    <td>Embed description. Automatically crop when more than 2048 characters.</td>
+  </tr>
+  <tr>
+    <td>
+      [C] <code>embeds.&ltArray&gt.url</code><br />
+      [W] <code>message_embed_titleurl</code>
+    </td>
+    <td><code>string</code><br />[V]</td>
+    <td>Embed title url.</td>
+  </tr>
+  <tr>
+    <td>
+      [C] <code>embeds.&ltArray&gt.color</code><br />
+      [W] <code>message_embed_colour</code>
+    </td>
+    <td><code>string = "invisible"</code><br />[R] When have embed(s)</td>
+    <td>
+      Left border's colour of this embed.
+      <ul>
+        <li><code>"black"</code></li>
+        <li><code>"discordblack"</code></li>
+        <li><code>"discordblurple"</code></li>
+        <li><code>"discorddark"</code></li>
+        <li><code>"discordgreyple"</code></li>
+        <li><code>"invisible"</code></li>
+        <li><code>"random"</code></li>
+        <li><code>"white"</code></li>
+        <li>RGB split with comma (<code>,</code>) (example: <code>256,128,64</code>)
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      [C] <code>embeds.&ltArray&gt.footer.text</code><br />
+      [W] <code>message_embed_footertext</code>
+    </td>
+    <td><code>string</code><br />[V]</td>
+    <td>Embed footer text. Automatically crop when more than 2048 characters.</td>
+  </tr>
+  <tr>
+    <td>
+      [C] <code>embeds.&ltArray&gt.footer.icon_url</code><br />
+      [W] <code>message_embed_footericonurl</code>
+    </td>
+    <td><code>string</code><br />[V]</td>
+    <td>Embed footer icon url. The image url must be in format of JPEG/JPG, or PNG. GIF is not supported due to restricted by Discord.</td>
+  </tr>
+  <tr>
+    <td>
+      [C] <code>embeds.&ltArray&gt.image.url</code><br />
+      [W] <code>message_embed_imageurl</code>
+    </td>
+    <td><code>string</code><br />[V]</td>
+    <td>Embed image url. The image url must be in format of JPEG/JPG, PNG, or GIF.</td>
+  </tr>
+  <tr>
+    <td>
+      [C] <code>embeds.&ltArray&gt.thumbnail.url</code><br />
+      [W] <code>message_embed_thumbnailurl</code>
+    </td>
+    <td><code>string</code><br />[V]</td>
+    <td>Embed thumbnail url. The image url must be in format of JPEG/JPG, PNG, or GIF.</td>
+  </tr>
+  <tr>
+    <td>
+      [C] <code>embeds.&ltArray&gt.video.url</code><br />
+      [W] <code>message_embed_videourl</code>
+    </td>
+    <td><code>string</code><br />[V]</td>
+    <td>Embed video url. Support YouTube only!</td>
+  </tr>
+  <tr>
+    <td>
+      [C] <code>embeds.&ltArray&gt.author.name</code><br />
+      [W] <code>message_embed_authorname</code>
+    </td>
+    <td><code>string</code><br />[R] When have <code>embeds.&ltArray&gt.author.url</code><br />[V]</td>
+    <td>Embed author name. Automatically crop when more than 256 characters.</td>
+  </tr>
+  <tr>
+    <td>
+      [C] <code>embeds.&ltArray&gt.author.url</code><br />
+      [W] <code>message_embed_authorurl</code>
+    </td>
+    <td><code>string</code><br />[V]</td>
+    <td>Embed author url.</td>
+  </tr>
+  <tr>
+    <td>
+      [C] <code>embeds.&ltArray&gt.author.icon_url</code><br />
+      [W] <code>message_embed_authoravatarurl</code>
+    </td>
+    <td><code>string</code><br />[V]</td>
+    <td>Embed author avatar url. The image url must be in format of JPEG/JPG, or PNG. GIF is not supported due to restricted by Discord.</td>
+  </tr>
+  <tr>
+    <td>
+      [C] <code>embeds.&ltArray&gt.fields.&ltArray&gt</code><br />
+      [W] <code>message_embed_field_&ltNumber&gt</code>
+    </td>
+    <td></td>
+    <td>Field(s) for this embed. Number start at <code>0</code>, maximum 25 fields per embed.</td>
+  </tr>
+  <tr>
+    <td>
+      [C] <code>embeds.&ltArray&gt.fields.&ltArray&gt.name</code><br />
+      [W] <code>message_embed_field_&ltNumber&gt_key</code>
+    </td>
+    <td><code>string</code><br />[R] When have <code>embeds.&ltArray&gt.fields.&ltArray&gt.value</code><br />[V]</td>
+    <td>Key for this embed field. Automatically crop when more than 256 characters.</td>
+  </tr>
+  <tr>
+    <td>
+      [C] <code>embeds.&ltArray&gt.fields.&ltArray&gt.value</code><br />
+      [W] <code>message_embed_field_&ltNumber&gt_value</code>
+    </td>
+    <td><code>string</code><br />[R] When have <code>embeds.&ltArray&gt.fields.&ltArray&gt.key</code><br />[V]</td>
+    <td>Value for this embed field. Automatically crop when more than 1024 characters.</td>
+  </tr>
+  <tr>
+    <td>
+      [C] <code>embeds.&ltArray&gt.fields.&ltArray&gt.inline</code><br />
+      [W] <code>message_embed_field_&ltNumber&gt_isinline</code>
+    </td>
+    <td><code>boolean = false</code></td>
+    <td>Use inline for this embed field.</td>
+  </tr>
+</table>
 
-- **`webhook_id`:** `<string.secret>` Discord webhook ID. If the webhook url is `https://discord.com/api/webhooks/70971114/ueyzeWxB_8bb1zMhL`, then the webhook ID will be `70971114`.
-- **`webhook_token`:** `<string.secret>` Discord webhook token. If the webhook url is `https://discord.com/api/webhooks/70971114/ueyzeWxB_8bb1zMhL`, then the webhook token will be `ueyzeWxB_8bb1zMhL`.
-- **`message_usetexttospeech` \[Optional\]:** `<boolean = false>` Use text to speech for this message.
-- **`message_embed_colour` \[Optional / When have embed\]:** `<string = "INVISIBLE">` Left border's colour of the embed, support `RANDOM`, `INVISIBLE`, `DISCORDBLURPLE`, `WHITE`, `BLACK`, `DISCORDGREYPLE`, `DISCORDDARK`, `DISCORDBLACK`, or RGB split with `,` (example: `256,128,64`).
-- **`message_embed_field_<Number>_isinline` \[Optional\]:** `<boolean = false>` Use inline for this embed field. Number start at `0`, maximum 25 fields.
-- **`variable_list_external` \[Optional\]:** `<object.json>` Variable list that will use in the data.
-- **`variable_prefix` \[Optional\]:** `<string = "%">` Variable prefix.
-- **`variable_suffix` \[Optional\]:** `<string = "%">` Variable suffix.
-- **`variable_join` \[Optional\]:** `<string = "_">` Variable join if the variable list has depth.
+To use GitHub Action context variable list, use placeholder `"${{github.event.<namespace>}}"` in the workflow file (parse by GitHub Action), or use placeholder `"<variable_prefix>payload<variable_join><namespace><variable_suffix>"` in the workflow file which marked support variable (parse by this action).
 
-#### Support Variable
-
-- **`webhook_name` \[Optional\]:** `<string>` Webhook display name (i.e.: the sender's name), this can override the default username of the webhook. Automatically ignore when not between 2 and 32 characters.
-- **`webhook_avatarurl` \[Optional\]:** `<string>` Webhook avatar url (i.e.: the sender's avatar), this can override the default avatar of the webhook. The url of the image must be in format of JPEG/JPG, or PNG. GIF is not supported due to the Discord limitation.
-- **`message_text` \[Optional\]:** `<string>` Text. Automatically crop when more than 2000 characters.
-- **`message_embed_authorname` \[Optional / When have `message_embed_authorurl`\]:** `<string>` Embed author name. Automatically crop when more than 256 characters.
-- **`message_embed_authorurl` \[Optional\]:** `<string>` Embed author url.
-- **`message_embed_authoravatarurl` \[Optional\]:** `<string>` Embed author avatar url. The url of the image must be in format of JPEG/JPG, or PNG. GIF is not supported due to the Discord limitation.
-- **`message_embed_title` \[Optional / When have `message_embed_titleurl`\]:** `<string>` Embed title. Automatically crop when more than 256 characters.
-- **`message_embed_titleurl` \[Optional\]:** `<string>` Embed title url.
-- **`message_embed_description` \[Optional\]:** `<string>` Embed description. Automatically crop when more than 2048 characters.
-- **`message_embed_thumbnailurl` \[Optional\]:** `<string>` Embed thumbnail url. The url of the image must be in format of JPEG/JPG, PNG, or GIF.
-- **`message_embed_imageurl` \[Optional\]:** `<string>` Embed image url. The url of the image must be in format of JPEG/JPG, PNG, or GIF.
-- **`message_embed_videourl` \[Optional\]:** `<string>` Embed video url. Support YouTube only!
-- **`message_embed_field_<Number>_key` \[Optional / When have `message_embed_field_<Number>_value`\]:** `<string>` Key for this embed field. Number start at `0`, maximum 25 fields. Automatically crop when more than 256 characters.
-- **`message_embed_field_<Number>_value` \[Optional / When have `message_embed_field_<Number>_key`\]:** `<string>` Value for this embed field. Number start at `0`, maximum 25 fields. Automatically crop when more than 1024 characters.
-- **`message_embed_footericonurl` \[Optional / When have `message_embed_footertext`\]:** `<string>` Embed footer icon url. The url of the image must be in format of JPEG/JPG, or PNG. GIF is not supported due to the Discord limitation.
-- **`message_embed_footertext` \[Optional\]:** `<string>` Embed footer text. Automatically crop when more than 2048 characters.
-
-To use GitHub Action context variable list, use placeholder `"${{github.event.<namespace>}}"` in the workflow file (parse by GitHub Action), or use placeholder `"<variable_prefix>payload<variable_join><namespace><variable_suffix>"` in the workflow file which marked "Support Variable" (parse by this action).
-
-To use external variable list, use placeholder `"<variable_prefix>external<variable_join><namespace><variable_suffix>"` in the workflow file which marked "Support Variable" (parse by this action).
+To use external variable list, use placeholder `"<variable_prefix>external<variable_join><namespace><variable_suffix>"` in the workflow file which marked support variable (parse by this action).
 
 ### 📤 Output
 
@@ -113,7 +346,9 @@ To use external variable list, use placeholder `"<variable_prefix>external<varia
 
 ### Example
 
-```yaml
+#### Workflow File Argument (>= v2)
+
+```yml
 jobs:
   send-to-discord:
     name: "Send To Discord"
@@ -124,18 +359,26 @@ jobs:
         with:
           webhook_id: "${{secrets.DISCORD_WEBHOOK_ID}}"
           webhook_token: "${{secrets.DISCORD_WEBHOOK_TOKEN}}"
-          message_usetexttospeech: "false"
+          variable_join: "."
+          # variable_list_external:
+          variable_prefix: "%"
+          variable_suffix: "%"
           message_text: "Hello, world!"
+          # webhook_name:
+          # webhook_avatarurl:
+          message_usetexttospeech: "false"
+          # message_embed_title:
+          # message_embed_description:
+          # message_embed_titleurl:
           # message_embed_colour:
+          # message_embed_footertext:
+          # message_embed_footericonurl:
+          # message_embed_imageurl:
+          # message_embed_thumbnailurl:
+          # message_embed_videourl:
           # message_embed_authorname:
           # message_embed_authorurl:
           # message_embed_authoravatarurl:
-          # message_embed_title:
-          # message_embed_titleurl:
-          # message_embed_description:
-          # message_embed_thumbnailurl:
-          # message_embed_imageurl:
-          # message_embed_videourl:
           # message_embed_field_0_key:
           # message_embed_field_0_value:
           # message_embed_field_0_isinline:
@@ -211,12 +454,114 @@ jobs:
           # message_embed_field_24_key:
           # message_embed_field_24_value:
           # message_embed_field_24_isinline:
-          # message_embed_footericonurl:
-          # message_embed_footertext:
+```
+
+#### Configuration File Argument (>= v3)
+
+```yml
+# Workflow file
+jobs:
+  send-to-discord:
+    name: "Send To Discord"
+    runs-on: "ubuntu-latest"
+    steps:
+      - id: "send-to-discord-main"
+        uses: "hugoalh/GitHubAction.SendToDiscord@v3.0.0"
+        with:
+          configuration: ".github/workflows/send-to-discord-configuration.json"
+          webhook_id: "${{secrets.DISCORD_WEBHOOK_ID}}"
+          webhook_token: "${{secrets.DISCORD_WEBHOOK_TOKEN}}"
+          variable_join: "."
           # variable_list_external:
           variable_prefix: "%"
           variable_suffix: "%"
-          variable_join: "."
+```
+
+```jsonc
+// Configutation file (.github/workflows/send-to-discord-configuration.json)
+{
+  "content": "Hello, world!",
+  "username": "A Webhook Guy",
+  "avatar_url": "https://imgur.com/webhook-avatar.png",
+  "tts": false,
+  "embeds": [
+    {
+      "title": "1st Embed",
+      "description": "Yes!",
+      "url": "https://github.com/hugoalh/GitHubAction.SendToDiscord",
+      "color": 0,
+      "footer": {
+        "text": "1st Embed Footer",
+        "icon_url": "https://imgur.com/first-footer-icon.png"
+      },
+      "image": {
+        "url": "https://imgur.com/first-big-image.png"
+      },
+      "thumbnail": {
+        "url": "https://imgur.com/first-small-image.png"
+      },
+      "video": {
+        "url": "https://youtube.com/first-video"
+      },
+      "author": {
+        "name": "A Embed Guy",
+        "url": "https://handsome.io",
+        "icon_url": "https://imgur.com/handsome-avatar.png"
+      },
+      "fields": [
+        {
+          "name": "1st Field",
+          "value": "Foo",
+          "inline": true
+        },
+        {
+          "name": "2nd Field",
+          "value": "Bar",
+          "inline": true
+        },
+        ...
+      ]
+    },
+    {
+      "title": "2nd Embed",
+      "description": "Yee!",
+      "url": "https://github.com/hugoalh/GitHubAction.SendToDiscord",
+      "color": 0,
+      "footer": {
+        "text": "2nd Embed Footer",
+        "icon_url": "https://imgur.com/second-footer-icon.png"
+      },
+      "image": {
+        "url": "https://imgur.com/second-big-image.png"
+      },
+      "thumbnail": {
+        "url": "https://imgur.com/second-small-image.png"
+      },
+      "video": {
+        "url": "https://youtube.com/second-video"
+      },
+      "author": {
+        "name": "Another Embed Guy",
+        "url": "https://goodlook.io",
+        "icon_url": "https://imgur.com/good-look-avatar.png"
+      },
+      "fields": [
+        {
+          "name": "1st Field",
+          "value": "Lol",
+          "inline": false
+        },
+        {
+          "name": "2nd Field",
+          "value": "Arm",
+          "inline": false
+        },
+        ...
+      ]
+    },
+    ...
+  ]
+}
 ```
 
 ### 📚 Guide
@@ -225,4 +570,3 @@ jobs:
 - [Discord Webhook: API](https://discord.com/developers/docs/resources/webhook#execute-webhook)
 - [GitHub: Webhook event payloads](https://docs.github.com/en/developers/webhooks-and-events/webhook-events-and-payloads)
 - [GitHub Actions: Creating and storing encrypted secrets](https://docs.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets)
-- [GitHub Actions: Enable debug logs](https://github.com/actions/toolkit/blob/main/docs/action-debugging.md#step-debug-logs)
