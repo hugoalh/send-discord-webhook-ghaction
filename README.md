@@ -76,16 +76,41 @@ Any
   <tr>
     <td>
       <b>Argument</b><br />
-      [C] Configuration (>= v3)<br />
-      [W] Workflow
+      <blockquote>
+        <table>
+          <tr>
+            <td align="center"><b>Legend</b></td>
+            <td><b>Description</b></td>
+          </tr>
+          <tr>
+            <td align="center">[C]</td>
+            <td>Configuration (>= v3)</td>
+          </tr>
+          <tr>
+            <td align="center">[W]</td>
+            <td>Workflow</td>
+          </tr>
+        </table>
+      </blockquote>
     </td>
     <td>
       <b>Type</b><br />
-      [E] Discord Emoji<br />
-      [F] Discord Markdown<br />
-      [M] Discord Mention<br />
-      [R] Require<br />
-      [V] Variable
+      <blockquote>
+        <table>
+          <tr>
+            <td align="center"><b>Legend</b></td>
+            <td><b>Description</b></td>
+          </tr>
+          <tr>
+            <td align="center">✔</td>
+            <td>Require</td>
+          </tr>
+          <tr>
+            <td align="center">[V]</td>
+            <td>Support variable</td>
+          </tr>
+        </table>
+      </blockquote>
     </td>
     <td><b>Description</b></td>
   </tr>
@@ -115,14 +140,14 @@ Any
     <td>
       [W] <code>webhook_id</code>
     </td>
-    <td><code>string.secret</code><br />[R]</td>
+    <td><code>string.secret</code><br />✔</td>
     <td>Discord webhook ID. If the webhook url is <code>https://discord.com/api/webhooks/70971114/ueyzeWxB_8bb1zMhL</code>, then the webhook ID will be <code>70971114</code>.</td>
   </tr>
   <tr>
     <td>
       [W] <code>webhook_token</code>
     </td>
-    <td><code>string.secret</code><br />[R]</td>
+    <td><code>string.secret</code><br />✔</td>
     <td>Discord webhook token. If the webhook url is <code>https://discord.com/api/webhooks/70971114/ueyzeWxB_8bb1zMhL</code>, then the webhook token will be <code>ueyzeWxB_8bb1zMhL</code>.</td>
   </tr>
   <tr>
@@ -158,7 +183,7 @@ Any
       [C] <code>content</code><br />
       [W] <code>message_text</code>
     </td>
-    <td><code>string</code><br />[E] [F] [M] [V]</td>
+    <td><code>string</code><br />[V]</td>
     <td>Text. Automatically crop when more than 2000 characters.</td>
   </tr>
   <tr>
@@ -198,7 +223,7 @@ Any
       [C] <code>embeds.&ltArray&gt.title</code><br />
       [W] <code>message_embed_title</code>
     </td>
-    <td><code>string</code><br />[R] When have <code>embeds.&ltArray&gt.url</code><br />[E] [F] [V]</td>
+    <td><code>string</code><br />✔ When have <code>embeds.&ltArray&gt.url</code><br />[V]</td>
     <td>Embed title. Automatically crop when more than 256 characters.</td>
   </tr>
   <tr>
@@ -206,7 +231,7 @@ Any
       [C] <code>embeds.&ltArray&gt.description</code><br />
       [W] <code>message_embed_description</code>
     </td>
-    <td><code>string</code><br />[E] [F] [M] [V]</td>
+    <td><code>string</code><br />[V]</td>
     <td>Embed description. Automatically crop when more than 2048 characters.</td>
   </tr>
   <tr>
@@ -222,7 +247,7 @@ Any
       [C] <code>embeds.&ltArray&gt.color</code><br />
       [W] <code>message_embed_colour</code>
     </td>
-    <td><code>string = "invisible"</code><br />[R] When have embed(s)</td>
+    <td><code>string = "invisible"</code><br />✔ When have embed(s)</td>
     <td>
       Left border's colour of this embed.
       <ul>
@@ -283,7 +308,7 @@ Any
       [C] <code>embeds.&ltArray&gt.author.name</code><br />
       [W] <code>message_embed_authorname</code>
     </td>
-    <td><code>string</code><br />[R] When have <code>embeds.&ltArray&gt.author.url</code><br />[V]</td>
+    <td><code>string</code><br />✔ When have <code>embeds.&ltArray&gt.author.url</code><br />[V]</td>
     <td>Embed author name. Automatically crop when more than 256 characters.</td>
   </tr>
   <tr>
@@ -315,7 +340,7 @@ Any
       [C] <code>embeds.&ltArray&gt.fields.&ltArray&gt.name</code><br />
       [W] <code>message_embed_field_&ltNumber&gt_key</code>
     </td>
-    <td><code>string</code><br />[R] When have <code>embeds.&ltArray&gt.fields.&ltArray&gt.value</code><br />[V]</td>
+    <td><code>string</code><br />✔ When have <code>embeds.&ltArray&gt.fields.&ltArray&gt.value</code><br />[V]</td>
     <td>Key for this embed field. Automatically crop when more than 256 characters.</td>
   </tr>
   <tr>
@@ -323,7 +348,7 @@ Any
       [C] <code>embeds.&ltArray&gt.fields.&ltArray&gt.value</code><br />
       [W] <code>message_embed_field_&ltNumber&gt_value</code>
     </td>
-    <td><code>string</code><br />[R] When have <code>embeds.&ltArray&gt.fields.&ltArray&gt.key</code><br />[V]</td>
+    <td><code>string</code><br />✔ When have <code>embeds.&ltArray&gt.fields.&ltArray&gt.key</code><br />[V]</td>
     <td>Value for this embed field. Automatically crop when more than 1024 characters.</td>
   </tr>
   <tr>
@@ -346,7 +371,7 @@ To use external variable list, use placeholder `"<variable_prefix>external<varia
 
 ### Example
 
-#### Workflow File Argument (>= v2)
+#### Workflow Argument (>= v2)
 
 ```yml
 jobs:
@@ -456,7 +481,7 @@ jobs:
           # message_embed_field_24_isinline:
 ```
 
-#### Configuration File Argument (>= v3)
+#### Configuration Argument (>= v3)
 
 ```yml
 # Workflow file

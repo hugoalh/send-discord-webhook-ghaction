@@ -19,11 +19,11 @@ function dynamicRequire(packageName) {
 				flag: "r"
 			}
 		);
-		let token = JSON.parse(data);
-		if (advancedDetermine.isObjectPair(token.dynamicDependencies) !== true) {
+		let metadata = JSON.parse(data);
+		if (advancedDetermine.isObjectPair(metadata.dynamicDependencies) !== true) {
 			throw error;
 		};
-		let packageVersion = token.dynamicDependencies[packageName];
+		let packageVersion = metadata.dynamicDependencies[packageName];
 		if (advancedDetermine.isString(packageVersion) !== true) {
 			throw error;
 		};
