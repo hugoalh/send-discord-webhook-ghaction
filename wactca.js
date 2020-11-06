@@ -5,10 +5,9 @@
 ==================*/
 const advancedDetermine = require("@hugoalh/advanced-determine"),
 	githubAction = {
-		core: require("@actions/core"),
-		github: require("@actions/github")
+		core: require("@actions/core")
 	};
-function wactca(logMoreDetail) {
+function wactca() {
 	let result = {};
 	githubAction.core.info(`Import workflow argument (stage WACTCA 1). ([GitHub Action] Send To Discord)`);
 	let avatarUrl = githubAction.core.getInput("webhook_avatarurl"),
@@ -17,7 +16,7 @@ function wactca(logMoreDetail) {
 		username = githubAction.core.getInput("webhook_name");
 	githubAction.core.info(`Analysis workflow argument (stage WACTCA 1). ([GitHub Action] Send To Discord)`);
 	if (advancedDetermine.isBoolean(tts, { allowStringify: true }) !== true) {
-		throw new TypeError(`Argument "message_usetexttospeech" must be type of boolean! ([GitHub Action] Send To Discord)`);
+		throw new TypeError(`Workflow argument "message_usetexttospeech" must be type of boolean! ([GitHub Action] Send To Discord)`);
 	};
 	githubAction.core.info(`Construct configuration argument (stage WACTCA 1). ([GitHub Action] Send To Discord)`);
 	if (advancedDetermine.isString(avatarUrl) === true) {
@@ -49,7 +48,7 @@ function wactca(logMoreDetail) {
 			value = githubAction.core.getInput(`message_embed_field_${index}_value`),
 			isInline = githubAction.core.getInput(`message_embed_field_${index}_isinline`);
 		if (advancedDetermine.isBoolean(isInline, { allowStringify: true }) !== true) {
-			throw new TypeError(`Argument "message_embed_field_${index}_isinline" must be type of boolean! ([GitHub Action] Send To Discord)`);
+			throw new TypeError(`Workflow argument "message_embed_field_${index}_isinline" must be type of boolean! ([GitHub Action] Send To Discord)`);
 		};
 		if (advancedDetermine.isString(key) === true && advancedDetermine.isString(value) === true) {
 			embedFields.push(
@@ -60,9 +59,7 @@ function wactca(logMoreDetail) {
 				}
 			);
 		} else {
-			if (logMoreDetail === true) {
-				githubAction.core.info(`Message embed field #${index} is empty. ([GitHub Action] Send To Discord)`);
-			};
+			githubAction.core.debug(`Message embed field #${index} is empty. ([GitHub Action] Send To Discord)`);
 		};
 	};
 	if (
@@ -138,9 +135,7 @@ function wactca(logMoreDetail) {
 			result.embeds[0].fields = embedFields;
 		};
 	};
-	if (logMoreDetail === true) {
-		githubAction.core.info(`Configuration Argument (Stage WACTCA): ${JSON.stringify(result)} ([GitHub Action] Send To Discord)`);
-	};
+	githubAction.core.debug(`Configuration Argument (Stage WACTCA): ${JSON.stringify(result)} ([GitHub Action] Send To Discord)`);
 	return result;
 };
 module.exports = wactca;

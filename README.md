@@ -591,8 +591,8 @@ jobs:
 
 ### 📚 Guide
 
-- [Discord Webhook: Creating a webhook](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks)
-- [Discord Webhook: API](https://discord.com/developers/docs/resources/webhook#execute-webhook)
-- [GitHub: Webhook event payloads](https://docs.github.com/en/developers/webhooks-and-events/webhook-events-and-payloads)
-- [GitHub Actions: Creating and storing encrypted secrets](https://docs.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets)
-- [GitHub Actions: Enable debug logs](https://github.com/actions/toolkit/blob/main/docs/action-debugging.md#step-debug-logs)
+- [Discord Developer Portal: Webhook - Execute](https://discord.com/developers/docs/resources/webhook#execute-webhook)
+- [Discord: Intro to Webhooks](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks)
+- [GitHub Actions: Enabling debug logging](https://docs.github.com/en/free-pro-team@latest/actions/managing-workflow-runs/enabling-debug-logging)
+- [GitHub Actions: Encrypted secrets](https://docs.github.com/en/free-pro-team@latest/actions/reference/encrypted-secrets)
+- [GitHub: Webhook events and payloads](https://docs.github.com/en/free-pro-team@latest/developers/webhooks-and-events/webhook-events-and-payloads)

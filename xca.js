@@ -8,17 +8,16 @@ const advancedDetermine = require("@hugoalh/advanced-determine"),
 		core: require("@actions/core"),
 		github: require("@actions/github")
 	};
-async function xca(path, logMoreDetail) {
+async function xca(path) {
 	githubAction.core.info(`Import workflow argument (stage XCA). ([GitHub Action] Send To Discord)`);
-	let githubToken = githubAction.core.getInput("github_token"),
-		[repositoryOwner, repositoryName] = process.env.GITHUB_REPOSITORY.split("/");
+	let githubToken = githubAction.core.getInput("github_token");
 	githubAction.core.info(`Analysis workflow argument (stage XCA). ([GitHub Action] Send To Discord)`);
 	if (advancedDetermine.isString(githubToken) === false) {
-		throw new TypeError(`Argument "github_token" must be type of string! ([GitHub Action] Send To Discord)`);
+		throw new TypeError(`Workflow argument "github_token" must be type of string! ([GitHub Action] Send To Discord)`);
 	};
-	githubAction.core.info(`Set up GitHub Octokit. ([GitHub Action] Send To Discord)`);
-	const octokit = githubAction.github.getOctokit(githubToken);
 	githubAction.core.info(`Send network request to GitHub. ([GitHub Action] Send To Discord)`);
+	const octokit = githubAction.github.getOctokit(githubToken);
+	let [repositoryOwner, repositoryName] = process.env.GITHUB_REPOSITORY.split("/");
 	let data = await octokit.repos.getContent({
 		owner: repositoryOwner,
 		path: path,
@@ -55,8 +54,7 @@ async function xca(path, logMoreDetail) {
 		const YAML = dynamicRequire("yaml");
 		result = YAML.parse(content);
 	};
-	if (logMoreDetail === true) {
-		githubAction.core.info(`Configuration Argument (Stage XCA): ${JSON.stringify(result)} ([GitHub Action] Send To Discord)`);
-	};
+	githubAction.core.debug(`Configuration Argument (Stage XCA): ${JSON.stringify(result)} ([GitHub Action] Send To Discord)`);
 	return result;
 };
+module.exports = xca;
