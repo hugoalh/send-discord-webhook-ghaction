@@ -13,7 +13,6 @@ const advancedDetermine = require("@hugoalh/advanced-determine"),
 (async () => {
 	githubAction.core.info(`Import workflow argument (stage I). ([GitHub Action] Send To Discord)`);
 	let configuration = githubAction.core.getInput("configuration"),
-		logMoreDetail = githubAction.core.isDebug(),
 		variableSystem = {
 			join: githubAction.core.getInput("variable_join"),
 			prefix: githubAction.core.getInput("variable_prefix"),
@@ -25,46 +24,42 @@ const advancedDetermine = require("@hugoalh/advanced-determine"),
 		};
 	githubAction.core.info(`Analysis workflow argument (stage I). ([GitHub Action] Send To Discord)`);
 	if (advancedDetermine.isString(configuration) !== true) {
-		throw new TypeError(`Argument "configuration" must be type of string (non-nullable)! ([GitHub Action] Send To Discord)`);
+		throw new TypeError(`Workflow argument "configuration" must be type of string (non-nullable)! ([GitHub Action] Send To Discord)`);
 	};
 	if (advancedDetermine.isString(variableSystem.join) !== true) {
-		throw new TypeError(`Argument "variable_join" must be type of string (non-nullable)! ([GitHub Action] Send To Discord)`);
+		throw new TypeError(`Workflow argument "variable_join" must be type of string (non-nullable)! ([GitHub Action] Send To Discord)`);
 	};
 	if (advancedDetermine.isString(variableSystem.prefix) !== true) {
-		throw new TypeError(`Argument "variable_prefix" must be type of string (non-nullable)! ([GitHub Action] Send To Discord)`);
+		throw new TypeError(`Workflow argument "variable_prefix" must be type of string (non-nullable)! ([GitHub Action] Send To Discord)`);
 	};
 	if (advancedDetermine.isString(variableSystem.suffix) !== true) {
-		throw new TypeError(`Argument "variable_suffix" must be type of string (non-nullable)! ([GitHub Action] Send To Discord)`);
+		throw new TypeError(`Workflow argument "variable_suffix" must be type of string (non-nullable)! ([GitHub Action] Send To Discord)`);
 	};
 	if (advancedDetermine.isString(webhook.identificationNumber) !== true) {
-		throw new TypeError(`Argument "webhook_id" must be type of string (non-nullable)! ([GitHub Action] Send To Discord)`);
+		throw new TypeError(`Workflow argument "webhook_id" must be type of string (non-nullable)! ([GitHub Action] Send To Discord)`);
 	};
 	if (advancedDetermine.isString(webhook.token) !== true) {
-		throw new TypeError(`Argument "webhook_token" must be type of string (non-nullable)! ([GitHub Action] Send To Discord)`);
+		throw new TypeError(`Workflow argument "webhook_token" must be type of string (non-nullable)! ([GitHub Action] Send To Discord)`);
 	};
-	let delta = {
-		allowed_mentions: {
-			parse: [
-				"roles",
-				"users",
-				"everyone"
-			]
-		}
-	};
+	let delta;
 	if (configuration.toLowerCase() === "false") {
-		delta = require("./wactca.js")(logMoreDetail);
+		delta = require("./wactca.js")();
 	} else if (advancedDetermine.isStringifyJSON(configuration) !== false) {
 		githubAction.core.info(`Construct configuration argument (stage MCA). ([GitHub Action] Send To Discord)`);
 		let data = JSON.parse(configuration);
-		if (logMoreDetail === true) {
-			githubAction.core.info(`Configuration Argument (Stage MCA): ${JSON.stringify(data)} ([GitHub Action] Send To Discord)`);
-		};
-		delta = data;
+		githubAction.core.debug(`Configuration Argument (Stage MCA): ${JSON.stringify(data)} ([GitHub Action] Send To Discord)`);
+		delta = require("./aca1.js")(data);
 	} else if (configuration.search(/[\n\r]/gu) === -1 && configuration.search(/\.\.\//gu) === -1 && configuration.search(/\.(jsonc?)|(ya?ml)$/gu) !== -1) {
-		delta = await require("./xca.js")(configuration, logMoreDetail);
+		let data = await require("./xca.js")(configuration);
+		delta = require("./aca1.js")(data);
 	} else {
-		throw new SyntaxError(`Argument "configuration"'s value is not match the require pattern! ([GitHub Action] Send To Discord)`);
+		throw new SyntaxError(`Workflow argument "configuration"'s value is not match the require pattern! ([GitHub Action] Send To Discord)`);
 	};
+
+
+
+
+
 
 	// TODO
 	githubAction.core.info(`Import variable list. ([GitHub Action] Send To Discord)`);
