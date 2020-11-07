@@ -202,7 +202,7 @@ const advancedDetermine = require("@hugoalh/advanced-determine"),
 		let content;
 		switch (data.data.encoding) {
 			case "base64":
-				content = Buffer.from(data.data.content).toString();
+				content = Buffer.from(data.data.content, "base64").toString();
 				break;
 			case "utf8":
 			case "utf-8":
