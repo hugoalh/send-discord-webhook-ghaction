@@ -1,0 +1,32 @@
+# content:
+# username:
+# avatar_url:
+tts: false
+embeds:
+  - title: "[GitHub Action] Send To Discord"
+    description: "Version %payload.release.name% is released and available on:"
+    # url:
+    color: "16,116,231"
+    # footer:
+      # text:
+      # icon_url:
+    # image:
+      # url:
+    # thumbnail:
+      # url:
+    # video:
+      # url:
+    # author:
+      # name:
+      # url:
+      # icon_url:
+    fields:
+      - name: "GitHub Repository"
+        value: "https://github.com/hugoalh/GitHubAction.SendToDiscord"
+        inline: false
+      - name: "GitHub Repository Release"
+        value: "%payload.release.html_url%"
+        inline: false
+      - name: "GitHub Marketplace"
+        value: "https://github.com/marketplace/actions/send-to-discord"
+        inline: false
