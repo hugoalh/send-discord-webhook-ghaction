@@ -55,13 +55,6 @@ const advancedDetermine = require("@hugoalh/advanced-determine"),
 	} else {
 		throw new SyntaxError(`Workflow argument "configuration"'s value is not match the require pattern! ([GitHub Action] Send To Discord)`);
 	};
-
-
-
-
-
-
-	// TODO
 	githubAction.core.info(`Import variable list. ([GitHub Action] Send To Discord)`);
 	variableSystem.list = {
 		external: githubAction.core.getInput(`variable_list_external`),
@@ -84,7 +77,7 @@ const advancedDetermine = require("@hugoalh/advanced-determine"),
 		default:
 			throw new Error();
 	};
-	githubAction.core.debug(`Tokenize variable list. ([GitHub Action] Send To Discord)`);
+	githubAction.core.info(`Tokenize variable list. ([GitHub Action] Send To Discord)`);
 	variableSystem.list.external = jsonFlatten(
 		variableSystem.list.external,
 		{
@@ -97,43 +90,93 @@ const advancedDetermine = require("@hugoalh/advanced-determine"),
 			delimiter: variableSystem.join
 		}
 	);
-	githubAction.core.debug(`Replace variable in the data. ([GitHub Action] Send To Discord)`);
-	Object.keys(variableSystem.list.payload).forEach((key) => {
-		Object.keys(inputCanVariable).forEach((element) => {
-			inputCanVariable[element] = inputCanVariable[element].replace(
-				new RegExp(`${variableSystem.prefix}payload${variableSystem.join}${key}${variableSystem.suffix}`, "gu"),
-				variableSystem.list.payload[key]
-			);
-		});
-		inputMessageEmbedFields.forEach((field, index) => {
-			inputMessageEmbedFields[index].name = inputMessageEmbedFields[index].name.replace(
-				new RegExp(`${variableSystem.prefix}payload${variableSystem.join}${key}${variableSystem.suffix}`, "gu"),
-				variableSystem.list.payload[key]
-			);
-			inputMessageEmbedFields[index].value = inputMessageEmbedFields[index].value.replace(
-				new RegExp(`${variableSystem.prefix}payload${variableSystem.join}${key}${variableSystem.suffix}`, "gu"),
-				variableSystem.list.payload[key]
-			);
-		});
+	githubAction.core.info(`Replace variable in the data. ([GitHub Action] Send To Discord)`);
+	function variableReplace(variableKey, variableValue) {
+		if (advancedDetermine.isString(delta.content) === true) {
+			delta.content = delta.content.replace(variableKey, variableValue);
+		};
+		if (advancedDetermine.isString(delta.username) === true) {
+			delta.username = delta.username.replace(variableKey, variableValue);
+		};
+		if (advancedDetermine.isString(delta.avatar_url) === true) {
+			delta.avatar_url = delta.avatar_url.replace(variableKey, variableValue);
+		};
+		if (advancedDetermine.isArray(delta.embeds) === true) {
+			delta.embeds.forEach((embed, indexEmbed) => {
+				if (advancedDetermine.isString(delta.embeds[indexEmbed].title) === true) {
+					delta.embeds[indexEmbed].title = delta.embeds[indexEmbed].title.replace(variableKey, variableValue);
+				};
+				if (advancedDetermine.isString(delta.embeds[indexEmbed].description) === true) {
+					delta.embeds[indexEmbed].description = delta.embeds[indexEmbed].description.replace(variableKey, variableValue);
+				};
+				if (advancedDetermine.isString(delta.embeds[indexEmbed].url) === true) {
+					delta.embeds[indexEmbed].url = delta.embeds[indexEmbed].url.replace(variableKey, variableValue);
+				};
+				if (advancedDetermine.isJSON(delta.embeds[indexEmbed].footer) === true) {
+					if (advancedDetermine.isString(delta.embeds[indexEmbed].footer.text) === true) {
+						delta.embeds[indexEmbed].footer.text = delta.embeds[indexEmbed].footer.text.replace(variableKey, variableValue);
+					};
+					if (advancedDetermine.isString(delta.embeds[indexEmbed].footer.icon_url) === true) {
+						delta.embeds[indexEmbed].footer.icon_url = delta.embeds[indexEmbed].footer.icon_url.replace(variableKey, variableValue);
+					};
+				};
+				if (advancedDetermine.isJSON(delta.embeds[indexEmbed].image) === true) {
+					if (advancedDetermine.isString(delta.embeds[indexEmbed].image.url) === true) {
+						delta.embeds[indexEmbed].image.url = delta.embeds[indexEmbed].image.url.replace(variableKey, variableValue);
+					};
+				};
+				if (advancedDetermine.isJSON(delta.embeds[indexEmbed].thumbnail) === true) {
+					if (advancedDetermine.isString(delta.embeds[indexEmbed].thumbnail.url) === true) {
+						delta.embeds[indexEmbed].thumbnail.url = delta.embeds[indexEmbed].thumbnail.url.replace(variableKey, variableValue);
+					};
+				};
+				if (advancedDetermine.isJSON(delta.embeds[indexEmbed].video) === true) {
+					if (advancedDetermine.isString(delta.embeds[indexEmbed].video.url) === true) {
+						delta.embeds[indexEmbed].video.url = delta.embeds[indexEmbed].video.url.replace(variableKey, variableValue);
+					};
+				};
+				if (advancedDetermine.isJSON(delta.embeds[indexEmbed].author) === true) {
+					if (advancedDetermine.isString(delta.embeds[indexEmbed].author.name) === true) {
+						delta.embeds[indexEmbed].author.name = delta.embeds[indexEmbed].author.name.replace(variableKey, variableValue);
+					};
+					if (advancedDetermine.isString(delta.embeds[indexEmbed].author.url) === true) {
+						delta.embeds[indexEmbed].author.url = delta.embeds[indexEmbed].author.url.replace(variableKey, variableValue);
+					};
+					if (advancedDetermine.isString(delta.embeds[indexEmbed].author.icon_url) === true) {
+						delta.embeds[indexEmbed].author.icon_url = delta.embeds[indexEmbed].author.icon_url.replace(variableKey, variableValue);
+					};
+				};
+				if (advancedDetermine.isArray(delta.embeds[indexEmbed].fields) === true) {
+					delta.embeds[indexEmbed].fields.forEach((field, indexField) => {
+						if (advancedDetermine.isJSON(delta.embeds[indexEmbed].fields[indexField]) === true) {
+							if (advancedDetermine.isString(delta.embeds[indexEmbed].fields[indexField].name) === true) {
+								delta.embeds[indexEmbed].fields[indexField].name = delta.embeds[indexEmbed].fields[indexField].name.replace(variableKey, variableValue);
+							};
+							if (advancedDetermine.isString(delta.embeds[indexEmbed].fields[indexField].value) === true) {
+								delta.embeds[indexEmbed].fields[indexField].value = delta.embeds[indexEmbed].fields[indexField].value.replace(variableKey, variableValue);
+							};
+						};
+					});
+				};
+			});
+		};
+	};
+	Object.keys(variableSystem.list.payload).forEach((keyPayload) => {
+		variableReplace(
+			new RegExp(`${variableSystem.prefix}payload${variableSystem.join}${keyPayload}${variableSystem.suffix}`, "gu"),
+			variableSystem.list.payload[keyPayload]
+		);
 	});
-	Object.keys(variableSystem.list.external).forEach((key) => {
-		Object.keys(inputCanVariable).forEach((element) => {
-			inputCanVariable[element] = inputCanVariable[element].replace(
-				new RegExp(`${variableSystem.prefix}external${variableSystem.join}${key}${variableSystem.suffix}`, "gu"),
-				variableSystem.list.external[key]
-			);
-		});
-		inputMessageEmbedFields.forEach((field, index) => {
-			inputMessageEmbedFields[index].name = inputMessageEmbedFields[index].name.replace(
-				new RegExp(`${variableSystem.prefix}external${variableSystem.join}${key}${variableSystem.suffix}`, "gu"),
-				variableSystem.list.external[key]
-			);
-			inputMessageEmbedFields[index].value = inputMessageEmbedFields[index].value.replace(
-				new RegExp(`${variableSystem.prefix}external${variableSystem.join}${key}${variableSystem.suffix}`, "gu"),
-				variableSystem.list.external[key]
-			);
-		});
+	Object.keys(variableSystem.list.external).forEach((keyExternal) => {
+		variableReplace(
+			new RegExp(`${variableSystem.prefix}external${variableSystem.join}${keyExternal}${variableSystem.suffix}`, "gu"),
+			variableSystem.list.external[keyExternal]
+		);
 	});
+
+
+
+	// TODO
 	githubAction.core.debug(`Construct payload content. ([GitHub Action] Send To Discord)`);
 	let output = {
 		allowed_mentions: {
