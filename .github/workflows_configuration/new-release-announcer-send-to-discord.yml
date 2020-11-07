@@ -24,7 +24,7 @@ embeds:
       - name: "GitHub Repository"
         value: "https://github.com/hugoalh/GitHubAction.SendToDiscord"
         inline: false
-      - name: "GitHub Repository Release"
+      - name: "GitHub Repository Release (& Changelog)"
         value: "%payload.release.html_url%"
         inline: false
       - name: "GitHub Marketplace"
