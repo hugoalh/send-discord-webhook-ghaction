@@ -3,7 +3,8 @@
 	Language:
 		NodeJS/12.13.0
 ==================*/
-const advancedDetermine = require("@hugoalh/advanced-determine");
+const advancedDetermine = require("@hugoalh/advanced-determine"),
+	path = require("path");
 function dynamicRequire(packageName) {
 	if (advancedDetermine.isString(packageName) !== true) {
 		throw new TypeError();
@@ -13,7 +14,7 @@ function dynamicRequire(packageName) {
 	} catch (error) {
 		const fileSystem = require("fs");
 		let data = fileSystem.readFileSync(
-			"./package.json",
+			path.join(__dirname, "./package.json"),
 			{
 				encoding: "utf8",
 				flag: "r"
