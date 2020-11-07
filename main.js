@@ -43,15 +43,188 @@ const advancedDetermine = require("@hugoalh/advanced-determine"),
 	};
 	let delta;
 	if (configuration.toLowerCase() === "false") {
-		delta = require("./wactca.js")();
+		let result = {};
+		githubAction.core.info(`Import workflow argument (stage WACTCA 1). ([GitHub Action] Send To Discord)`);
+		let avatarUrl = githubAction.core.getInput("webhook_avatarurl"),
+			content = githubAction.core.getInput("message_text"),
+			tts = githubAction.core.getInput("message_usetexttospeech"),
+			username = githubAction.core.getInput("webhook_name");
+		githubAction.core.info(`Analysis workflow argument (stage WACTCA 1). ([GitHub Action] Send To Discord)`);
+		if (advancedDetermine.isBoolean(tts, { allowStringify: true }) !== true) {
+			throw new TypeError(`Workflow argument "message_usetexttospeech" must be type of boolean! ([GitHub Action] Send To Discord)`);
+		};
+		githubAction.core.info(`Construct configuration argument (stage WACTCA 1). ([GitHub Action] Send To Discord)`);
+		if (advancedDetermine.isString(avatarUrl) === true) {
+			result.avatar_url = avatarUrl;
+		};
+		if (advancedDetermine.isString(content) === true) {
+			result.content = content;
+		};
+		result.tts = (tts === "true");
+		if (advancedDetermine.isString(username) === true) {
+			result.username = username;
+		};
+		githubAction.core.info(`Import and analysis workflow argument (stage WACTCA 2), and construct configuration argument (stage WACTCA 2). ([GitHub Action] Send To Discord)`);
+		let embedAuthorAvatarUrl = githubAction.core.getInput("message_embed_authoravatarurl"),
+			embedAuthorName = githubAction.core.getInput("message_embed_authorname"),
+			embedAuthorUrl = githubAction.core.getInput("message_embed_authorurl"),
+			embedColor = githubAction.core.getInput("message_embed_colour"),
+			embedDescription = githubAction.core.getInput("message_embed_description"),
+			embedFooterIconUrl = githubAction.core.getInput("message_embed_footericonurl"),
+			embedFooterText = githubAction.core.getInput("message_embed_footertext"),
+			embedImageUrl = githubAction.core.getInput("message_embed_imageurl"),
+			embedThumbnailUrl = githubAction.core.getInput("message_embed_thumbnailurl"),
+			embedTitle = githubAction.core.getInput("message_embed_title"),
+			embedTitleUrl = githubAction.core.getInput("message_embed_titleurl"),
+			embedVideoUrl = githubAction.core.getInput("message_embed_videourl");
+		let embedFields = [];
+		for (let index = 0; index < 25; index++) {
+			let key = githubAction.core.getInput(`message_embed_field_${index}_key`),
+				value = githubAction.core.getInput(`message_embed_field_${index}_value`),
+				isInline = githubAction.core.getInput(`message_embed_field_${index}_isinline`);
+			if (advancedDetermine.isBoolean(isInline, { allowStringify: true }) !== true) {
+				throw new TypeError(`Workflow argument "message_embed_field_${index}_isinline" must be type of boolean! ([GitHub Action] Send To Discord)`);
+			};
+			if (advancedDetermine.isString(key) === true && advancedDetermine.isString(value) === true) {
+				embedFields.push(
+					{
+						name: key,
+						value: value,
+						inline: (isInline === "true")
+					}
+				);
+			} else {
+				githubAction.core.debug(`Message embed field #${index} is empty. ([GitHub Action] Send To Discord)`);
+			};
+		};
+		if (
+			advancedDetermine.isString(embedAuthorAvatarUrl) === true ||
+			advancedDetermine.isString(embedAuthorName) === true ||
+			advancedDetermine.isString(embedAuthorUrl) === true ||
+			advancedDetermine.isString(embedColor) === true ||
+			advancedDetermine.isString(embedDescription) === true ||
+			advancedDetermine.isString(embedFooterText) === true ||
+			advancedDetermine.isString(embedImageUrl) === true ||
+			advancedDetermine.isString(embedThumbnailUrl) === true ||
+			advancedDetermine.isString(embedTitle) === true ||
+			advancedDetermine.isString(embedTitleUrl) === true ||
+			advancedDetermine.isString(embedVideoUrl) === true ||
+			advancedDetermine.isArray(embedFields) === true
+		) {
+			result.embeds = [{}];
+			if (
+				advancedDetermine.isString(embedAuthorAvatarUrl) === true ||
+				advancedDetermine.isString(embedAuthorName) === true ||
+				advancedDetermine.isString(embedAuthorUrl) === true
+			) {
+				result.embeds[0].author = {};
+				if (advancedDetermine.isString(embedAuthorAvatarUrl) === true) {
+					result.embeds[0].author.icon_url = embedAuthorAvatarUrl;
+				};
+				if (advancedDetermine.isString(embedAuthorName) === true) {
+					result.embeds[0].author.name = embedAuthorName;
+				};
+				if (advancedDetermine.isString(embedAuthorUrl) === true) {
+					result.embeds[0].author.url = embedAuthorUrl;
+				};
+			};
+			if (advancedDetermine.isString(embedColor) === true) {
+				result.embeds[0].color = embedColor;
+			};
+			if (advancedDetermine.isString(embedDescription) === true) {
+				result.embeds[0].description = embedDescription;
+			};
+			if (
+				advancedDetermine.isString(embedFooterText) === true
+			) {
+				result.embeds[0].footer = {};
+				if (advancedDetermine.isString(embedFooterIconUrl) === true) {
+					result.embeds[0].footer.icon_url = embedFooterIconUrl;
+				};
+				if (advancedDetermine.isString(embedFooterText) === true) {
+					result.embeds[0].footer.text = embedFooterText;
+				};
+			};
+			if (advancedDetermine.isString(embedImageUrl) === true) {
+				result.embeds[0].image = {
+					url: embedImageUrl
+				};
+			};
+			if (advancedDetermine.isString(embedThumbnailUrl) === true) {
+				result.embeds[0].thumbnail = {
+					url: embedThumbnailUrl
+				};
+			};
+			if (advancedDetermine.isString(embedTitle) === true) {
+				result.embeds[0].title = embedTitle;
+			};
+			if (advancedDetermine.isString(embedTitleUrl) === true) {
+				result.embeds[0].url = embedTitleUrl;
+			};
+			if (advancedDetermine.isString(embedVideoUrl) === true) {
+				result.embeds[0].video = {
+					url: embedVideoUrl
+				};
+			};
+			if (advancedDetermine.isArray(embedFields) === true) {
+				result.embeds[0].fields = embedFields;
+			};
+		};
+		githubAction.core.debug(`Configuration Argument (Stage WACTCA): ${JSON.stringify(result)} ([GitHub Action] Send To Discord)`);
+		delta = result;
 	} else if (advancedDetermine.isStringifyJSON(configuration) !== false) {
 		githubAction.core.info(`Construct configuration argument (stage MCA). ([GitHub Action] Send To Discord)`);
 		let data = JSON.parse(configuration);
 		githubAction.core.debug(`Configuration Argument (Stage MCA): ${JSON.stringify(data)} ([GitHub Action] Send To Discord)`);
 		delta = require("./aca1.js")(data);
 	} else if (configuration.search(/[\n\r]/gu) === -1 && configuration.search(/\.\.\//gu) === -1 && configuration.search(/\.(jsonc?)|(ya?ml)$/gu) !== -1) {
-		let data = await require("./xca.js")(configuration);
-		delta = require("./aca1.js")(data);
+		githubAction.core.info(`Import workflow argument (stage XCA). ([GitHub Action] Send To Discord)`);
+		let githubToken = githubAction.core.getInput("github_token");
+		githubAction.core.info(`Analysis workflow argument (stage XCA). ([GitHub Action] Send To Discord)`);
+		if (advancedDetermine.isString(githubToken) === false) {
+			throw new TypeError(`Workflow argument "github_token" must be type of string! ([GitHub Action] Send To Discord)`);
+		};
+		githubAction.core.info(`Send network request to GitHub. ([GitHub Action] Send To Discord)`);
+		const octokit = githubAction.github.getOctokit(githubToken);
+		let [repositoryOwner, repositoryName] = process.env.GITHUB_REPOSITORY.split("/");
+		let data = await octokit.repos.getContent({
+			owner: repositoryOwner,
+			path: configuration,
+			repo: repositoryName
+		}).catch((error) => {
+			throw error;
+		});
+		githubAction.core.info(`Receive network response from GitHub. ([GitHub Action] Send To Discord)`);
+		if (data.status !== 200) {
+			githubAction.core.warning(`Receive status code ${data.status}! May cause error in the beyond. ([GitHub Action] Send To Discord)`);
+		};
+		githubAction.core.info(`Analysis network response from GitHub. ([GitHub Action] Send To Discord)`);
+		let content;
+		switch (data.data.encoding) {
+			case "base64":
+				content = Buffer.from(data.data.content).toString();
+				break;
+			case "utf8":
+			case "utf-8":
+				content = data.data.content;
+				break;
+			default:
+				throw new Error(`File is not exist, or using unsupported encoding! ([GitHub Action] Send To Discord)`);
+		};
+		githubAction.core.info(`Construct configuration argument (stage XCA). ([GitHub Action] Send To Discord)`);
+		const dynamicRequire = require("./dynamicrequire.js");
+		let result;
+		if (configuration.search(/\.json$/gu) !== -1) {
+			result = JSON.parse(content);
+		} else if (configuration.search(/\.jsonc$/gu) !== -1) {
+			const JSONC = dynamicRequire("jsonc");
+			result = JSONC.parse(content);
+		} else {
+			const YAML = dynamicRequire("yaml");
+			result = YAML.parse(content);
+		};
+		githubAction.core.debug(`Configuration Argument (Stage XCA): ${JSON.stringify(result)} ([GitHub Action] Send To Discord)`);
+		delta = require("./aca1.js")(result);
 	} else {
 		throw new SyntaxError(`Workflow argument "configuration"'s value is not match the require pattern! ([GitHub Action] Send To Discord)`);
 	};
