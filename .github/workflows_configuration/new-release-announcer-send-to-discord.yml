@@ -4,16 +4,16 @@
 tts: false
 embeds:
   - title: "[GitHub Action] Send To Discord"
-    description: "Version %payload.release.name% is released and available on:"
+    description: "Version %payload.release.name% (%payload.release.tag_name%) is released and available on:"
     # url:
     color: "16,116,231"
     # footer:
       # text:
       # icon_url:
-    # image:
-      # url:
-    # thumbnail:
-      # url:
+    image:
+      url: "https://i.imgur.com/6HnQK7H.png"
+    thumbnail:
+      url: "https://i.imgur.com/knmLbFg.png"
     # video:
       # url:
     # author:
