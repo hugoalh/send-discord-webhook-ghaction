@@ -509,4 +509,6 @@ const advancedDetermine = require("@hugoalh/advanced-determine"),
 	} else {
 		throw new Error(`${response.status} ${responseText} ([GitHub Action] Send To Discord)`);
 	};
-})();
+})().catch((error) => {
+	throw error;
+});

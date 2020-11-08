@@ -1,6 +1,6 @@
 {
 	"name": "githubaction.sendtodiscord",
-	"version": "3.0.0-rc.4",
+	"version": "3.0.0-rc.5",
 	"description": "A GitHub action to send message to Discord via webhook.",
 	"keywords": [
 		"github-action",
