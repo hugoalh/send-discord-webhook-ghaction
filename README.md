@@ -134,7 +134,7 @@ Any
       [W] <code>github_token</code>
     </td>
     <td><code>string.secret = "${{github.token}}"</code></td>
-    <td>GitHub personal access token, only use when need to fetch the configuration file specify in <code>configuration</code>.</td>
+    <td>GitHub personal access token, only use when need to fetch the configuration file specify in the <code>configuration</code>.</td>
   </tr>
   <tr>
     <td>
