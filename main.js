@@ -191,8 +191,6 @@ const advancedDetermine = require("@hugoalh/advanced-determine"),
 			owner: repositoryOwner,
 			path: configuration,
 			repo: repositoryName
-		}).catch((error) => {
-			throw error;
 		});
 		githubAction.core.info(`Receive network response from GitHub. ([GitHub Action] Send To Discord)`);
 		if (data.status !== 200) {
@@ -633,7 +631,7 @@ const advancedDetermine = require("@hugoalh/advanced-determine"),
 						break;
 					default:
 						if (colorNode.search(/^[0-9]{1,3},[0-9]{1,3},[0-9]{1,3}$/u) !== 0) {
-							throw new SyntaxError(`Configuration argument "embed#${indexEmbed}.color"'s value is not an expected colour scheme! Read the documentation for more information. ([GitHub Action] Send To Discord)`);
+							throw new SyntaxError(`Configuration argument "embed#${indexEmbed}.color"'s value is not an expected colour scheme! ([GitHub Action] Send To Discord)`);
 						};
 						colorNode = colorNode.split(",");
 						colorRGB = [
@@ -646,7 +644,7 @@ const advancedDetermine = require("@hugoalh/advanced-determine"),
 								advancedDetermine.isNumberPositiveInteger(element) !== true ||
 								element > 255
 							) {
-								throw new RangeError(`Configuration argument "embed#${indexEmbed}.color"'s value is not a RGB standard! Read the documentation for more information. ([GitHub Action] Send To Discord)`);
+								throw new RangeError(`Configuration argument "embed#${indexEmbed}.color"'s value is not a RGB standard! ([GitHub Action] Send To Discord)`);
 							};
 						});
 						break;
@@ -655,7 +653,7 @@ const advancedDetermine = require("@hugoalh/advanced-determine"),
 			};
 			if (advancedDetermine.isNumberPositiveInteger(delta.embeds[indexEmbed].color) === true) {
 				if (delta.embeds[indexEmbed].color > 16777215) {
-					throw new RangeError(`Configuration argument "embed#${indexEmbed}.color"'s value is out of range! Read the documentation for more information. ([GitHub Action] Send To Discord)`);
+					throw new RangeError(`Configuration argument "embed#${indexEmbed}.color"'s value is out of range! ([GitHub Action] Send To Discord)`);
 				};
 			};
 			if (advancedDetermine.isJSON(delta.embeds[indexEmbed].footer) === true) {
@@ -729,9 +727,7 @@ const advancedDetermine = require("@hugoalh/advanced-determine"),
 			method: "POST",
 			redirect: "follow"
 		}
-	).catch((error) => {
-		throw error;
-	});
+	);
 	githubAction.core.info(`Receive network response from Discord. ([GitHub Action] Send To Discord)`);
 	if (response.status !== 200 && response.status !== 204) {
 		githubAction.core.warning(`Receive status code ${response.status}! May cause error in the beyond. ([GitHub Action] Send To Discord)`);
@@ -743,5 +739,6 @@ const advancedDetermine = require("@hugoalh/advanced-determine"),
 		throw new Error(`${response.status} ${responseText} ([GitHub Action] Send To Discord)`);
 	};
 })().catch((error) => {
-	throw error;
+	githubAction.core.error(error);
+	process.exit(1);
 });
