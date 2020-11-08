@@ -247,7 +247,10 @@ Any
       [C] <code>embeds.&ltArray&gt.color</code><br />
       [W] <code>message_embed_colour</code>
     </td>
-    <td><code>string = "invisible"</code><br />✔ When have embed(s)</td>
+    <td>
+      [C] <code>string = "invisible" || number.positiveInteger</code><br />
+      [W] <code>string = "invisible"</code><br />
+      ✔ When have embed(s)</td>
     <td>
       Left border's colour of this embed.
       <ul>
@@ -301,7 +304,7 @@ Any
       [W] <code>message_embed_videourl</code>
     </td>
     <td><code>string</code><br />[V]</td>
-    <td>Embed video url. Support YouTube only!</td>
+    <td>Embed video url.</td>
   </tr>
   <tr>
     <td>
