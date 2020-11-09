@@ -21,12 +21,12 @@ embeds:
       # url:
       # icon_url:
     fields:
-      - name: "GitHub Repository"
-        value: "https://github.com/hugoalh/GitHubAction.SendToDiscord"
-        inline: false
       - name: "GitHub Repository Release (& Changelog)"
         value: "%payload.release.html_url%"
         inline: false
       - name: "GitHub Marketplace"
         value: "https://github.com/marketplace/actions/send-to-discord"
+        inline: false
+      - name: "GitHub Repository"
+        value: "https://github.com/hugoalh/GitHubAction.SendToDiscord"
         inline: false
