@@ -17,7 +17,7 @@ jobs:
       matrix: "${{steps.get-language-list-main.outputs.language}}"
     steps:
       - id: "get-language-list-main"
-        uses: "hugoalh/GitHubAction.LanguageList@v1.0.7"
+        uses: "hugoalh/GitHubAction.LanguageList@v1.0.9"
         with:
           filter: "codeql"
           lettercase: "lower"
