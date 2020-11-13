@@ -119,7 +119,7 @@ Any
       (>= v3)<br />
       [W] <code>configuration</code>
     </td>
-    <td><code>string = "false" || object.json</code></td>
+    <td><code>(string|object.json) = "false"</code></td>
     <td>Select to use workflow argument or configuration argument.
       <ul>
         <li><b>Enable Externally:</b> A relative JSON, JSONC, YAML, or YML file path (end with <code>.json</code>, <code>.jsonc</code>, <code>.yaml</code>, or <code>.yml</code>) which in the same repository, file size must smaller than 1 MB (restricted by GitHub). Workflow argument will ignore when configuration argument is available.</li>

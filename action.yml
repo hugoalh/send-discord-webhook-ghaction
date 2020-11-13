@@ -3,7 +3,7 @@ author: "hugoalh"
 description: "Send message to Discord via webhook."
 inputs:
   configuration:
-    description: "{(string||object.json)} Select to use workflow argument or configuration argument."
+    description: "{(string|object.json)} Select to use workflow argument or configuration argument."
     required: false
     default: "false"
   github_token:
