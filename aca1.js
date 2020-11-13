@@ -27,12 +27,12 @@ function aca1(delta) {
 		};
 	};
 	if (typeof delta.username !== "undefined") {
-		if (advancedDetermine.isString(delta.username) !== true) {
+		if (advancedDetermine.isStringSingleLine(delta.username) !== true) {
 			throw new TypeError(`Configuration argument "username" must be type of string (non-nullable)! ([GitHub Action] Send To Discord)`);
 		};
 	};
 	if (typeof delta.avatar_url !== "undefined") {
-		if (advancedDetermine.isString(delta.avatar_url) !== true) {
+		if (advancedDetermine.isStringSingleLine(delta.avatar_url) !== true) {
 			throw new TypeError(`Configuration argument "avatar_url" must be type of string (non-nullable)! ([GitHub Action] Send To Discord)`);
 		};
 	};
@@ -71,14 +71,14 @@ function aca1(delta) {
 						};
 					};
 					if (typeof delta.embeds[indexEmbed].url !== "undefined") {
-						if (advancedDetermine.isString(delta.embeds[indexEmbed].url) !== true) {
+						if (advancedDetermine.isStringSingleLine(delta.embeds[indexEmbed].url) !== true) {
 							throw new TypeError(`Configuration argument "embeds#${indexEmbed}.url" must be type of string (non-nullable)! ([GitHub Action] Send To Discord)`);
 						};
 					};
 					if (typeof delta.embeds[indexEmbed].color === "undefined") {
 						delta.embeds[indexEmbed].color = "invisible";
 					} else {
-						if (advancedDetermine.isString(delta.embeds[indexEmbed].color) !== true && advancedDetermine.isNumberPositiveInteger(delta.embeds[indexEmbed].color) !== true) {
+						if (advancedDetermine.isStringSingleLine(delta.embeds[indexEmbed].color) !== true && advancedDetermine.isNumberPositiveInteger(delta.embeds[indexEmbed].color) !== true) {
 							throw new TypeError(`Configuration argument "embeds#${indexEmbed}.color" must be type of string (non-nullable) or positive integer number! ([GitHub Action] Send To Discord)`);
 						};
 					};
@@ -98,7 +98,7 @@ function aca1(delta) {
 								throw new TypeError(`Configuration argument "embeds#${indexEmbed}.footer.text" must be type of string (non-nullable)! ([GitHub Action] Send To Discord)`);
 							};
 							if (typeof delta.embeds[indexEmbed].footer.icon_url !== "undefined") {
-								if (advancedDetermine.isString(delta.embeds[indexEmbed].footer.icon_url) !== true) {
+								if (advancedDetermine.isStringSingleLine(delta.embeds[indexEmbed].footer.icon_url) !== true) {
 									throw new TypeError(`Configuration argument "embeds#${indexEmbed}.footer.icon_url" must be type of string (non-nullable)! ([GitHub Action] Send To Discord)`);
 								};
 							};
@@ -118,7 +118,7 @@ function aca1(delta) {
 									delete delta.embeds[indexEmbed].image[embedImageKey];
 								};
 							});
-							if (advancedDetermine.isString(delta.embeds[indexEmbed].image.url) !== true) {
+							if (advancedDetermine.isStringSingleLine(delta.embeds[indexEmbed].image.url) !== true) {
 								throw new TypeError(`Configuration argument "embeds#${indexEmbed}.image.url" must be type of string (non-nullable)! ([GitHub Action] Send To Discord)`);
 							};
 						} else {
@@ -137,7 +137,7 @@ function aca1(delta) {
 									delete delta.embeds[indexEmbed].thumbnail[embedThumbnailKey];
 								};
 							});
-							if (advancedDetermine.isString(delta.embeds[indexEmbed].thumbnail.url) !== true) {
+							if (advancedDetermine.isStringSingleLine(delta.embeds[indexEmbed].thumbnail.url) !== true) {
 								throw new TypeError(`Configuration argument "embeds#${indexEmbed}.thumbnail.url" must be type of string (non-nullable)! ([GitHub Action] Send To Discord)`);
 							};
 						} else {
@@ -156,7 +156,7 @@ function aca1(delta) {
 									delete delta.embeds[indexEmbed].video[embedVideoKey];
 								};
 							});
-							if (advancedDetermine.isString(delta.embeds[indexEmbed].video.url) !== true) {
+							if (advancedDetermine.isStringSingleLine(delta.embeds[indexEmbed].video.url) !== true) {
 								throw new TypeError(`Configuration argument "embeds#${indexEmbed}.video.url" must be type of string (non-nullable)! ([GitHub Action] Send To Discord)`);
 							};
 						} else {
@@ -176,17 +176,17 @@ function aca1(delta) {
 								};
 							});
 							if (typeof delta.embeds[indexEmbed].author.name !== "undefined") {
-								if (advancedDetermine.isString(delta.embeds[indexEmbed].author.name) !== true) {
+								if (advancedDetermine.isStringSingleLine(delta.embeds[indexEmbed].author.name) !== true) {
 									throw new TypeError(`Configuration argument "embeds#${indexEmbed}.author.name" must be type of string (non-nullable)! ([GitHub Action] Send To Discord)`);
 								};
 							};
 							if (typeof delta.embeds[indexEmbed].author.url !== "undefined") {
-								if (advancedDetermine.isString(delta.embeds[indexEmbed].author.url) !== true) {
+								if (advancedDetermine.isStringSingleLine(delta.embeds[indexEmbed].author.url) !== true) {
 									throw new TypeError(`Configuration argument "embeds#${indexEmbed}.author.url" must be type of string (non-nullable)! ([GitHub Action] Send To Discord)`);
 								};
 							};
 							if (typeof delta.embeds[indexEmbed].author.icon_url !== "undefined") {
-								if (advancedDetermine.isString(delta.embeds[indexEmbed].author.icon_url) !== true) {
+								if (advancedDetermine.isStringSingleLine(delta.embeds[indexEmbed].author.icon_url) !== true) {
 									throw new TypeError(`Configuration argument "embeds#${indexEmbed}.author.icon_url" must be type of string (non-nullable)! ([GitHub Action] Send To Discord)`);
 								};
 							};

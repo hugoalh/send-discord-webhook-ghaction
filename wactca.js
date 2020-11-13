@@ -134,9 +134,6 @@ function wactca() {
 		if (advancedDetermine.isArray(embedFields) === true) {
 			result.embeds[0].fields = embedFields;
 		};
-		if (Object.keys(result.embeds[0]).length === 0) {
-			delete result.embeds;
-		};
 	};
 	githubAction.core.debug(`Configuration Argument (Stage WACTCA): ${JSON.stringify(result)} ([GitHub Action] Send To Discord)`);
 	return result;

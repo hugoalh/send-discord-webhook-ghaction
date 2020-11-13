@@ -194,7 +194,7 @@ const advancedDetermine = require("@hugoalh/advanced-determine"),
 			headers: {
 				"Content-Type": "application/json",
 				"Content-Length": requestPayload.length,
-				"User-Agent": `NodeJS/${process.version.replace(/^v/giu, "")} node-fetch/2.6.1 GitHubAction.SendToDiscord(@hugoalh)/3.0.0`
+				"User-Agent": `NodeJS/${process.version.replace(/^v/giu, "")} node-fetch/2.6.1 GitHubAction.SendToDiscord(@hugoalh)/3.0.1`
 			},
 			method: "POST",
 			redirect: "follow"

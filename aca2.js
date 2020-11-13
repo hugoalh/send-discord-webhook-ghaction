@@ -16,9 +16,17 @@ function aca2(delta) {
 		};
 	};
 	if (advancedDetermine.isString(delta.username) === true) {
+		if (advancedDetermine.isStringSingleLine(delta.username) !== true) {
+			throw new TypeError(`Configuration argument "username" must be type of string (non-nullable)! ([GitHub Action] Send To Discord)`);
+		};
 		if (delta.username.length < 2 || delta.username.length > 32) {
 			githubAction.core.warning(`Configuration argument "username"'s length must larger than 1 and smaller than 33! Ignored this key. ([GitHub Action] Send To Discord)`);
 			delete delta.username;
+		};
+	};
+	if (advancedDetermine.isString(delta.avatar_url) === true) {
+		if (advancedDetermine.isStringSingleLine(delta.avatar_url) !== true) {
+			throw new TypeError(`Configuration argument "avatar_url" must be type of string (non-nullable)! ([GitHub Action] Send To Discord)`);
 		};
 	};
 	if (advancedDetermine.isArray(delta.embeds) === true) {
@@ -37,6 +45,11 @@ function aca2(delta) {
 					githubAction.core.isDebug(`Embed#${indexEmbed} Description: ${delta.embeds[indexEmbed].description} ([GitHub Action] Send To Discord)`);
 				};
 				characterCount += delta.embeds[indexEmbed].description.length;
+			};
+			if (advancedDetermine.isString(delta.embeds[indexEmbed].url) === true) {
+				if (advancedDetermine.isStringSingleLine(delta.embeds[indexEmbed].url) !== true) {
+					throw new TypeError(`Configuration argument "embeds#${indexEmbed}.url" must be type of string (non-nullable)! ([GitHub Action] Send To Discord)`);
+				};
 			};
 			if (advancedDetermine.isString(delta.embeds[indexEmbed].color) === true) {
 				let colorNode = delta.embeds[indexEmbed].color.toLowerCase(),
@@ -98,14 +111,53 @@ function aca2(delta) {
 					};
 					characterCount += delta.embeds[indexEmbed].footer.text.length;
 				};
+				if (advancedDetermine.isString(delta.embeds[indexEmbed].footer.icon_url) === true) {
+					if (advancedDetermine.isStringSingleLine(delta.embeds[indexEmbed].footer.icon_url) !== true) {
+						throw new TypeError(`Configuration argument "embeds#${indexEmbed}.footer.icon_url" must be type of string (non-nullable)! ([GitHub Action] Send To Discord)`);
+					};
+				};
+			};
+			if (advancedDetermine.isJSON(delta.embeds[indexEmbed].image) === true) {
+				if (advancedDetermine.isString(delta.embeds[indexEmbed].image.url) === true) {
+					if (advancedDetermine.isStringSingleLine(delta.embeds[indexEmbed].image.url) !== true) {
+						throw new TypeError(`Configuration argument "embeds#${indexEmbed}.image.url" must be type of string (non-nullable)! ([GitHub Action] Send To Discord)`);
+					};
+				};
+			};
+			if (advancedDetermine.isJSON(delta.embeds[indexEmbed].thumbnail) === true) {
+				if (advancedDetermine.isString(delta.embeds[indexEmbed].thumbnail.url) === true) {
+					if (advancedDetermine.isStringSingleLine(delta.embeds[indexEmbed].thumbnail.url) !== true) {
+						throw new TypeError(`Configuration argument "embeds#${indexEmbed}.thumbnail.url" must be type of string (non-nullable)! ([GitHub Action] Send To Discord)`);
+					};
+				};
+			};
+			if (advancedDetermine.isJSON(delta.embeds[indexEmbed].video) === true) {
+				if (advancedDetermine.isString(delta.embeds[indexEmbed].video.url) === true) {
+					if (advancedDetermine.isStringSingleLine(delta.embeds[indexEmbed].video.url) !== true) {
+						throw new TypeError(`Configuration argument "embeds#${indexEmbed}.video.url" must be type of string (non-nullable)! ([GitHub Action] Send To Discord)`);
+					};
+				};
 			};
 			if (advancedDetermine.isJSON(delta.embeds[indexEmbed].author) === true) {
 				if (advancedDetermine.isString(delta.embeds[indexEmbed].author.name) === true) {
+					if (advancedDetermine.isStringSingleLine(delta.embeds[indexEmbed].author.name) !== true) {
+						throw new TypeError(`Configuration argument "embeds#${indexEmbed}.author.name" must be type of string (non-nullable)! ([GitHub Action] Send To Discord)`);
+					};
 					if (delta.embeds[indexEmbed].author.name.length > 256) {
 						delta.embeds[indexEmbed].author.name = `${delta.embeds[indexEmbed].author.name.slice(0, 253)}...`;
 						githubAction.core.isDebug(`Embed#${indexEmbed} Author Name: ${delta.embeds[indexEmbed].author.name} ([GitHub Action] Send To Discord)`);
 					};
 					characterCount += delta.embeds[indexEmbed].author.name.length;
+				};
+				if (advancedDetermine.isString(delta.embeds[indexEmbed].author.url) === true) {
+					if (advancedDetermine.isStringSingleLine(delta.embeds[indexEmbed].author.url) !== true) {
+						throw new TypeError(`Configuration argument "embeds#${indexEmbed}.author.url" must be type of string (non-nullable)! ([GitHub Action] Send To Discord)`);
+					};
+				};
+				if (advancedDetermine.isString(delta.embeds[indexEmbed].author.icon_url) === true) {
+					if (advancedDetermine.isStringSingleLine(delta.embeds[indexEmbed].author.icon_url) !== true) {
+						throw new TypeError(`Configuration argument "embeds#${indexEmbed}.author.icon_url" must be type of string (non-nullable)! ([GitHub Action] Send To Discord)`);
+					};
 				};
 			};
 			if (advancedDetermine.isArray(delta.embeds[indexEmbed].fields) === true) {
