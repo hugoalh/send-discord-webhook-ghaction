@@ -56,7 +56,7 @@ inputs:
   message_embed_colour:
     description: "{string} Left border's colour of the embed."
     required: false
-    default: "invisible"
+    default: "black"
   message_embed_footertext:
     description: "{string} Embed footer text."
     required: false

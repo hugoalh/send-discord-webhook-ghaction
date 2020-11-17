@@ -76,7 +76,7 @@ function aca1(delta) {
 						};
 					};
 					if (typeof delta.embeds[indexEmbed].color === "undefined") {
-						delta.embeds[indexEmbed].color = "invisible";
+						delta.embeds[indexEmbed].color = "black";
 					} else {
 						if (advancedDetermine.isStringSingleLine(delta.embeds[indexEmbed].color) !== true && advancedDetermine.isNumberPositiveInteger(delta.embeds[indexEmbed].color) !== true) {
 							throw new TypeError(`Configuration argument "embeds#${indexEmbed}.color" must be type of string (non-nullable) or positive integer number! ([GitHub Action] Send To Discord)`);

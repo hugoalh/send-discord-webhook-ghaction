@@ -1,4 +1,4 @@
-name: "OSSAR (Open Source Static Analysis Runner) Analysis"
+name: "Code Analysis - Open Source Static Analysis Runner"
 on:
   push:
     branches:
@@ -10,8 +10,8 @@ on:
       - "reopened"
       - "synchronize"
 jobs:
-  analysis:
-    name: "Analysis"
+  main:
+    name: "Main"
     runs-on: "windows-latest"
     steps:
       - name: "Checkout Repository"
@@ -26,7 +26,7 @@ jobs:
       #   uses: "actions/setup-dotnet@v1.7.2"
       #   with:
       #     dotnet-version: "3.1.x"
-      - name: "Analyze"
+      - name: "Analyze Repository"
         id: "ossar"
         uses: "github/ossar-action@v1.0.0"
       - name: "Upload Result"

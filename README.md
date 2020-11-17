@@ -248,8 +248,8 @@ Any
       [W] <code>message_embed_colour</code>
     </td>
     <td>
-      [C] <code>string = "invisible" || number.positiveInteger</code><br />
-      [W] <code>string = "invisible"</code><br />
+      [C] <code>string = "black" || number.positiveInteger</code><br />
+      [W] <code>string = "black"</code><br />
       ✔ When have embed(s)</td>
     <td>
       Left border's colour of this embed.
@@ -259,7 +259,6 @@ Any
         <li><code>"discordblurple"</code></li>
         <li><code>"discorddark"</code></li>
         <li><code>"discordgreyple"</code></li>
-        <li><code>"invisible"</code></li>
         <li><code>"random"</code></li>
         <li><code>"white"</code></li>
         <li>RGB split with comma (<code>,</code>) (example: <code>256,128,64</code>)
