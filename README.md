@@ -248,7 +248,7 @@ Any
       [W] <code>message_embed_colour</code>
     </td>
     <td>
-      [C] <code>string = "black" || number.positiveInteger</code><br />
+      [C] <code>(string|number.positiveInteger) = "black"</code><br />
       [W] <code>string = "black"</code><br />
       ✔ When have embed(s)</td>
     <td>
