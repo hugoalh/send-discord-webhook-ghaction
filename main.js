@@ -9,7 +9,8 @@ const advancedDetermine = require("@hugoalh/advanced-determine"),
 		github: require("@actions/github")
 	},
 	jsonFlatten = require("flat").flatten,
-	nodeFetch = require("node-fetch");
+	nodeFetch = require("node-fetch"),
+	regexpEscape = require("escape-string-regexp");
 (async () => {
 	githubAction.core.info(`Import workflow argument (stage I). ([GitHub Action] Send To Discord)`);
 	let configuration = githubAction.core.getInput("configuration"),
@@ -67,21 +68,23 @@ const advancedDetermine = require("@hugoalh/advanced-determine"),
 		payload: githubAction.github.context.payload
 	};
 	githubAction.core.info(`Analysis external variable list. ([GitHub Action] Send To Discord)`);
-	switch (advancedDetermine.isString(variableSystem.list.external)) {
-		case false:
-			throw new TypeError(`Argument "variable_list_external" must be type of object JSON! ([GitHub Action] Send To Discord)`);
-		case null:
-			githubAction.core.info(`External variable list is empty. ([GitHub Action] Send To Discord)`);
-			variableSystem.list.external = {};
-			break;
-		case true:
-			if (advancedDetermine.isStringifyJSON(variableSystem.list.external) === false) {
+	if (advancedDetermine.isJSON(variableSystem.list.external) !== true) {
+		switch (advancedDetermine.isString(variableSystem.list.external)) {
+			case false:
 				throw new TypeError(`Argument "variable_list_external" must be type of object JSON! ([GitHub Action] Send To Discord)`);
-			};
-			variableSystem.list.external = JSON.parse(variableSystem.list.external);
-			break;
-		default:
-			throw new Error();
+			case null:
+				githubAction.core.info(`External variable list is empty. ([GitHub Action] Send To Discord)`);
+				variableSystem.list.external = {};
+				break;
+			case true:
+				if (advancedDetermine.isStringifyJSON(variableSystem.list.external) === false) {
+					throw new TypeError(`Argument "variable_list_external" must be type of object JSON! ([GitHub Action] Send To Discord)`);
+				};
+				variableSystem.list.external = JSON.parse(variableSystem.list.external);
+				break;
+			default:
+				throw new Error();
+		};
 	};
 	githubAction.core.info(`Tokenize variable list. ([GitHub Action] Send To Discord)`);
 	variableSystem.list.external = jsonFlatten(
@@ -169,13 +172,19 @@ const advancedDetermine = require("@hugoalh/advanced-determine"),
 	};
 	Object.keys(variableSystem.list.payload).forEach((keyPayload) => {
 		variableReplace(
-			new RegExp(`${variableSystem.prefix}payload${variableSystem.join}${keyPayload}${variableSystem.suffix}`, "gu"),
+			new RegExp(
+				regexpEscape(`${variableSystem.prefix}payload${variableSystem.join}${keyPayload}${variableSystem.suffix}`),
+				"gu"
+			),
 			variableSystem.list.payload[keyPayload]
 		);
 	});
 	Object.keys(variableSystem.list.external).forEach((keyExternal) => {
 		variableReplace(
-			new RegExp(`${variableSystem.prefix}external${variableSystem.join}${keyExternal}${variableSystem.suffix}`, "gu"),
+			new RegExp(
+				regexpEscape(`${variableSystem.prefix}external${variableSystem.join}${keyExternal}${variableSystem.suffix}`),
+				"gu"
+			),
 			variableSystem.list.external[keyExternal]
 		);
 	});
@@ -200,7 +209,7 @@ const advancedDetermine = require("@hugoalh/advanced-determine"),
 			headers: {
 				"Content-Type": "application/json",
 				"Content-Length": requestPayload.length,
-				"User-Agent": `NodeJS/${process.version.replace(/^v/giu, "")} node-fetch/2.6.1 GitHubAction.SendToDiscord(@hugoalh)/3.0.2`
+				"User-Agent": `NodeJS/${process.version.replace(/^v/giu, "")} node-fetch/2.6.1 GitHubAction.SendToDiscord(@hugoalh)/3.1.0`
 			},
 			method: "POST",
 			redirect: "follow"
