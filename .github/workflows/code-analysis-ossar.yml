@@ -28,9 +28,7 @@ jobs:
       #     dotnet-version: "3.1.x"
       - name: "Analyze Repository"
         id: "ossar"
-        uses: "github/ossar-action@v1.0.0"
-        env:
-          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+        uses: "github/ossar-action@v1.1.0"
       - name: "Upload Result"
         uses: "github/codeql-action/upload-sarif@v1"
         with:
