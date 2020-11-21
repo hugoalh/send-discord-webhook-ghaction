@@ -94,7 +94,7 @@ To use variable in the supported argument, follow the pattern:
 
 #### \[W\] `github_token`
 
-**(>= v3) \[Optional\]** `<string.secret = "${{github.token}}">` GitHub personal access token, only use when need to fetch the configuration file specify in the [`configuration`](#W-configuration).
+**(>= v3) \[Optional\]** `<string.secret = "${{github.token}}">` GitHub personal access token, only use when need to fetch the configuration file specify in the argument [`configuration`](#W-configuration).
 
 #### \[W\] `webhook_id`
 
