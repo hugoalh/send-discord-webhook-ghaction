@@ -49,14 +49,17 @@ const advancedDetermine = require("@hugoalh/advanced-determine"),
 		throw new SyntaxError(`Workflow argument "webhook_token"'s value is not match the require pattern! ([GitHub Action] Send To Discord)`);
 	};
 	let delta = {};
-	if (configuration.toLowerCase() === "false") {
+	if (advancedDetermine.isJSON(configuration) !== false) {
+		githubAction.core.debug(`Configuration Argument (Stage DCA): ${JSON.stringify(configuration)} ([GitHub Action] Send To Discord)`);
+		delta = configuration;
+	} else if (advancedDetermine.isStringSingleLine(configuration) === true && configuration.toLowerCase() === "false") {
 		delta = require("./wactca.js")();
 	} else if (advancedDetermine.isStringifyJSON(configuration) !== false) {
 		githubAction.core.info(`Construct configuration argument (stage MCA). ([GitHub Action] Send To Discord)`);
 		let data = JSON.parse(configuration);
 		githubAction.core.debug(`Configuration Argument (Stage MCA): ${JSON.stringify(data)} ([GitHub Action] Send To Discord)`);
 		delta = data;
-	} else if (configuration.search(/[\n\r]/gu) === -1 && configuration.search(/\.\.\//gu) === -1 && configuration.search(/\.(jsonc?)|(ya?ml)$/gu) !== -1) {
+	} else if (advancedDetermine.isStringSingleLine(configuration) === true && configuration.search(/\.\.\//gu) === -1 && configuration.search(/\.(jsonc?)|(ya?ml)$/gu) !== -1) {
 		delta = await require("./xca.js")(configuration);
 	} else {
 		throw new SyntaxError(`Workflow argument "configuration"'s value is not match the require pattern! ([GitHub Action] Send To Discord)`);
@@ -68,7 +71,7 @@ const advancedDetermine = require("@hugoalh/advanced-determine"),
 		payload: githubAction.github.context.payload
 	};
 	githubAction.core.info(`Analysis external variable list. ([GitHub Action] Send To Discord)`);
-	if (advancedDetermine.isJSON(variableSystem.list.external) !== true) {
+	if (advancedDetermine.isJSON(variableSystem.list.external) === false) {
 		switch (advancedDetermine.isString(variableSystem.list.external)) {
 			case false:
 				throw new TypeError(`Argument "variable_list_external" must be type of object JSON! ([GitHub Action] Send To Discord)`);
