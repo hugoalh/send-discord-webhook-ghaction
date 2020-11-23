@@ -25,10 +25,7 @@ function wactca() {
 	if (advancedDetermine.isString(content) === true) {
 		result.content = content;
 	};
-	result.tts = (
-		tts === true ||
-		tts === "true"
-	);
+	result.tts = (tts === "true");
 	if (advancedDetermine.isString(username) === true) {
 		result.username = username;
 	};
@@ -58,10 +55,7 @@ function wactca() {
 				{
 					name: key,
 					value: value,
-					inline: (
-						isInline === true ||
-						isInline === "true"
-					)
+					inline: (isInline === "true")
 				}
 			);
 		} else {

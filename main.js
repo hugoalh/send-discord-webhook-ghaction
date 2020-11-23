@@ -49,10 +49,7 @@ const advancedDetermine = require("@hugoalh/advanced-determine"),
 		throw new SyntaxError(`Workflow argument "webhook_token"'s value is not match the require pattern! ([GitHub Action] Send To Discord)`);
 	};
 	let delta = {};
-	if (advancedDetermine.isJSON(configuration) !== false) {
-		githubAction.core.debug(`Configuration Argument (Stage DCA): ${JSON.stringify(configuration)} ([GitHub Action] Send To Discord)`);
-		delta = configuration;
-	} else if (advancedDetermine.isStringSingleLine(configuration) === true && configuration.toLowerCase() === "false") {
+	if (advancedDetermine.isBoolean(configuration, { allowStringify: true }) === true && configuration === "false") {
 		delta = require("./wactca.js")();
 	} else if (advancedDetermine.isStringifyJSON(configuration) !== false) {
 		githubAction.core.info(`Construct configuration argument (stage MCA). ([GitHub Action] Send To Discord)`);
@@ -71,23 +68,20 @@ const advancedDetermine = require("@hugoalh/advanced-determine"),
 		payload: githubAction.github.context.payload
 	};
 	githubAction.core.info(`Analysis external variable list. ([GitHub Action] Send To Discord)`);
-	if (advancedDetermine.isJSON(variableSystem.list.external) === false) {
-		switch (advancedDetermine.isString(variableSystem.list.external)) {
-			case false:
+	switch (advancedDetermine.isString(variableSystem.list.external)) {
+		case null:
+			githubAction.core.info(`External variable list is empty. ([GitHub Action] Send To Discord)`);
+			variableSystem.list.external = {};
+			break;
+		case true:
+			if (advancedDetermine.isStringifyJSON(variableSystem.list.external) === false) {
 				throw new TypeError(`Argument "variable_list_external" must be type of object JSON! ([GitHub Action] Send To Discord)`);
-			case null:
-				githubAction.core.info(`External variable list is empty. ([GitHub Action] Send To Discord)`);
-				variableSystem.list.external = {};
-				break;
-			case true:
-				if (advancedDetermine.isStringifyJSON(variableSystem.list.external) === false) {
-					throw new TypeError(`Argument "variable_list_external" must be type of object JSON! ([GitHub Action] Send To Discord)`);
-				};
-				variableSystem.list.external = JSON.parse(variableSystem.list.external);
-				break;
-			default:
-				throw new Error();
-		};
+			};
+			variableSystem.list.external = JSON.parse(variableSystem.list.external);
+			break;
+		case false:
+		default:
+			throw new TypeError(`Argument "variable_list_external" must be type of object JSON! ([GitHub Action] Send To Discord)`);
 	};
 	githubAction.core.info(`Tokenize variable list. ([GitHub Action] Send To Discord)`);
 	variableSystem.list.external = jsonFlatten(
