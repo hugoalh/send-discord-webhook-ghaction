@@ -88,13 +88,13 @@ To use variable in the supported argument, follow the pattern:
 #### \[W\] `configuration`
 
 **(>= v3) \[Optional\]** `<(string|object.json) = "false">` Select to use workflow argument or configuration argument.
-- **Enable Externally:** A relative JSON, JSONC, YAML, or YML file path (end with `.json`, `.jsonc`, `.yaml`, or `.yml`) which in the same repository, file size must smaller than 1 MB (restricted by GitHub). Workflow argument will ignore when configuration argument is available.
-- **Enable Locally:** A stringify JSON paste in here. Workflow argument will ignore when configuration argument is available.
+- **Enable Externally:** A relative JSON, JSONC, YAML, or YML file path (end with `.json`, `.jsonc`, `.yaml`, or `.yml`) which in the same repository, file size must smaller than 1 MB (restricted by GitHub); Workflow argument will ignore when configuration argument is available.
+- **Enable Locally:** A stringify JSON paste in here; Workflow argument will ignore when configuration argument is available.
 - **Disable:** Use workflow argument.
 
 #### \[W\] `github_token`
 
-**(>= v3) \[Optional\]** `<string.secret = "${{github.token}}">` GitHub personal access token, only use when need to fetch the configuration file specify in the argument [`configuration`](#W-configuration).
+**(>= v3) \[Optional\]** `<string.secret = "${{github.token}}">` GitHub personal access token; Only use when need to fetch the configuration file specify in the argument [`configuration`](#W-configuration).
 
 #### \[W\] `webhook_id`
 
@@ -110,7 +110,7 @@ To use variable in the supported argument, follow the pattern:
 
 #### \[W\] `variable_list_external`
 
-**\[Optional\]** `<object.json>` External variable list that will use in the data. Can import from other actions' output.
+**\[Optional\]** `<object.json>` External variable list that will use in the data; Can import from other actions' output.
 
 #### \[W\] `variable_prefix`
 
@@ -123,17 +123,17 @@ To use variable in the supported argument, follow the pattern:
 #### \[C\] `content`
 #### \[W\] `message_text`
 
-**\[Optional\] \[V\]** `<string>` Text. Automatically crop when more than 2000 characters.
+**\[Optional\] \[V\]** `<string>` Text; Automatically crop when more than 2000 characters.
 
 #### \[C\] `username`
 #### \[W\] `webhook_name`
 
-**\[Optional\] \[V\]** `<string>` Webhook display name (i.e.: the sender's name), this can override the default username of the webhook. Automatically ignore when not between 2 and 32 characters.
+**\[Optional\] \[V\]** `<string>` Webhook display name (i.e.: the sender's name), this can override the default username of the webhook; Automatically ignore when not between 2 and 32 characters.
 
 #### \[C\] `avatar_url`
 #### \[W\] `webhook_avatarurl`
 
-**\[Optional\] \[V\]** `<string>` Webhook avatar url (i.e.: the sender's avatar), this can override the default avatar of the webhook. The image url must be in format of JPEG/JPG, or PNG. GIF is not supported due to restricted by Discord.
+**\[Optional\] \[V\]** `<string>` Webhook avatar url (i.e.: the sender's avatar), this can override the default avatar of the webhook; The image url must be in format of JPEG/JPG, or PNG, GIF is not supported due to restricted by Discord.
 
 #### \[C\] `tts`
 #### \[W\] `message_usetexttospeech`
@@ -148,12 +148,12 @@ Embed(s) for this message. For configuration argument, number start at `0`, maxi
 #### [C] `embeds.<Array>.title`
 #### [W] `message_embed_title`
 
-**\[Optional unless have [`embeds.<Array>.url`](#C-embedsArrayurl)\] \[V\]** Embed title. Automatically crop when more than 256 characters.
+**\[Optional unless have [`embeds.<Array>.url`](#C-embedsArrayurl)\] \[V\]** Embed title; Automatically crop when more than 256 characters.
 
 #### \[C\] `embeds.<Array>.description`
 #### \[W\] `message_embed_description`
 
-**\[Optional\] \[V\]** `<string>` Embed description. Automatically crop when more than 2048 characters.
+**\[Optional\] \[V\]** `<string>` Embed description; Automatically crop when more than 2048 characters.
 
 #### \[C\] `embeds.<Array>.url`
 #### \[W\] `message_embed_titleurl`
@@ -187,22 +187,22 @@ Embed(s) for this message. For configuration argument, number start at `0`, maxi
 #### \[C\] `embeds.<Array>.footer.text`
 #### \[W\] `message_embed_footertext`
 
-**\[Optional\] \[V\]** `<string>` Embed footer text. Automatically crop when more than 2048 characters.
+**\[Optional\] \[V\]** `<string>` Embed footer text; Automatically crop when more than 2048 characters.
 
 #### \[C\] `embeds.<Array>.footer.icon_url`
 #### \[W\] `message_embed_footericonurl`
 
-**\[Optional\] \[V\]** `<string>` Embed footer icon url. The image url must be in format of JPEG/JPG, or PNG. GIF is not supported due to restricted by Discord.
+**\[Optional\] \[V\]** `<string>` Embed footer icon url; The image url must be in format of JPEG/JPG, or PNG, GIF is not supported due to restricted by Discord.
 
 #### \[C\] `embeds.<Array>.image.url`
 #### \[W\] `message_embed_imageurl`
 
-**\[Optional\] \[V\]** `<string>` Embed image url. The image url must be in format of JPEG/JPG, PNG, or GIF.
+**\[Optional\] \[V\]** `<string>` Embed image url; The image url must be in format of JPEG/JPG, PNG, or GIF.
 
 #### \[C\] `embeds.<Array>.thumbnail.url`
 #### \[W\] `message_embed_thumbnailurl`
 
-**\[Optional\] \[V\]** `<string>` Embed thumbnail url. The image url must be in format of JPEG/JPG, PNG, or GIF.
+**\[Optional\] \[V\]** `<string>` Embed thumbnail url; The image url must be in format of JPEG/JPG, PNG, or GIF.
 
 #### \[C\] `embeds.<Array>.video.url`
 #### \[W\] `message_embed_videourl`
@@ -212,7 +212,7 @@ Embed(s) for this message. For configuration argument, number start at `0`, maxi
 [C] `embeds.<Array>.author.name`
 [W] `message_embed_authorname`
 
-**\[Optional unless have [`embeds.<Array>.author.url`](#C-embedsArrayauthorurl)\] \[V\]** `<string>` Embed author name. Automatically crop when more than 256 characters.
+**\[Optional unless have [`embeds.<Array>.author.url`](#C-embedsArrayauthorurl)\] \[V\]** `<string>` Embed author name; Automatically crop when more than 256 characters.
 
 #### \[C\] `embeds.<Array>.author.url`
 #### \[W\] `message_embed_authorurl`
@@ -222,7 +222,7 @@ Embed(s) for this message. For configuration argument, number start at `0`, maxi
 #### \[C\] `embeds.<Array>.author.icon_url`
 #### \[W\] `message_embed_authoravatarurl`
 
-**\[Optional\] \[V\]** `<string>` Embed author avatar url. The image url must be in format of JPEG/JPG, or PNG. GIF is not supported due to restricted by Discord.
+**\[Optional\] \[V\]** `<string>` Embed author avatar url; The image url must be in format of JPEG/JPG, or PNG, GIF is not supported due to restricted by Discord.
 
 #### \[C\] `embeds.<Array>.fields.<Array>`
 #### \[W\] `message_embed_field_<Number>`
@@ -232,12 +232,12 @@ Field(s) for this embed. Number start at `0`, maximum 25 fields per embed.
 #### \[C\] `embeds.<Array>.fields.<Array>.name`
 #### \[W\] `message_embed_field_<Number>_key`
 
-**\[Optional unless have [`embeds.<Array>.fields.<Array>.value`](#C-embedsArrayfieldsArrayvalue)\] \[V\]** `<string>` Key for this embed field. Automatically crop when more than 256 characters.
+**\[Optional unless have [`embeds.<Array>.fields.<Array>.value`](#C-embedsArrayfieldsArrayvalue)\] \[V\]** `<string>` Key for this embed field; Automatically crop when more than 256 characters.
 
 #### \[C\] `embeds.<Array>.fields.<Array>.value`
 #### \[W\] `message_embed_field_<Number>_value`
 
-**\[Optional unless have [`embeds.<Array>.fields.<Array>.key`](#C-embedsArrayfieldsArraykey)\] \[V\]** `<string>` Value for this embed field. Automatically crop when more than 1024 characters.
+**\[Optional unless have [`embeds.<Array>.fields.<Array>.key`](#C-embedsArrayfieldsArraykey)\] \[V\]** `<string>` Value for this embed field; Automatically crop when more than 1024 characters.
 
 #### \[C\] `embeds.<Array>.fields.<Array>.inline`
 #### \[W\] `message_embed_field_<Number>_isinline`
