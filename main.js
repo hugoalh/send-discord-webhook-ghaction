@@ -36,16 +36,16 @@ const advancedDetermine = require("@hugoalh/advanced-determine"),
 	if (advancedDetermine.isStringSingleLine(variableSystem.suffix, { allowWhitespace: false }) !== true) {
 		throw new TypeError(`Workflow argument "variable_suffix" must be type of string (non-nullable)! ([GitHub Action] Send To Discord)`);
 	};
-	if (advancedDetermine.isStringSingleLine(webhook.identificationNumber, { allowWhitespace: false }) !== true) {
+	if (advancedDetermine.isStringSingleLine(webhook.identificationNumber) !== true) {
 		throw new TypeError(`Workflow argument "webhook_id" must be type of string (non-nullable)! ([GitHub Action] Send To Discord)`);
 	};
-	if (webhook.identificationNumber.search(/\//gu) !== -1) {
+	if (webhook.identificationNumber.search(/[/\s]/gu) !== -1) {
 		throw new SyntaxError(`Workflow argument "webhook_id"'s value is not match the require pattern! ([GitHub Action] Send To Discord)`);
 	};
-	if (advancedDetermine.isStringSingleLine(webhook.token, { allowWhitespace: false }) !== true) {
+	if (advancedDetermine.isStringSingleLine(webhook.token) !== true) {
 		throw new TypeError(`Workflow argument "webhook_token" must be type of string (non-nullable)! ([GitHub Action] Send To Discord)`);
 	};
-	if (webhook.token.search(/\//gu) !== -1) {
+	if (webhook.token.search(/[/\s]/gu) !== -1) {
 		throw new SyntaxError(`Workflow argument "webhook_token"'s value is not match the require pattern! ([GitHub Action] Send To Discord)`);
 	};
 	let delta = {};
@@ -206,7 +206,7 @@ const advancedDetermine = require("@hugoalh/advanced-determine"),
 			headers: {
 				"Content-Type": "application/json",
 				"Content-Length": requestPayload.length,
-				"User-Agent": `NodeJS/${process.version.replace(/^v/giu, "")} node-fetch/2.6.1 GitHubAction.SendToDiscord(@hugoalh)/3.1.0`
+				"User-Agent": `NodeJS/${process.version.replace(/^v/giu, "")} node-fetch/2.6.1 GitHubAction.SendToDiscord(@hugoalh)/3.1.1`
 			},
 			method: "POST",
 			redirect: "follow"
