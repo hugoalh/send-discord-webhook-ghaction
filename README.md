@@ -258,8 +258,7 @@ jobs:
     name: "Send To Discord"
     runs-on: "ubuntu-latest"
     steps:
-      - id: "send-to-discord-main"
-        uses: "hugoalh/GitHubAction.SendToDiscord@v2.0.0"
+      - uses: "hugoalh/GitHubAction.SendToDiscord@v2.0.0"
         with:
           webhook_id: "${{secrets.DISCORD_WEBHOOK_ID}}"
           webhook_token: "${{secrets.DISCORD_WEBHOOK_TOKEN}}"
@@ -369,8 +368,7 @@ jobs:
     name: "Send To Discord"
     runs-on: "ubuntu-latest"
     steps:
-      - id: "send-to-discord-main"
-        uses: "hugoalh/GitHubAction.SendToDiscord@v3.0.0"
+      - uses: "hugoalh/GitHubAction.SendToDiscord@v3.0.0"
         with:
           configuration: ".github/workflows_configuration/send-to-discord.json"
           webhook_id: "${{secrets.DISCORD_WEBHOOK_ID}}"

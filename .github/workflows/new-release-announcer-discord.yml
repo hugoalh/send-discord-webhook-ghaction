@@ -1,0 +1,19 @@
+name: "New Release Announcer - Discord"
+on:
+  release:
+    types:
+      - "published"
+jobs:
+  main:
+    name: "Main"
+    runs-on: "ubuntu-latest"
+    steps:
+      - uses: "hugoalh/GitHubAction.SendToDiscord@master"
+        with:
+          configuration: ".github/workflows_configuration/new-release-announcer-discord.yml"
+          webhook_id: "${{secrets.DISCORDWEBHOOK_HUGOALHSTUDIO_STUDIOANNOUNCEMENT_NEWRELEASEANNOUNCER_ID}}"
+          webhook_token: "${{secrets.DISCORDWEBHOOK_HUGOALHSTUDIO_STUDIOANNOUNCEMENT_NEWRELEASEANNOUNCER_TOKEN}}"
+          variable_join: "."
+          # variable_list_external:
+          variable_prefix: "%"
+          variable_suffix: "%"

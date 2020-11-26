@@ -181,11 +181,19 @@ function aca2(delta) {
 				});
 			};
 		});
+		for (let indexEmbed = delta.embeds.length; indexEmbed >= 0; indexEmbed--) {
+			if (Object.keys(delta.embeds[indexEmbed]).length <= 1 && typeof delta.embeds[indexEmbed].color !== "undefined") {
+				delta.embeds.splice(indexEmbed - 1, 1);
+			};
+		};
 		if (characterCount > 6000) {
 			throw new Error(`Characters in all fields of embed title, embed description, embed field name, embed fieldvalue, embed footer text, and embed author name must not exceed 6000 characters in total (restricted by Discord)! ([GitHub Action] Send To Discord)`);
 		};
 	};
-	if (typeof delta.content === "undefined" && typeof delta.embeds === "undefined") {
+	if (advancedDetermine.isArray(delta.embeds) === null) {
+		delete delta.embeds;
+	};
+	if (advancedDetermine.isString(delta.content) !== true && advancedDetermine.isArray(delta.embeds) !== true) {
 		throw new Error(`Both configuration argument "content" and "embeds" are empty! ([GitHub Action] Send To Discord)`);
 	};
 	githubAction.core.debug(`Configuration Argument (Stage ACA2): ${JSON.stringify(delta)} ([GitHub Action] Send To Discord)`);
