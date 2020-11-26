@@ -10,8 +10,8 @@ on:
       - "reopened"
       - "synchronize"
 jobs:
-  main:
-    name: "Main"
+  code-analysis-codeql:
+    name: "Code Analysis - CodeQL"
     runs-on: "ubuntu-latest"
     steps:
       - name: "Fetch Language List"

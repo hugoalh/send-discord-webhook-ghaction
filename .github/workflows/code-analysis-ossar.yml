@@ -10,8 +10,8 @@ on:
       - "reopened"
       - "synchronize"
 jobs:
-  main:
-    name: "Main"
+  code-analysis-ossar:
+    name: "Code Analysis - Open Source Static Analysis Runner"
     runs-on: "windows-latest"
     steps:
       - name: "Checkout Repository"
