@@ -181,8 +181,12 @@ function aca2(delta) {
 				});
 			};
 		});
-		for (let indexEmbed = delta.embeds.length; indexEmbed >= 0; indexEmbed--) {
-			if (Object.keys(delta.embeds[indexEmbed]).length <= 1 && typeof delta.embeds[indexEmbed].color !== "undefined") {
+		for (let indexEmbed = delta.embeds.length - 1; indexEmbed >= 0; indexEmbed--) {
+			if (
+				(Object.keys(delta.embeds[indexEmbed]).length === 1 && typeof delta.embeds[indexEmbed].color !== "undefined") ||
+				Object.keys(delta.embeds[indexEmbed]).length === 0 ||
+				advancedDetermine.isJSON(delta.embeds[indexEmbed]) !== true
+			) {
 				delta.embeds.splice(indexEmbed - 1, 1);
 			};
 		};
