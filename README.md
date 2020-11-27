@@ -170,7 +170,11 @@ Embed(s) for this message. For configuration argument, number start at `0`, maxi
 - `"discordgreyple"`
 - `"random"`
 - `"white"`
-- RGB split with comma (`,`) (example: `256,128,64`)
+- RGB split with comma (`,`) (example: `"256,128,64"`)
+- RGB integer
+  ```javascript
+  Value = R * 65536 + G * 256 + B
+  ```
 
 #### \[W\] `message_embed_colour`
 
@@ -182,7 +186,7 @@ Embed(s) for this message. For configuration argument, number start at `0`, maxi
 - `"discordgreyple"`
 - `"random"`
 - `"white"`
-- RGB split with comma (`,`) (example: `256,128,64`)
+- RGB split with comma (`,`) (example: `"256,128,64"`)
 
 #### \[C\] `embeds.<Array>.footer.text`
 #### \[W\] `message_embed_footertext`
