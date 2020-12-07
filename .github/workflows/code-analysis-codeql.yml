@@ -16,7 +16,7 @@ jobs:
     steps:
       - name: "Fetch Language List"
         id: "fetch-language-list"
-        uses: "hugoalh/GitHubAction.FetchLanguageList@v1.2.0"
+        uses: "hugoalh/GitHubAction.FetchLanguageList@v1.3.0"
         with:
           filter: "codeql"
           lettercase: "lower"
