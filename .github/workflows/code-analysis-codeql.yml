@@ -4,6 +4,8 @@ on:
     branches:
       - "**"
   pull_request:
+    branches:
+      - "**"
     types:
       - "opened"
       - "edited"
@@ -14,13 +16,21 @@ jobs:
     name: "Code Analysis - CodeQL"
     runs-on: "ubuntu-latest"
     steps:
-      - name: "Fetch Language List"
-        id: "fetch-language-list"
-        uses: "hugoalh/GitHubAction.FetchLanguageList@v1.2.0"
+      - name: "Fetch Language List (Full)"
+        id: "fetch-language-list-full"
+        uses: "hugoalh/GitHubAction.FetchLanguageList@v1.3.0"
+        with:
+          filter: "none"
+          format: "json"
+          lettercase: "lower"
+      - name: "Fetch Language List (CodeQL)"
+        id: "fetch-language-list-codeql"
+        uses: "hugoalh/GitHubAction.FetchLanguageList@v1.3.0"
         with:
           filter: "codeql"
-          lettercase: "lower"
           format: "comma"
+          languagelist: "${{steps.fetch-language-list-full.outputs.language}}"
+          lettercase: "lower"
       - name: "Checkout Repository"
         uses: "actions/checkout@v2.3.4"
         with:
@@ -31,13 +41,20 @@ jobs:
       - name: "Initialize CodeQL"
         uses: "github/codeql-action/init@v1"
         with:
-          languages: "${{steps.fetch-language-list.outputs.language}}"
+          languages: "${{steps.fetch-language-list-codeql.outputs.language}}"
           queries: "+security-and-quality"
-      # - name: "Auto Build"
-      #   uses: "github/codeql-action/autobuild@v1"
-      # - name: "Build"
-      #   run: |
-      #     make bootstrap
-      #     make release
+      # Auto build attempts to build any compiled languages (C/C++, C#, or Java).
+      - name: "Auto Build"
+        id: "auto-build"
+        if: "${{contains(fromJSON(steps.fetch-language-list-full.outputs.language).language, 'c') || contains(fromJSON(steps.fetch-language-list-full.outputs.language).language, 'cpp') || contains(fromJSON(steps.fetch-language-list-full.outputs.language).language, 'csharp') || contains(fromJSON(steps.fetch-language-list-full.outputs.language).language, 'java')}}"
+        uses: "github/codeql-action/autobuild@v1"
+        continue-on-error: true
+      # Auto build attempts to build any compiled languages (C/C++, C#, or Java).
+      - name: "Build"
+        if: "${{steps.auto-build.outcome == 'failure' && steps.auto-build.conclusion == 'success'}}"
+        run: |
+          make bootstrap
+          make release
+        continue-on-error: true
       - name: "Analyze Repository"
         uses: "github/codeql-action/analyze@v1"
