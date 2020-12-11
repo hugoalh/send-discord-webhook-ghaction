@@ -1,0 +1,28 @@
+name: "Anti Virus - ClamAV (Fast)"
+on:
+  push:
+    branches:
+      - "**"
+  pull_request:
+    branches:
+      - "**"
+    types:
+      - "opened"
+      - "edited"
+      - "reopened"
+      - "synchronize"
+  workflow_dispatch:
+jobs:
+  anti-virus-clamav-fast:
+    name: "Anti Virus - ClamAV (Fast)"
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: "Checkout Repository"
+        uses: "actions/checkout@v2.3.4"
+        with:
+          fetch-depth: 2
+      - name: "Checkout Pull Request"
+        if: "${{github.event_name == 'pull_request'}}"
+        run: "git checkout HEAD^2"
+      - name: "Fast Scan Repository"
+        uses: "djdefi/gitavscan@2"

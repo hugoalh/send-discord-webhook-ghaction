@@ -1,0 +1,18 @@
+name: "Anti Virus - ClamAV (Full)"
+on:
+  schedule:
+    - cron: "0 0 * * 3"
+  workflow_dispatch:
+jobs:
+  anti-virus-clamav-full:
+    name: "Anti Virus - ClamAV (Full)"
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: "Checkout Repository"
+        uses: "actions/checkout@v2.3.4"
+        with:
+          fetch-depth: 0
+      - name: "Full Scan Repository"
+        uses: "djdefi/gitavscan@2"
+        with:
+          full: "--full"
