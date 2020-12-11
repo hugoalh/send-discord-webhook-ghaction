@@ -26,4 +26,10 @@ jobs:
       - name: "Analyze Repository"
         uses: "github/super-linter@v3.14.3"
         env:
+          DISABLE_ERRORS: "true"
           GITHUB_TOKEN: "${{secrets.GITHUB_TOKEN}}"
+          LINTER_RULES_PATH: ".github/linters"
+          LOG_LEVEL: "VERBOSE"
+          MULTI_STATUS: "true"
+          OUTPUT_DETAILS: "detailed"
+          VALIDATE_ALL_CODEBASE: "true"
