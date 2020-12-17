@@ -18,14 +18,14 @@ jobs:
     steps:
       - name: "Fetch Language List (Full)"
         id: "fetch-language-list-full"
-        uses: "hugoalh/GitHubAction.FetchLanguageList@v1.3.0"
+        uses: "hugoalh/GitHubAction.FetchLanguageList@v1.4.1"
         with:
           filter: "none"
           format: "json"
           lettercase: "lower"
       - name: "Fetch Language List (CodeQL)"
         id: "fetch-language-list-codeql"
-        uses: "hugoalh/GitHubAction.FetchLanguageList@v1.3.0"
+        uses: "hugoalh/GitHubAction.FetchLanguageList@v1.4.1"
         with:
           filter: "codeql"
           format: "comma"
