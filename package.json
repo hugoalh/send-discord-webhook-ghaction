@@ -21,7 +21,7 @@
 	},
 	"dependencies": {
 		"@actions/core": "^1.2.6",
-		"@actions/github": "^4.0.0",
+		"@actions/github": "^5.0.0",
 		"@hugoalh/advanced-determine": "^4.2.0",
 		"escape-string-regexp": "^4.0.0",
 		"flat": "^5.0.2",
