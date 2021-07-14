@@ -24,7 +24,7 @@ jobs:
         if: "${{github.event_name == 'pull_request'}}"
         run: "git checkout HEAD^2"
       - name: "Analyze Repository"
-        uses: "github/super-linter@v4.3.0"
+        uses: "github/super-linter@v4.4.1"
         env:
           DISABLE_ERRORS: "true"
           GITHUB_TOKEN: "${{secrets.GITHUB_TOKEN}}"
