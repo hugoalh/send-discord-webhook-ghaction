@@ -20,7 +20,7 @@
 		"url": "git+https://github.com/hugoalh/GitHubAction.SendToDiscord.git"
 	},
 	"dependencies": {
-		"@actions/core": "^1.2.6",
+		"@actions/core": "^1.6.0",
 		"@actions/github": "^4.0.0",
 		"@hugoalh/advanced-determine": "^4.2.0",
 		"escape-string-regexp": "^4.0.0",
