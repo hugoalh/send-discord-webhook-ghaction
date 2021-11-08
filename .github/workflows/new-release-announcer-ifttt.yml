@@ -8,7 +8,7 @@ jobs:
     name: "Main"
     runs-on: "ubuntu-latest"
     steps:
-      - uses: "hugoalh/GitHubAction.SendToIFTTT@v3.1.2"
+      - uses: "hugoalh/GitHubAction.SendToIFTTT@v4.0.1"
         with:
           webhook_eventname: "githubaction_twitter"
           webhook_key: "${{secrets.IFTTTWEBHOOK_HUGOALH_KEY}}"
