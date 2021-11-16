@@ -4,7 +4,7 @@ import { fileURLToPath, URLSearchParams } from "url";
 import { isArray as adIsArray, isJSON as adIsJSON, isString as adIsString } from "@hugoalh/advanced-determine";
 import { accessSync as fileSystemAccessSync, constants as fileSystemConstants, createReadStream as fileSystemCreateReadStream, readFileSync as fileSystemReadFileSync } from "fs";
 import { stringOverflow as mmStringOverflow, stringParse as mmStringParse } from "@hugoalh/more-method";
-import Ajv2019 from "ajv/dist/2019";
+import Ajv2019 from "ajv/dist/2019.js";
 import ajvFormatsDraft2019 from "ajv-formats-draft2019/formats";
 import nodeFetch from "node-fetch";
 const discordWebhookQuery = new URLSearchParams();
