@@ -1,19 +1,44 @@
+# $<Schema>$ https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions
 name: "New Release Announcer - Discord"
 on:
   release:
     types:
       - "published"
 jobs:
-  main:
-    name: "Main"
+  new-release-announcer-discord:
+    name: "New Release Announcer - Discord"
     runs-on: "ubuntu-latest"
     steps:
-      - uses: "hugoalh/GitHubAction.SendToDiscord@master"
+      - uses: "hugoalh/send-discord-webhook-ghaction@main"
         with:
-          configuration: ".github/workflows_configuration/new-release-announcer-discord.yml"
-          webhook_id: "${{secrets.DISCORDWEBHOOK_HUGOALHSTUDIO_STUDIOANNOUNCEMENT_NEWRELEASEANNOUNCER_ID}}"
-          webhook_token: "${{secrets.DISCORDWEBHOOK_HUGOALHSTUDIO_STUDIOANNOUNCEMENT_NEWRELEASEANNOUNCER_TOKEN}}"
-          variable_join: "."
-          # variable_list_external:
-          variable_prefix: "%"
-          variable_suffix: "%"
+          key: "${{secrets.DISCORDWEBHOOK_HUGOALHSTUDIO_STUDIOANNOUNCEMENT_NEWRELEASEANNOUNCER_ID}}/${{secrets.DISCORDWEBHOOK_HUGOALHSTUDIO_STUDIOANNOUNCEMENT_NEWRELEASEANNOUNCER_TOKEN}}"
+          payload: |
+            {
+              "embeds": [
+                {
+                  "title": "Send Discord Webhook (GitHub Action Edition)",
+                  "description": "Version ${{github.event.release.name}} (${{github.event.release.tag_name}}) is released and available on:"
+                  "color": "16,116,231",
+                  "image": {
+                    "url": "https://i.imgur.com/6HnQK7H.png"
+                  },
+                  "thumbnail": {
+                    "url": "https://i.imgur.com/knmLbFg.png"
+                  },
+                  "fields": [
+                    {
+                      "name": "GitHub (& Changelog)",
+                      "value": "${{github.event.release.html_url}}"
+                    },
+                    {
+                      "name": "GitHub Marketplace",
+                      "value": "https://github.com/marketplace/actions/send-discord-webhook"
+                    },
+                    {
+                      "name": "Repository",
+                      "value": "${{github.event.repository.html_url}}"
+                    }
+                  ]
+                }
+              ]
+            }

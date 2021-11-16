@@ -1,479 +1,391 @@
-# \[GitHub Action\] Send To Discord
+🌐 | [English](./README.md) / [中文](./README-ZHHANT.md)
 
-<details>
-  <summary><a href="https://github.com/hugoalh/GitHubAction.SendToDiscord"><code>hugoalh/GitHubAction.SendToDiscord</code></a></summary>
-  <img align="center" alt="GitHub Language Count" src="https://img.shields.io/github/languages/count/hugoalh/GitHubAction.SendToDiscord?logo=github&logoColor=ffffff&style=flat-square" />
-  <img align="center" alt="GitHub Top Langauge" src="https://img.shields.io/github/languages/top/hugoalh/GitHubAction.SendToDiscord?logo=github&logoColor=ffffff&style=flat-square" />
-  <img align="center" alt="GitHub Repo Size" src="https://img.shields.io/github/repo-size/hugoalh/GitHubAction.SendToDiscord?logo=github&logoColor=ffffff&style=flat-square" />
-  <img align="center" alt="GitHub Code Size" src="https://img.shields.io/github/languages/code-size/hugoalh/GitHubAction.SendToDiscord?logo=github&logoColor=ffffff&style=flat-square" />
-  <img align="center" alt="GitHub Watcher" src="https://img.shields.io/github/watchers/hugoalh/GitHubAction.SendToDiscord?logo=github&logoColor=ffffff&style=flat-square" />
-  <img align="center" alt="GitHub Star" src="https://img.shields.io/github/stars/hugoalh/GitHubAction.SendToDiscord?logo=github&logoColor=ffffff&style=flat-square" />
-  <img align="center" alt="GitHub Fork" src="https://img.shields.io/github/forks/hugoalh/GitHubAction.SendToDiscord?logo=github&logoColor=ffffff&style=flat-square" />
-</details>
+# Send Discord Webhook (GitHub Action Edition)
 
-A GitHub action to send message to Discord via webhook.
+[`SendDiscordWebhook.GitHubAction`](https://github.com/hugoalh/send-discord-webhook-ghaction)
+[![GitHub Contributors](https://img.shields.io/github/contributors/hugoalh/send-discord-webhook-ghaction?label=Contributors&logo=github&logoColor=ffffff&style=flat-square)](https://github.com/hugoalh/send-discord-webhook-ghaction/graphs/contributors)
+[![GitHub Issues](https://img.shields.io/github/issues-raw/hugoalh/send-discord-webhook-ghaction?label=Issues&logo=github&logoColor=ffffff&style=flat-square)](https://github.com/hugoalh/send-discord-webhook-ghaction/issues)
+[![GitHub Pull Requests](https://img.shields.io/github/issues-pr-raw/hugoalh/send-discord-webhook-ghaction?label=Pull%20Requests&logo=github&logoColor=ffffff&style=flat-square)](https://github.com/hugoalh/send-discord-webhook-ghaction/pulls)
+[![GitHub Discussions](https://img.shields.io/github/discussions/hugoalh/send-discord-webhook-ghaction?label=Discussions&logo=github&logoColor=ffffff&style=flat-square)](https://github.com/hugoalh/send-discord-webhook-ghaction/discussions)
+[![GitHub Stars](https://img.shields.io/github/stars/hugoalh/send-discord-webhook-ghaction?label=Stars&logo=github&logoColor=ffffff&style=flat-square)](https://github.com/hugoalh/send-discord-webhook-ghaction/stargazers)
+[![GitHub Forks](https://img.shields.io/github/forks/hugoalh/send-discord-webhook-ghaction?label=Forks&logo=github&logoColor=ffffff&style=flat-square)](https://github.com/hugoalh/send-discord-webhook-ghaction/network/members)
+![GitHub Languages](https://img.shields.io/github/languages/count/hugoalh/send-discord-webhook-ghaction?label=Languages&logo=github&logoColor=ffffff&style=flat-square)
+[![CodeFactor Grade](https://img.shields.io/codefactor/grade/github/hugoalh/send-discord-webhook-ghaction?label=Grade&logo=codefactor&logoColor=ffffff&style=flat-square)](https://www.codefactor.io/repository/github/hugoalh/send-discord-webhook-ghaction)
+[![LGTM Alerts](https://img.shields.io/lgtm/alerts/g/hugoalh/send-discord-webhook-ghaction?label=Alerts&logo=lgtm&logoColor=ffffff&style=flat-square)
+![LGTM Grade](https://img.shields.io/lgtm/grade/javascript/g/hugoalh/send-discord-webhook-ghaction?label=Grade&logo=lgtm&logoColor=ffffff&style=flat-square)](https://lgtm.com/projects/g/hugoalh/send-discord-webhook-ghaction)
+[![License](https://img.shields.io/static/v1?label=License&message=MIT&color=brightgreen&style=flat-square)](./LICENSE.md)
 
-<table>
-  <tr>
-    <td><a href="./LICENSE.md"><b>License</b></a></td>
-    <td>MIT</td>
-  </tr>
-  <tr>
-    <td><a href="https://github.com/hugoalh/GitHubAction.SendToDiscord/releases"><b>Release</b></a> <img align="center" src="https://img.shields.io/github/downloads/hugoalh/GitHubAction.SendToDiscord/total?label=%20&style=flat-square" /></td>
-    <td>
-      <b>Latest:</b> <img align="center" src="https://img.shields.io/github/release/hugoalh/GitHubAction.SendToDiscord?sort=semver&label=%20&style=flat-square" /> (<img align="center" src="https://img.shields.io/github/release-date/hugoalh/GitHubAction.SendToDiscord?label=%20&style=flat-square" />)<br />
-      <b>Pre:</b> <img align="center" src="https://img.shields.io/github/release/hugoalh/GitHubAction.SendToDiscord?include_prereleases&sort=semver&label=%20&style=flat-square" /> (<img align="center" src="https://img.shields.io/github/release-date-pre/hugoalh/GitHubAction.SendToDiscord?label=%20&style=flat-square" />)
-    </td>
-  </tr>
-  <tr>
-    <td><a href="https://github.com/hugoalh/GitHubAction.SendToDiscord/graphs/contributors"><b>Contributor</b></a> <img align="center" src="https://img.shields.io/github/contributors/hugoalh/GitHubAction.SendToDiscord?label=%20&style=flat-square" /></td>
-    <td><ul>
-        <li><a href="https://github.com/hugoalh">hugoalh</a></li>
-        <li><a href="https://github.com/hugoalh-studio">hugoalh Studio</a></li>
-    </ul></td>
-  </tr>
-  <tr>
-    <td><a href="https://github.com/hugoalh/GitHubAction.SendToDiscord/issues?q=is%3Aissue"><b>Issue</b></a></td>
-    <td><img align="center" src="https://img.shields.io/github/issues-raw/hugoalh/GitHubAction.SendToDiscord?label=%20&style=flat-square" /> : <img align="center" src="https://img.shields.io/github/issues-closed-raw/hugoalh/GitHubAction.SendToDiscord?label=%20&style=flat-square" /></td>
-  </tr>
-  <tr>
-    <td><a href="https://github.com/hugoalh/GitHubAction.SendToDiscord/pulls?q=is%3Apr"><b>Pull Request</b></a></td>
-    <td><img align="center" src="https://img.shields.io/github/issues-pr-raw/hugoalh/GitHubAction.SendToDiscord?label=%20&style=flat-square" /> : <img align="center" src="https://img.shields.io/github/issues-pr-closed-raw/hugoalh/GitHubAction.SendToDiscord?label=%20&style=flat-square" /></td>
-  </tr>
-  <tr>
-    <td><b>Code Quality</b></td>
-    <td>
-      <a href="https://www.codefactor.io/repository/github/hugoalh/githubaction.sendtodiscord"><img align="center" alt="CodeFactor Grade" src="https://img.shields.io/codefactor/grade/github/hugoalh/GitHubAction.SendToDiscord?logo=codefactor&logoColor=ffffff&style=flat-square" /></a>
-      <a href="https://lgtm.com/projects/g/hugoalh/GitHubAction.SendToDiscord/alerts"><img align="center" alt="LGTM Alert" src="https://img.shields.io/lgtm/alerts/g/hugoalh/GitHubAction.SendToDiscord?label=%20&logo=lgtm&logoColor=ffffff&style=flat-square" /></a>
-      <a href="https://lgtm.com/projects/g/hugoalh/GitHubAction.SendToDiscord/context:javascript"><img align="center" alt="LGTM Grade" src="https://img.shields.io/lgtm/grade/javascript/g/hugoalh/GitHubAction.SendToDiscord?logo=lgtm&logoColor=ffffff&style=flat-square" /></a>
-    </td>
-  </tr>
-</table>
+| **Release** | **Latest** (![GitHub Latest Release Date](https://img.shields.io/github/release-date/hugoalh/send-discord-webhook-ghaction?label=%20&style=flat-square)) | **Pre** (![GitHub Latest Pre-Release Date](https://img.shields.io/github/release-date-pre/hugoalh/send-discord-webhook-ghaction?label=%20&style=flat-square)) |
+|:-:|:-:|:-:|
+| [**GitHub**](https://github.com/hugoalh/send-discord-webhook-ghaction/releases) ![GitHub Total Downloads](https://img.shields.io/github/downloads/hugoalh/send-discord-webhook-ghaction/total?label=%20&style=flat-square) | ![GitHub Latest Release Version](https://img.shields.io/github/release/hugoalh/send-discord-webhook-ghaction?sort=semver&label=%20&style=flat-square) | ![GitHub Latest Pre-Release Version](https://img.shields.io/github/release/hugoalh/send-discord-webhook-ghaction?include_prereleases&sort=semver&label=%20&style=flat-square) |
 
-## 📜 Description
+## 📝 Description
 
-### 🌟 Feature
+A GitHub Action to send a Discord webhook.
 
-- Simple setup.
-- Support variable to create dynamic/rich content.
+*Previous named "\[GitHub Action\] Send To Discord".*
 
-## 🛠 Configuration
+## 📚 Documentation
 
-### 🏗 Environment
+> **⚠ Important:** This documentation is v4.0.0-beta.1 based. To view other tag's/version's documentation, visit the [tag/version list](https://github.com/hugoalh/send-discord-webhook-ghaction/tags) and select the correct tag/version.
 
-#### Operating System
+### 🎯 Entrypoint / Target
 
-Any
+#### Default (`+default`)
 
-#### Software
+> **⚠ Important:** This entrypoint is currently based to <kbd>Docker (`+docker`)</kbd>, base can be changed between versions without announcement to ensure the stability.
 
-- NodeJS (>= v12.13)
-- NPM (>= v6.12)
+```yml
+jobs:
+  job_id:
+    runs-on: # Depend on the base requirement, recommended "ubuntu-________"
+    steps:
+      - uses: "hugoalh/send-discord-webhook-ghaction@<tag/version>"
+```
+
+#### Docker (`+docker`)
+
+```yml
+jobs:
+  job_id:
+    runs-on: "ubuntu-________"
+    steps:
+      - uses: "hugoalh/send-discord-webhook-ghaction/use-docker@<tag/version>"
+```
+
+##### Require Software
+
+- Docker
+
+#### NodeJS (`+nodejs`)
+
+> **⚠ Important:** This entrypoint maybe need extra steps to manually setup NodeJS version.
+
+```yml
+jobs:
+  job_id:
+    runs-on: *any*
+    steps:
+      - uses: "hugoalh/send-discord-webhook-ghaction/use-nodejs@<tag/version>"
+```
+
+##### Require Software
+
+- NodeJS (>= v14.15.0) + NPM (>= v6.14.8)
 
 ### 📥 Input
 
-| **Legend** | **Description** |
-|:---:|:----|
-| \[C\] | Configuration argument (>= v3). |
-| \[V\] | Support variable. |
-| \[W\] | Workflow argument. |
+> | **Legend** | **Description** |
+> |:-:|:--|
+> | 🔐 | Should be an encrypted secret. |
 
-To use variable in the supported argument, follow the pattern:
+#### `key`
 
-| **Category** | **Workflow File (Parse Via GitHub Machine/Runner)** | **Workflow File / Configuration File (Parse Via Action)** |
-|:---:|:---:|:---:|
-| External | *(N/A)* | `"<variable_prefix>external<variable_join><namespace><variable_suffix>"` |
-| GitHub Event Webhook Payload | `"${{github.event.<namespace>}}"` | `"<variable_prefix>payload<variable_join><namespace><variable_suffix>"` |
+**🔐** `<string>` Key; Both long and short forms are acceptable.
 
-#### \[W\] `configuration`
+```
+https://discord.com/api/webhooks/70971114/ueyzeWxB_8bb1zMhL
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^  Long
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^  Short
 
-**(>= v3) \[Optional\]** `<(string|object.json) = "false">` Select to use workflow argument or configuration argument.
-- **Enable Externally:** A relative JSON, JSONC, YAML, or YML file path (end with `.json`, `.jsonc`, `.yaml`, or `.yml`) which in the same repository, file size must smaller than 1 MB (restricted by GitHub); Workflow argument will ignore when configuration argument is available.
-- **Enable Locally:** A stringify JSON paste in here; Workflow argument will ignore when configuration argument is available.
-- **Disable:** Use workflow argument.
+https://discordapp.com/api/webhooks/70971114/ueyzeWxB_8bb1zMhL
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^  Long (Old)
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^  Short (Old)
+```
 
-#### \[W\] `github_token`
+#### `method`
 
-**(>= v3) \[Optional\]** `<string.secret = "${{github.token}}">` GitHub personal access token; Only use when need to fetch the configuration file specify in the argument [`configuration`](#W-configuration).
+**\[Optional\]** `<string = "">` Method to send.
 
-#### \[W\] `webhook_id`
+- **Default:** Let this action automatically determine the best method.
+- **`"form"`:** Use `multipart/form-data`.
+- **`"json"`:** Use `application/json`.
 
-`<string.secret>` Discord webhook ID. If the webhook url is `https://discord.com/api/webhooks/70971114/ueyzeWxB_8bb1zMhL`, then the webhook ID will be `70971114`.
+When this input is not defined, and input `files` is:
 
-#### \[W\] `webhook_token`
+- defined, will use `"form"`.
+- not defined, will use `"json"`.
 
-`<string.secret>` Discord webhook token. If the webhook url is `https://discord.com/api/webhooks/70971114/ueyzeWxB_8bb1zMhL`, then the webhook token will be `ueyzeWxB_8bb1zMhL`.
+When this input is `"json"`, and input `files` is defined, will throw an error.
 
-#### \[W\] `variable_join`
+#### `payload`
 
-**\[Optional\]** `<string = "_">` Variable join if the variable list has depth.
+**\[Optional\]** `<object = {}>` JSON payload, which restricted format and pattern; At least one of the input `payload.content`, `payload.embeds`, or `files` must be provided. *[View the JSON payload template in here.](./discord-webhook-payload-template.json)*
 
-#### \[W\] `variable_list_external`
+> **⚠ Important:** Properties which have not listed in here or in the template are not supported.
 
-**\[Optional\]** `<object.json>` External variable list that will use in the data; Can import from other actions' output.
+<details open>
 
-#### \[W\] `variable_prefix`
+##### `content`
 
-**\[Optional\]** `<string = "%">` Variable prefix.
+**\[Optional\]** `<string>` The message contents, up to 2000 characters.
 
-#### \[W\] `variable_suffix`
+##### `username`
 
-**\[Optional\]** `<string = "%">` Variable suffix.
+**\[Optional\]** `<string>` Override the default username of the webhook, up to 80 characters; "Clyde" is not allowed.
 
-#### \[C\] `content`
-#### \[W\] `message_text`
+##### `avatar_url`
 
-**\[Optional\] \[V\]** `<string>` Text; Automatically crop when more than 2000 characters.
+**\[Optional\]** `<string>` Override the default avatar of the webhook.
 
-#### \[C\] `username`
-#### \[W\] `webhook_name`
+##### `tts`
 
-**\[Optional\] \[V\]** `<string>` Webhook display name (i.e.: the sender's name), this can override the default username of the webhook; Automatically ignore when not between 2 and 32 characters.
+**\[Optional\]** `<boolean = false>` Use TTS (Text To Speech).
 
-#### \[C\] `avatar_url`
-#### \[W\] `webhook_avatarurl`
+##### `embeds`
 
-**\[Optional\] \[V\]** `<string>` Webhook avatar url (i.e.: the sender's avatar), this can override the default avatar of the webhook; The image url must be in format of JPEG/JPG, or PNG, GIF is not supported due to restricted by Discord.
+**\[Optional\]** `<object[]>` Embed rich content, up to 10 embeds, and up to 6000 characters for summation of:
 
-#### \[C\] `tts`
-#### \[W\] `message_usetexttospeech`
+- `embeds[*].title`
+- `embeds[*].description`
+- `embeds[*].footer.text`
+- `embeds[*].author.name`
+- `embeds[*].fields[*].name`
+- `embeds[*].fields[*].value`
 
-**\[Optional\]** `<boolean = false>` Use text to speech for this message.
+##### `embeds[*].title`
 
-#### \[C\] `embeds.<Array>`
-#### \[W\] `message_embed`
+**\[Optional\]** `<string>` Title of embed, up to 256 characters.
 
-Embed(s) for this message. For configuration argument, number start at `0`, maximum 10 embeds per message; For workflow argument, maximum 1 embed per message.
+##### `embeds[*].description`
 
-#### [C] `embeds.<Array>.title`
-#### [W] `message_embed_title`
+**\[Optional\]** `<string>` Description of embed, up to 4096 characters.
 
-**\[Optional unless have [`embeds.<Array>.url`](#C-embedsArrayurl)\] \[V\]** Embed title; Automatically crop when more than 256 characters.
+##### `embeds[*].url`
 
-#### \[C\] `embeds.<Array>.description`
-#### \[W\] `message_embed_description`
+**\[Optional\]** `<string>` URL of embed.
 
-**\[Optional\] \[V\]** `<string>` Embed description; Automatically crop when more than 2048 characters.
+##### `embeds[*].timestamp`
 
-#### \[C\] `embeds.<Array>.url`
-#### \[W\] `message_embed_titleurl`
+**\[Optional\]** `<string>` Timestamp of embed, with format ISO 8601 (e.g.: `"2011-11-11T11:11:11Z"`).
 
-**\[Optional\] \[V\]** `<string>` Embed title url.
+##### `embeds[*].color`
 
-#### \[C\] `embeds.<Array>.color`
+**\[Optional\]** `<(number | string) = 2105893>` Color of the embed (i.e.: left border's color of embed); Decimal (integer / RGB integer), Hex (6 digits, with prefix `#` (sharp)), namespaced string, and RGB string (split with `,` (comma)) forms are acceptable.
 
-**\[Optional\]** `<(string|number.positiveInteger) = "black">` Left border's colour of this embed.
-- `"black"`
-- `"discordblack"`
-- `"discordblurple"`
-- `"discorddark"`
-- `"discordgreyple"`
-- `"random"`
-- `"white"`
-- RGB split with comma (`,`) (example: `"256,128,64"`)
-- RGB integer
-  ```javascript
-  Value = R * 65536 + G * 256 + B
-  ```
+|  |  | **Decimal** | **Hex** | **Namespace** | **RGB** |
+|:-:|:-:|:-:|:-:|:-:|:-:|
+| <img src="https://www.colorhexa.com/000000.png" height="16px" width="16px" /> | **Black** | `0` | `"#000000"` | `"black"` | `"0,0,0"` |
+| <img src="https://www.colorhexa.com/202225.png" height="16px" width="16px" /> | **Default** | `2105893` | `"#202225"` | `"default"` | `"32,34,37"` |
+| <img src="https://www.colorhexa.com/23272A.png" height="16px" width="16px" /> | **Discord Black** | `2303786` | `"#23272A"` | `"discordblack"` | `"35,39,42"` |
+| <img src="https://www.colorhexa.com/2C2F33.png" height="16px" width="16px" /> | **Discord Dark** | `2895667` | `"#2C2F33"` | `"discorddark"` | `"44,47,51"` |
+| <img src="https://www.colorhexa.com/2F3136.png" height="16px" width="16px" /> | **Embed Background (Dark Mode)** | `3092790` | `"#2F3136"` | `"embeddark"` | `"47,49,54"` |
+| <img src="https://www.colorhexa.com/7289DA.png" height="16px" width="16px" /> | **Discord Blue Purple** | `7506394` | `"#7289DA"` | `"discordblurple"` | `"114,137,218"` |
+| <img src="https://www.colorhexa.com/99AAB5.png" height="16px" width="16px" /> | **Discord Gray/Grey Purple** | `10070709` | `"#99AAB5"` | `"discordgrayple"` / `"discordgreyple"` | `"153,170,181"` |
+| <img src="https://www.colorhexa.com/FFFFFF.png" height="16px" width="16px" /> | **White** | `16777215` | `"#FFFFFF"` | `"white"` | `"255,255,255"` |
+|  | **Random** |  |  | `"random"` |  |
 
-#### \[W\] `message_embed_colour`
+##### `embeds[*].footer`
 
-**\[Optional\]** `<string = "black">` Left border's colour of this embed.
-- `"black"`
-- `"discordblack"`
-- `"discordblurple"`
-- `"discorddark"`
-- `"discordgreyple"`
-- `"random"`
-- `"white"`
-- RGB split with comma (`,`) (example: `"256,128,64"`)
+**\[Optional\]** `<object>` Footer of embed.
 
-#### \[C\] `embeds.<Array>.footer.text`
-#### \[W\] `message_embed_footertext`
+##### `embeds[*].footer.text`
 
-**\[Optional\] \[V\]** `<string>` Embed footer text; Automatically crop when more than 2048 characters.
+**\[Optional\]** `<string>` Footer text, up to 2048 characters.
 
-#### \[C\] `embeds.<Array>.footer.icon_url`
-#### \[W\] `message_embed_footericonurl`
+##### `embeds[*].footer.icon_url`
 
-**\[Optional\] \[V\]** `<string>` Embed footer icon url; The image url must be in format of JPEG/JPG, or PNG, GIF is not supported due to restricted by Discord.
+**\[Optional\]** `<string>` URL of footer icon, only supports HTTP, HTTPS, and attachments.
 
-#### \[C\] `embeds.<Array>.image.url`
-#### \[W\] `message_embed_imageurl`
+##### `embeds[*].image`
 
-**\[Optional\] \[V\]** `<string>` Embed image url; The image url must be in format of JPEG/JPG, PNG, or GIF.
+**\[Optional\]** `<object>` Image of embed.
 
-#### \[C\] `embeds.<Array>.thumbnail.url`
-#### \[W\] `message_embed_thumbnailurl`
+##### `embeds[*].image.url`
 
-**\[Optional\] \[V\]** `<string>` Embed thumbnail url; The image url must be in format of JPEG/JPG, PNG, or GIF.
+**\[Optional\]** `<string>` Source URL of image, only supports HTTP, HTTPS, and attachments.
 
-#### \[C\] `embeds.<Array>.video.url`
-#### \[W\] `message_embed_videourl`
+##### `embeds[*].thumbnail`
 
-**\[Optional\] \[V\]** `<string>` Embed video url.
+**\[Optional\]** `<object>` Thumbnail of embed.
 
-[C] `embeds.<Array>.author.name`
-[W] `message_embed_authorname`
+##### `embeds[*].thumbnail.url`
 
-**\[Optional unless have [`embeds.<Array>.author.url`](#C-embedsArrayauthorurl)\] \[V\]** `<string>` Embed author name; Automatically crop when more than 256 characters.
+**\[Optional\]** `<string>` Source URL of thumbnail, only supports HTTP, HTTPS, and attachments.
 
-#### \[C\] `embeds.<Array>.author.url`
-#### \[W\] `message_embed_authorurl`
+##### `embeds[*].author`
 
-**\[Optional\] \[V\]** `<string>` Embed author url.
+**\[Optional\]** `<object>` Author of embed.
 
-#### \[C\] `embeds.<Array>.author.icon_url`
-#### \[W\] `message_embed_authoravatarurl`
+##### `embeds[*].author.name`
 
-**\[Optional\] \[V\]** `<string>` Embed author avatar url; The image url must be in format of JPEG/JPG, or PNG, GIF is not supported due to restricted by Discord.
+**\[Optional\]** `<string>` Name of author, up to 256 characters.
 
-#### \[C\] `embeds.<Array>.fields.<Array>`
-#### \[W\] `message_embed_field_<Number>`
+##### `embeds[*].author.url`
 
-Field(s) for this embed. Number start at `0`, maximum 25 fields per embed.
+**\[Optional\]** `<string>` URL of author.
 
-#### \[C\] `embeds.<Array>.fields.<Array>.name`
-#### \[W\] `message_embed_field_<Number>_key`
+##### `embeds[*].author.icon_url`
 
-**\[Optional unless have [`embeds.<Array>.fields.<Array>.value`](#C-embedsArrayfieldsArrayvalue)\] \[V\]** `<string>` Key for this embed field; Automatically crop when more than 256 characters.
+**\[Optional\]** `<string>` URL of author icon, only supports HTTP, HTTPS, and attachments.
 
-#### \[C\] `embeds.<Array>.fields.<Array>.value`
-#### \[W\] `message_embed_field_<Number>_value`
+##### `embeds[*].fields`
 
-**\[Optional unless have [`embeds.<Array>.fields.<Array>.key`](#C-embedsArrayfieldsArraykey)\] \[V\]** `<string>` Value for this embed field; Automatically crop when more than 1024 characters.
+**\[Optional\]** `<object[]>` Fields of embed, up to 25 fields.
 
-#### \[C\] `embeds.<Array>.fields.<Array>.inline`
-#### \[W\] `message_embed_field_<Number>_isinline`
+##### `embeds[*].fields[*].name`
 
-**\[Optional\] \[V\]** `<boolean = false>` Use inline for this embed field.
+**\[Optional\]** `<string>` Name of field, up to 256 characters.
+
+##### `embeds[*].fields[*].value`
+
+**\[Optional\]** `<string>` Value of field, up to 1024 characters.
+
+##### `embeds[*].fields[*].inline`
+
+**\[Optional\]** `<boolean = false>` Field should display inline or not.
+
+##### `allowed_mentions`
+
+**\[Optional\]** `<object>` Allowed mentions for the message.
+
+##### `allowed_mentions.parse`
+
+**\[Optional\]** `<string[]>` Allowed mention types to parse from the content.
+
+- **`"roles"`:** Controls role mentions.
+- **`"users"`:** Controls user mentions.
+- **`"everyone"`:** Controls `@everyone` and `@here` mentions.
+
+##### `allowed_mentions.roles`
+
+**\[Optional\]** `<string[]>` Roles ID to mention, up to 100 IDs.
+
+##### `allowed_mentions.users`
+
+**\[Optional\]** `<string[]>` Users ID to mention, up to 100 IDs.
+
+</details>
+
+#### `files`
+
+**\[Optional\]** `<string[] = []>` Files as attachment, which must be relative paths from and inside GitHub Actions runner workspace, up to 8 MB; At least one of the input `payload.content`, `payload.embeds`, or `files` must be provided.
+
+#### `threadid`
+
+**🔐 \[Optional\]** `<string>` Thread ID; Send to the specified thread within a webhook's channel, the thread will automatically be unarchived.
+
+#### `wait`
+
+**\[Optional\]** `<boolean = false>` Wait for Discord confirmation of message send before response, and returns the created message body. When this input is `false`, a message that is not saved does not return an error.
+
+#### `truncate_enable`
+
+**\[Optional\]** `<boolean = true>` When input `payload` is too large, try to prune/trim/truncate first.
+
+#### `truncate_ellipsis`
+
+**\[Optional\]** `<string = "...">` Ellipsis.
+
+#### `truncate_position`
+
+**\[Optional\]** `<string = "end">` Ellipsis position.
+
+- **`"end"`:** At the end of the string.
+- **`"middle"`:** At the middle of the string.
+- **`"start"`:** At the start of the string.
+
+#### `dryrun`
+
+**\[Optional\]** `<boolean = false>` Dry run; For debug use.
 
 ### 📤 Output
 
-*(N/A)*
+*N/A*
 
 ### Example
 
-#### Workflow Argument (>= v2)
+#### Hello, world!
 
 ```yml
 jobs:
-  send-to-discord:
-    name: "Send To Discord"
+  job_id:
+    name: "Send Discord Webhook"
     runs-on: "ubuntu-latest"
     steps:
-      - uses: "hugoalh/GitHubAction.SendToDiscord@v2.0.0"
+      - uses: "hugoalh/send-discord-webhook-ghaction@v4.0.0"
         with:
-          webhook_id: "${{secrets.DISCORD_WEBHOOK_ID}}"
-          webhook_token: "${{secrets.DISCORD_WEBHOOK_TOKEN}}"
-          variable_join: "."
-          # variable_list_external:
-          variable_prefix: "%"
-          variable_suffix: "%"
-          message_text: "Hello, world!"
-          # webhook_name:
-          # webhook_avatarurl:
-          message_usetexttospeech: "false"
-          # message_embed_title:
-          # message_embed_description:
-          # message_embed_titleurl:
-          # message_embed_colour:
-          # message_embed_footertext:
-          # message_embed_footericonurl:
-          # message_embed_imageurl:
-          # message_embed_thumbnailurl:
-          # message_embed_videourl:
-          # message_embed_authorname:
-          # message_embed_authorurl:
-          # message_embed_authoravatarurl:
-          # message_embed_field_0_key:
-          # message_embed_field_0_value:
-          # message_embed_field_0_isinline:
-          # message_embed_field_1_key:
-          # message_embed_field_1_value:
-          # message_embed_field_1_isinline:
-          # message_embed_field_2_key:
-          # message_embed_field_2_value:
-          # message_embed_field_2_isinline:
-          # message_embed_field_3_key:
-          # message_embed_field_3_value:
-          # message_embed_field_3_isinline:
-          # message_embed_field_4_key:
-          # message_embed_field_4_value:
-          # message_embed_field_4_isinline:
-          # message_embed_field_5_key:
-          # message_embed_field_5_value:
-          # message_embed_field_5_isinline:
-          # message_embed_field_6_key:
-          # message_embed_field_6_value:
-          # message_embed_field_6_isinline:
-          # message_embed_field_7_key:
-          # message_embed_field_7_value:
-          # message_embed_field_7_isinline:
-          # message_embed_field_8_key:
-          # message_embed_field_8_value:
-          # message_embed_field_8_isinline:
-          # message_embed_field_9_key:
-          # message_embed_field_9_value:
-          # message_embed_field_9_isinline:
-          # message_embed_field_10_key:
-          # message_embed_field_10_value:
-          # message_embed_field_10_isinline:
-          # message_embed_field_11_key:
-          # message_embed_field_11_value:
-          # message_embed_field_11_isinline:
-          # message_embed_field_12_key:
-          # message_embed_field_12_value:
-          # message_embed_field_12_isinline:
-          # message_embed_field_13_key:
-          # message_embed_field_13_value:
-          # message_embed_field_13_isinline:
-          # message_embed_field_14_key:
-          # message_embed_field_14_value:
-          # message_embed_field_14_isinline:
-          # message_embed_field_15_key:
-          # message_embed_field_15_value:
-          # message_embed_field_15_isinline:
-          # message_embed_field_16_key:
-          # message_embed_field_16_value:
-          # message_embed_field_16_isinline:
-          # message_embed_field_17_key:
-          # message_embed_field_17_value:
-          # message_embed_field_17_isinline:
-          # message_embed_field_18_key:
-          # message_embed_field_18_value:
-          # message_embed_field_18_isinline:
-          # message_embed_field_19_key:
-          # message_embed_field_19_value:
-          # message_embed_field_19_isinline:
-          # message_embed_field_20_key:
-          # message_embed_field_20_value:
-          # message_embed_field_20_isinline:
-          # message_embed_field_21_key:
-          # message_embed_field_21_value:
-          # message_embed_field_21_isinline:
-          # message_embed_field_22_key:
-          # message_embed_field_22_value:
-          # message_embed_field_22_isinline:
-          # message_embed_field_23_key:
-          # message_embed_field_23_value:
-          # message_embed_field_23_isinline:
-          # message_embed_field_24_key:
-          # message_embed_field_24_value:
-          # message_embed_field_24_isinline:
+          key: "${{secrets.DISCORD_WEBHOOK_KEY}}"
+          payload: |
+            {
+              "content": "Hello, world!"
+            }
 ```
 
-#### Configuration Argument (>= v3)
+#### birdie0
+
+> From [birdie0's Discord Webhooks Guide](https://birdie0.github.io/discord-webhooks-guide/discord_webhook.html).
 
 ```yml
-# Workflow file
 jobs:
-  send-to-discord:
-    name: "Send To Discord"
+  job_id:
+    name: "Send Discord Webhook"
     runs-on: "ubuntu-latest"
     steps:
-      - uses: "hugoalh/GitHubAction.SendToDiscord@v3.0.0"
+      - uses: "hugoalh/send-discord-webhook-ghaction@v4.0.0"
         with:
-          configuration: ".github/workflows_configuration/send-to-discord.json"
-          webhook_id: "${{secrets.DISCORD_WEBHOOK_ID}}"
-          webhook_token: "${{secrets.DISCORD_WEBHOOK_TOKEN}}"
-          variable_join: "."
-          # variable_list_external:
-          variable_prefix: "%"
-          variable_suffix: "%"
+          key: "${{secrets.DISCORD_WEBHOOK_KEY}}"
+          payload: |
+            {
+              "username": "Webhook",
+              "avatar_url": "https://i.imgur.com/4M34hi2.png",
+              "content": "Text message. Up to 2000 characters.",
+              "embeds": [
+                {
+                  "author": {
+                    "name": "Birdie♫",
+                    "url": "https://www.reddit.com/r/cats/",
+                    "icon_url": "https://i.imgur.com/R66g1Pe.jpg"
+                  },
+                  "title": "Title",
+                  "url": "https://google.com/",
+                  "description": "Text message. You can use Markdown here. *Italic* **bold** __underline__ ~~strikeout~~ [hyperlink](https://google.com) `code`",
+                  "color": 15258703,
+                  "fields": [
+                    {
+                      "name": "Text",
+                      "value": "More text",
+                      "inline": true
+                    },
+                    {
+                      "name": "Even more text",
+                      "value": "Yup",
+                      "inline": true
+                    },
+                    {
+                      "name": "Use `\"inline\": true` parameter, if you want to display fields in the same line.",
+                      "value": "okay..."
+                    },
+                    {
+                      "name": "Thanks!",
+                      "value": "You're welcome :wink:"
+                    }
+                  ],
+                  "thumbnail": {
+                    "url": "https://upload.wikimedia.org/wikipedia/commons/3/38/4-Nature-Wallpapers-2014-1_ukaavUI.jpg"
+                  },
+                  "image": {
+                    "url": "https://upload.wikimedia.org/wikipedia/commons/5/5a/A_picture_from_China_every_day_108.jpg"
+                  },
+                  "footer": {
+                    "text": "Woah! So cool! :smirk:",
+                    "icon_url": "https://i.imgur.com/fKL31aD.jpg"
+                  }
+                }
+              ]
+            }
 ```
 
-```jsonc
-// Configutation file (.github/workflows_configuration/send-to-discord.json)
-{
-  "content": "Hello, world!",
-  "username": "A Webhook Guy",
-  "avatar_url": "https://imgur.com/webhook-avatar.png",
-  "tts": false,
-  "embeds": [
-    {
-      "title": "1st Embed",
-      "description": "Yes!",
-      "url": "https://github.com/hugoalh/GitHubAction.SendToDiscord",
-      "color": 0,
-      "footer": {
-        "text": "1st Embed Footer",
-        "icon_url": "https://imgur.com/first-footer-icon.png"
-      },
-      "image": {
-        "url": "https://imgur.com/first-big-image.png"
-      },
-      "thumbnail": {
-        "url": "https://imgur.com/first-small-image.png"
-      },
-      "video": {
-        "url": "https://youtube.com/first-video"
-      },
-      "author": {
-        "name": "A Embed Guy",
-        "url": "https://handsome.io",
-        "icon_url": "https://imgur.com/handsome-avatar.png"
-      },
-      "fields": [
-        {
-          "name": "1st Field",
-          "value": "Foo",
-          "inline": true
-        },
-        {
-          "name": "2nd Field",
-          "value": "Bar",
-          "inline": true
-        },
-        ...
-      ]
-    },
-    {
-      "title": "2nd Embed",
-      "description": "Yee!",
-      "url": "https://github.com/hugoalh/GitHubAction.SendToDiscord",
-      "color": 0,
-      "footer": {
-        "text": "2nd Embed Footer",
-        "icon_url": "https://imgur.com/second-footer-icon.png"
-      },
-      "image": {
-        "url": "https://imgur.com/second-big-image.png"
-      },
-      "thumbnail": {
-        "url": "https://imgur.com/second-small-image.png"
-      },
-      "video": {
-        "url": "https://youtube.com/second-video"
-      },
-      "author": {
-        "name": "Another Embed Guy",
-        "url": "https://goodlook.io",
-        "icon_url": "https://imgur.com/good-look-avatar.png"
-      },
-      "fields": [
-        {
-          "name": "1st Field",
-          "value": "Lol",
-          "inline": false
-        },
-        {
-          "name": "2nd Field",
-          "value": "Arm",
-          "inline": false
-        },
-        ...
-      ]
-    },
-    ...
-  ]
-}
-```
+![Example birdie0 Result](https://birdie0.github.io/discord-webhooks-guide/img/webhook_example.png)
 
-### 📚 Guide
+### Guide
 
-- [Discord Developer Portal: Webhook - Execute](https://discord.com/developers/docs/resources/webhook#execute-webhook)
-- [Discord: Intro to Webhooks](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks)
-- [GitHub Actions: Enabling debug logging](https://docs.github.com/en/free-pro-team@latest/actions/managing-workflow-runs/enabling-debug-logging)
-- [GitHub Actions: Encrypted secrets](https://docs.github.com/en/free-pro-team@latest/actions/reference/encrypted-secrets)
-- [GitHub: Webhook events and payloads](https://docs.github.com/en/free-pro-team@latest/developers/webhooks-and-events/webhook-events-and-payloads)
+#### Discord
+
+- [Execute Webhook](https://discord.com/developers/docs/resources/webhook#execute-webhook)
+- [Intro to Webhooks](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks)
+
+#### GitHub Actions
+
+- [Enabling debug logging](https://docs.github.com/en/actions/managing-workflow-runs/enabling-debug-logging)
+- [Encrypted secrets](https://docs.github.com/en/actions/reference/encrypted-secrets)

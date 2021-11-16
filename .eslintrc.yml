@@ -1,12 +1,4 @@
-# ==================
-# hugoalh's Repository Resource - ESLint Configuration
-#   Language:
-#     YAML
-#   Last Update:
-#     2020-10-27
-#   Schema:
-#     https://eslint.org/docs/user-guide/configuring
-# ==================
+# $<Schema>$ https://eslint.org/docs/user-guide/configuring
 env:
   amd: false
   applescript: false
@@ -17,6 +9,7 @@ env:
   es6: true
   es2017: true
   es2020: true
+  es2021: true
   greasemonkey: false
   jasmine: false
   jest: false
@@ -30,16 +23,16 @@ env:
   prototypejs: false
   protractor: false
   qunit: false
-  serviceworker: false
-  shared-node-browser: false
+  serviceworker: true
+  shared-node-browser: true
   shelljs: false
-  webextensions: false
-  worker: false
+  webextensions: true
+  worker: true
 parserOptions:
   ecmaFeatures:
     impliedStrict: true
     jsx: false
-  ecmaVersion: 2020
+  ecmaVersion: 2021
   sourceType: "module"
 rules:
   accessor-pairs: "warn"
@@ -315,16 +308,6 @@ rules:
   no-warning-comments: "warn"
   no-whitespace-before-property: "warn"
   no-with: "warn"
-  node/callback-return: "warn"
-  node/global-require: "warn"
-  node/handle-callback-err: "warn"
-  node/no-mixed-requires: "warn"
-  node/no-new-require: "warn"
-  node/no-path-concat: "warn"
-  node/no-process-env: "warn"
-  node/no-process-exit: "warn"
-  node/no-restricted-require: "warn"
-  node/no-sync: "warn"
   nonblock-statement-body-position: "warn"
   object-curly-newline:
     - "warn"

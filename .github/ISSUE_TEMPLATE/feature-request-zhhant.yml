@@ -1,0 +1,28 @@
+# $<Schema>$ https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/syntax-for-issue-forms
+name: "功能要求（表單版）"
+description: "提出一個想法。"
+labels:
+  - "➕enhancement"
+  - "🔵unconfirm"
+body:
+  - type: "textarea"
+    id: "describe"
+    attributes:
+      label: "描述"
+      description: "想要甚麼功能？"
+    validations:
+      required: false
+  - type: "textarea"
+    id: "expected-behavior"
+    attributes:
+      label: "預期行為"
+      description: "應該要發生甚麼事情？"
+    validations:
+      required: false
+  - type: "textarea"
+    id: "additional-information"
+    attributes:
+      label: "額外資料"
+      description: "如果有與此議題相關但是不適用於其他欄位的資料，請在此處列出。"
+    validations:
+      required: false

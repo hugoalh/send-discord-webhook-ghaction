@@ -1,228 +1,383 @@
-/*==================
-[GitHub Action] Send To Discord
-	Language:
-		NodeJS/12.13.0
-==================*/
-const advancedDetermine = require("@hugoalh/advanced-determine"),
-	githubAction = {
-		core: require("@actions/core"),
-		github: require("@actions/github")
+import { debug as ghactionDebug, error as ghactionError, getInput as ghactionGetInput, info as ghactionInformation, setSecret as ghactionSetSecret, warning as ghactionWarning } from "@actions/core";
+import { basename as pathFileName, dirname as pathDirectoryName, join as pathJoin } from "path";
+import { fileURLToPath, URLSearchParams } from "url";
+import { isArray as adIsArray, isJSON as adIsJSON, isString as adIsString } from "@hugoalh/advanced-determine";
+import { accessSync as fileSystemAccessSync, constants as fileSystemConstants, createReadStream as fileSystemCreateReadStream, readFileSync as fileSystemReadFileSync } from "fs";
+import { stringOverflow as mmStringOverflow, stringParse as mmStringParse } from "@hugoalh/more-method";
+import Ajv2019 from "ajv/dist/2019";
+import ajvFormatsDraft2019 from "ajv-formats-draft2019/formats";
+import nodeFetch from "node-fetch";
+const discordWebhookQuery = new URLSearchParams();
+const ghactionActionDirectory = pathDirectoryName(fileURLToPath(import.meta.url));
+const ghactionUserAgent = "SendDiscordWebhook.GitHubAction/4.0.0";
+const ghactionWorkspaceDirectory = process.env.GITHUB_WORKSPACE;
+const jsonSchemaValidator = new Ajv2019({
+	$comment: false,
+	$data: false,
+	allErrors: true,
+	allowMatchingProperties: true,
+	allowUnionTypes: true,
+	code: {
+		es5: false,
+		lines: true
 	},
-	jsonFlatten = require("flat").flatten,
-	nodeFetch = require("node-fetch"),
-	regexpEscape = require("escape-string-regexp");
+	coerceTypes: false,
+	formats: {
+		...ajvFormatsDraft2019
+	},
+	logger: {
+		error: ghactionError,
+		log: ghactionInformation,
+		warn: ghactionWarning
+	},
+	strictSchema: "log",
+	timestamp: "string",
+	useDefaults: false,
+	validateSchema: true
+}).compile(JSON.parse(fileSystemReadFileSync(
+	pathJoin(ghactionActionDirectory, "discord-webhook-payload-custom.schema.json"),
+	{
+		encoding: "utf8",
+		flag: "r"
+	}
+)));
+const reColorHex = /^#[\dA-F]{6}$/gu;
+const reColorNamespace = new Map([
+	[/^black$/giu, 0],
+	[/^default$/giu, 2105893],
+	[/^discord-?black$/giu, 2303786],
+	[/^discord-?blue?-?(?:pu)?rple$/giu, 7506394],
+	[/^discord-?dark$/giu, 2895667],
+	[/^discord-?gr[ae]y-?(?:pur)?ple$/giu, 10070709],
+	[/^embed-?dark$/giu, 3092790],
+	[/^white$/giu, 16777215]
+]);
+const reColorRandom = /^random$/giu;
+const reColorRGB = /^(?:2(?:5[0-5]|[0-4]\\d)|1\\d{2}|[1-9]\\d|\\d)(?:, ?(?:2(?:5[0-5]|[0-4]\\d)|1\\d{2}|[1-9]\\d|\\d)){2}$/gu;
+const reDiscordWebhookURL = /^https:\/\/(?:canary\.)?discord(?:app)?\.com\/api\/webhooks\/(?<key>\d+\/[\da-zA-Z_-]+)$/gu;
+/**
+ * @private
+ * @function $importInput
+ * @param {string} key
+ * @returns {string}
+ */
+function $importInput(key) {
+	ghactionDebug(`Import input \`${key}\`.`);
+	return ghactionGetInput(key);
+};
 (async () => {
-	githubAction.core.info(`Import workflow argument (stage I). ([GitHub Action] Send To Discord)`);
-	let configuration = githubAction.core.getInput("configuration"),
-		variableSystem = {
-			join: githubAction.core.getInput("variable_join"),
-			prefix: githubAction.core.getInput("variable_prefix"),
-			suffix: githubAction.core.getInput("variable_suffix")
-		},
-		webhook = {
-			identificationNumber: githubAction.core.getInput("webhook_id"),
-			token: githubAction.core.getInput("webhook_token")
+	ghactionInformation(`Import inputs.`);
+	let dryRun = mmStringParse($importInput("dryrun"));
+	if (typeof dryRun !== "boolean") {
+		throw new TypeError(`Input \`dryrun\` must be type of boolean!`);
+	};
+	let key = $importInput("key");
+	if (adIsString(key, { pattern: /^(?:https:\/\/(?:canary\.)?discord(?:app)?\.com\/api\/webhooks\/)?\d+\/[\da-zA-Z_-]+$/gu }) !== true) {
+		throw new TypeError(`Input \`key\` must be type of string (non-nullable)!`);
+	};
+	if (key.search(reDiscordWebhookURL) === 0) {
+		key = key.replace(reDiscordWebhookURL, "$<key>");
+	};
+	ghactionSetSecret(key);
+	let threadID = $importInput("threadid");
+	if (adIsString(threadID) !== true) {
+		throw new TypeError(`Input \`threadid\` must be type of string (non-nullable)!`);
+	};
+	if (threadID.search(/^\d+$/gu) === 0) {
+		ghactionSetSecret(threadID);
+		discordWebhookQuery.set("thread_id", threadID);
+	};
+	let wait = mmStringParse($importInput("wait"));
+	if (typeof wait !== "boolean") {
+		throw new TypeError(`Input \`wait\` must be type of boolean!`);
+	};
+	if (wait === true) {
+		discordWebhookQuery.set("wait", "true");
+	};
+	let truncateEnable = mmStringParse($importInput("truncate_enable"));
+	if (typeof truncateEnable !== "boolean") {
+		throw new TypeError(`Input \`truncate_enable\` must be type of boolean!`);
+	};
+	let stringOverflowOption = {
+		ellipsis: $importInput("truncate_ellipsis"),
+		position: $importInput("truncate_position")
+	};
+	let method = $importInput("method");
+	if (adIsString(method, { singleLine: true }) === false) {
+		throw new TypeError(`Input \`method\` must be type of string!`);
+	};
+	let payload = mmStringParse($importInput("payload"));
+	if (adIsJSON(payload, { arrayRoot: false }) === false) {
+		throw new TypeError(`Input \`payload\` must be type of JSON (non-array-root)!`);
+	};
+	if (jsonSchemaValidator(payload) === false) {
+		for (let error of jsonSchemaValidator.errors) {
+			ghactionError(error.message);
 		};
-	githubAction.core.info(`Analysis workflow argument (stage I). ([GitHub Action] Send To Discord)`);
-	if (advancedDetermine.isString(configuration) !== true) {
-		throw new TypeError(`Workflow argument "configuration" must be type of string (non-nullable)! ([GitHub Action] Send To Discord)`);
+		throw JSON.stringify(jsonSchemaValidator.errors);
 	};
-	if (advancedDetermine.isStringSingleLine(variableSystem.join, { allowWhitespace: false }) !== true) {
-		throw new TypeError(`Workflow argument "variable_join" must be type of string (non-nullable)! ([GitHub Action] Send To Discord)`);
+	if (typeof payload.$schema !== "undefined") {
+		delete payload.$schema;
 	};
-	if (advancedDetermine.isStringSingleLine(variableSystem.prefix, { allowWhitespace: false }) !== true) {
-		throw new TypeError(`Workflow argument "variable_prefix" must be type of string (non-nullable)! ([GitHub Action] Send To Discord)`);
-	};
-	if (advancedDetermine.isStringSingleLine(variableSystem.suffix, { allowWhitespace: false }) !== true) {
-		throw new TypeError(`Workflow argument "variable_suffix" must be type of string (non-nullable)! ([GitHub Action] Send To Discord)`);
-	};
-	if (advancedDetermine.isStringSingleLine(webhook.identificationNumber) !== true) {
-		throw new TypeError(`Workflow argument "webhook_id" must be type of string (non-nullable)! ([GitHub Action] Send To Discord)`);
-	};
-	if (webhook.identificationNumber.search(/[/\s]/gu) !== -1) {
-		throw new SyntaxError(`Workflow argument "webhook_id"'s value is not match the require pattern! ([GitHub Action] Send To Discord)`);
-	};
-	if (advancedDetermine.isStringSingleLine(webhook.token) !== true) {
-		throw new TypeError(`Workflow argument "webhook_token" must be type of string (non-nullable)! ([GitHub Action] Send To Discord)`);
-	};
-	if (webhook.token.search(/[/\s]/gu) !== -1) {
-		throw new SyntaxError(`Workflow argument "webhook_token"'s value is not match the require pattern! ([GitHub Action] Send To Discord)`);
-	};
-	let delta = {};
-	if (advancedDetermine.isBoolean(configuration, { allowStringify: true }) === true && configuration === "false") {
-		delta = require("./wactca.js")();
-	} else if (advancedDetermine.isStringifyJSON(configuration) !== false) {
-		githubAction.core.info(`Construct configuration argument (stage MCA). ([GitHub Action] Send To Discord)`);
-		let data = JSON.parse(configuration);
-		githubAction.core.debug(`Configuration Argument (Stage MCA): ${JSON.stringify(data)} ([GitHub Action] Send To Discord)`);
-		delta = data;
-	} else if (advancedDetermine.isStringSingleLine(configuration) === true && configuration.search(/\.\.\//gu) === -1 && configuration.search(/\.(jsonc?)|(ya?ml)$/gu) !== -1) {
-		delta = await require("./xca.js")(configuration);
-	} else {
-		throw new SyntaxError(`Workflow argument "configuration"'s value is not match the require pattern! ([GitHub Action] Send To Discord)`);
-	};
-	delta = require("./aca1.js")(delta);
-	githubAction.core.info(`Import variable list. ([GitHub Action] Send To Discord)`);
-	variableSystem.list = {
-		external: githubAction.core.getInput(`variable_list_external`),
-		payload: githubAction.github.context.payload
-	};
-	githubAction.core.info(`Analysis external variable list. ([GitHub Action] Send To Discord)`);
-	switch (advancedDetermine.isString(variableSystem.list.external)) {
-		case null:
-			githubAction.core.info(`External variable list is empty. ([GitHub Action] Send To Discord)`);
-			variableSystem.list.external = {};
-			break;
-		case true:
-			if (advancedDetermine.isStringifyJSON(variableSystem.list.external) === false) {
-				throw new TypeError(`Argument "variable_list_external" must be type of object JSON! ([GitHub Action] Send To Discord)`);
+	if (typeof payload.content === "string") {
+		if (payload.content.length === 0) {
+			delete payload.content;
+		} else if (payload.content.length > 2000) {
+			if (truncateEnable === false) {
+				throw new Error(`Input \`payload.content\` is too large!`);
 			};
-			variableSystem.list.external = JSON.parse(variableSystem.list.external);
-			break;
-		case false:
-		default:
-			throw new TypeError(`Argument "variable_list_external" must be type of object JSON! ([GitHub Action] Send To Discord)`);
+			payload.content = mmStringOverflow(payload.content, 2000, stringOverflowOption);
+		};
 	};
-	githubAction.core.info(`Tokenize variable list. ([GitHub Action] Send To Discord)`);
-	variableSystem.list.external = jsonFlatten(
-		variableSystem.list.external,
-		{
-			delimiter: variableSystem.join
-		}
-	);
-	variableSystem.list.payload = jsonFlatten(
-		variableSystem.list.payload,
-		{
-			delimiter: variableSystem.join
-		}
-	);
-	githubAction.core.info(`Replace variable in the data. ([GitHub Action] Send To Discord)`);
-	function variableReplace(variableKey, variableValue) {
-		if (advancedDetermine.isString(delta.content) === true) {
-			delta.content = delta.content.replace(variableKey, variableValue);
+	if (typeof payload.username === "string") {
+		if (payload.username.length === 0) {
+			delete payload.username;
+		} else if (payload.username.length > 80) {
+			if (truncateEnable === false) {
+				throw new Error(`Input \`payload.username\` is too large!`);
+			};
+			payload.username = mmStringOverflow(payload.username, 80, stringOverflowOption);
 		};
-		if (advancedDetermine.isString(delta.username) === true) {
-			delta.username = delta.username.replace(variableKey, variableValue);
+	};
+	if (typeof payload.avatar_url === "string") {
+		if (payload.avatar_url.length === 0) {
+			delete payload.avatar_url;
 		};
-		if (advancedDetermine.isString(delta.avatar_url) === true) {
-			delta.avatar_url = delta.avatar_url.replace(variableKey, variableValue);
-		};
-		if (advancedDetermine.isArray(delta.embeds) === true) {
-			delta.embeds.forEach((embed, indexEmbed) => {
-				if (advancedDetermine.isString(delta.embeds[indexEmbed].title) === true) {
-					delta.embeds[indexEmbed].title = delta.embeds[indexEmbed].title.replace(variableKey, variableValue);
-				};
-				if (advancedDetermine.isString(delta.embeds[indexEmbed].description) === true) {
-					delta.embeds[indexEmbed].description = delta.embeds[indexEmbed].description.replace(variableKey, variableValue);
-				};
-				if (advancedDetermine.isString(delta.embeds[indexEmbed].url) === true) {
-					delta.embeds[indexEmbed].url = delta.embeds[indexEmbed].url.replace(variableKey, variableValue);
-				};
-				if (advancedDetermine.isJSON(delta.embeds[indexEmbed].footer) === true) {
-					if (advancedDetermine.isString(delta.embeds[indexEmbed].footer.text) === true) {
-						delta.embeds[indexEmbed].footer.text = delta.embeds[indexEmbed].footer.text.replace(variableKey, variableValue);
+	};
+	if (Array.isArray(payload.embeds) === true) {
+		for (let embedsIndex = 0; embedsIndex < payload.embeds.length; embedsIndex++) {
+			if (typeof payload.embeds[embedsIndex].title === "string") {
+				if (payload.embeds[embedsIndex].title.length === 0) {
+					delete payload.embeds[embedsIndex].title;
+				} else if (payload.embeds[embedsIndex].title.length > 256) {
+					if (truncateEnable === false) {
+						throw new Error(`Input \`payload.embeds[${embedsIndex}].title\` is too large!`);
 					};
-					if (advancedDetermine.isString(delta.embeds[indexEmbed].footer.icon_url) === true) {
-						delta.embeds[indexEmbed].footer.icon_url = delta.embeds[indexEmbed].footer.icon_url.replace(variableKey, variableValue);
-					};
+					payload.embeds[embedsIndex].title = mmStringOverflow(payload.embeds[embedsIndex].title, 256, stringOverflowOption);
 				};
-				if (advancedDetermine.isJSON(delta.embeds[indexEmbed].image) === true) {
-					if (advancedDetermine.isString(delta.embeds[indexEmbed].image.url) === true) {
-						delta.embeds[indexEmbed].image.url = delta.embeds[indexEmbed].image.url.replace(variableKey, variableValue);
+			};
+			if (typeof payload.embeds[embedsIndex].description === "string") {
+				if (payload.embeds[embedsIndex].description.length === 0) {
+					delete payload.embeds[embedsIndex].description;
+				} else if (payload.embeds[embedsIndex].description.length > 4096) {
+					if (truncateEnable === false) {
+						throw new Error(`Input \`payload.embeds[${embedsIndex}].description\` is too large!`);
 					};
+					payload.embeds[embedsIndex].description = mmStringOverflow(payload.embeds[embedsIndex].description, 4096, stringOverflowOption);
 				};
-				if (advancedDetermine.isJSON(delta.embeds[indexEmbed].thumbnail) === true) {
-					if (advancedDetermine.isString(delta.embeds[indexEmbed].thumbnail.url) === true) {
-						delta.embeds[indexEmbed].thumbnail.url = delta.embeds[indexEmbed].thumbnail.url.replace(variableKey, variableValue);
-					};
+			};
+			if (typeof payload.embeds[embedsIndex].url === "string") {
+				if (payload.embeds[embedsIndex].url.length === 0) {
+					delete payload.embeds[embedsIndex].url;
 				};
-				if (advancedDetermine.isJSON(delta.embeds[indexEmbed].video) === true) {
-					if (advancedDetermine.isString(delta.embeds[indexEmbed].video.url) === true) {
-						delta.embeds[indexEmbed].video.url = delta.embeds[indexEmbed].video.url.replace(variableKey, variableValue);
-					};
-				};
-				if (advancedDetermine.isJSON(delta.embeds[indexEmbed].author) === true) {
-					if (advancedDetermine.isString(delta.embeds[indexEmbed].author.name) === true) {
-						delta.embeds[indexEmbed].author.name = delta.embeds[indexEmbed].author.name.replace(variableKey, variableValue);
-					};
-					if (advancedDetermine.isString(delta.embeds[indexEmbed].author.url) === true) {
-						delta.embeds[indexEmbed].author.url = delta.embeds[indexEmbed].author.url.replace(variableKey, variableValue);
-					};
-					if (advancedDetermine.isString(delta.embeds[indexEmbed].author.icon_url) === true) {
-						delta.embeds[indexEmbed].author.icon_url = delta.embeds[indexEmbed].author.icon_url.replace(variableKey, variableValue);
-					};
-				};
-				if (advancedDetermine.isArray(delta.embeds[indexEmbed].fields) === true) {
-					delta.embeds[indexEmbed].fields.forEach((field, indexField) => {
-						if (advancedDetermine.isJSON(delta.embeds[indexEmbed].fields[indexField]) === true) {
-							if (advancedDetermine.isString(delta.embeds[indexEmbed].fields[indexField].name) === true) {
-								delta.embeds[indexEmbed].fields[indexField].name = delta.embeds[indexEmbed].fields[indexField].name.replace(variableKey, variableValue);
-							};
-							if (advancedDetermine.isString(delta.embeds[indexEmbed].fields[indexField].value) === true) {
-								delta.embeds[indexEmbed].fields[indexField].value = delta.embeds[indexEmbed].fields[indexField].value.replace(variableKey, variableValue);
-							};
+			};
+			if (typeof payload.embeds[embedsIndex].color === "string") {
+				if (payload.embeds[embedsIndex].color.search(reColorHex) === 0) {
+					payload.embeds[embedsIndex].color = Number(payload.embeds[embedsIndex].color.replace("#", "0x"));
+				} else if (payload.embeds[embedsIndex].color.search(reColorRGB) === 0) {
+					let [R, G, B] = payload.embeds[embedsIndex].color.split(/, ?/gu);
+					payload.embeds[embedsIndex].color = R * 65536 + G * 256 + B;
+				} else if (payload.embeds[embedsIndex].color.search(reColorRandom) === 0) {
+					payload.embeds[embedsIndex].color = Math.floor(Math.random() * 256) * 65536 + Math.floor(Math.random() * 256) * 256 + Math.floor(Math.random() * 256);
+				} else {
+					for (let [re, value] of reColorNamespace) {
+						if (payload.embeds[embedsIndex].color.search(re) === 0) {
+							payload.embeds[embedsIndex].color = value;
+							break;
 						};
-					});
+					};
 				};
-			});
+			};
+			if (typeof payload.embeds[embedsIndex].footer !== "undefined") {
+				if (typeof payload.embeds[embedsIndex].footer.text === "string") {
+					if (payload.embeds[embedsIndex].footer.text.length === 0) {
+						delete payload.embeds[embedsIndex].footer.text;
+					} else if (payload.embeds[embedsIndex].footer.text.length > 2048) {
+						if (truncateEnable === false) {
+							throw new Error(`Input \`payload.embeds[${embedsIndex}].footer.text\` is too large!`);
+						};
+						payload.embeds[embedsIndex].footer.text = mmStringOverflow(payload.embeds[embedsIndex].footer.text, 2048, stringOverflowOption);
+					};
+				};
+				if (typeof payload.embeds[embedsIndex].footer.icon_url === "string") {
+					if (payload.embeds[embedsIndex].footer.icon_url.length === 0) {
+						delete payload.embeds[embedsIndex].footer.icon_url;
+					};
+				};
+			};
+			if (typeof payload.embeds[embedsIndex].image !== "undefined") {
+				if (typeof payload.embeds[embedsIndex].image.url === "string") {
+					if (payload.embeds[embedsIndex].image.url.length === 0) {
+						delete payload.embeds[embedsIndex].image.url;
+					};
+				};
+			};
+			if (typeof payload.embeds[embedsIndex].thumbnail !== "undefined") {
+				if (typeof payload.embeds[embedsIndex].thumbnail.url === "string") {
+					if (payload.embeds[embedsIndex].thumbnail.url.length === 0) {
+						delete payload.embeds[embedsIndex].thumbnail.url;
+					};
+				};
+			};
+			if (typeof payload.embeds[embedsIndex].author !== "undefined") {
+				if (typeof payload.embeds[embedsIndex].author.name === "string") {
+					if (payload.embeds[embedsIndex].author.name.length === 0) {
+						delete payload.embeds[embedsIndex].author.name;
+					} else if (payload.embeds[embedsIndex].author.name.length > 256) {
+						if (truncateEnable === false) {
+							throw new Error(`Input \`payload.embeds[${embedsIndex}].author.name\` is too large!`);
+						};
+						payload.embeds[embedsIndex].author.name = mmStringOverflow(payload.embeds[embedsIndex].author.name, 256, stringOverflowOption);
+					};
+				};
+				if (typeof payload.embeds[embedsIndex].author.url === "string") {
+					if (payload.embeds[embedsIndex].author.url.length === 0) {
+						delete payload.embeds[embedsIndex].author.url;
+					};
+				};
+				if (typeof payload.embeds[embedsIndex].author.icon_url === "string") {
+					if (payload.embeds[embedsIndex].author.icon_url.length === 0) {
+						delete payload.embeds[embedsIndex].author.icon_url;
+					};
+				};
+			};
+			if (Array.isArray(payload.embeds[embedsIndex].fields) === true) {
+				for (let fieldsIndex = 0; fieldsIndex < payload.embeds[embedsIndex].fields.length; fieldsIndex++) {
+					if (typeof payload.embeds[embedsIndex].fields[fieldsIndex].name === "string") {
+						if (payload.embeds[embedsIndex].fields[fieldsIndex].name.length > 256) {
+							if (truncateEnable === false) {
+								throw new Error(`Input \`payload.embeds[${embedsIndex}].fields[${fieldsIndex}].name\` is too large!`);
+							};
+							payload.embeds[embedsIndex].fields[fieldsIndex].name = mmStringOverflow(payload.embeds[embedsIndex].fields[fieldsIndex].name, 256, stringOverflowOption);
+						};
+					};
+					if (typeof payload.embeds[embedsIndex].fields[fieldsIndex].value === "string") {
+						if (payload.embeds[embedsIndex].fields[fieldsIndex].value.length > 1024) {
+							if (truncateEnable === false) {
+								throw new Error(`Input \`payload.embeds[${embedsIndex}].fields[${fieldsIndex}].value\` is too large!`);
+							};
+							payload.embeds[embedsIndex].fields[fieldsIndex].value = mmStringOverflow(payload.embeds[embedsIndex].fields[fieldsIndex].value, 1024, stringOverflowOption);
+						};
+					};
+				};
+				if (payload.embeds[embedsIndex].fields.length === 0) {
+					delete payload.embeds[embedsIndex].fields;
+				};
+			};
+		};
+		if (payload.embeds.length === 0) {
+			delete payload.embeds;
 		};
 	};
-	Object.keys(variableSystem.list.payload).forEach((keyPayload) => {
-		variableReplace(
-			new RegExp(
-				regexpEscape(`${variableSystem.prefix}payload${variableSystem.join}${keyPayload}${variableSystem.suffix}`),
-				"gu"
-			),
-			variableSystem.list.payload[keyPayload]
-		);
-	});
-	Object.keys(variableSystem.list.external).forEach((keyExternal) => {
-		variableReplace(
-			new RegExp(
-				regexpEscape(`${variableSystem.prefix}external${variableSystem.join}${keyExternal}${variableSystem.suffix}`),
-				"gu"
-			),
-			variableSystem.list.external[keyExternal]
-		);
-	});
-	delta = require("./aca2.js")(delta);
-	githubAction.core.info(`Finalize payload content. ([GitHub Action] Send To Discord)`);
-	delta.allowed_mentions = {
-		parse: [
-			"roles",
-			"users",
-			"everyone"
-		]
-	};
-	githubAction.core.info(`Generate network request payload. ([GitHub Action] Send To Discord)`);
-	let requestPayload = JSON.stringify(delta);
-	githubAction.core.debug(`Network Request Payload: ${requestPayload} ([GitHub Action] Send To Discord)`);
-	githubAction.core.info(`Send network request to Discord. ([GitHub Action] Send To Discord)`);
-	let response = await nodeFetch(
-		`https://discord.com/api/webhooks/${webhook.identificationNumber}/${webhook.token}`,
-		{
-			body: requestPayload,
-			follow: 5,
-			headers: {
-				"Content-Type": "application/json",
-				"Content-Length": requestPayload.length,
-				"User-Agent": `NodeJS/${process.version.replace(/^v/giu, "")} node-fetch/2.6.1 GitHubAction.SendToDiscord(@hugoalh)/3.1.1`
-			},
-			method: "POST",
-			redirect: "follow"
+	let files = mmStringParse($importInput("files"));
+	if (adIsArray(files, {
+		checkElements: (element) => {
+			return (adIsString(element) === true);
 		}
-	);
-	githubAction.core.info(`Receive network response from Discord. ([GitHub Action] Send To Discord)`);
-	if (response.status !== 200 && response.status !== 204) {
-		githubAction.core.warning(`Receive status code ${response.status}! May cause error in the beyond. ([GitHub Action] Send To Discord)`);
+	}) === false) {
+		throw new TypeError(`Input \`files\` must be type of array (string (non-nullable))!`);
 	};
-	let responseText = await response.text();
-	if (response.ok === true) {
-		githubAction.core.debug(`${response.status} ${responseText} ([GitHub Action] Send To Discord)`);
+	for (let file of files) {
+		try {
+			fileSystemAccessSync(pathJoin(ghactionWorkspaceDirectory, file), fileSystemConstants.R_OK);
+		} catch {
+			throw new Error(`File \`${file}\` does not assessible, exist, or readable!`);
+		};
+	};
+	if (typeof payload.content === "undefined" && typeof payload.embeds === "undefined" && files.length === 0) {
+		throw new Error(`At least one of the input \`payload.content\`, \`payload.embeds\`, or \`files\` must be provided!`);
+	};
+	if (files.length > 0) {
+		if (method.length === 0) {
+			method = "form";
+		};
 	} else {
-		throw new Error(`${response.status} ${responseText} ([GitHub Action] Send To Discord)`);
+		if (method.length === 0) {
+			method = "json";
+		};
 	};
-})().catch((error) => {
-	githubAction.core.error(error);
+	if (method !== "form" && method !== "json") {
+		throw new SyntaxError(`Input \`method\`'s value is not in the list!`);
+	};
+	if (method === "json" && files.length > 0) {
+		throw new Error(`Invalid content type!`);
+	};
+	let payloadStringify = JSON.stringify(payload);
+	let requestBody;
+	let requestContentType;
+	let requestQuery = discordWebhookQuery.toString();
+	if (method === "form") {
+		const FormData = (await import("form-data")).default;
+		requestBody = new FormData({ encoding: "utf8" });
+		if (files.length > 0) {
+			payload.attachments = [];
+			for (let filesIndex = 0; filesIndex < files.length; filesIndex++) {
+				let fileFullPath = pathJoin(ghactionWorkspaceDirectory, files[filesIndex]);
+				let fileName = pathFileName(fileFullPath);
+				payload.attachments.push({
+					"id": filesIndex,
+					"filename": fileName
+				});
+				requestBody.append(`files[${filesIndex}]`, fileSystemCreateReadStream(fileFullPath), { filename: fileName });
+			};
+		};
+		requestBody.append("payload_json", JSON.stringify(payload), { contentType: "application/json" });
+		requestContentType = "multipart/form-data";
+	} else {
+		requestBody = payloadStringify;
+		requestContentType = "application/json";
+	};
+	if (dryRun === true) {
+		ghactionInformation(`Payload Content: ${payloadStringify}`);
+		let payloadFakeStringify = JSON.stringify({
+			body: "bar",
+			title: "foo",
+			userId: 1
+		});
+		ghactionInformation(`Post network request to test service.`);
+		let response = await nodeFetch(
+			`https://jsonplaceholder.typicode.com/posts`,
+			{
+				body: payloadFakeStringify,
+				follow: 5,
+				headers: {
+					"Content-Type": "application/json",
+					"User-Agent": ghactionUserAgent
+				},
+				method: "POST",
+				redirect: "follow"
+			}
+		);
+		let responseText = await response.text();
+		if (response.ok === true) {
+			ghactionInformation(`Status Code: ${response.status}\nResponse: ${responseText}`);
+		} else {
+			throw new Error(`Status Code: ${response.status}\nResponse: ${responseText}`);
+		};
+	} else {
+		ghactionDebug(`Payload Content: ${payloadStringify}`);
+		ghactionInformation(`Post network request to Discord.`);
+		let response = await nodeFetch(
+			`https://discord.com/api/webhooks/${key}${(requestQuery.length > 0) ? `?${requestQuery}` : ""}`,
+			{
+				body: requestBody,
+				follow: 5,
+				headers: {
+					"Content-Type": requestContentType,
+					"User-Agent": ghactionUserAgent
+				},
+				method: "POST",
+				redirect: "follow"
+			}
+		);
+		let responseText = await response.text();
+		if (response.ok === true) {
+			ghactionDebug(`Status Code: ${response.status}\nResponse: ${responseText}`);
+		} else {
+			throw new Error(`Status Code: ${response.status}\nResponse: ${responseText}`);
+		};
+	};
+})().catch((reason) => {
+	ghactionError(reason);
 	process.exit(1);
 });

@@ -1,36 +1,12 @@
-# ==================
-# hugoalh's Repository Resource - Git Attribute
-#   Language:
-#     Git-Configuration
-#   Last Update:
-#     2020-07-25
-# ==================
 * text=auto
 
-.babelrc text
-.browserslistrc text
-.buildlog text
-.csslintrc text
-.editorconfig text
-.env text
-.eslintrc text
-.gitattributes text
-.gitconfig text
-.gitignore text
-.htaccess text
-.htmlhintrc text
-.jscsrc text
-.jshintignore text
-.jshintrc text
-.npmignore text
-.npmrc text
-.recommenders binary
-.slugignore text
-.stylelintrc text
+*.*ignore text
+*.*rc text
 *.3dm binary
 *.3ds binary
 *.3g2 binary
 *.3gp binary
+*.3gpp binary
 *.7z binary
 *.8svx binary
 *.a binary
@@ -78,11 +54,20 @@
 *.bak binary
 *.bal text
 *.balx binary
-*.bash text eol=lf diff=php
+*.bash text diff=bash eol=lf
 *.bat text eol=crlf
 *.bh binary
 *.bibtex text diff=bibtex
 *.bl binary
+*.blake2b384 text
+*.blake2b512 text
+*.blake2s224 text
+*.blake2s256 text
+*.blake2sp text
+*.blake224 text
+*.blake256 text
+*.blake384 text
+*.blake512 text
 *.blend binary
 *.bmp binary
 *.bowerrc text
@@ -101,12 +86,13 @@
 *.cdf binary
 *.cdr binary
 *.cdx binary
-*.cfg text File
+*.cfg text
 *.cginc text
 *.cgm binary
 *.chm binary
 *.ciff binary
 *.cin binary
+*.cjs text
 *.class binary
 *.cmd text eol=crlf
 *.cnf text
@@ -115,21 +101,26 @@
 *.compiled text
 *.conf text
 *.config text
-*.controller eol=lf
+*.controller text eol=lf
 *.cpc binary
 *.cpio binary
 *.cpp text diff=cpp
 *.cpt binary
+*.crc32 text
+*.crc64 text
 *.cs text diff=csharp
+*.cshtml text diff=html
 *.cso binary
 *.csproj text eol=crlf
 *.css text diff=css
 *.csv text
+*.csx text diff=csharp
 *.ct binary
 *.cubemap binary
 *.cur binary
 *.cxx text diff=cpp
 *.dae binary
+*.dart text
 *.db binary
 *.dbf binary
 *.dbi binary
@@ -140,14 +131,14 @@
 *.df text
 *.dfm text
 *.dib binary
-*.dist text
+*.dist text eol=lf
 *.djvu binary
 *.dll binary
 *.dmg binary
 *.dng binary
-*.doc diff=word
+*.doc text diff=word
 *.dockerignore text
-*.docx diff=word
+*.docx text diff=word
 *.dof text
 *.dot text diff=astextplain
 *.dpx binary
@@ -163,13 +154,15 @@
 *.egg binary
 *.ejs text
 *.emf binary
-*.engine text eol=lf diff=php
+*.engine text diff=php eol=lf
 *.eot binary
 *.eps binary
 *.eva binary
+*.ex text diff=elixir
 *.exe binary
 *.exif binary
 *.exr binary
+*.exs text diff=elixir
 *.f text diff=fortran
 *.f03 text diff=fortran
 *.f4a binary
@@ -179,7 +172,6 @@
 *.f90 text diff=fortran
 *.f95 text diff=fortran
 *.fbx binary
-*.FBX binary
 *.fdx text diff=fountain
 *.fig binary
 *.filters text eol=crlf
@@ -195,7 +187,9 @@
 *.fp binary
 *.fpx binary
 *.frm binary
+*.fs text diff=fsharp
 *.fsproj text eol=crlf
+*.fsx text diff=fsharp
 *.gch binary
 *.gem binary
 *.gerber binary
@@ -204,9 +198,10 @@
 *.gifv binary
 *.gitattributes text
 *.gitignore text
-*.go diff=golang
+*.go text diff=golang
 *.gradle text diff=java
 *.gradle.kts text diff=java
+*.groovy text diff=java
 *.gsm binary
 *.gz binary
 *.h text diff=c
@@ -235,9 +230,9 @@
 *.iges binary
 *.iklax binary
 *.ilbm binary
-*.inc text eol=lf diff=php
+*.inc text diff=php eol=lf
 *.ini text
-*.install text eol=lf diff=php
+*.install text diff=php eol=lf
 *.ipynb text
 *.iso binary
 *.it binary
@@ -252,6 +247,7 @@
 *.jfi binary
 *.jfif binary
 *.jif binary
+*.jks binary
 *.jng binary
 *.jp2 binary
 *.jpe binary
@@ -271,6 +267,7 @@
 *.jxr binary
 *.kar binary
 *.kra binary
+*.kt text diff=java
 *.la binary
 *.lai binary
 *.latte text
@@ -305,32 +302,36 @@
 *.m4r binary
 *.m4v binary
 *.ma binary
-*.map text
+*.map text eol=lf
 *.mar binary
-*.markdown text
+*.markdown text diff=markdown
 *.mat text eol=lf
 *.max binary
 *.mb binary
 *.mcfunction text
 *.mcmeta text
 *.mcscript text
-*.md text
+*.md text diff=markdown
+*.md2 text
+*.md4 text
+*.md5 text
+*.md6 text
 *.mdl binary
 *.mdlp binary
-*.mdown text
+*.mdown text diff=markdown
 *.mdtext text
 *.mdtxt text
-*.mdwn text
+*.mdwn text diff=markdown
 *.mdx binary
-*.meta eol=lf
+*.meta text eol=lf
 *.mex* binary
 *.mid binary
 *.midi binary
 *.miff binary
 *.mj2 binary
 *.mjs text
-*.mkd text
-*.mkdn text
+*.mkd text diff=markdown
+*.mkdn text diff=markdown
 *.mkv binary
 *.mlappinstall binary
 *.mlpkginstall binary
@@ -340,7 +341,7 @@
 *.mng binary
 *.mod binary
 *.modelproj text eol=crlf
-*.module text eol=lf diff=php
+*.module text diff=php eol=lf
 *.mogg binary
 *.mov binary
 *.mp binary
@@ -356,10 +357,13 @@
 *.msm binary
 *.msp binary
 *.msv binary
+*.mt text diff=mathematica
 *.mts binary
 *.mu text diff=matlab
 *.mustache text
+*.mx binary
 *.mxf binary
+*.nb text diff=mathematica
 *.njk text
 *.nmf binary
 *.nrrd binary
@@ -369,7 +373,7 @@
 *.obj binary
 *.od text
 *.ods binary
-*.odt diff=odt
+*.odt text diff=odt
 *.oga binary
 *.ogg binary
 *.ogv binary
@@ -382,23 +386,24 @@
 *.out binary
 *.p text diff=pascal
 *.pam binary
-*.pas text diff=Pascal
+*.pas text diff=pascal
+*.patch binary
 *.pbm binary
 *.pbxproj text
 *.pch binary
 *.pcx binary
 *.pdb binary
-*.pdf text
+*.pdf text diff=astextplain
 *.pgf binary
 *.pgm binary
 *.pgml binary
 *.phar binary
-*.php text eol=lf diff=php
+*.php text diff=php eol=lf
 *.phtml text
-*.physicMaterial eol=lf
-*.physicMaterial2D eol=lf
-*.physicsMaterial eol=lf
-*.physicsMaterial2D eol=lf
+*.physicmaterial text eol=lf
+*.physicmaterial2d text eol=lf
+*.physicsmaterial text eol=lf
+*.physicsmaterial2d text eol=lf
 *.pickle binary
 *.pict binary
 *.pictor binary
@@ -408,16 +413,17 @@
 *.pm text diff=perl
 *.png binary
 *.pnm binary
-*.po text
+*.po text eol=lf
 *.pp text diff=pascal
 *.ppm binary
 *.ppt binary
 *.pptx binary
 *.ppu binary
-*.prefab eol=lf
-*.proFile text eol=lf diff=php
+*.prefab text eol=lf
+*.profile text diff=php eol=lf
 *.properties text
 *.props text eol=crlf
+*.props.tmpl text eol=crlf
 *.ps text
 *.ps1 text eol=crlf
 *.psb binary
@@ -428,67 +434,80 @@
 *.py3 text diff=python
 *.pyc text diff=python
 *.pyd text diff=python
+*.pyi text diff=python
 *.pyo text diff=python
 *.pyw text diff=python
 *.pyx text diff=python
 *.pyz text diff=python
 *.qt binary
 *.qtvr binary
-*.R text
+*.r text
 *.ra binary
 *.ram binary
 *.rar binary
 *.ras binary
 *.raw binary
 *.rb text diff=ruby
-*.rc text
-*.Rd text
-*.Rdata text
+*.rc text eol=crlf
+*.rd text
+*.rda binary
+*.rdata text
 *.rdb binary
 *.rds binary
-*.Rdx binary
+*.rdx binary
 *.reason binary
 *.rel binary
 *.res text 
 *.rgbe binary
 *.rm binary
-*.Rmd text
+*.rmd text
 *.rmvb binary
 *.rns binary
 *.roq binary
 *.rpm binary
+*.rproj text
+*.rs text diff=rust
 *.rsj text
 *.rst text
-*.rtf text
+*.rtf text diff=astextplain
 *.rz binary
 *.s3m binary
 *.s7z binary
 *.sass text
 *.sbx binary
+*.scala text diff=java
 *.scm text
 *.script text
 *.scs binary
-*.scss text
+*.scss text diff=css
 *.sd binary
 *.sec binary
 *.sfark binary
 *.sfnt binary
 *.sfx binary
 *.sgi binary
-*.sh text eol=lf diff=php
+*.sh text diff=bash eol=lf
+*.sha1 text
+*.sha224 text
+*.sha256 text
+*.sha384 text
+*.sha512 text
 *.shader text
 *.shar binary
+*.skel.bytes binary
 *.skp binary
 *.sldd binary
 *.sln text eol=crlf
+*.sln.tmpl text eol=crlf
 *.slo binary
 *.slx binary
 *.slxp binary
 *.so binary
-*.sql text
+*.sql text eol=lf
 *.sqlproj text eol=crlf
 *.stl binary
 *.styl text
+*.svelte text
 *.svg text
 *.svgz binary
 *.svi binary
@@ -506,7 +525,7 @@
 *.textile text
 *.tga binary
 *.tgz binary
-*.theme text eol=lf diff=php
+*.theme text diff=php eol=lf
 *.tif binary
 *.tiff binary
 *.tld text
@@ -519,17 +538,20 @@
 *.tsx text
 *.tta binary
 *.ttf binary
-*.twig text
+*.twig text eol=lf
 *.txt text
 *.ufo binary
 *.ufp binary
-*.unity eol=lf
+*.unity text eol=lf
 *.unitypackage binary
 *.val binary
 *.vbproj text eol=crlf
 *.vcproj text eol=crlf
 *.vcxitems text eol=crlf
 *.vcxproj text eol=crlf
+*.vcxproj.filters text eol=crlf
+*.vcxproj.tmpl text eol=crlf
+*.vim text eol=lf
 *.vml binary
 *.vob binary
 *.voc binary
@@ -542,6 +564,9 @@
 *.webm binary
 *.webp binary
 *.wixproj text eol=crlf
+*.wl text diff=mathematica
+*.wls text diff=mathematica
+*.wlt text diff=mathematica
 *.wma binary
 *.wmaproj text eol=crlf
 *.wmf binary
@@ -549,6 +574,7 @@
 *.woff binary
 *.woff2 binary
 *.wv binary
+*.wwaproj text eol=crlf
 *.xaml binary
 *.xar binary
 *.xbm binary
@@ -574,9 +600,53 @@
 *.z binary
 *.zip binary
 *.zipx binary
+*.zsh text eol=lf
 *.ztl binary
 *.zz binary
+
+.babelrc text
+.browserslistrc text
+.buildlog text
+.csslintrc text
+.editorconfig text
+.env text
+.eslintrc text
+.gitattributes text
+.gitconfig text
+.gitignore text
+.gvimrc text eol=lf
+.htaccess text
+.htmlhintrc text
+.jscsrc text
+.jshintignore text
+.jshintrc text
+.npmignore text
+.npmrc text
+.prettierrc text
+.recommenders binary
+.slugignore text
+.stylelintrc text
+.vimrc text eol=lf
+AUTHORS text
+browserslist text
+CHANGELOG text
+CHANGES text
+CONTRIBUTING text
+COPYING text
+copyright text
+Dockerfile text
 DockerFile text
+INSTALL text
+license text
+LICENSE text
+makefile text
+Makefile text
+NEWS text
 package-lock.json text
+package.json text
+pnpm-lock.yaml text
+Procfile text
 ProcFile text
-schema.rb diff=ruby
+schema.rb text diff=ruby
+TODO text
+yarn.lock text

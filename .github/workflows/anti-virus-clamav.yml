@@ -1,0 +1,43 @@
+# $<Schema>$ https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions
+name: "Anti Virus - ClamAV"
+on:
+  push:
+    branches:
+      - "**"
+  pull_request:
+    branches:
+      - "**"
+    types:
+      - "opened"
+      - "edited"
+      - "reopened"
+      - "synchronize"
+  workflow_dispatch:
+    inputs:
+      full:
+        description: "Execute a full scan."
+        required: false
+        default: "true"
+jobs:
+  fast:
+    name: "Fast Scan"
+    runs-on: "ubuntu-latest"
+    if: "${{github.event.inputs.full != 'true'}}"
+    steps:
+      - name: "Checkout Repository"
+        uses: "actions/checkout@v2.4.0"
+      - name: "Fast Scan Repository"
+        uses: "djdefi/gitavscan@4"
+  full:
+    name: "Full Scan"
+    runs-on: "ubuntu-latest"
+    if: "${{github.event.inputs.full == 'true'}}"
+    steps:
+      - name: "Checkout Repository"
+        uses: "actions/checkout@v2.4.0"
+        with:
+          fetch-depth: 0
+      - name: "Full Scan Repository"
+        uses: "djdefi/gitavscan@4"
+        with:
+          full: "--full"

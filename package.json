@@ -1,39 +1,40 @@
 {
-	"name": "githubaction.sendtodiscord",
-	"version": "3.1.1",
-	"description": "A GitHub action to send message to Discord via webhook.",
+	"name": "@hugoalh/send-discord-webhook-ghaction",
+	"version": "4.0.0-beta.1",
+	"description": "A GitHub Action to send a Discord webhook.",
 	"keywords": [
 		"github-action",
 		"discord",
 		"send",
 		"webhook"
 	],
-	"homepage": "https://github.com/hugoalh/GitHubAction.SendToDiscord#readme",
+	"homepage": "https://github.com/hugoalh/send-discord-webhook-ghaction#readme",
 	"bugs": {
-		"url": "https://github.com/hugoalh/GitHubAction.SendToDiscord/issues"
+		"url": "https://github.com/hugoalh/send-discord-webhook-ghaction/issues"
 	},
 	"license": "MIT",
 	"author": "hugoalh",
-	"main": "main.js",
+	"type": "module",
+	"main": "./main.js",
+	"exports": {
+		"import": "./main.js"
+	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/hugoalh/GitHubAction.SendToDiscord.git"
+		"url": "git+https://github.com/hugoalh/send-discord-webhook-ghaction.git"
 	},
 	"dependencies": {
-		"@actions/core": "^1.2.6",
-		"@actions/github": "^4.0.0",
-		"@hugoalh/advanced-determine": "^4.2.0",
-		"escape-string-regexp": "^4.0.0",
-		"flat": "^5.0.2",
-		"node-fetch": "^2.6.1"
-	},
-	"dynamicDependencies": {
-		"jsonc": "^2.0.0",
-		"yaml": "^1.10.0"
+		"@actions/core": "^1.6.0",
+		"@hugoalh/advanced-determine": "^6.4.1",
+		"@hugoalh/more-method": "^0.6.0",
+		"ajv": "^8.8.0",
+		"ajv-formats-draft2019": "^1.6.1",
+		"form-data": "^4.0.0",
+		"node-fetch": "^3.1.0"
 	},
 	"engines": {
-		"node": ">= 12.13.0",
-		"npm": ">= 6.12.0"
+		"node": ">= 14.15.0",
+		"npm": ">= 6.14.8"
 	},
 	"private": true
 }

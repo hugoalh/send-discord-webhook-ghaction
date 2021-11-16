@@ -42,7 +42,7 @@ inputs:
     default: "false"
 runs:
   using: "docker"
-  image: "Dockerfile"
+  image: "../Dockerfile"
 branding:
   icon: "send"
   color: "blue"

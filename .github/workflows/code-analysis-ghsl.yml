@@ -1,3 +1,4 @@
+# $<Schema>$ https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions
 name: "Code Analysis - GitHub Super Linter"
 on:
   push:
@@ -11,20 +12,18 @@ on:
       - "edited"
       - "reopened"
       - "synchronize"
+  workflow_dispatch:
 jobs:
   code-analysis-ghsl:
     name: "Code Analysis - GitHub Super Linter"
     runs-on: "ubuntu-latest"
     steps:
       - name: "Checkout Repository"
-        uses: "actions/checkout@v2.3.4"
+        uses: "actions/checkout@v2.4.0"
         with:
           fetch-depth: 0
-      - name: "Checkout Pull Request"
-        if: "${{github.event_name == 'pull_request'}}"
-        run: "git checkout HEAD^2"
       - name: "Analyze Repository"
-        uses: "github/super-linter@v4.3.0"
+        uses: "github/super-linter@v4.8.1"
         env:
           DISABLE_ERRORS: "true"
           GITHUB_TOKEN: "${{secrets.GITHUB_TOKEN}}"

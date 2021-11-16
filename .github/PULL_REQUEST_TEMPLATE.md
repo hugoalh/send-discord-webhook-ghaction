@@ -1,6 +1,6 @@
 > ### Suggested Content List
 >
-> - **Changelog:** What has changed?
-> - **Related Issue:** If the change(s) is related to the issue(s), list it's identification number.
+> - **Changelog:** What have changed?
+> - **Related Issue:** If the changes are related to the issues, list those identification numbers.
 >
 > Please remove this list before submit!

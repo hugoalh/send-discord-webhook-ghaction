@@ -1,3 +1,4 @@
+# $<Schema>$ https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions
 name: "Code Analysis - Open Source Static Analysis Runner"
 on:
   push:
@@ -11,24 +12,21 @@ on:
       - "edited"
       - "reopened"
       - "synchronize"
+  workflow_dispatch:
 jobs:
   code-analysis-ossar:
     name: "Code Analysis - Open Source Static Analysis Runner"
     runs-on: "windows-latest"
     steps:
       - name: "Checkout Repository"
-        uses: "actions/checkout@v2.3.4"
+        uses: "actions/checkout@v2.4.0"
         with:
           fetch-depth: 2
-      - name: "Checkout Pull Request"
-        if: "${{github.event_name == 'pull_request'}}"
-        run: "git checkout HEAD^2"
-      # Ensure a compatible version of dotnet is installed. The [Microsoft Security Code Analysis CLI](https://aka.ms/mscadocs) is built with dotnet v3.1.201. A version greater than or equal to v3.1.201 of dotnet must be installed on the agent in order to run this action. Remote agents already have a compatible version of dotnet installed and this step may be skipped. For local agents, ensure dotnet version 3.1.201 or later is installed by including this action.
-      # - name: "Install .NET"
-      #   if: "${{env.GITHUB_ACTIONS != true}}"
-      #   uses: "actions/setup-dotnet@v1.7.2"
-      #   with:
-      #     dotnet-version: "3.1.x"
+      # Ensure a compatible version of .NET is installed. The Microsoft Security Code Analysis CLI (https://aka.ms/mscadocs) is built with .NET v3.1.201. A version greater than or equal to v3.1.201 of .NET must be installed on the agent in order to run this action. Remote agents already have a compatible version of .NET installed and this step may be skipped. For local agents, ensure .NET version 3.1.201 or later is installed by including this action.
+      - name: "Install .NET"
+        uses: "actions/setup-dotnet@v1.8.2"
+        with:
+          dotnet-version: "3.1.x"
       - name: "Analyze Repository"
         id: "ossar"
         uses: "github/ossar-action@v1.1.0"

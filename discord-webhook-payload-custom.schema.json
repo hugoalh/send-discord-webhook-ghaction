@@ -1,0 +1,312 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"title": "Discord Webhook Payload",
+	"description": "Discord webhook JSON payload schema.",
+	"$defs": {
+		"snowflake": {
+			"type": "string",
+			"pattern": "^\\d+$"
+		}
+	},
+	"type": "object",
+	"additionalProperties": false,
+	"properties": {
+		"$schema": {
+			"type": "string"
+		},
+		"content": {
+			"title": "Content",
+			"description": "The message contents, up to 2000 characters",
+			"type": "string"
+		},
+		"username": {
+			"title": "Username",
+			"description": "Override the default username of the webhook, up to 80 characters; \"Clyde\" is not allowed.",
+			"type": "string",
+			"pattern": "^((?![cC][lL][yY][dD][eE]).)*$"
+		},
+		"avatar_url": {
+			"title": "Avatar URL",
+			"description": "Override the default avatar of the webhook.",
+			"type": "string",
+			"format": "iri"
+		},
+		"tts": {
+			"title": "TTS",
+			"description": "Use TTS (Text To Speech).",
+			"type": "boolean",
+			"default": false
+		},
+		"embeds": {
+			"title": "Embed",
+			"description": "Embed rich content, up to 10 embeds, and up to 6000 characters.",
+			"type": "array",
+			"items": {
+				"type": "object",
+				"additionalProperties": false,
+				"anyOf": [
+					{
+						"required": [
+							"title"
+						]
+					},
+					{
+						"required": [
+							"description"
+						]
+					},
+					{
+						"required": [
+							"timestamp"
+						]
+					},
+					{
+						"required": [
+							"footer"
+						]
+					},
+					{
+						"required": [
+							"image"
+						]
+					},
+					{
+						"required": [
+							"thumbnail"
+						]
+					},
+					{
+						"required": [
+							"video"
+						]
+					},
+					{
+						"required": [
+							"author"
+						]
+					},
+					{
+						"required": [
+							"fields"
+						]
+					}
+				],
+				"properties": {
+					"title": {
+						"title": "Embed Title",
+						"description": "Title of embed, up to 256 characters.",
+						"type": "string"
+					},
+					"description": {
+						"title": "Embed Description",
+						"description": "Description of embed, up to 4096 characters.",
+						"type": "string"
+					},
+					"url": {
+						"title": "Embed URL",
+						"description": "URL of embed.",
+						"type": "string",
+						"format": "iri"
+					},
+					"timestamp": {
+						"title": "Embed Timestamp",
+						"description": "Timestamp of embed, with format ISO 8601.",
+						"type": "string",
+						"format": "date-time"
+					},
+					"color": {
+						"title": "Embed Color",
+						"description": "Color code of the embed (i.e.: left border's color of embed).",
+						"anyOf": [
+							{
+								"type": "integer",
+								"minimum": 0,
+								"maximum": 16777215
+							},
+							{
+								"type": "string",
+								"pattern": "^#[\\dA-F]{6}$"
+							},
+							{
+								"type": "string",
+								"enum": [
+									"black",
+									"default",
+									"discordblack",
+									"discordblurple",
+									"discorddark",
+									"discordgrayple",
+									"discordgreyple",
+									"embeddark",
+									"random",
+									"white"
+								]
+							},
+							{
+								"type": "string",
+								"pattern": "^(2(5[0-5]|[0-4]\\d)|1\\d{2}|[1-9]\\d|\\d)(, ?(2(5[0-5]|[0-4]\\d)|1\\d{2}|[1-9]\\d|\\d)){2}$"
+							}
+						],
+						"default": 2105893
+					},
+					"footer": {
+						"title": "Embed Footer",
+						"description": "Footer of embed.",
+						"type": "object",
+						"additionalProperties": false,
+						"required": [
+							"text"
+						],
+						"properties": {
+							"text": {
+								"title": "Embed Footer Text",
+								"description": "Footer text, up to 2048 characters.",
+								"type": "string"
+							},
+							"icon_url": {
+								"title": "Embed Footer Icon URL",
+								"description": "URL of footer icon, only supports HTTP, HTTPS, and attachments.",
+								"type": "string",
+								"format": "iri"
+							}
+						}
+					},
+					"image": {
+						"title": "Embed Image",
+						"description": "Image of embed.",
+						"type": "object",
+						"additionalProperties": false,
+						"required": [
+							"url"
+						],
+						"properties": {
+							"url": {
+								"title": "Embed Image URL",
+								"description": "Source URL of image, only supports HTTP, HTTPS, and attachments.",
+								"type": "string",
+								"format": "iri"
+							}
+						}
+					},
+					"thumbnail": {
+						"title": "Embed Thumbnail",
+						"description": "Thumbnail of embed.",
+						"type": "object",
+						"additionalProperties": false,
+						"required": [
+							"url"
+						],
+						"properties": {
+							"url": {
+								"title": "Embed Thumbnail URL",
+								"description": "Source URL of thumbnail, only supports HTTP, HTTPS, and attachments.",
+								"type": "string",
+								"format": "iri"
+							}
+						}
+					},
+					"author": {
+						"title": "Embed Author",
+						"description": "Author of embed.",
+						"type": "object",
+						"additionalProperties": false,
+						"required": [
+							"name"
+						],
+						"properties": {
+							"name": {
+								"title": "Embed Author Name",
+								"description": "Name of author, up to 256 characters.",
+								"type": "string"
+							},
+							"url": {
+								"title": "Embed Author URL",
+								"description": "URL of author.",
+								"type": "string",
+								"format": "iri"
+							},
+							"icon_url": {
+								"title": "Embed Author Icon URL",
+								"description": "URL of author icon, only supports HTTP, HTTPS, and attachments.",
+								"type": "string",
+								"format": "iri"
+							}
+						}
+					},
+					"fields": {
+						"title": "Embed Fields",
+						"description": "Fields of embed, up to 25 fields.",
+						"type": "array",
+						"items": {
+							"type": "object",
+							"additionalProperties": false,
+							"required": [
+								"name",
+								"value"
+							],
+							"properties": {
+								"name": {
+									"description": "Name of field, up to 256 characters.",
+									"type": "string"
+								},
+								"value": {
+									"description": "Value of field, up to 1024 characters.",
+									"type": "string"
+								},
+								"inline": {
+									"description": "Field should display inline or not.",
+									"type": "boolean",
+									"default": false
+								}
+							}
+						},
+						"maxItems": 25
+					}
+				}
+			},
+			"maxItems": 10
+		},
+		"allowed_mentions": {
+			"title": "Allowed Mentions",
+			"description": "Allowed mentions for the message.",
+			"type": "object",
+			"additionalProperties": false,
+			"properties": {
+				"parse": {
+					"title": "Allowed Mentions Parse",
+					"description": "Allowed mention types to parse from the content.",
+					"type": "array",
+					"items": {
+						"type": "string",
+						"enum": [
+							"roles",
+							"users",
+							"everyone"
+						]
+					},
+					"uniqueItems": true
+				},
+				"roles": {
+					"title": "Allowed Mentions Roles",
+					"description": "Roles ID to mention.",
+					"type": "array",
+					"items": {
+						"$ref": "#/$defs/snowflake"
+					},
+					"uniqueItems": true,
+					"maxItems": 100
+				},
+				"users": {
+					"title": "Allowed Mentions Users",
+					"description": "Users ID to mention.",
+					"type": "array",
+					"items": {
+						"$ref": "#/$defs/snowflake"
+					},
+					"uniqueItems": true,
+					"maxItems": 100
+				}
+			}
+		}
+	}
+}

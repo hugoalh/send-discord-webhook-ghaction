@@ -1,21 +1,19 @@
+# $<Schema>$ https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions
 name: "New Release Announcer - IFTTT"
 on:
   release:
     types:
       - "published"
 jobs:
-  main:
-    name: "Main"
+  new-release-announcer-ifttt:
+    name: "New Release Announcer - IFTTT"
     runs-on: "ubuntu-latest"
     steps:
-      - uses: "hugoalh/GitHubAction.SendToIFTTT@v3.1.2"
+      - uses: "hugoalh/trigger-ifttt-webhook-applet-ghaction@v4.0.0"
         with:
-          webhook_eventname: "githubaction_twitter"
-          webhook_key: "${{secrets.IFTTTWEBHOOK_HUGOALH_KEY}}"
-          variable_join: "."
-          # variable_list_external:
-          variable_prefix: "%"
-          variable_suffix: "%"
-          value1: "[GitHub Action] Send To Discord version %payload.release.name% (%payload.release.tag_name%) is released and available on GitHub!\n%payload.release.html_url%"
-          # value2:
-          # value3:
+          eventname: "githubaction_twitter"
+          key: "${{secrets.IFTTTWEBHOOK_HUGOALH_KEY}}"
+          payload: |
+            {
+              "value1": "Send Discord Webhook (GitHub Action Edition) version ${{github.event.release.name}} (${{github.event.release.tag_name}}) is released and available on GitHub!\n${{github.event.release.html_url}}"
+            }
