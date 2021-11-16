@@ -81,9 +81,6 @@ function $importInput(key) {
 	};
 	ghactionSetSecret(key);
 	let threadID = $importInput("threadid");
-	if (adIsString(threadID) !== true) {
-		throw new TypeError(`Input \`threadid\` must be type of string (non-nullable)!`);
-	};
 	if (threadID.search(/^\d+$/gu) === 0) {
 		ghactionSetSecret(threadID);
 		discordWebhookQuery.set("thread_id", threadID);
