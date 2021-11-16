@@ -4,14 +4,15 @@ import { fileURLToPath, URLSearchParams } from "url";
 import { isArray as adIsArray, isJSON as adIsJSON, isString as adIsString } from "@hugoalh/advanced-determine";
 import { accessSync as fileSystemAccessSync, constants as fileSystemConstants, createReadStream as fileSystemCreateReadStream, readFileSync as fileSystemReadFileSync } from "fs";
 import { stringOverflow as mmStringOverflow, stringParse as mmStringParse } from "@hugoalh/more-method";
-import Ajv2019 from "ajv/dist/2020.js";
-import ajvFormatsDraft2019 from "ajv-formats-draft2019/formats/index.js";
+import Ajv2020 from "ajv/dist/2020.js";
+import ajvFormat from "ajv-formats";
+import ajvFormatsDraft2019 from "ajv-formats-draft2019";
 import nodeFetch from "node-fetch";
 const discordWebhookQuery = new URLSearchParams();
 const ghactionActionDirectory = pathDirectoryName(fileURLToPath(import.meta.url));
 const ghactionUserAgent = "SendDiscordWebhook.GitHubAction/4.0.0";
 const ghactionWorkspaceDirectory = process.env.GITHUB_WORKSPACE;
-const jsonSchemaValidator = new Ajv2019({
+const jsonSchemaValidator = new Ajv2020({
 	$comment: false,
 	$data: false,
 	allErrors: true,
@@ -22,9 +23,6 @@ const jsonSchemaValidator = new Ajv2019({
 		lines: true
 	},
 	coerceTypes: false,
-	formats: {
-		...ajvFormatsDraft2019
-	},
 	logger: {
 		error: ghactionError,
 		log: ghactionInformation,
@@ -34,7 +32,10 @@ const jsonSchemaValidator = new Ajv2019({
 	timestamp: "string",
 	useDefaults: false,
 	validateSchema: true
-}).compile(JSON.parse(fileSystemReadFileSync(
+});
+ajvFormat(jsonSchemaValidator);
+ajvFormatsDraft2019(jsonSchemaValidator);
+jsonSchemaValidator.compile(JSON.parse(fileSystemReadFileSync(
 	pathJoin(ghactionActionDirectory, "discord-webhook-payload-custom.schema.json"),
 	{
 		encoding: "utf8",
