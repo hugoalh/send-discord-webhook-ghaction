@@ -12,7 +12,7 @@ const discordWebhookQuery = new URLSearchParams();
 const ghactionActionDirectory = pathDirectoryName(fileURLToPath(import.meta.url));
 const ghactionUserAgent = "SendDiscordWebhook.GitHubAction/4.0.0";
 const ghactionWorkspaceDirectory = process.env.GITHUB_WORKSPACE;
-const jsonSchemaValidator = new Ajv2020({
+const ajv = new Ajv2020({
 	$comment: false,
 	$data: false,
 	allErrors: true,
@@ -33,9 +33,9 @@ const jsonSchemaValidator = new Ajv2020({
 	useDefaults: false,
 	validateSchema: true
 });
-ajvFormat(jsonSchemaValidator);
-ajvFormatsDraft2019(jsonSchemaValidator);
-jsonSchemaValidator.compile(JSON.parse(fileSystemReadFileSync(
+ajvFormat(ajv);
+ajvFormatsDraft2019(ajv);
+let jsonSchemaValidator = ajv.compile(JSON.parse(fileSystemReadFileSync(
 	pathJoin(ghactionActionDirectory, "discord-webhook-payload-custom.schema.json"),
 	{
 		encoding: "utf8",
