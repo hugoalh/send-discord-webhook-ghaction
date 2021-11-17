@@ -51,6 +51,10 @@ jobs:
         uses: "hugoalh/send-discord-webhook-ghaction@main"
         with:
           key: "${{secrets.DISCORDWEBHOOK_HUGOALHSTUDIO_STUDIOANNOUNCEMENT_PROJECTNEWRELEASEANNOUNCER}}"
+          paylaod: |
+            {
+              "content": "***⚠ Important:** This changelog is snapshotted and not synchronous with the official one!*"
+            }
           files: |
             [
               "${{github.event.repository.owner.login}}-${{github.event.repository.name}}-${{github.event.release.tag_name}}-DUC.md"
