@@ -8,8 +8,8 @@ updates:
       time: "00:00"
       timezone: "Etc/UTC"
     labels:
-      - "📦dependency"
-      - "🔵unconfirm"
+      - "Status/Unread 🔵"
+      - "Type/Dependency 📦"
     open-pull-requests-limit: 100
     pull-request-branch-name:
       separator: "/"
@@ -21,8 +21,8 @@ updates:
       time: "00:00"
       timezone: "Etc/UTC"
     labels:
-      - "📦dependency"
-      - "🔵unconfirm"
+      - "Status/Unread 🔵"
+      - "Type/Dependency 📦"
     open-pull-requests-limit: 100
     pull-request-branch-name:
       separator: "/"
@@ -34,8 +34,8 @@ updates:
       time: "00:00"
       timezone: "Etc/UTC"
     labels:
-      - "📦dependency"
-      - "🔵unconfirm"
+      - "Status/Unread 🔵"
+      - "Type/Dependency 📦"
     open-pull-requests-limit: 100
     pull-request-branch-name:
       separator: "/"

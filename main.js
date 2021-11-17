@@ -309,7 +309,7 @@ function $importInput(key) {
 	let requestQuery = discordWebhookQuery.toString();
 	if (method === "form") {
 		const FormData = (await import("form-data")).default;
-		requestBody = new FormData({ encoding: "utf8" });
+		requestBody = new FormData();
 		if (files.length > 0) {
 			payload.attachments = [];
 			for (let filesIndex = 0; filesIndex < files.length; filesIndex++) {
@@ -329,7 +329,7 @@ function $importInput(key) {
 		requestContentType = "application/json";
 	};
 	if (dryRun === true) {
-		ghactionInformation(`Payload Content: ${payloadStringify}`);
+		ghactionInformation(`Payload Content: ${requestBody}`);
 		let payloadFakeStringify = JSON.stringify({
 			body: "bar",
 			title: "foo",
@@ -356,7 +356,7 @@ function $importInput(key) {
 			throw new Error(`Status Code: ${response.status}\nResponse: ${responseText}`);
 		};
 	} else {
-		ghactionDebug(`Payload Content: ${payloadStringify}`);
+		ghactionDebug(`Payload Content: ${requestBody}`);
 		ghactionInformation(`Post network request to Discord.`);
 		let response = await nodeFetch(
 			`https://discord.com/api/webhooks/${key}${(requestQuery.length > 0) ? `?${requestQuery}` : ""}`,

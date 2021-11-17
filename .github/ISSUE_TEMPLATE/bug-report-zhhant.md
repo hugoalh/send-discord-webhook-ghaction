@@ -1,7 +1,7 @@
 ---
 name: "錯誤報告（Markdown版）"
 about: "報告一個錯誤。"
-labels: "🐛bug,🔵unconfirm"
+labels: "Status/Unread 🔵,Type/Bug 🐛"
 ---
 > ### 建議內容列表
 >

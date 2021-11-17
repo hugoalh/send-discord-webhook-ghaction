@@ -2,8 +2,8 @@
 name: "Feature Request (Form Edition)"
 description: "Suggest an idea."
 labels:
-  - "➕enhancement"
-  - "🔵unconfirm"
+  - "Status/Unread 🔵"
+  - "Type/Enhancement ➕"
 body:
   - type: "textarea"
     id: "describe"

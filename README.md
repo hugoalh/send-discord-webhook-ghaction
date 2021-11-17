@@ -43,6 +43,10 @@ jobs:
       - uses: "hugoalh/send-discord-webhook-ghaction@<tag/version>"
 ```
 
+##### Require Software
+
+*Depend on the base requirement.*
+
 #### Docker (`+docker`)
 
 ```yml

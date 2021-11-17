@@ -1,7 +1,7 @@
 ---
 name: "Documentation Issue (Markdown Edition)"
 about: "Report a documentation issue."
-labels: "📚documentation,🔵unconfirm"
+labels: "Status/Unread 🔵,Type/Documentation 📚"
 ---
 > ### Suggested Content List
 >

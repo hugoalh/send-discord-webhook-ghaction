@@ -2,8 +2,8 @@
 name: "功能要求（表單版）"
 description: "提出一個想法。"
 labels:
-  - "➕enhancement"
-  - "🔵unconfirm"
+  - "Status/Unread 🔵"
+  - "Type/Enhancement ➕"
 body:
   - type: "textarea"
     id: "describe"

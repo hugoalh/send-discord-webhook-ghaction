@@ -2,8 +2,8 @@
 name: "Bug Report (Form Edition)"
 description: "Report a bug."
 labels:
-  - "🐛bug"
-  - "🔵unconfirm"
+  - "Status/Unread 🔵"
+  - "Type/Bug 🐛"
 body:
   - type: "textarea"
     id: "describe"

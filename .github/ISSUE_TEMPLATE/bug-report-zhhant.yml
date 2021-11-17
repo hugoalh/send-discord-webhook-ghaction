@@ -2,8 +2,8 @@
 name: "錯誤報告（表單版）"
 description: "報告一個錯誤。"
 labels:
-  - "🐛bug"
-  - "🔵unconfirm"
+  - "Status/Unread 🔵"
+  - "Type/Bug 🐛"
 body:
   - type: "textarea"
     id: "describe"

@@ -2,8 +2,8 @@
 name: "Documentation Issue (Form Edition)"
 description: "Report a documentation issue."
 labels:
-  - "📚documentation"
-  - "🔵unconfirm"
+  - "Status/Unread 🔵"
+  - "Type/Documentation 📚"
 body:
   - type: "textarea"
     id: "describe"
