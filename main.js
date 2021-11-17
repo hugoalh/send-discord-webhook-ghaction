@@ -268,6 +268,9 @@ function $importInput(key) {
 		};
 	};
 	let files = mmStringParse($importInput("files"));
+	if (files === "[]") {
+		files = [];
+	};
 	if (adIsArray(files, {
 		checkElements: (element) => {
 			return (adIsString(element) === true);
