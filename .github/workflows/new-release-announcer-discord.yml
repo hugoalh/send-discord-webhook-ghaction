@@ -24,7 +24,7 @@ jobs:
               "embeds": [
                 {
                   "title": "Send Discord Webhook (GitHub Action Edition)",
-                  "description": "Version ${{github.event.release.name}} (${{github.event.release.tag_name}}) is released and available on:"
+                  "description": "Version ${{github.event.release.name}} (${{github.event.release.tag_name}}) is released and available on:",
                   "color": "16,116,231",
                   "image": {
                     "url": "https://i.imgur.com/6HnQK7H.png"
