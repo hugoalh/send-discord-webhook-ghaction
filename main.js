@@ -54,7 +54,7 @@ const reColorNamespace = new Map([
 	[/^white$/giu, 16777215]
 ]);
 const reColorRandom = /^random$/giu;
-const reColorRGB = /^(?:2(?:5[0-5]|[0-4]\\d)|1\\d{2}|[1-9]\\d|\\d)(?:, ?(?:2(?:5[0-5]|[0-4]\\d)|1\\d{2}|[1-9]\\d|\\d)){2}$/gu;
+const reColorRGB = /^(?:2(?:5[0-5]|[0-4]\d)|1\d{2}|[1-9]\d|\d)(?:, ?(?:2(?:5[0-5]|[0-4]\d)|1\d{2}|[1-9]\d|\d)){2}$/gu;
 const reDiscordWebhookURL = /^https:\/\/(?:canary\.)?discord(?:app)?\.com\/api\/webhooks\/(?<key>\d+\/[\da-zA-Z_-]+)$/gu;
 /**
  * @private
