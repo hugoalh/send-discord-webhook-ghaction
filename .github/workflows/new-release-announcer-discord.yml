@@ -9,14 +9,7 @@ jobs:
     name: "New Release Announcer - Discord"
     runs-on: "ubuntu-latest"
     steps:
-      - name: "Generate Discord Use Changelog"
-        run: |
-          Set-Content -Path ${{github.workspace}}/${{github.event.repository.owner.login}}-${{github.event.repository.name}}-${{github.event.release.tag_name}}-DUC.md -Value @"
-          ${{github.event.release.body}}
-          "@ -Encoding utf8NoBOM
-        shell: "pwsh"
-      - name: "Announce Content"
-        uses: "hugoalh/send-discord-webhook-ghaction@main"
+      - uses: "hugoalh/send-discord-webhook-ghaction@main"
         with:
           key: "${{secrets.DISCORDWEBHOOK_HUGOALHSTUDIO_STUDIOANNOUNCEMENT_PROJECTNEWRELEASEANNOUNCER}}"
           payload: |
@@ -49,15 +42,3 @@ jobs:
                 }
               ]
             }
-      - name: "Announce Changelog"
-        uses: "hugoalh/send-discord-webhook-ghaction@main"
-        with:
-          key: "${{secrets.DISCORDWEBHOOK_HUGOALHSTUDIO_STUDIOANNOUNCEMENT_PROJECTNEWRELEASEANNOUNCER}}"
-          paylaod: |
-            {
-              "content": "***⚠ Important:** This changelog is snapshotted and not synchronous with the official one!*"
-            }
-          files: |
-            [
-              "${{github.event.repository.owner.login}}-${{github.event.repository.name}}-${{github.event.release.tag_name}}-DUC.md"
-            ]
