@@ -174,7 +174,7 @@ function $importInput(key) {
 					payload.embeds[embedsIndex].color = Number(payload.embeds[embedsIndex].color.replace("#", "0x"));
 				} else if (payload.embeds[embedsIndex].color.search(reColorRGB) === 0) {
 					let [R, G, B] = payload.embeds[embedsIndex].color.split(/, ?/gu);
-					payload.embeds[embedsIndex].color = R * 65536 + G * 256 + B;
+					payload.embeds[embedsIndex].color = Number(R) * 65536 + Number(G) * 256 + Number(B);
 				} else if (payload.embeds[embedsIndex].color.search(reColorRandom) === 0) {
 					payload.embeds[embedsIndex].color = Math.floor(Math.random() * 256) * 65536 + Math.floor(Math.random() * 256) * 256 + Math.floor(Math.random() * 256);
 				} else {
