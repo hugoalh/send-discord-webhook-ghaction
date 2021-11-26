@@ -1,5 +1,5 @@
 # $<Schema>$ https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/syntax-for-issue-forms
-name: "錯誤報告（表單版）"
+name: "錯誤報告（表單）"
 description: "報告一個錯誤。"
 labels:
   - "Status/Unread 🔵"
@@ -19,9 +19,9 @@ body:
       description: "甚麼版本受到影響？必須是安全政策（/.github/SECURITY.md，英文）中列出的受支持版本。"
       multiple: true
       options:
-        - "v4.0.0-beta.4+default"
-        - "v4.0.0-beta.4+docker"
-        - "v4.0.0-beta.4+nodejs"
+        - "v4.0.0+default"
+        - "v4.0.0+docker"
+        - "v4.0.0+nodejs"
         - "v3.1.1"
         - "v3.1.0"
     validations:

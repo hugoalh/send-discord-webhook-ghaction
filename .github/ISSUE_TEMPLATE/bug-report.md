@@ -1,5 +1,5 @@
 ---
-name: "Bug Report (Markdown Edition)"
+name: "Bug Report (Markdown)"
 about: "Report a bug."
 labels: "Status/Unread 🔵,Type/Bug 🐛"
 ---

@@ -1,5 +1,5 @@
 # $<Schema>$ https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions
-name: "Code Analysis - CodeQL"
+name: "Analyze Code - CodeQL"
 on:
   push:
     branches:
@@ -14,14 +14,14 @@ on:
       - "synchronize"
   workflow_dispatch:
 jobs:
-  code-analysis-codeql:
-    name: "Code Analysis - CodeQL"
+  analyze-code-codeql:
+    name: "Analyze Code - CodeQL"
     runs-on: "ubuntu-latest"
     steps:
       - name: "Checkout Repository"
         uses: "actions/checkout@v2.4.0"
         with:
-          fetch-depth: 2
+          fetch-depth: 0
       - name: "Initialize CodeQL"
         uses: "github/codeql-action/init@v1"
         with:

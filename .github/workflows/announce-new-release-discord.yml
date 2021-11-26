@@ -1,12 +1,12 @@
 # $<Schema>$ https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions
-name: "New Release Announcer - Discord"
+name: "Announce New Release - Discord"
 on:
   release:
     types:
       - "published"
 jobs:
-  new-release-announcer-discord:
-    name: "New Release Announcer - Discord"
+  announce-new-release-discord:
+    name: "Announce New Release - Discord"
     runs-on: "ubuntu-latest"
     steps:
       - uses: "hugoalh/send-discord-webhook-ghaction@main"
@@ -16,7 +16,7 @@ jobs:
             {
               "embeds": [
                 {
-                  "title": "Send Discord Webhook (GitHub Action Edition)",
+                  "title": "Send Discord Webhook (GitHub Action)",
                   "description": "Version ${{github.event.release.name}} (${{github.event.release.tag_name}}) is released and available on:",
                   "color": "16,116,231",
                   "image": {

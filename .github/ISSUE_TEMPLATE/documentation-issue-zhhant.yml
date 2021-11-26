@@ -1,5 +1,5 @@
 # $<Schema>$ https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/syntax-for-issue-forms
-name: "文檔問題（表單版）"
+name: "文檔問題（表單）"
 description: "報告一個文檔問題。"
 labels:
   - "Status/Unread 🔵"

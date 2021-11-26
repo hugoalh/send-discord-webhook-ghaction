@@ -1,6 +1,6 @@
 🌐 | [English](./README.md) / [中文](./README-ZHHANT.md)
 
-# 發送Discord網絡鉤手（GitHub Action版本）
+# 發送Discord網絡鉤手（GitHub Action）
 
 [`SendDiscordWebhook.GitHubAction`](https://github.com/hugoalh/send-discord-webhook-ghaction)
 [![GitHub貢獻者](https://img.shields.io/github/contributors/hugoalh/send-discord-webhook-ghaction?label=%E8%B2%A2%E7%8D%BB%E8%80%85&logo=github&logoColor=ffffff&style=flat-square)](https://github.com/hugoalh/send-discord-webhook-ghaction/graphs/contributors)

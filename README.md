@@ -1,6 +1,6 @@
 🌐 | [English](./README.md) / [中文](./README-ZHHANT.md)
 
-# Send Discord Webhook (GitHub Action Edition)
+# Send Discord Webhook (GitHub Action)
 
 [`SendDiscordWebhook.GitHubAction`](https://github.com/hugoalh/send-discord-webhook-ghaction)
 [![GitHub Contributors](https://img.shields.io/github/contributors/hugoalh/send-discord-webhook-ghaction?label=Contributors&logo=github&logoColor=ffffff&style=flat-square)](https://github.com/hugoalh/send-discord-webhook-ghaction/graphs/contributors)

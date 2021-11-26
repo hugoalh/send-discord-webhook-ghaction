@@ -1,5 +1,5 @@
 ---
-name: "錯誤報告（Markdown版）"
+name: "錯誤報告（Markdown）"
 about: "報告一個錯誤。"
 labels: "Status/Unread 🔵,Type/Bug 🐛"
 ---

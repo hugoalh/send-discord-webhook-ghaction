@@ -1,5 +1,5 @@
 ---
-name: "文檔問題（Markdown版）"
+name: "文檔問題（Markdown）"
 about: "報告一個文檔問題。"
 labels: "Status/Unread 🔵,Type/Documentation 📚"
 ---

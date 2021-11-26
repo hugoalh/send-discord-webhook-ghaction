@@ -1,5 +1,5 @@
 ---
-name: "功能要求（Markdown版）"
+name: "功能要求（Markdown）"
 about: "提出一個想法。"
 labels: "Status/Unread 🔵,Type/Enhancement ➕"
 ---
