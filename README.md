@@ -268,7 +268,7 @@ When this input is `"json"`, and input `files` is defined, will throw an error.
 
 #### `files`
 
-**\[Optional\]** `<string[] = []>` Files as attachment, which must be relative paths from and inside GitHub Actions runner workspace, up to 8 MB; At least one of the input `payload.content`, `payload.embeds`, or `files` must be provided.
+**\[Optional\]** `<string[] = []>` Files as attachment, which must be relative paths from and inside GitHub Actions workspace, up to 8 MB; At least one of the input `payload.content`, `payload.embeds`, or `files` must be provided.
 
 #### `threadid`
 
