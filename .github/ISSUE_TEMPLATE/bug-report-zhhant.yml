@@ -19,11 +19,12 @@ body:
       description: "甚麼版本受到影響？必須是安全政策（/.github/SECURITY.md，英文）中列出的受支持版本。"
       multiple: true
       options:
+        - "v4.1.0+default"
+        - "v4.1.0+docker"
+        - "v4.1.0+nodejs"
         - "v4.0.0+default"
         - "v4.0.0+docker"
         - "v4.0.0+nodejs"
-        - "v3.1.1"
-        - "v3.1.0"
     validations:
       required: false
   - type: "textarea"

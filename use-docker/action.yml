@@ -42,7 +42,7 @@ inputs:
     default: "false"
 runs:
   using: "docker"
-  image: "../Dockerfile"
+  image: "docker://ghcr.io/hugoalh/send-discord-webhook-ghaction:4.1.0"
 branding:
   icon: "send"
   color: "blue"

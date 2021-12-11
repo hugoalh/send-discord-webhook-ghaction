@@ -1,6 +1,6 @@
 FROM node:lts-fermium
-COPY package*.json /
-COPY discord-webhook-payload-custom.schema.json /
+COPY discord-webhook-payload-custom.schema.json main.js package-lock.json package.json /opt/hugoalh/send-discord-webhook-ghaction/
+WORKDIR /opt/hugoalh/send-discord-webhook-ghaction/
 RUN ["npm", "ci"]
-COPY main.js /
-CMD ["node", "/main.js"]
+WORKDIR /
+CMD ["node", "/opt/hugoalh/send-discord-webhook-ghaction/main.js"]

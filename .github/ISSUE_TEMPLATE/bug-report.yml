@@ -19,11 +19,12 @@ body:
       description: "What versions are affected? Versions must be listed as supported in the Security Policy (/.github/SECURITY.md)."
       multiple: true
       options:
+        - "v4.1.0+default"
+        - "v4.1.0+docker"
+        - "v4.1.0+nodejs"
         - "v4.0.0+default"
         - "v4.0.0+docker"
         - "v4.0.0+nodejs"
-        - "v3.1.1"
-        - "v3.1.0"
     validations:
       required: false
   - type: "textarea"

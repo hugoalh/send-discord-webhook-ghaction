@@ -32,7 +32,7 @@ A GitHub Action to send a Discord webhook.
 
 ## 📚 Documentation
 
-> **⚠ Important:** This documentation is v4.0.0-beta.1 based. To view other tag's/version's documentation, visit the [tag/version list](https://github.com/hugoalh/send-discord-webhook-ghaction/tags) and select the correct tag/version.
+> **⚠ Important:** This documentation is v4.0.0 based; To view other tag's/version's documentation, please visit the [tag/version list](https://github.com/hugoalh/send-discord-webhook-ghaction/tags) and select the correct tag/version.
 
 ### 🎯 Entrypoint / Target
 

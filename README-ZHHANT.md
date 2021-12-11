@@ -32,7 +32,7 @@
 
 ## 📚 文檔
 
-> <b>⚠ 重要：</b>此文檔基於v4.0.0-beta.1。如果要查看其他標籤／版本的文檔，瀏覽[標籤／版本列表](https://github.com/hugoalh/send-discord-webhook-ghaction/tags)並選擇正確的標籤／版本。
+> <b>⚠ 重要：</b>此文檔基於v4.0.0；如果要查看其他標籤／版本的文檔，請瀏覽[標籤／版本列表](https://github.com/hugoalh/send-discord-webhook-ghaction/tags)並選擇正確的標籤／版本。
 
 ### 🎯 進入點／目標
 
