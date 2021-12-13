@@ -73,15 +73,15 @@ function $importInput(key) {
 		throw new TypeError(`Input \`dryrun\` must be type of boolean!`);
 	};
 	let key = $importInput("key");
-	if (adIsString(key, { pattern: /^(?:https:\/\/(?:canary\.)?discord(?:app)?\.com\/api\/webhooks\/)?\d+\/[\da-zA-Z_-]+$/gu }) !== true) {
-		throw new TypeError(`Input \`key\` must be type of string (non-nullable)!`);
+	if (!adIsString(key, { pattern: /^(?:https:\/\/(?:canary\.)?discord(?:app)?\.com\/api\/webhooks\/)?\d+\/[\da-zA-Z_-]+$/gu })) {
+		throw new TypeError(`Input \`key\` must be type of string (non-empty)!`);
 	};
 	if (key.search(reDiscordWebhookURL) === 0) {
 		key = key.replace(reDiscordWebhookURL, "$<key>");
 	};
 	ghactionSetSecret(key);
 	let threadID = $importInput("threadid");
-	if (threadID.search(/^\d+$/gu) === 0) {
+	if (adIsString(threadID, { pattern: /^\d+$/gu })) {
 		ghactionSetSecret(threadID);
 		discordWebhookQuery.set("thread_id", threadID);
 	};
@@ -89,7 +89,7 @@ function $importInput(key) {
 	if (typeof wait !== "boolean") {
 		throw new TypeError(`Input \`wait\` must be type of boolean!`);
 	};
-	if (wait === true) {
+	if (wait) {
 		discordWebhookQuery.set("wait", "true");
 	};
 	let truncateEnable = mmStringParse($importInput("truncate_enable"));
@@ -100,12 +100,8 @@ function $importInput(key) {
 		ellipsis: $importInput("truncate_ellipsis"),
 		position: $importInput("truncate_position")
 	};
-	let method = $importInput("method");
-	if (adIsString(method, { singleLine: true }) === false) {
-		throw new TypeError(`Input \`method\` must be type of string!`);
-	};
 	let payload = mmStringParse($importInput("payload"));
-	if (adIsJSON(payload, { arrayRoot: false }) === false) {
+	if (!adIsJSON(payload, { arrayRoot: false })) {
 		throw new TypeError(`Input \`payload\` must be type of JSON (non-array-root)!`);
 	};
 	if (jsonSchemaValidator(payload) === false) {
@@ -121,7 +117,7 @@ function $importInput(key) {
 		if (payload.content.length === 0) {
 			delete payload.content;
 		} else if (payload.content.length > 2000) {
-			if (truncateEnable === false) {
+			if (!truncateEnable) {
 				throw new Error(`Input \`payload.content\` is too large!`);
 			};
 			payload.content = mmStringOverflow(payload.content, 2000, stringOverflowOption);
@@ -131,7 +127,7 @@ function $importInput(key) {
 		if (payload.username.length === 0) {
 			delete payload.username;
 		} else if (payload.username.length > 80) {
-			if (truncateEnable === false) {
+			if (!truncateEnable) {
 				throw new Error(`Input \`payload.username\` is too large!`);
 			};
 			payload.username = mmStringOverflow(payload.username, 80, stringOverflowOption);
@@ -142,13 +138,13 @@ function $importInput(key) {
 			delete payload.avatar_url;
 		};
 	};
-	if (Array.isArray(payload.embeds) === true) {
+	if (Array.isArray(payload.embeds)) {
 		for (let embedsIndex = 0; embedsIndex < payload.embeds.length; embedsIndex++) {
 			if (typeof payload.embeds[embedsIndex].title === "string") {
 				if (payload.embeds[embedsIndex].title.length === 0) {
 					delete payload.embeds[embedsIndex].title;
 				} else if (payload.embeds[embedsIndex].title.length > 256) {
-					if (truncateEnable === false) {
+					if (!truncateEnable) {
 						throw new Error(`Input \`payload.embeds[${embedsIndex}].title\` is too large!`);
 					};
 					payload.embeds[embedsIndex].title = mmStringOverflow(payload.embeds[embedsIndex].title, 256, stringOverflowOption);
@@ -158,7 +154,7 @@ function $importInput(key) {
 				if (payload.embeds[embedsIndex].description.length === 0) {
 					delete payload.embeds[embedsIndex].description;
 				} else if (payload.embeds[embedsIndex].description.length > 4096) {
-					if (truncateEnable === false) {
+					if (!truncateEnable) {
 						throw new Error(`Input \`payload.embeds[${embedsIndex}].description\` is too large!`);
 					};
 					payload.embeds[embedsIndex].description = mmStringOverflow(payload.embeds[embedsIndex].description, 4096, stringOverflowOption);
@@ -191,7 +187,7 @@ function $importInput(key) {
 					if (payload.embeds[embedsIndex].footer.text.length === 0) {
 						delete payload.embeds[embedsIndex].footer.text;
 					} else if (payload.embeds[embedsIndex].footer.text.length > 2048) {
-						if (truncateEnable === false) {
+						if (!truncateEnable) {
 							throw new Error(`Input \`payload.embeds[${embedsIndex}].footer.text\` is too large!`);
 						};
 						payload.embeds[embedsIndex].footer.text = mmStringOverflow(payload.embeds[embedsIndex].footer.text, 2048, stringOverflowOption);
@@ -222,7 +218,7 @@ function $importInput(key) {
 					if (payload.embeds[embedsIndex].author.name.length === 0) {
 						delete payload.embeds[embedsIndex].author.name;
 					} else if (payload.embeds[embedsIndex].author.name.length > 256) {
-						if (truncateEnable === false) {
+						if (!truncateEnable) {
 							throw new Error(`Input \`payload.embeds[${embedsIndex}].author.name\` is too large!`);
 						};
 						payload.embeds[embedsIndex].author.name = mmStringOverflow(payload.embeds[embedsIndex].author.name, 256, stringOverflowOption);
@@ -239,11 +235,11 @@ function $importInput(key) {
 					};
 				};
 			};
-			if (Array.isArray(payload.embeds[embedsIndex].fields) === true) {
+			if (Array.isArray(payload.embeds[embedsIndex].fields)) {
 				for (let fieldsIndex = 0; fieldsIndex < payload.embeds[embedsIndex].fields.length; fieldsIndex++) {
 					if (typeof payload.embeds[embedsIndex].fields[fieldsIndex].name === "string") {
 						if (payload.embeds[embedsIndex].fields[fieldsIndex].name.length > 256) {
-							if (truncateEnable === false) {
+							if (!truncateEnable) {
 								throw new Error(`Input \`payload.embeds[${embedsIndex}].fields[${fieldsIndex}].name\` is too large!`);
 							};
 							payload.embeds[embedsIndex].fields[fieldsIndex].name = mmStringOverflow(payload.embeds[embedsIndex].fields[fieldsIndex].name, 256, stringOverflowOption);
@@ -251,7 +247,7 @@ function $importInput(key) {
 					};
 					if (typeof payload.embeds[embedsIndex].fields[fieldsIndex].value === "string") {
 						if (payload.embeds[embedsIndex].fields[fieldsIndex].value.length > 1024) {
-							if (truncateEnable === false) {
+							if (!truncateEnable) {
 								throw new Error(`Input \`payload.embeds[${embedsIndex}].fields[${fieldsIndex}].value\` is too large!`);
 							};
 							payload.embeds[embedsIndex].fields[fieldsIndex].value = mmStringOverflow(payload.embeds[embedsIndex].fields[fieldsIndex].value, 1024, stringOverflowOption);
@@ -268,19 +264,13 @@ function $importInput(key) {
 		};
 	};
 	let files = mmStringParse($importInput("files"));
-	/* Bug #mmsp1 Bypass - Start (See https://github.com/hugoalh-studio/more-method-nodejs/issues/96) */
-	if (typeof files === "string" && files.search(/^\s*\[\s*\]\s*$/gu) === 0) {
-		files = [];
-	};
-	/* Bug #mmsp1 Bypass - End */
-	if (adIsArray(files, {
-		checkElements: (element) => {
-			return (adIsString(element) === true);
-		}
-	}) === false) {
-		throw new TypeError(`Input \`files\` must be type of array (string (non-nullable))!`);
+	if (!adIsArray(files, { maximumLength: 10, super: true, unique: true })) {
+		throw new TypeError(`Input \`files\` must be type of array (unique) and maximum 10 elements!`);
 	};
 	for (let file of files) {
+		if (!adIsString(file, { empty: false })) {
+			throw new TypeError(`Input \`files[#]\` must be type of string (non-empty)!`);
+		};
 		try {
 			fileSystemAccessSync(pathJoin(ghactionWorkspaceDirectory, file), fileSystemConstants.R_OK);
 		} catch {
@@ -290,6 +280,7 @@ function $importInput(key) {
 	if (typeof payload.content === "undefined" && typeof payload.embeds === "undefined" && files.length === 0) {
 		throw new Error(`At least one of the input \`payload.content\`, \`payload.embeds\`, or \`files\` must be provided!`);
 	};
+	let method = $importInput("method").toLowerCase();
 	if (files.length > 0) {
 		if (method.length === 0) {
 			method = "form";
@@ -339,8 +330,8 @@ function $importInput(key) {
 			}
 		);
 		requestHeader = {
-			"User-Agent": ghactionUserAgent,
-			...requestBody.getHeaders()
+			...requestBody.getHeaders(),
+			"User-Agent": ghactionUserAgent
 		};
 	} else {
 		requestBody = payloadStringify;
@@ -350,7 +341,7 @@ function $importInput(key) {
 			"User-Agent": ghactionUserAgent
 		};
 	};
-	if (dryRun === true) {
+	if (dryRun) {
 		ghactionInformation(`Payload Content: ${requestBodyInspect}`);
 		let payloadFakeStringify = JSON.stringify({
 			body: "bar",
@@ -372,7 +363,7 @@ function $importInput(key) {
 			}
 		);
 		let responseText = await response.text();
-		if (response.ok === true) {
+		if (response.ok) {
 			ghactionInformation(`Status Code: ${response.status}\nResponse: ${responseText}`);
 		} else {
 			throw new Error(`Status Code: ${response.status}\nResponse: ${responseText}`);
@@ -391,7 +382,7 @@ function $importInput(key) {
 			}
 		);
 		let responseText = await response.text();
-		if (response.ok === true) {
+		if (response.ok) {
 			ghactionDebug(`Status Code: ${response.status}\nResponse: ${responseText}`);
 		} else {
 			throw new Error(`Status Code: ${response.status}\nResponse: ${responseText}`);
