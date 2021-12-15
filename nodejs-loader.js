@@ -6,7 +6,7 @@ const childProcess = require("child_process");
  * @returns {Promise<any>}
  */
 function $execute(command) {
-	return new Promise((resolve, reject) => {
+	return new Promise((resolve) => {
 		childProcess.exec(
 			command,
 			{
@@ -15,23 +15,36 @@ function $execute(command) {
 				windowsHide: true
 			},
 			(error, stdout, stderr) => {
-				if (stdout.length > 0) {
-					console.log(stdout);
-				};
-				if (stderr.length > 0) {
-					console.error(stderr);
-				};
-				if (typeof error !== "undefined" && error !== null) {
-					return reject(error);
-				};
-				return resolve();
+				return resolve({
+					error,
+					stderr,
+					stdout
+				});
 			}
 		);
 	});
 };
 (async () => {
-	await $execute("npm ci");
-	await $execute("node main.js");
+	let npmCleanInstallResult = await $execute("npm ci");
+	if (npmCleanInstallResult.stdout.length > 0) {
+		console.log(npmCleanInstallResult.stdout);
+	};
+	if (npmCleanInstallResult.stderr.length > 0) {
+		console.error(npmCleanInstallResult.stderr);
+	};
+	if (npmCleanInstallResult.error) {
+		throw new Error(`Unable to install action's dependencies! (Error Code: ${npmCleanInstallResult.error.code})`);
+	};
+	let actionResult = await $execute("node main.js");
+	if (actionResult.stdout.length > 0) {
+		console.log(actionResult.stdout);
+	};
+	if (actionResult.stderr.length > 0) {
+		console.error(actionResult.stderr);
+	};
+	if (actionResult.error) {
+		throw actionResult.error;
+	};
 })().catch((reason) => {
 	console.error(reason);
 	process.exit(1);
