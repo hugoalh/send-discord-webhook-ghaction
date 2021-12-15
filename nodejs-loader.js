@@ -40,7 +40,7 @@ function $execute(command) {
 		console.log(actionResult.stdout);
 	};
 	if (actionResult.stderr.length > 0) {
-		console.error(actionResult.stderr);
+		console.log(actionResult.stderr);
 	};
 	if (actionResult.error) {
 		throw actionResult.error;
