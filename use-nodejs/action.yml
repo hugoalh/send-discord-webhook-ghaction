@@ -41,7 +41,7 @@ inputs:
     required: false
     default: "false"
 runs:
-  using: "node12"
+  using: "node16"
   main: "../nodejs-loader.js"
 branding:
   icon: "send"
