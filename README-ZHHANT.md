@@ -172,17 +172,17 @@ When this input is `"json"`, and input `files` is defined, will throw an error.
 
 <b>［選擇性］</b>`<(數字 | 字串) = 2105893>` Color of the embed (i.e.: left border's color of embed); Decimal (integer / RGB integer), Hex (6 digits, with prefix `#` (sharp)), namespaced string, and RGB string (split with `,` (comma)) forms are acceptable.
 
-|  |  | **Decimal** | **Hex** | **Namespace** | **RGB** |
-|:-:|:-:|:-:|:-:|:-:|:-:|
-| <img src="https://www.colorhexa.com/000000.png" height="16px" width="16px" /> | **Black** | `0` | `"#000000"` | `"black"` | `"0,0,0"` |
-| <img src="https://www.colorhexa.com/202225.png" height="16px" width="16px" /> | **Default** | `2105893` | `"#202225"` | `"default"` | `"32,34,37"` |
-| <img src="https://www.colorhexa.com/23272A.png" height="16px" width="16px" /> | **Discord Black** | `2303786` | `"#23272A"` | `"discordblack"` | `"35,39,42"` |
-| <img src="https://www.colorhexa.com/2C2F33.png" height="16px" width="16px" /> | **Discord Dark** | `2895667` | `"#2C2F33"` | `"discorddark"` | `"44,47,51"` |
-| <img src="https://www.colorhexa.com/2F3136.png" height="16px" width="16px" /> | **Embed Background (Dark Mode)** | `3092790` | `"#2F3136"` | `"embeddark"` | `"47,49,54"` |
-| <img src="https://www.colorhexa.com/7289DA.png" height="16px" width="16px" /> | **Discord Blue Purple** | `7506394` | `"#7289DA"` | `"discordblurple"` | `"114,137,218"` |
-| <img src="https://www.colorhexa.com/99AAB5.png" height="16px" width="16px" /> | **Discord Gray/Grey Purple** | `10070709` | `"#99AAB5"` | `"discordgrayple"` / `"discordgreyple"` | `"153,170,181"` |
-| <img src="https://www.colorhexa.com/FFFFFF.png" height="16px" width="16px" /> | **White** | `16777215` | `"#FFFFFF"` | `"white"` | `"255,255,255"` |
-|  | **Random** |  |  | `"random"` |  |
+|  | **Decimal** | **Hex** | **Namespace** | **RGB** |
+|:-:|:-:|:-:|:-:|:-:|
+| <img src="https://www.colorhexa.com/000000.png" height="16px" width="16px" /> **Black** | `0` | `"#000000"` | `"black"` | `"0,0,0"` |
+| <img src="https://www.colorhexa.com/202225.png" height="16px" width="16px" /> **Default** | `2105893` | `"#202225"` | `"default"` | `"32,34,37"` |
+| <img src="https://www.colorhexa.com/23272A.png" height="16px" width="16px" /> **Discord Black** | `2303786` | `"#23272A"` | `"discordblack"` | `"35,39,42"` |
+| <img src="https://www.colorhexa.com/2C2F33.png" height="16px" width="16px" /> **Discord Dark** | `2895667` | `"#2C2F33"` | `"discorddark"` | `"44,47,51"` |
+| <img src="https://www.colorhexa.com/2F3136.png" height="16px" width="16px" /> **Embed Background (Dark Mode)** | `3092790` | `"#2F3136"` | `"embeddark"` | `"47,49,54"` |
+| <img src="https://www.colorhexa.com/7289DA.png" height="16px" width="16px" /> **Discord Blue Purple** | `7506394` | `"#7289DA"` | `"discordblurple"` | `"114,137,218"` |
+| <img src="https://www.colorhexa.com/99AAB5.png" height="16px" width="16px" /> **Discord Gray/Grey Purple** | `10070709` | `"#99AAB5"` | `"discordgrayple"` / `"discordgreyple"` | `"153,170,181"` |
+| <img src="https://www.colorhexa.com/FFFFFF.png" height="16px" width="16px" /> **White** | `16777215` | `"#FFFFFF"` | `"white"` | `"255,255,255"` |
+| **Random** |  |  | `"random"` |  |
 
 ##### `embeds[*].footer`
 
@@ -268,7 +268,7 @@ When this input is `"json"`, and input `files` is defined, will throw an error.
 
 #### `files`
 
-<b>［選擇性］</b>`<字串[] = []>` Files as attachment, which must be relative paths from and inside GitHub Actions workspace, up to 8 MB; At least one of the input `payload.content`, `payload.embeds`, or `files` must be provided.
+<b>［選擇性］</b>`<字串[] = []>` Files as attachment, which must be relative paths from and inside GitHub Actions workspace, up to 8 MB and 10 files; At least one of the input `payload.content`, `payload.embeds`, or `files` must be provided.
 
 #### `threadid`
 
