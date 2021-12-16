@@ -41,18 +41,6 @@ function $execute(command) {
 		throw new Error(`Unable to install action's dependencies! (Error Code: ${npmCleanInstallResult.error.code})`);
 	};
 	return import("./main.js");
-	let actionResult = await $execute("node main.js");
-	let actionResultStdErr = actionResult.stderr.trim();
-	let actionResultStdOut = actionResult.stdout.trim();
-	if (actionResultStdOut.length > 0) {
-		console.log(actionResultStdOut);
-	};
-	if (actionResultStdErr.length > 0) {
-		console.log(actionResultStdErr);
-	};
-	if (actionResult.error) {
-		throw actionResult.error;
-	};
 })().catch((reason) => {
 	console.error(reason);
 	process.exit(1);
