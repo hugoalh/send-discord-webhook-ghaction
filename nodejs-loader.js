@@ -30,7 +30,7 @@ function $execute(command) {
 		console.log(npmCleanInstallResult.stdout);
 	};
 	if (npmCleanInstallResult.stderr.length > 0) {
-		console.error(npmCleanInstallResult.stderr);
+		console.log(npmCleanInstallResult.stderr);
 	};
 	if (npmCleanInstallResult.error) {
 		throw new Error(`Unable to install action's dependencies! (Error Code: ${npmCleanInstallResult.error.code})`);
