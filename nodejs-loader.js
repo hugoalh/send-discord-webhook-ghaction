@@ -1,7 +1,7 @@
 import { dirname as pathDirname } from "path";
 import { exec as childProcessExec } from "child_process";
 import { fileURLToPath } from "url";
-const __dirname = pathDirname(fileURLToPath(import.meta.url));
+const ghactionDirectory = pathDirname(fileURLToPath(import.meta.url));
 /**
  * @private
  * @function $execute
@@ -13,7 +13,7 @@ function $execute(command) {
 		childProcessExec(
 			command,
 			{
-				cwd: __dirname,
+				cwd: ghactionDirectory,
 				encoding: "utf8",
 				windowsHide: true
 			},
