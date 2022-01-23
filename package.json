@@ -1,6 +1,6 @@
 {
 	"name": "@hugoalh/send-discord-webhook-ghaction",
-	"version": "4.1.0",
+	"version": "4.1.1",
 	"description": "A GitHub Action to send a Discord webhook.",
 	"keywords": [
 		"github-action",
