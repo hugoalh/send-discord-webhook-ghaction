@@ -36,10 +36,6 @@ inputs:
     description: "{string} Ellipsis position."
     required: false
     default: "end"
-  dryrun:
-    description: "{boolean} Dry run."
-    required: false
-    default: "false"
 runs:
   using: "docker"
   image: "../Dockerfile"

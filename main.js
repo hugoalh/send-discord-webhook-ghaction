@@ -2,12 +2,13 @@ import { accessSync as fileSystemAccessSync, constants as fileSystemConstants, c
 import { basename as pathFileName, dirname as pathDirectoryName, join as pathJoin } from "path";
 import { debug as ghactionDebug, error as ghactionError, getInput as ghactionGetInput, info as ghactionInformation, setSecret as ghactionSetSecret, warning as ghactionWarning } from "@actions/core";
 import { fileURLToPath, URLSearchParams } from "url";
-import { isArray as adIsArray, isJSON as adIsJSON, isString as adIsString } from "@hugoalh/advanced-determine";
+import { isArray as adIsArray, isJSON as adIsJSON, isString as adIsString, isStringifyJSON as adIsStringifyJSON } from "@hugoalh/advanced-determine";
 import { stringOverflow as mmStringOverflow, stringParse as mmStringParse } from "@hugoalh/more-method";
 import Ajv2020 from "ajv/dist/2020.js";
 import ajvFormat from "ajv-formats";
 import ajvFormatsDraft2019 from "ajv-formats-draft2019";
 import nodeFetch from "node-fetch";
+import yaml from "yaml";
 const ajv = new Ajv2020({
 	$comment: false,
 	$data: false,
@@ -56,23 +57,9 @@ const reColorNamespace = new Map([
 const reColorRandom = /^random$/giu;
 const reColorRGB = /^(?:2(?:5[0-5]|[0-4]\d)|1\d{2}|[1-9]\d|\d)(?:, ?(?:2(?:5[0-5]|[0-4]\d)|1\d{2}|[1-9]\d|\d)){2}$/gu;
 const reDiscordWebhookURL = /^https:\/\/(?:canary\.)?discord(?:app)?\.com\/api\/webhooks\/(?<key>\d+\/[\da-zA-Z_-]+)$/gu;
-/**
- * @private
- * @function $importInput
- * @param {string} key
- * @returns {string}
- */
-function $importInput(key) {
-	ghactionDebug(`Import input \`${key}\`.`);
-	return ghactionGetInput(key);
-};
 (async () => {
 	ghactionInformation(`Import inputs.`);
-	let dryRun = mmStringParse($importInput("dryrun"));
-	if (typeof dryRun !== "boolean") {
-		throw new TypeError(`Input \`dryrun\` must be type of boolean!`);
-	};
-	let key = $importInput("key");
+	let key = ghactionGetInput("key");
 	if (!adIsString(key, { pattern: /^(?:https:\/\/(?:canary\.)?discord(?:app)?\.com\/api\/webhooks\/)?\d+\/[\da-zA-Z_-]+$/gu })) {
 		throw new TypeError(`Input \`key\` must be type of string (non-empty)!`);
 	};
@@ -80,27 +67,33 @@ function $importInput(key) {
 		key = key.replace(reDiscordWebhookURL, "$<key>");
 	};
 	ghactionSetSecret(key);
-	let threadID = $importInput("threadid");
+	let threadID = ghactionGetInput("threadid");
 	if (adIsString(threadID, { pattern: /^\d+$/gu })) {
 		ghactionSetSecret(threadID);
 		discordWebhookQuery.set("thread_id", threadID);
 	};
-	let wait = mmStringParse($importInput("wait"));
+	let wait = mmStringParse(ghactionGetInput("wait"));
 	if (typeof wait !== "boolean") {
 		throw new TypeError(`Input \`wait\` must be type of boolean!`);
 	};
 	if (wait) {
 		discordWebhookQuery.set("wait", "true");
 	};
-	let truncateEnable = mmStringParse($importInput("truncate_enable"));
+	let truncateEnable = mmStringParse(ghactionGetInput("truncate_enable"));
 	if (typeof truncateEnable !== "boolean") {
 		throw new TypeError(`Input \`truncate_enable\` must be type of boolean!`);
 	};
 	let stringOverflowOption = {
-		ellipsis: $importInput("truncate_ellipsis"),
-		position: $importInput("truncate_position")
+		ellipsis: ghactionGetInput("truncate_ellipsis"),
+		position: ghactionGetInput("truncate_position")
 	};
-	let payload = mmStringParse($importInput("payload"));
+	let payloadRaw = ghactionGetInput("payload");
+	let payload;
+	if (adIsStringifyJSON(payloadRaw)) {
+		payload = mmStringParse(payloadRaw);
+	} else {
+		payload = yaml.parse(payloadRaw);
+	}
 	if (!adIsJSON(payload, { arrayRoot: false })) {
 		throw new TypeError(`Input \`payload\` must be type of JSON (non-array-root)!`);
 	};
@@ -263,7 +256,7 @@ function $importInput(key) {
 			delete payload.embeds;
 		};
 	};
-	let files = mmStringParse($importInput("files"));
+	let files = mmStringParse(ghactionGetInput("files"));
 	if (!adIsArray(files, { maximumLength: 10, super: true, unique: true })) {
 		throw new TypeError(`Input \`files\` must be type of array (unique) and maximum 10 elements!`);
 	};
@@ -280,7 +273,7 @@ function $importInput(key) {
 	if (typeof payload.content === "undefined" && typeof payload.embeds === "undefined" && files.length === 0) {
 		throw new Error(`At least one of the input \`payload.content\`, \`payload.embeds\`, or \`files\` must be provided!`);
 	};
-	let method = $importInput("method").toLowerCase();
+	let method = ghactionGetInput("method").toLowerCase();
 	if (files.length > 0) {
 		if (method.length === 0) {
 			method = "form";
@@ -341,52 +334,23 @@ function $importInput(key) {
 			"User-Agent": ghactionUserAgent
 		};
 	};
-	if (dryRun) {
-		ghactionInformation(`Payload Content: ${requestBodyInspect}`);
-		let payloadFakeStringify = JSON.stringify({
-			body: "bar",
-			title: "foo",
-			userId: 1
-		});
-		ghactionInformation(`Post network request to test service.`);
-		let response = await nodeFetch(
-			`https://jsonplaceholder.typicode.com/posts`,
-			{
-				body: payloadFakeStringify,
-				follow: 5,
-				headers: {
-					"Content-Type": "application/json",
-					"User-Agent": ghactionUserAgent
-				},
-				method: "POST",
-				redirect: "follow"
-			}
-		);
-		let responseText = await response.text();
-		if (response.ok) {
-			ghactionInformation(`Status Code: ${response.status}\nResponse: ${responseText}`);
-		} else {
-			throw new Error(`Status Code: ${response.status}\nResponse: ${responseText}`);
-		};
+	ghactionDebug(`Payload Content: ${requestBodyInspect}`);
+	ghactionInformation(`Post network request to Discord.`);
+	let response = await nodeFetch(
+		`https://discord.com/api/webhooks/${key}${(requestQuery.length > 0) ? `?${requestQuery}` : ""}`,
+		{
+			body: requestBody,
+			follow: 5,
+			headers: requestHeader,
+			method: "POST",
+			redirect: "follow"
+		}
+	);
+	let responseText = await response.text();
+	if (response.ok) {
+		ghactionInformation(`Status Code: ${response.status}\nResponse: ${responseText}`);
 	} else {
-		ghactionDebug(`Payload Content: ${requestBodyInspect}`);
-		ghactionInformation(`Post network request to Discord.`);
-		let response = await nodeFetch(
-			`https://discord.com/api/webhooks/${key}${(requestQuery.length > 0) ? `?${requestQuery}` : ""}`,
-			{
-				body: requestBody,
-				follow: 5,
-				headers: requestHeader,
-				method: "POST",
-				redirect: "follow"
-			}
-		);
-		let responseText = await response.text();
-		if (response.ok) {
-			ghactionDebug(`Status Code: ${response.status}\nResponse: ${responseText}`);
-		} else {
-			throw new Error(`Status Code: ${response.status}\nResponse: ${responseText}`);
-		};
+		throw new Error(`Status Code: ${response.status}\nResponse: ${responseText}`);
 	};
 })().catch((reason) => {
 	ghactionError(reason);

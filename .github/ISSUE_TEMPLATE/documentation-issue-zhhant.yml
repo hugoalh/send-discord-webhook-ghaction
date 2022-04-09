@@ -2,7 +2,7 @@
 name: "文檔問題（表單）"
 description: "報告一個文檔問題。"
 labels:
-  - "Status/Unread 🔵"
+  - "Status/Pending 🔵"
   - "Type/Documentation 📚"
 body:
   - type: "textarea"

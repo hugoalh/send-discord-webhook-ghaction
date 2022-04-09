@@ -1,7 +1,7 @@
 ---
 name: "功能要求（Markdown）"
 about: "提出一個想法。"
-labels: "Status/Unread 🔵,Type/Enhancement ➕"
+labels: "Status/Pending 🔵,Type/Enhancement ➕"
 ---
 > ### 建議內容列表
 >

@@ -32,55 +32,28 @@ A GitHub Action to send a Discord webhook.
 
 ## 📚 Documentation
 
-> **⚠ Important:** This documentation is v4.0.0 based; To view other tag's/version's documentation, please visit the [tag/version list](https://github.com/hugoalh/send-discord-webhook-ghaction/tags) and select the correct tag/version.
+> **⚠ Important:** This documentation is v4.2.0 based; To view other tag's/version's documentation, please visit the [tag/version list](https://github.com/hugoalh/send-discord-webhook-ghaction/tags) and select the correct tag/version.
 
 ### 🎯 Entrypoint / Target
 
-#### Default (`+default`)
-
-> **⚠ Important:** This entrypoint is currently based to <kbd>Docker (`+docker`)</kbd>, base can be changed between versions without announcement to ensure the stability.
-
 ```yml
 jobs:
   job_id:
-    runs-on: # Depend on the base requirement, recommended "ubuntu-________"
+    runs-on:
     steps:
-      - uses: "hugoalh/send-discord-webhook-ghaction@<tag/version>"
+      - uses:
 ```
 
-##### Require Software
+|  | **`jobs.job_id.runs-on`** | **`jobs.job_id.steps[*].uses`** | **Require Software** |
+|:-:|:-:|:-:|:-:|
+| **Default (`+default`)** | `"ubuntu-________"` | `"hugoalh/send-discord-webhook-ghaction@<tag/version>"` | Docker |
+| **Docker (`+docker`)** | `"ubuntu-________"` | `"hugoalh/send-discord-webhook-ghaction/use-docker@<tag/version>"` | Docker |
+| **NodeJS (`+nodejs`)** | Any | `"hugoalh/send-discord-webhook-ghaction/use-nodejs@<tag/version>"` | NodeJS (>= v14.15.0) + NPM (>= v6.14.8) |
 
-*Depend on the base requirement.*
-
-#### Docker (`+docker`)
-
-```yml
-jobs:
-  job_id:
-    runs-on: "ubuntu-________"
-    steps:
-      - uses: "hugoalh/send-discord-webhook-ghaction/use-docker@<tag/version>"
-```
-
-##### Require Software
-
-- Docker
-
-#### NodeJS (`+nodejs`)
-
-> **⚠ Important:** This entrypoint maybe need extra steps to manually setup NodeJS version.
-
-```yml
-jobs:
-  job_id:
-    runs-on: *any*
-    steps:
-      - uses: "hugoalh/send-discord-webhook-ghaction/use-nodejs@<tag/version>"
-```
-
-##### Require Software
-
-- NodeJS (>= v14.15.0) + NPM (>= v6.14.8)
+> **⚠ Important:**
+> 
+> - Default entrypoint is currently based to Docker (`+docker`), base can be changed between versions without announcement to ensure the stability.
+> - NodeJS entrypoint maybe need extra steps to manually setup NodeJS version.
 
 ### 📥 Input
 
@@ -119,7 +92,7 @@ When this input is `"json"`, and input `files` is defined, will throw an error.
 
 #### `payload`
 
-**\[Optional\]** `<object = {}>` JSON payload, which restricted format and pattern; At least one of the input `payload.content`, `payload.embeds`, or `files` must be provided. *[View the JSON payload template in here.](./discord-webhook-payload-template.json)*
+**\[Optional\]** `<object = {}>` JSON/YAML/YML payload, which restricted format and pattern; At least one of the input `payload.content`, `payload.embeds`, or `files` must be provided. *[View the JSON payload template in here.](./discord-webhook-payload-template.json)*
 
 > **⚠ Important:** Properties which have not listed in here or in the template are not supported.
 
@@ -293,10 +266,6 @@ When this input is `"json"`, and input `files` is defined, will throw an error.
 - **`"end"`:** At the end of the string.
 - **`"middle"`:** At the middle of the string.
 - **`"start"`:** At the start of the string.
-
-#### `dryrun`
-
-**\[Optional\]** `<boolean = false>` Dry run; For debug use.
 
 ### 📤 Output
 

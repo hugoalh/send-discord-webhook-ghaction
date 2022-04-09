@@ -32,55 +32,28 @@
 
 ## 📚 文檔
 
-> <b>⚠ 重要：</b>此文檔基於v4.0.0；如果要查看其他標籤／版本的文檔，請瀏覽[標籤／版本列表](https://github.com/hugoalh/send-discord-webhook-ghaction/tags)並選擇正確的標籤／版本。
+> <b>⚠ 重要：</b>此文檔基於v4.2.0；如果要查看其他標籤／版本的文檔，請瀏覽[標籤／版本列表](https://github.com/hugoalh/send-discord-webhook-ghaction/tags)並選擇正確的標籤／版本。
 
 ### 🎯 進入點／目標
 
-#### 預設 (`+default`)
-
-> <b>⚠ 重要：</b>此進入點目前是基於<kbd>Docker (`+docker`)</kbd>，基底可能在沒有通知的情況下變更以確保正常運作。
-
 ```yml
 jobs:
   job_id:
-    runs-on: # 取決於基底要求，推薦"ubuntu-________"
+    runs-on:
     steps:
-      - uses: "hugoalh/send-discord-webhook-ghaction@<tag/version>"
+      - uses:
 ```
 
-##### 需要軟體
+|  | **`jobs.job_id.runs-on`** | **`jobs.job_id.steps[*].uses`** | **需要軟體** |
+|:-:|:-:|:-:|:-:|
+| **預設（`+default`）** | `"ubuntu-________"` | `"hugoalh/send-discord-webhook-ghaction@<tag/version>"` | Docker |
+| **Docker（`+docker`）** | `"ubuntu-________"` | `"hugoalh/send-discord-webhook-ghaction/use-docker@<tag/version>"` | Docker |
+| **NodeJS（`+nodejs`）** | 任何 | `"hugoalh/send-discord-webhook-ghaction/use-nodejs@<tag/version>"` | NodeJS（>= v14.15.0） + NPM（>= v6.14.8） |
 
-*取決於基底要求。*
-
-#### Docker (`+docker`)
-
-```yml
-jobs:
-  job_id:
-    runs-on: "ubuntu-________"
-    steps:
-      - uses: "hugoalh/send-discord-webhook-ghaction/use-docker@<tag/version>"
-```
-
-##### 需要軟體
-
-- Docker
-
-#### NodeJS (`+nodejs`)
-
-> <b>⚠ 重要：</b>此進入點可能需要額外的步驟來手動設置NodeJS版本。
-
-```yml
-jobs:
-  job_id:
-    runs-on: *any*
-    steps:
-      - uses: "hugoalh/send-discord-webhook-ghaction/use-nodejs@<tag/version>"
-```
-
-##### 需要軟體
-
-- NodeJS (>= v14.15.0) + NPM (>= v6.14.8)
+> **⚠ 重要：**
+> 
+> - 預設進入點目前是基於Docker（`+docker`），基底可能在沒有通知的情況下變更以確保正常運作。
+> - NodeJS進入點可能需要額外的步驟來手動設置NodeJS版本。
 
 ### 📥 輸入
 
@@ -119,7 +92,7 @@ When this input is `"json"`, and input `files` is defined, will throw an error.
 
 #### `payload`
 
-<b>［選擇性］</b>`<物件 = {}>` JSON payload, which restricted format and pattern; At least one of the input `payload.content`, `payload.embeds`, or `files` must be provided. *[View the JSON payload template in here.](./discord-webhook-payload-template.json)*
+<b>［選擇性］</b>`<物件 = {}>` JSON/YAML/YML payload, which restricted format and pattern; At least one of the input `payload.content`, `payload.embeds`, or `files` must be provided. *[View the JSON payload template in here.](./discord-webhook-payload-template.json)*
 
 > <b>⚠ 重要：</b>Properties which have not listed in here or in the template are not supported.
 
@@ -293,10 +266,6 @@ When this input is `"json"`, and input `files` is defined, will throw an error.
 - **`"end"`:** At the end of the string.
 - **`"middle"`:** At the middle of the string.
 - **`"start"`:** At the start of the string.
-
-#### `dryrun`
-
-<b>［選擇性］</b>`<布爾值 = false>` 試運行；供調試使用。
 
 ### 📤 輸出
 

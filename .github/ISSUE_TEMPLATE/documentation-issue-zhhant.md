@@ -1,7 +1,7 @@
 ---
 name: "文檔問題（Markdown）"
 about: "報告一個文檔問題。"
-labels: "Status/Unread 🔵,Type/Documentation 📚"
+labels: "Status/Pending 🔵,Type/Documentation 📚"
 ---
 > ### 建議內容列表
 >
