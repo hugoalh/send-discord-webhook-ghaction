@@ -47,7 +47,7 @@ jobs:
             org.opencontainers.image.title=Send Discord Webhook (GitHub Action) Image
             org.opencontainers.image.description=A Docker image for Send Discord Webhook (GitHub Action) to send a Discord webhook.
       - name: "Build & Push Docker Image"
-        uses: "docker/build-push-action@v2.9.0"
+        uses: "docker/build-push-action@v2.10.0"
         with:
           context: "./"
           file: "Dockerfile"
