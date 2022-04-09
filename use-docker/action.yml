@@ -10,7 +10,7 @@ inputs:
     description: "{string} Method to send."
     required: false
   payload:
-    description: "{object} JSON payload."
+    description: "{object} JSON/YAML/YML payload."
     required: false
     default: "{}"
   files:
