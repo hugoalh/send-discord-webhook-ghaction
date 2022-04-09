@@ -34,7 +34,7 @@ ajvFormat(ajv);
 ajvFormatsDraft2019(ajv);
 const discordWebhookQuery = new URLSearchParams();
 const ghactionActionDirectory = pathDirectoryName(fileURLToPath(import.meta.url));
-const ghactionUserAgent = "SendDiscordWebhook.GitHubAction/4.1.1";
+const ghactionUserAgent = "SendDiscordWebhook.GitHubAction/4.2.0";
 const ghactionWorkspaceDirectory = process.env.GITHUB_WORKSPACE;
 const jsonSchemaValidator = ajv.compile(JSON.parse(fileSystemReadFileSync(
 	pathJoin(ghactionActionDirectory, "discord-webhook-payload-custom.schema.json"),
