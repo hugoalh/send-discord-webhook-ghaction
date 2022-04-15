@@ -19,7 +19,7 @@ jobs:
     runs-on: "windows-latest"
     steps:
       - name: "Checkout Repository"
-        uses: "actions/checkout@v3.0.0"
+        uses: "actions/checkout@v3.0.1"
         with:
           fetch-depth: 0
       # Ensure a compatible version of .NET is installed. The Microsoft Security Code Analysis CLI (https://aka.ms/mscadocs) is built with .NET v3.1.201. A version greater than or equal to v3.1.201 of .NET must be installed on the agent in order to run this action. Remote agents already have a compatible version of .NET installed and this step may be skipped. For local agents, ensure .NET version 3.1.201 or later is installed by including this action.
