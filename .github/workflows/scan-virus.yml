@@ -54,7 +54,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: "Scan Repository"
-        uses: "hugoalh/scan-virus-ghaction@v0.5.0"
+        uses: "hugoalh/scan-virus-ghaction@v0.6.0"
         with:
           cache: "${{needs.parse-inputs.outputs.cache}}"
           deep: "${{needs.parse-inputs.outputs.deep}}"
