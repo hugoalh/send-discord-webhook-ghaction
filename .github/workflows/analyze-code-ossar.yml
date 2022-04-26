@@ -31,6 +31,6 @@ jobs:
         id: "ossar"
         uses: "github/ossar-action@v1.1.0"
       - name: "Upload Result"
-        uses: "github/codeql-action/upload-sarif@v1"
+        uses: "github/codeql-action/upload-sarif@v2"
         with:
           sarif_file: "${{steps.ossar.outputs.sarifFile}}"
