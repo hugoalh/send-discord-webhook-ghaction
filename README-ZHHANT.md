@@ -39,16 +39,16 @@
 ```yml
 jobs:
   job_id:
-    runs-on:
+    runs-on: "________"
     steps:
-      - uses:
+      - uses: "hugoalh/send-discord-webhook-ghaction________@<tag/version>"
 ```
 
 |  | **`jobs.job_id.runs-on`** | **`jobs.job_id.steps[*].uses`** | **需要軟體** |
 |:-:|:-:|:-:|:-:|
-| **預設（`+default`）** | `"ubuntu-________"` | `"hugoalh/send-discord-webhook-ghaction@<tag/version>"` | Docker |
-| **Docker（`+docker`）** | `"ubuntu-________"` | `"hugoalh/send-discord-webhook-ghaction/use-docker@<tag/version>"` | Docker |
-| **NodeJS（`+nodejs`）** | 任何 | `"hugoalh/send-discord-webhook-ghaction/use-nodejs@<tag/version>"` | NodeJS（>= v14.15.0） + NPM（>= v6.14.8） |
+| **預設（`+default`）** | `ubuntu-________` | *沒有* | Docker |
+| **Docker（`+docker`）** | `ubuntu-________` | `/use-docker` | Docker |
+| **NodeJS（`+nodejs`）** | 任何 | `/use-nodejs` | NodeJS（>= v14.15.0） + NPM（>= v6.14.8） |
 
 > **⚠ 重要：**
 > 

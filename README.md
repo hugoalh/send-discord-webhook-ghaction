@@ -39,19 +39,19 @@ A GitHub Action to send a Discord webhook.
 ```yml
 jobs:
   job_id:
-    runs-on:
+    runs-on: "________"
     steps:
-      - uses:
+      - uses: "hugoalh/send-discord-webhook-ghaction________@<tag/version>"
 ```
 
 |  | **`jobs.job_id.runs-on`** | **`jobs.job_id.steps[*].uses`** | **Require Software** |
 |:-:|:-:|:-:|:-:|
-| **Default (`+default`)** | `"ubuntu-________"` | `"hugoalh/send-discord-webhook-ghaction@<tag/version>"` | Docker |
-| **Docker (`+docker`)** | `"ubuntu-________"` | `"hugoalh/send-discord-webhook-ghaction/use-docker@<tag/version>"` | Docker |
-| **NodeJS (`+nodejs`)** | Any | `"hugoalh/send-discord-webhook-ghaction/use-nodejs@<tag/version>"` | NodeJS (>= v14.15.0) + NPM (>= v6.14.8) |
+| **Default (`+default`)** | `ubuntu-________` | *None* | Docker |
+| **Docker (`+docker`)** | `ubuntu-________` | `/use-docker` | Docker |
+| **NodeJS (`+nodejs`)** | Any | `/use-nodejs` | NodeJS (>= v14.15.0) + NPM (>= v6.14.8) |
 
 > **⚠ Important:**
-> 
+>
 > - Default entrypoint is currently based to Docker (`+docker`), base can be changed between versions without announcement to ensure the stability.
 > - NodeJS entrypoint maybe need extra steps to manually setup NodeJS version.
 
