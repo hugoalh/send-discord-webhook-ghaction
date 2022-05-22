@@ -1,4 +1,3 @@
-# $<Schema>$ https://eslint.org/docs/user-guide/configuring
 env:
   amd: false
   applescript: false

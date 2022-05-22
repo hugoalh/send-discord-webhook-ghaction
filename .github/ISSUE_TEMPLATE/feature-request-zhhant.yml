@@ -1,4 +1,3 @@
-# $<Schema>$ https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/syntax-for-issue-forms
 name: "功能要求（表單）"
 description: "提出一個想法。"
 labels:

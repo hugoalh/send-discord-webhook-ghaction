@@ -1,4 +1,3 @@
-# $<Schema>$ https://lgtm.com/help/lgtm/lgtm.yml-configuration-file
 extraction:
   javascript:
     index:

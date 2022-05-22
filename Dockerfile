@@ -1,4 +1,4 @@
-FROM node:lts-fermium
+FROM node:lts-gallium
 COPY discord-webhook-payload-custom.schema.json main.js package-lock.json package.json /opt/hugoalh/send-discord-webhook-ghaction/
 WORKDIR /opt/hugoalh/send-discord-webhook-ghaction/
 RUN ["npm", "ci"]
