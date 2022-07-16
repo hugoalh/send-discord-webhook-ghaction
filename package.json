@@ -1,6 +1,6 @@
 {
 	"name": "@hugoalh/send-discord-webhook-ghaction",
-	"version": "4.2.0",
+	"version": "4.2.0-beta.1",
 	"description": "A GitHub Action to send a Discord webhook.",
 	"keywords": [
 		"github-action",
@@ -24,15 +24,16 @@
 		"url": "git+https://github.com/hugoalh/send-discord-webhook-ghaction.git"
 	},
 	"dependencies": {
-		"@actions/core": "^1.8.2",
-		"@hugoalh/advanced-determine": "^7.0.1",
+		"@actions/core": "^1.9.0",
+		"@hugoalh/advanced-determine": "^7.1.0",
 		"@hugoalh/more-method": "^0.7.0",
-		"ajv": "^8.10.0",
+		"ajv": "^8.11.0",
 		"ajv-formats": "^3.0.0-rc.0",
 		"ajv-formats-draft2019": "^1.6.1",
+		"chalk": "^5.0.1",
 		"form-data": "^4.0.0",
-		"node-fetch": "^3.2.4",
-		"yaml": "^2.1.0"
+		"node-fetch": "^3.2.8",
+		"yaml": "^2.1.1"
 	},
 	"engines": {
 		"node": ">= 14.15.0",

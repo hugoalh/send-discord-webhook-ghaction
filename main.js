@@ -1,14 +1,16 @@
 import { accessSync as fileSystemAccessSync, constants as fileSystemConstants, createReadStream as fileSystemCreateReadStream, readFileSync as fileSystemReadFileSync } from "fs";
 import { basename as pathFileName, dirname as pathDirectoryName, join as pathJoin } from "path";
-import { debug as ghactionDebug, error as ghactionError, getInput as ghactionGetInput, info as ghactionInformation, setSecret as ghactionSetSecret, warning as ghactionWarning } from "@actions/core";
+import { Chalk } from "chalk";
+import { endGroup as ghactionsEndGroup, error as ghactionsError, getBooleanInput as ghactionsGetBooleanInput, getInput as ghactionsGetInput, info as ghactionsInformation, setSecret as ghactionsSetSecret, startGroup as ghactionsStartGroup, warning as ghactionsWarning } from "@actions/core";
 import { fileURLToPath, URLSearchParams } from "url";
-import { isArray as adIsArray, isJSON as adIsJSON, isString as adIsString, isStringifyJSON as adIsStringifyJSON } from "@hugoalh/advanced-determine";
-import { stringOverflow as mmStringOverflow, stringParse as mmStringParse } from "@hugoalh/more-method";
+import { isArray as adIsArray, isJSON as adIsJSON, isString as adIsString } from "@hugoalh/advanced-determine";
+import { stringOverflow as mmStringOverflow } from "@hugoalh/more-method";
 import Ajv2020 from "ajv/dist/2020.js";
 import ajvFormat from "ajv-formats";
 import ajvFormatsDraft2019 from "ajv-formats-draft2019";
 import nodeFetch from "node-fetch";
 import yaml from "yaml";
+const ghactionsChalk = new Chalk({ level: 3 });
 const ajv = new Ajv2020({
 	$comment: false,
 	$data: false,
@@ -21,9 +23,9 @@ const ajv = new Ajv2020({
 	},
 	coerceTypes: false,
 	logger: {
-		error: ghactionError,
-		log: ghactionInformation,
-		warn: ghactionWarning
+		error: ghactionsError,
+		log: ghactionsInformation,
+		warn: ghactionsWarning
 	},
 	strictSchema: "log",
 	timestamp: "string",
@@ -32,19 +34,9 @@ const ajv = new Ajv2020({
 });
 ajvFormat(ajv);
 ajvFormatsDraft2019(ajv);
-const discordWebhookQuery = new URLSearchParams();
-const ghactionActionDirectory = pathDirectoryName(fileURLToPath(import.meta.url));
-const ghactionUserAgent = "SendDiscordWebhook.GitHubAction/4.2.0";
-const ghactionWorkspaceDirectory = process.env.GITHUB_WORKSPACE;
-const jsonSchemaValidator = ajv.compile(JSON.parse(fileSystemReadFileSync(
-	pathJoin(ghactionActionDirectory, "discord-webhook-payload-custom.schema.json"),
-	{
-		encoding: "utf8",
-		flag: "r"
-	}
-)));
-const reColorHex = /^#[\dA-F]{6}$/gu;
-const reColorNamespace = new Map([
+const actionUserAgent = "SendDiscordWebhook.GitHubAction/4.2.1";
+const colourHexRegExp = /^#[\dA-F]{6}$/gu;
+const colourNamespaceRegExpMap = new Map([
 	[/^black$/giu, 0],
 	[/^default$/giu, 2105893],
 	[/^discord-?black$/giu, 2303786],
@@ -54,52 +46,53 @@ const reColorNamespace = new Map([
 	[/^embed-?dark$/giu, 3092790],
 	[/^white$/giu, 16777215]
 ]);
-const reColorRandom = /^random$/giu;
-const reColorRGB = /^(?:2(?:5[0-5]|[0-4]\d)|1\d{2}|[1-9]\d|\d)(?:, ?(?:2(?:5[0-5]|[0-4]\d)|1\d{2}|[1-9]\d|\d)){2}$/gu;
-const reDiscordWebhookURL = /^https:\/\/(?:canary\.)?discord(?:app)?\.com\/api\/webhooks\/(?<key>\d+\/[\da-zA-Z_-]+)$/gu;
+const colourRandomRegExp = /^random$/giu;
+const colourRGBRegExp = /^(?:2(?:5[0-5]|[0-4]\d)|1\d{2}|[1-9]\d|\d)(?:, ?(?:2(?:5[0-5]|[0-4]\d)|1\d{2}|[1-9]\d|\d)){2}$/gu;
+const discordWebhookQuery = new URLSearchParams();
+const discordWebhookURLRegExp = /^https:\/\/(?:canary\.)?discord(?:app)?\.com\/api\/webhooks\/(?<key>\d+\/[\da-zA-Z_-]+)$/gu;
+const ghactionsActionDirectory = pathDirectoryName(fileURLToPath(import.meta.url));
+const ghactionsWorkspaceDirectory = process.env.GITHUB_WORKSPACE;
+const jsonSchemaValidator = ajv.compile(JSON.parse(fileSystemReadFileSync(pathJoin(ghactionsActionDirectory, "discord-webhook-payload-custom.schema.json"), { encoding: "utf8" })));
 (async () => {
-	ghactionInformation(`Import inputs.`);
-	let key = ghactionGetInput("key");
+	ghactionsStartGroup(`Import inputs.`);
+	let key = ghactionsGetInput("key");
 	if (!adIsString(key, { pattern: /^(?:https:\/\/(?:canary\.)?discord(?:app)?\.com\/api\/webhooks\/)?\d+\/[\da-zA-Z_-]+$/gu })) {
 		throw new TypeError(`Input \`key\` must be type of string (non-empty)!`);
 	};
-	if (key.search(reDiscordWebhookURL) === 0) {
-		key = key.replace(reDiscordWebhookURL, "$<key>");
+	if (key.search(discordWebhookURLRegExp) === 0) {
+		key = key.replace(discordWebhookURLRegExp, "$<key>");
 	};
-	ghactionSetSecret(key);
-	let threadID = ghactionGetInput("threadid");
+	ghactionsSetSecret(key);
+	let threadID = ghactionsGetInput("threadid");
 	if (adIsString(threadID, { pattern: /^\d+$/gu })) {
-		ghactionSetSecret(threadID);
+		ghactionsSetSecret(threadID);
 		discordWebhookQuery.set("thread_id", threadID);
 	};
-	let wait = mmStringParse(ghactionGetInput("wait"));
+	let wait = ghactionsGetBooleanInput("wait");
 	if (typeof wait !== "boolean") {
 		throw new TypeError(`Input \`wait\` must be type of boolean!`);
 	};
 	if (wait) {
 		discordWebhookQuery.set("wait", "true");
 	};
-	let truncateEnable = mmStringParse(ghactionGetInput("truncate_enable"));
+	ghactionsInformation(`${ghactionsChalk.bold("Wait:")} ${wait}`);
+	let truncateEnable = ghactionsGetBooleanInput("truncate_enable");
 	if (typeof truncateEnable !== "boolean") {
 		throw new TypeError(`Input \`truncate_enable\` must be type of boolean!`);
 	};
+	ghactionsInformation(`${ghactionsChalk.bold("Truncate Enable:")} ${truncateEnable}`);
 	let stringOverflowOption = {
-		ellipsis: ghactionGetInput("truncate_ellipsis"),
-		position: ghactionGetInput("truncate_position")
+		ellipsis: ghactionsGetInput("truncate_ellipsis"),
+		position: ghactionsGetInput("truncate_position")
 	};
-	let payloadRaw = ghactionGetInput("payload");
-	let payload;
-	if (adIsStringifyJSON(payloadRaw)) {
-		payload = mmStringParse(payloadRaw);
-	} else {
-		payload = yaml.parse(payloadRaw);
-	}
+	ghactionsInformation(`${ghactionsChalk.bold("Truncate Option:")} ${JSON.stringify(stringOverflowOption)}`);
+	let payload = yaml.parse(ghactionsGetInput("payload"));
 	if (!adIsJSON(payload, { arrayRoot: false })) {
-		throw new TypeError(`Input \`payload\` must be type of JSON (non-array-root)!`);
+		throw new TypeError(`\`${payload}\` is not a valid Discord webhook JSON/YAML/YML payload!`);
 	};
 	if (jsonSchemaValidator(payload) === false) {
 		for (let error of jsonSchemaValidator.errors) {
-			ghactionError(error.message);
+			ghactionsError(error.message);
 		};
 		throw JSON.stringify(jsonSchemaValidator.errors);
 	};
@@ -159,15 +152,15 @@ const reDiscordWebhookURL = /^https:\/\/(?:canary\.)?discord(?:app)?\.com\/api\/
 				};
 			};
 			if (typeof payload.embeds[embedsIndex].color === "string") {
-				if (payload.embeds[embedsIndex].color.search(reColorHex) === 0) {
+				if (payload.embeds[embedsIndex].color.search(colourHexRegExp) === 0) {
 					payload.embeds[embedsIndex].color = Number(payload.embeds[embedsIndex].color.replace("#", "0x"));
-				} else if (payload.embeds[embedsIndex].color.search(reColorRGB) === 0) {
+				} else if (payload.embeds[embedsIndex].color.search(colourRGBRegExp) === 0) {
 					let [R, G, B] = payload.embeds[embedsIndex].color.split(/, ?/gu);
 					payload.embeds[embedsIndex].color = Number(R) * 65536 + Number(G) * 256 + Number(B);
-				} else if (payload.embeds[embedsIndex].color.search(reColorRandom) === 0) {
+				} else if (payload.embeds[embedsIndex].color.search(colourRandomRegExp) === 0) {
 					payload.embeds[embedsIndex].color = Math.floor(Math.random() * 256) * 65536 + Math.floor(Math.random() * 256) * 256 + Math.floor(Math.random() * 256);
 				} else {
-					for (let [re, value] of reColorNamespace) {
+					for (let [re, value] of colourNamespaceRegExpMap) {
 						if (payload.embeds[embedsIndex].color.search(re) === 0) {
 							payload.embeds[embedsIndex].color = value;
 							break;
@@ -256,7 +249,7 @@ const reDiscordWebhookURL = /^https:\/\/(?:canary\.)?discord(?:app)?\.com\/api\/
 			delete payload.embeds;
 		};
 	};
-	let files = mmStringParse(ghactionGetInput("files"));
+	let files = yaml.parse(ghactionsGetInput("files"));
 	if (!adIsArray(files, { maximumLength: 10, super: true, unique: true })) {
 		throw new TypeError(`Input \`files\` must be type of array (unique) and maximum 10 elements!`);
 	};
@@ -265,7 +258,7 @@ const reDiscordWebhookURL = /^https:\/\/(?:canary\.)?discord(?:app)?\.com\/api\/
 			throw new TypeError(`Input \`files[#]\` must be type of string (non-empty)!`);
 		};
 		try {
-			fileSystemAccessSync(pathJoin(ghactionWorkspaceDirectory, file), fileSystemConstants.R_OK);
+			fileSystemAccessSync(pathJoin(ghactionsWorkspaceDirectory, file), fileSystemConstants.R_OK);
 		} catch {
 			throw new Error(`File \`${file}\` does not assessible, exist, or readable!`);
 		};
@@ -273,7 +266,7 @@ const reDiscordWebhookURL = /^https:\/\/(?:canary\.)?discord(?:app)?\.com\/api\/
 	if (typeof payload.content === "undefined" && typeof payload.embeds === "undefined" && files.length === 0) {
 		throw new Error(`At least one of the input \`payload.content\`, \`payload.embeds\`, or \`files\` must be provided!`);
 	};
-	let method = ghactionGetInput("method").toLowerCase();
+	let method = ghactionsGetInput("method").toLowerCase();
 	if (files.length > 0) {
 		if (method.length === 0) {
 			method = "form";
@@ -283,11 +276,11 @@ const reDiscordWebhookURL = /^https:\/\/(?:canary\.)?discord(?:app)?\.com\/api\/
 			method = "json";
 		};
 	};
-	if (method !== "form" && method !== "json") {
-		throw new SyntaxError(`Input \`method\`'s value is not in the list!`);
-	};
-	if (method === "json" && files.length > 0) {
-		throw new Error(`Invalid content type!`);
+	if (
+		(method !== "form" && method !== "json") ||
+		(method === "json" && files.length > 0)
+	) {
+		throw new Error(`Input \`method\`'s value \`${method}\` is not a valid content type!`);
 	};
 	let payloadStringify = JSON.stringify(payload);
 	let requestBody;
@@ -301,7 +294,7 @@ const reDiscordWebhookURL = /^https:\/\/(?:canary\.)?discord(?:app)?\.com\/api\/
 		if (files.length > 0) {
 			payload.attachments = [];
 			for (let filesIndex = 0; filesIndex < files.length; filesIndex++) {
-				let fileFullPath = pathJoin(ghactionWorkspaceDirectory, files[filesIndex]);
+				let fileFullPath = pathJoin(ghactionsWorkspaceDirectory, files[filesIndex]);
 				let fileName = pathFileName(fileFullPath);
 				payload.attachments.push({
 					"id": filesIndex,
@@ -324,35 +317,38 @@ const reDiscordWebhookURL = /^https:\/\/(?:canary\.)?discord(?:app)?\.com\/api\/
 		);
 		requestHeader = {
 			...requestBody.getHeaders(),
-			"User-Agent": ghactionUserAgent
+			"User-Agent": actionUserAgent
 		};
 	} else {
 		requestBody = payloadStringify;
 		requestBodyInspect = payloadStringify;
 		requestHeader = {
 			"Content-Type": "application/json",
-			"User-Agent": ghactionUserAgent
+			"User-Agent": actionUserAgent
 		};
 	};
-	ghactionDebug(`Payload Content: ${requestBodyInspect}`);
-	ghactionInformation(`Post network request to Discord.`);
+	ghactionsInformation(`${ghactionsChalk.bold("Payload:")} ${requestBodyInspect}`);
+	ghactionsEndGroup();
+	ghactionsStartGroup(`Post network request to Discord.`);
 	let response = await nodeFetch(
 		`https://discord.com/api/webhooks/${key}${(requestQuery.length > 0) ? `?${requestQuery}` : ""}`,
 		{
 			body: requestBody,
-			follow: 5,
+			follow: 1,
 			headers: requestHeader,
 			method: "POST",
 			redirect: "follow"
 		}
 	);
 	let responseText = await response.text();
-	if (response.ok) {
-		ghactionInformation(`Status Code: ${response.status}\nResponse: ${responseText}`);
-	} else {
-		throw new Error(`Status Code: ${response.status}\nResponse: ${responseText}`);
+	let result = `${ghactionsChalk.bold("Status Code:")} ${response.status}\n${ghactionsChalk.bold("Response:")} ${responseText}`;
+	if (!response.ok) {
+		throw new Error(result);
 	};
+	ghactionsInformation(result);
+	ghactionsEndGroup();
 })().catch((reason) => {
-	ghactionError(reason);
+	ghactionsError(reason);
+	ghactionsEndGroup();
 	process.exit(1);
 });

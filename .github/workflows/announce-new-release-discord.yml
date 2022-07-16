@@ -12,6 +12,13 @@ jobs:
         with:
           key: "${{secrets.DISCORDWEBHOOK_HUGOALHSTUDIO_STUDIOANNOUNCEMENT_PROJECTNEWRELEASEANNOUNCER}}"
           payload: |
+            content: |
+              **__Send Discord Webhook (GitHub Action)__**
+
+              Version ${{github.event.release.name}} (${{github.event.release.tag_name}}) is released and available on:
+
+              - **GitHub Repository Release (& Changelog):** <${{github.event.release.html_url}}>
+              - **GitHub Marketplace:** <https://github.com/marketplace/actions/send-discord-webhook>
             embeds:
               - description: |
                   **__Send Discord Webhook (GitHub Action)__**
@@ -20,18 +27,6 @@ jobs:
 
                   - **GitHub:** ${{github.event.repository.html_url}}
                 color: "16,116,231"
-                image:
-                  url: "https://i.imgur.com/6HnQK7H.png"
                 thumbnail:
                   url: "https://i.imgur.com/knmLbFg.png"
-          wait: "true"
-      - uses: "hugoalh/send-discord-webhook-ghaction@main"
-        with:
-          key: "${{secrets.DISCORDWEBHOOK_HUGOALHSTUDIO_STUDIOANNOUNCEMENT_PROJECTNEWRELEASEANNOUNCER}}"
-          payload: |
-            content: |
-              Version ${{github.event.release.name}} (${{github.event.release.tag_name}}) is released and available on:
-
-              - **GitHub Repository (& Changelog):** ${{github.event.release.html_url}}
-              - **GitHub Marketplace:** https://github.com/marketplace/actions/send-discord-webhook
           wait: "true"

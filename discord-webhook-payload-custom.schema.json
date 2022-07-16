@@ -129,18 +129,39 @@
 							},
 							{
 								"type": "string",
-								"enum": [
-									"black",
-									"default",
-									"discordblack",
-									"discordblurple",
-									"discorddark",
-									"discordgrayple",
-									"discordgreyple",
-									"embeddark",
-									"random",
-									"white"
-								]
+								"pattern": "^black$"
+							},
+							{
+								"type": "string",
+								"pattern": "^default$"
+							},
+							{
+								"type": "string",
+								"pattern": "^discord-?black$"
+							},
+							{
+								"type": "string",
+								"pattern": "^discord-?blue?-?(?:pu)?rple$"
+							},
+							{
+								"type": "string",
+								"pattern": "^discord-?dark$"
+							},
+							{
+								"type": "string",
+								"pattern": "^discord-?gr[ae]y-?(?:pur)?ple$"
+							},
+							{
+								"type": "string",
+								"pattern": "^embed-?dark$"
+							},
+							{
+								"type": "string",
+								"pattern": "^random$"
+							},
+							{
+								"type": "string",
+								"pattern": "^white$"
 							},
 							{
 								"type": "string",
