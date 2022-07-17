@@ -250,7 +250,11 @@ const jsonSchemaValidator = ajv.compile(JSON.parse(fileSystemReadFileSync(pathJo
 		};
 	};
 	let files = yaml.parse(ghactionsGetInput("files"));
-	if (!adIsArray(files, { maximumLength: 10, super: true, unique: true })) {
+	if (!adIsArray(files, {
+		maximumLength: 10,
+		super: true,
+		unique: true
+	})) {
 		throw new TypeError(`Input \`files\` must be type of array (unique) and maximum 10 elements!`);
 	};
 	for (let file of files) {
