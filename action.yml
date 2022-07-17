@@ -37,7 +37,7 @@ inputs:
     default: "end"
 runs:
   using: "docker"
-  image: "docker://ghcr.io/hugoalh/send-discord-webhook-ghaction:4.2.1-beta.1"
+  image: "docker://ghcr.io/hugoalh/send-discord-webhook-ghaction:4.2.1"
 branding:
   icon: "send"
   color: "blue"
