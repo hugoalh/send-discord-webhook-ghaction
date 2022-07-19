@@ -259,7 +259,7 @@ const jsonSchemaValidator = ajv.compile(JSON.parse(fileSystemReadFileSync(pathJo
 	};
 	for (let file of files) {
 		if (!adIsString(file, { empty: false })) {
-			throw new TypeError(`Input \`files[#]\` must be type of string (non-empty)!`);
+			throw new TypeError(`Input \`files[*]\` must be type of strings (non-empty)!`);
 		};
 		try {
 			fileSystemAccessSync(pathJoin(ghactionsWorkspaceDirectory, file), fileSystemConstants.R_OK);
