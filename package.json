@@ -32,7 +32,7 @@
 		"ajv-formats-draft2019": "^1.6.1",
 		"chalk": "^5.0.1",
 		"form-data": "^4.0.0",
-		"node-fetch": "^3.2.8",
+		"node-fetch": "^3.2.9",
 		"yaml": "^2.1.1"
 	},
 	"engines": {
