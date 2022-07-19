@@ -77,7 +77,7 @@ https://discordapp.com/api/webhooks/70971114/ueyzeWxB_8bb1zMhL
 
 #### `method`
 
-<b>［選擇性］</b>`<字串 = "">` Method to send.
+<b>［選擇性］</b>`<字串>` Method to send.
 
 - **Default:** Let this action automatically determine the best method.
 - **`"form"`:** Use `multipart/form-data`.
@@ -241,7 +241,7 @@ When this input is `"json"`, and input `files` is defined, will throw an error.
 
 #### `files`
 
-<b>［選擇性］</b>`<字串[] = []>` Files as attachment, which must be relative paths from and inside GitHub Actions workspace, up to 8 MB and 10 files; At least one of the input `payload.content`, `payload.embeds`, or `files` must be provided.
+<b>［選擇性］</b>`<字串[]>` Files as attachment, which must be relative paths from and inside GitHub Actions workspace, up to 8 MB and 10 files; At least one of the input `payload.content`, `payload.embeds`, or `files` must be provided.
 
 #### `threadid`
 
