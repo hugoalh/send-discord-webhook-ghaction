@@ -10,23 +10,34 @@ jobs:
     steps:
       - uses: "hugoalh/send-discord-webhook-ghaction/use-nodejs@main"
         with:
-          key: "${{secrets.DISCORDWEBHOOK_HUGOALHSTUDIO_STUDIOANNOUNCEMENT_PROJECTNEWRELEASEANNOUNCER}}"
+          key: "${{secrets.DISCORD_WEBHOOK_HXHS_PROJECTNEWRELEASEANNOUNCER}}"
           payload: |
-            content: |
-              **__Send Discord Webhook (GitHub Action)__**
-
-              Version ${{github.event.release.name}} (${{github.event.release.tag_name}}) is released and available on:
-
-              - **GitHub Repository Release (& Changelog):** <${{github.event.release.html_url}}>
-              - **GitHub Marketplace:** <https://github.com/marketplace/actions/send-discord-webhook>
             embeds:
-              - description: |
-                  **__Send Discord Webhook (GitHub Action)__**
+              - title: "Send Discord Webhook (GitHub Action)"
+                description: |
+                  > ${{github.event.repository.description}}
 
-                  ${{github.event.repository.description}}
-
-                  - **GitHub:** ${{github.event.repository.html_url}}
+                  Version ${{github.event.release.name}} (${{github.event.release.tag_name}}) just released!
                 color: "16,116,231"
                 thumbnail:
-                  url: "https://i.imgur.com/knmLbFg.png"
+                  url: "https://i.imgur.com/6qM8z4w.png"
+                fields:
+                  - name: "GitHub: ${{github.event.repository.full_name}}"
+                    value: "${{github.event.repository.html_url}}"
+                    inline: true
+                  - name: "GitHub Repository Release & Changelog"
+                    value: "${{github.event.release.html_url}}"
+                    inline: true
+                  - name: "GitHub Marketplace"
+                    value: "https://github.com/marketplace/actions/send-discord-webhook"
+                    inline: true
+                  - name: "．"
+                    value: "．"
+                    inline: false
+                  - name: "Author"
+                    value: "${{github.event.release.author.login}}"
+                    inline: true
+                  - name: "Publish Time"
+                    value: "${{github.event.release.published_at}}"
+                    inline: true
           wait: "true"

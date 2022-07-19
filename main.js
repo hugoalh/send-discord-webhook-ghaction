@@ -34,7 +34,7 @@ const ajv = new Ajv2020({
 });
 ajvFormat(ajv);
 ajvFormatsDraft2019(ajv);
-const actionUserAgent = "SendDiscordWebhook.GitHubAction/4.2.1";
+const actionUserAgent = `NodeJS/${process.versions.node} SendDiscordWebhook.GitHubAction/4.2.2`;
 const colourHexRegExp = /^#[\dA-F]{6}$/gu;
 const colourNamespaceRegExpMap = new Map([
 	[/^black$/giu, 0],
