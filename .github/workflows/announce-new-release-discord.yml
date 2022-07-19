@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: "hugoalh/send-discord-webhook-ghaction/use-nodejs@main"
         with:
-          key: "${{secrets.DISCORD_WEBHOOK_HXHS_PROJECTNEWRELEASEANNOUNCER}}"
+          key: "${{secrets.DISCORD_HXHS_PROJECTNEWRELEASEANNOUNCER_WEBHOOK}}"
           payload: |
             embeds:
               - title: "Send Discord Webhook (GitHub Action)"
