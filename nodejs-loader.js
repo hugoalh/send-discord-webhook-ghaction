@@ -29,17 +29,14 @@ function $execute(command) {
 };
 (async () => {
 	let npmCleanInstallResult = await $execute("npm ci");
-	let npmCleanInstallResultError = npmCleanInstallResult.error;
-	let npmCleanInstallResultStdErr = npmCleanInstallResult.stderr;
-	let npmCleanInstallResultStdOut = npmCleanInstallResult.stdout;
-	if (npmCleanInstallResultStdOut.length > 0) {
-		console.log(npmCleanInstallResultStdOut);
+	if (npmCleanInstallResult.stdout.length > 0) {
+		console.log(npmCleanInstallResult.stdout);
 	};
-	if (npmCleanInstallResultStdErr.length > 0) {
-		console.log(npmCleanInstallResultStdErr);
+	if (npmCleanInstallResult.stderr.length > 0) {
+		console.log(npmCleanInstallResult.stderr);
 	};
-	if (npmCleanInstallResultError) {
-		throw new Error(`Unable to install action's dependencies: ${npmCleanInstallResultError})`);
+	if (npmCleanInstallResult.error) {
+		throw new Error(`Unable to install action's dependencies: ${npmCleanInstallResult.error})`);
 	};
 	import("./main.js");
 })().catch((reason) => {
