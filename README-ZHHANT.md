@@ -11,8 +11,6 @@
 [![GitHub分支](https://img.shields.io/github/forks/hugoalh/send-discord-webhook-ghaction?label=%E5%88%86%E6%94%AF&logo=github&logoColor=ffffff&style=flat-square)](https://github.com/hugoalh/send-discord-webhook-ghaction/network/members)
 ![GitHub語言](https://img.shields.io/github/languages/count/hugoalh/send-discord-webhook-ghaction?label=%E8%AA%9E%E8%A8%80&logo=github&logoColor=ffffff&style=flat-square)
 [![CodeFactor評等](https://img.shields.io/codefactor/grade/github/hugoalh/send-discord-webhook-ghaction?label=%E8%A9%95%E7%AD%89&logo=codefactor&logoColor=ffffff&style=flat-square)](https://www.codefactor.io/repository/github/hugoalh/send-discord-webhook-ghaction)
-[![LGTM警報](https://img.shields.io/lgtm/alerts/g/hugoalh/send-discord-webhook-ghaction?label=%E8%AD%A6%E5%A0%B1&logo=lgtm&logoColor=ffffff&style=flat-square)
-![LGTM評等](https://img.shields.io/lgtm/grade/javascript/g/hugoalh/send-discord-webhook-ghaction?label=%E8%A9%95%E7%AD%89&logo=lgtm&logoColor=ffffff&style=flat-square)](https://lgtm.com/projects/g/hugoalh/send-discord-webhook-ghaction)
 [![授權條款](https://img.shields.io/static/v1?label=%E6%8E%88%E6%AC%8A%E6%A2%9D%E6%AC%BE&message=MIT&style=flat-square)](./LICENSE-ZHHANT.md)
 
 | **發佈** | **最新**（![GitHub最新發佈日期](https://img.shields.io/github/release-date/hugoalh/send-discord-webhook-ghaction?label=%20&style=flat-square)） | **預覽**（![GitHub最新預覽日期](https://img.shields.io/github/release-date-pre/hugoalh/send-discord-webhook-ghaction?label=%20&style=flat-square)） |
