@@ -1,5 +1,7 @@
 🌐 | [English](./README.md) / [中文](./README-ZHHANT.md)
 
+---
+
 # Send Discord Webhook (GitHub Action)
 
 [`SendDiscordWebhook.GitHubAction`](https://github.com/hugoalh/send-discord-webhook-ghaction)
