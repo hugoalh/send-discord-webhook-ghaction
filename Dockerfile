@@ -1,4 +1,4 @@
-FROM node:16.17.0
+FROM node:18.0.0
 COPY discord-webhook-payload-custom.schema.json main.js package-lock.json package.json /opt/hugoalh/send-discord-webhook-ghaction/
 WORKDIR /opt/hugoalh/send-discord-webhook-ghaction/
 RUN ["npm", "ci"]
