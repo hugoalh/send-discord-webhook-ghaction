@@ -1,46 +1,54 @@
-import * as fs from "fs/promises";
-import { basename, dirname, join as pathJoin } from "path";
+import * as fs from "node:fs/promises";
+import { basename, dirname, join as pathJoin } from "node:path";
 import { Chalk } from "chalk";
-import { endGroup as ghactionsEndGroup, error as ghactionsError, getBooleanInput as ghactionsGetBooleanInput, getInput as ghactionsGetInput, info as ghactionsInformation, setSecret as ghactionsSetSecret, setOutput as ghactionsSetOutput, startGroup as ghactionsStartGroup, warning as ghactionsWarning } from "@actions/core";
-import { fileURLToPath, URLSearchParams } from "url";
-import { isArray as adIsArray, isJSON as adIsJSON, isString as adIsString } from "@hugoalh/advanced-determine";
+import { endGroup as ghactionsEndGroup, error as ghactionsError, getBooleanInput as ghactionsGetBooleanInput, getInput as ghactionsGetInput, setSecret as ghactionsSetSecret, setOutput as ghactionsSetOutput, startGroup as ghactionsStartGroup, warning as ghactionsWarning } from "@actions/core";
+import { fileURLToPath, URLSearchParams } from "node:url";
+import { isArray as adIsArray, isJSON as adIsJSON, isString as adIsString, isStringifyJSON as adIsStringifyJSON } from "@hugoalh/advanced-determine";
 import Ajv2020 from "ajv/dist/2020.js";
 import ajvFormats from "ajv-formats";
 import ajvFormatsDraft2019 from "ajv-formats-draft2019";
-import cliTruncate from "cli-truncate";
 import nodeFetch from "node-fetch";
 import yaml from "yaml";
-const ajv = new Ajv2020({
-	$comment: false,
-	$data: false,
-	allErrors: true,
-	allowMatchingProperties: true,
-	allowUnionTypes: true,
-	code: {
-		es5: false,
-		lines: true
-	},
-	coerceTypes: false,
-	logger: {
-		error: ghactionsError,
-		log: ghactionsInformation,
-		warn: ghactionsWarning
-	},
-	strictSchema: "log",
-	timestamp: "string",
-	useDefaults: false,
-	validateSchema: true
-});
-ajvFormats(ajv);
-ajvFormatsDraft2019(ajv);
-const ghactionsChalk = new Chalk({ level: 3 });
-const requestUserAgent = `SendDiscordWebhook.GitHubAction/5.0.0 NodeJS/${process.versions.node}`;
-const discordWebhookQuery = new URLSearchParams();
-const discordWebhookURLRegExp = /^https:\/\/(?:canary\.)?discord(?:app)?\.com\/api\/webhooks\/(?<key>\d+\/(?:[\da-zA-Z][\da-zA-Z_-]*)?[\da-zA-Z])$/gu;
-const ghactionsActionDirectory = dirname(fileURLToPath(import.meta.url));
-const ghactionsWorkspaceDirectory = process.env.GITHUB_WORKSPACE;
-const jsonSchemaValidator = ajv.compile(JSON.parse((await fs.readFile(pathJoin(ghactionsActionDirectory, "discord-webhook-payload-custom.schema.json"))).toString()));
+import { stringOverflow } from "@hugoalh/more-method";
+import colorNamespaceList from "color-name-list";
+import Color from "color";
+import { randomInt } from "node:crypto";
 try {
+	const ghactionsActionDirectory = pathJoin(dirname(fileURLToPath(import.meta.url)), "../");
+	const ghactionsWorkspaceDirectory = process.env.GITHUB_WORKSPACE;
+	const chalk = new Chalk({ level: 3 });
+	const requestUserAgent = `SendDiscordWebhook.GitHubAction/5.0.0 NodeJS/${process.versions.node}`;
+	const discordWebhookQuery = new URLSearchParams();
+	const discordWebhookURLRegExp = /^https:\/\/(?:canary\.)?discord(?:app)?\.com\/api\/webhooks\/(?<key>\d+\/(?:[\da-zA-Z][\da-zA-Z_-]*)?[\da-zA-Z])$/gu;
+	const ajv = new Ajv2020({
+		$comment: false,
+		$data: false,
+		allErrors: true,
+		allowMatchingProperties: true,
+		allowUnionTypes: true,
+		code: {
+			es5: false,
+			esm: true,
+			lines: false,
+			optimize: true,
+			source: false
+		},
+		coerceTypes: false,
+		logger: {
+			error: ghactionsError,
+			log: console.log,
+			warn: ghactionsWarning
+		},
+		strictSchema: "log",
+		timestamp: "string",
+		useDefaults: false,
+		validateSchema: true
+	});
+	ajvFormats(ajv);
+	ajvFormatsDraft2019(ajv);
+	const jsonSchemaValidator = ajv.compile(JSON.parse((await fs.readFile(pathJoin(ghactionsActionDirectory, "discord-webhook-payload-custom.schema.json"))).toString()));
+	const colourHexRegExp = /^#(?:[\da-fA-F]{3}|[\da-fA-F]{6})$/gu;
+	const exclusiveColorNamespaceList = JSON.parse((await fs.readFile(pathJoin(ghactionsActionDirectory, "exclusive-color-namespace.json"))).toString());
 	ghactionsStartGroup(`Import inputs.`);
 	let keyRaw = ghactionsGetInput("key");
 	if (!adIsString(keyRaw, { pattern: /^(?:https:\/\/(?:canary\.)?discord(?:app)?\.com\/api\/webhooks\/)?\d+\/(?:[\da-zA-Z][\da-zA-Z_-]*)?[\da-zA-Z]$/gu })) {
@@ -65,27 +73,38 @@ try {
 	if (wait) {
 		discordWebhookQuery.set("wait", "true");
 	}
-	ghactionsInformation(`${ghactionsChalk.bold("Wait:")} ${wait}`);
+	console.log(`${chalk.bold("Wait:")} ${wait}`);
 	let truncateEnable = ghactionsGetBooleanInput("truncate_enable");
 	if (typeof truncateEnable !== "boolean") {
 		throw new TypeError(`Input \`truncate_enable\` must be type of boolean!`);
 	}
-	ghactionsInformation(`${ghactionsChalk.bold("Truncate Enable:")} ${truncateEnable}`);
+	console.log(`${chalk.bold("Truncate Enable:")} ${truncateEnable}`);
+	let truncateEllipsis = ghactionsGetInput("truncate_ellipsis");
+	console.log(`${chalk.bold("Truncate Ellipsis:")} ${truncateEllipsis}`);
+	let truncatePosition = ghactionsGetInput("truncate_position");
+	console.log(`${chalk.bold("Truncate Position:")} ${truncatePosition}`);
 	let stringOverflowOption = {
-		ellipsis: ghactionsGetInput("truncate_ellipsis"),
-		position: ghactionsGetInput("truncate_position")
+		ellipsis: truncateEllipsis,
+		position: truncatePosition
 	};
-	ghactionsInformation(`${ghactionsChalk.bold("Truncate Option:")} ${JSON.stringify(stringOverflowOption)}`);
-	let payload = yaml.parse(ghactionsGetInput("payload"));
+	let payloadRaw = ghactionsGetInput("payload");
+	let payload;
+	if (adIsStringifyJSON(payloadRaw, { arrayRoot: false })) {
+		payload = JSON.parse(payloadRaw);
+	} else {
+		payload = yaml.parse(payloadRaw);
+	}
 	if (!adIsJSON(payload, { arrayRoot: false })) {
 		throw new TypeError(`\`${payload}\` is not a valid Discord webhook JSON/YAML/YML payload!`);
 	}
+	/*
 	if (jsonSchemaValidator(payload) === false) {
 		for (let error of jsonSchemaValidator.errors) {
 			ghactionsError(error.message);
 		}
 		throw JSON.stringify(jsonSchemaValidator.errors);
 	}
+	*/
 	if (typeof payload.$schema !== "undefined") {
 		delete payload.$schema;
 	}
@@ -96,7 +115,7 @@ try {
 			if (!truncateEnable) {
 				throw new Error(`Input \`payload.content\` is too large!`);
 			}
-			payload.content = mmStringOverflow(payload.content, 2000, stringOverflowOption);
+			payload.content = stringOverflow(payload.content, 2000, stringOverflowOption);
 		}
 	}
 	if (typeof payload.username === "string") {
@@ -106,7 +125,7 @@ try {
 			if (!truncateEnable) {
 				throw new Error(`Input \`payload.username\` is too large!`);
 			}
-			payload.username = mmStringOverflow(payload.username, 80, stringOverflowOption);
+			payload.username = stringOverflow(payload.username, 80, stringOverflowOption);
 		}
 	}
 	if (typeof payload.avatar_url === "string") {
@@ -123,7 +142,7 @@ try {
 					if (!truncateEnable) {
 						throw new Error(`Input \`payload.embeds[${embedsIndex}].title\` is too large!`);
 					}
-					payload.embeds[embedsIndex].title = mmStringOverflow(payload.embeds[embedsIndex].title, 256, stringOverflowOption);
+					payload.embeds[embedsIndex].title = stringOverflow(payload.embeds[embedsIndex].title, 256, stringOverflowOption);
 				}
 			}
 			if (typeof payload.embeds[embedsIndex].description === "string") {
@@ -133,7 +152,7 @@ try {
 					if (!truncateEnable) {
 						throw new Error(`Input \`payload.embeds[${embedsIndex}].description\` is too large!`);
 					}
-					payload.embeds[embedsIndex].description = mmStringOverflow(payload.embeds[embedsIndex].description, 4096, stringOverflowOption);
+					payload.embeds[embedsIndex].description = stringOverflow(payload.embeds[embedsIndex].description, 4096, stringOverflowOption);
 				}
 			}
 			if (typeof payload.embeds[embedsIndex].url === "string") {
@@ -142,21 +161,26 @@ try {
 				}
 			}
 			if (typeof payload.embeds[embedsIndex].color === "string") {
-				if (payload.embeds[embedsIndex].color.search(colourHexRegExp) === 0) {
+				if (payload.embeds[embedsIndex].color.toLowerCase() === "random") {
+					payload.embeds[embedsIndex].color = randomInt(0, 16777216);
+				} else if (exclusiveColorNamespaceList.map((value) => {
+					return value.name.toLowerCase();
+				}).includes(payload.embeds[embedsIndex].color.toLowerCase())) {
+					payload.embeds[embedsIndex].color = Color(exclusiveColorNamespaceList[exclusiveColorNamespaceList.findIndex((value) => {
+						return (value.name.toLowerCase() === payload.embeds[embedsIndex].color.toLowerCase());
+					})].hex, "hex").rgbNumber();
+				} else if (colorNamespaceList.map((value) => {
+					return value.name.toLowerCase();
+				}).includes(payload.embeds[embedsIndex].color.toLowerCase())) {
+					payload.embeds[embedsIndex].color = Color(colorNamespaceList[colorNamespaceList.findIndex((value) => {
+						return (value.name.toLowerCase() === payload.embeds[embedsIndex].color.toLowerCase());
+					})].hex, "hex").rgbNumber();
+				} else if (payload.embeds[embedsIndex].color.search(colourHexRegExp) === 0) {
 					payload.embeds[embedsIndex].color = Number(payload.embeds[embedsIndex].color.replace("#", "0x"));
-				} else if (payload.embeds[embedsIndex].color.search(colourRGBRegExp) === 0) {
+				}/* else if (payload.embeds[embedsIndex].color.search(colourRGBRegExp) === 0) {
 					let [R, G, B] = payload.embeds[embedsIndex].color.split(/, ?/gu);
 					payload.embeds[embedsIndex].color = Number(R) * 65536 + Number(G) * 256 + Number(B);
-				} else if (payload.embeds[embedsIndex].color.search(colourRandomRegExp) === 0) {
-					payload.embeds[embedsIndex].color = Math.floor(Math.random() * 256) * 65536 + Math.floor(Math.random() * 256) * 256 + Math.floor(Math.random() * 256);
-				} else {
-					for (let [re, value] of exclusiveColorNamespaceMap) {
-						if (payload.embeds[embedsIndex].color.search(re) === 0) {
-							payload.embeds[embedsIndex].color = value;
-							break;
-						}
-					}
-				}
+				}*/
 			}
 			if (typeof payload.embeds[embedsIndex].footer !== "undefined") {
 				if (typeof payload.embeds[embedsIndex].footer.text === "string") {
@@ -166,7 +190,7 @@ try {
 						if (!truncateEnable) {
 							throw new Error(`Input \`payload.embeds[${embedsIndex}].footer.text\` is too large!`);
 						}
-						payload.embeds[embedsIndex].footer.text = mmStringOverflow(payload.embeds[embedsIndex].footer.text, 2048, stringOverflowOption);
+						payload.embeds[embedsIndex].footer.text = stringOverflow(payload.embeds[embedsIndex].footer.text, 2048, stringOverflowOption);
 					}
 				}
 				if (typeof payload.embeds[embedsIndex].footer.icon_url === "string") {
@@ -197,7 +221,7 @@ try {
 						if (!truncateEnable) {
 							throw new Error(`Input \`payload.embeds[${embedsIndex}].author.name\` is too large!`);
 						}
-						payload.embeds[embedsIndex].author.name = mmStringOverflow(payload.embeds[embedsIndex].author.name, 256, stringOverflowOption);
+						payload.embeds[embedsIndex].author.name = stringOverflow(payload.embeds[embedsIndex].author.name, 256, stringOverflowOption);
 					}
 				}
 				if (typeof payload.embeds[embedsIndex].author.url === "string") {
@@ -218,7 +242,7 @@ try {
 							if (!truncateEnable) {
 								throw new Error(`Input \`payload.embeds[${embedsIndex}].fields[${fieldsIndex}].name\` is too large!`);
 							}
-							payload.embeds[embedsIndex].fields[fieldsIndex].name = mmStringOverflow(payload.embeds[embedsIndex].fields[fieldsIndex].name, 256, stringOverflowOption);
+							payload.embeds[embedsIndex].fields[fieldsIndex].name = stringOverflow(payload.embeds[embedsIndex].fields[fieldsIndex].name, 256, stringOverflowOption);
 						}
 					}
 					if (typeof payload.embeds[embedsIndex].fields[fieldsIndex].value === "string") {
@@ -226,7 +250,7 @@ try {
 							if (!truncateEnable) {
 								throw new Error(`Input \`payload.embeds[${embedsIndex}].fields[${fieldsIndex}].value\` is too large!`);
 							}
-							payload.embeds[embedsIndex].fields[fieldsIndex].value = mmStringOverflow(payload.embeds[embedsIndex].fields[fieldsIndex].value, 1024, stringOverflowOption);
+							payload.embeds[embedsIndex].fields[fieldsIndex].value = stringOverflow(payload.embeds[embedsIndex].fields[fieldsIndex].value, 1024, stringOverflowOption);
 						}
 					}
 				}
@@ -235,6 +259,9 @@ try {
 				}
 			}
 		}
+		payload.embeds = payload.embeds.filter((value) => {
+			return Object.keys(value).length > 0;
+		});
 		if (payload.embeds.length === 0) {
 			delete payload.embeds;
 		}
@@ -321,7 +348,7 @@ try {
 			"User-Agent": requestUserAgent
 		};
 	}
-	ghactionsInformation(`${ghactionsChalk.bold("Payload:")} ${requestBodyInspect}`);
+	console.log(`${chalk.bold("Payload:")} ${requestBodyInspect}`);
 	ghactionsEndGroup();
 	ghactionsStartGroup(`Post network request to Discord.`);
 	let response = await nodeFetch(
@@ -335,11 +362,11 @@ try {
 		}
 	);
 	let responseText = await response.text();
-	let result = `${ghactionsChalk.bold("Status Code:")} ${response.status}\n${ghactionsChalk.bold("Response:")} ${responseText}`;
+	let result = `${chalk.bold("Status Code:")} ${response.status}\n${chalk.bold("Response:")} ${responseText}`;
 	if (!response.ok) {
 		throw new Error(result);
 	}
-	ghactionsInformation(result);
+	console.log(result);
 	ghactionsEndGroup();
 } catch (error) {
 	ghactionsError(error?.message);
