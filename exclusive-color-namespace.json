@@ -1,0 +1,30 @@
+[
+	{
+		"name": "Default",
+		"hex": "#202225"
+	},
+	{
+		"name": "Discord Blurple",
+		"hex": "#5865F2"
+	},
+	{
+		"name": "Discord Fuchsia",
+		"hex": "#EB459E"
+	},
+	{
+		"name": "Discord Green",
+		"hex": "#57F287"
+	},
+	{
+		"name": "Discord Red",
+		"hex": "#ED4245"
+	},
+	{
+		"name": "Discord Yellow",
+		"hex": "#FEE75C"
+	},
+	{
+		"name": "Embed Background Dark",
+		"hex": "#2F3136"
+	}
+]

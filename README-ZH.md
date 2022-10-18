@@ -1,59 +1,53 @@
-🌐 | [English](./README.md) / [中文](./README-ZHHANT.md)
+🌐 | [English](./README.md) / [漢語](./README-ZH.md)
 
 ---
 
 # 發送Discord網絡鉤手（GitHub Action）
 
 [`SendDiscordWebhook.GitHubAction`](https://github.com/hugoalh/send-discord-webhook-ghaction)
-[![GitHub貢獻者](https://img.shields.io/github/contributors/hugoalh/send-discord-webhook-ghaction?label=%E8%B2%A2%E7%8D%BB%E8%80%85&logo=github&logoColor=ffffff&style=flat-square)](https://github.com/hugoalh/send-discord-webhook-ghaction/graphs/contributors)
-[![GitHub議題](https://img.shields.io/github/issues-raw/hugoalh/send-discord-webhook-ghaction?label=%E8%AD%B0%E9%A1%8C&logo=github&logoColor=ffffff&style=flat-square)](https://github.com/hugoalh/send-discord-webhook-ghaction/issues)
-[![GitHub拉取請求](https://img.shields.io/github/issues-pr-raw/hugoalh/send-discord-webhook-ghaction?label=%E6%8B%89%E5%8F%96%E8%AB%8B%E6%B1%82&logo=github&logoColor=ffffff&style=flat-square)](https://github.com/hugoalh/send-discord-webhook-ghaction/pulls)
-[![GitHub討論](https://img.shields.io/github/discussions/hugoalh/send-discord-webhook-ghaction?label=%E8%A8%8E%E8%AB%96&logo=github&logoColor=ffffff&style=flat-square)](https://github.com/hugoalh/send-discord-webhook-ghaction/discussions)
-[![GitHub星](https://img.shields.io/github/stars/hugoalh/send-discord-webhook-ghaction?label=%E6%98%9F&logo=github&logoColor=ffffff&style=flat-square)](https://github.com/hugoalh/send-discord-webhook-ghaction/stargazers)
-[![GitHub分支](https://img.shields.io/github/forks/hugoalh/send-discord-webhook-ghaction?label=%E5%88%86%E6%94%AF&logo=github&logoColor=ffffff&style=flat-square)](https://github.com/hugoalh/send-discord-webhook-ghaction/network/members)
-![GitHub語言](https://img.shields.io/github/languages/count/hugoalh/send-discord-webhook-ghaction?label=%E8%AA%9E%E8%A8%80&logo=github&logoColor=ffffff&style=flat-square)
-[![CodeFactor評等](https://img.shields.io/codefactor/grade/github/hugoalh/send-discord-webhook-ghaction?label=%E8%A9%95%E7%AD%89&logo=codefactor&logoColor=ffffff&style=flat-square)](https://www.codefactor.io/repository/github/hugoalh/send-discord-webhook-ghaction)
-[![授權條款](https://img.shields.io/static/v1?label=%E6%8E%88%E6%AC%8A%E6%A2%9D%E6%AC%BE&message=MIT&style=flat-square)](./LICENSE-ZHHANT.md)
 
-| **發佈** | **最新**（![GitHub最新發佈日期](https://img.shields.io/github/release-date/hugoalh/send-discord-webhook-ghaction?label=%20&style=flat-square)） | **預覽**（![GitHub最新預覽日期](https://img.shields.io/github/release-date-pre/hugoalh/send-discord-webhook-ghaction?label=%20&style=flat-square)） |
+![GitHub Action](https://img.shields.io/badge/GitHub%20Action-2088FF?logo=github-actions&logoColor=ffffff&style=flat-square "GitHub Action")
+![授權條款](https://img.shields.io/static/v1?label=%E6%8E%88%E6%AC%8A%E6%A2%9D%E6%AC%BE&message=MIT&style=flat-square "授權條款")
+[![GitHub星](https://img.shields.io/github/stars/hugoalh/send-discord-webhook-ghaction?label=%E6%98%9F&logo=github&logoColor=ffffff&style=flat-square "GitHub星")](https://github.com/hugoalh/send-discord-webhook-ghaction/stargazers)
+[![GitHub貢獻者](https://img.shields.io/github/contributors/hugoalh/send-discord-webhook-ghaction?label=%E8%B2%A2%E7%8D%BB%E8%80%85&logo=github&logoColor=ffffff&style=flat-square "GitHub貢獻者")](https://github.com/hugoalh/send-discord-webhook-ghaction/graphs/contributors)
+[![GitHub議題](https://img.shields.io/github/issues-raw/hugoalh/send-discord-webhook-ghaction?label=%E8%AD%B0%E9%A1%8C&logo=github&logoColor=ffffff&style=flat-square "GitHub議題")](https://github.com/hugoalh/send-discord-webhook-ghaction/issues)
+[![GitHub拉取請求](https://img.shields.io/github/issues-pr-raw/hugoalh/send-discord-webhook-ghaction?label=%E6%8B%89%E5%8F%96%E8%AB%8B%E6%B1%82&logo=github&logoColor=ffffff&style=flat-square "GitHub拉取請求")](https://github.com/hugoalh/send-discord-webhook-ghaction/pulls)
+[![GitHub討論](https://img.shields.io/github/discussions/hugoalh/send-discord-webhook-ghaction?label=%E8%A8%8E%E8%AB%96&logo=github&logoColor=ffffff&style=flat-square "GitHub討論")](https://github.com/hugoalh/send-discord-webhook-ghaction/discussions)
+[![CodeFactor評等](https://img.shields.io/codefactor/grade/github/hugoalh/send-discord-webhook-ghaction?label=%E8%A9%95%E7%AD%89&logo=codefactor&logoColor=ffffff&style=flat-square "CodeFactor評等")](https://www.codefactor.io/repository/github/hugoalh/send-discord-webhook-ghaction)
+
+| **發佈** | **最新**（![GitHub最新發佈日期](https://img.shields.io/github/release-date/hugoalh/send-discord-webhook-ghaction?label=%20&style=flat-square "GitHub最新發佈日期")） | **預覽**（![GitHub最新預覽發佈日期](https://img.shields.io/github/release-date-pre/hugoalh/send-discord-webhook-ghaction?label=%20&style=flat-square "GitHub最新預覽發佈日期")） |
 |:-:|:-:|:-:|
-| [**GitHub**](https://github.com/hugoalh/send-discord-webhook-ghaction/releases) ![GitHub總下載](https://img.shields.io/github/downloads/hugoalh/send-discord-webhook-ghaction/total?label=%20&style=flat-square) | ![GitHub最新發佈版本](https://img.shields.io/github/release/hugoalh/send-discord-webhook-ghaction?sort=semver&label=%20&style=flat-square) | ![GitHub最新預覽版本](https://img.shields.io/github/release/hugoalh/send-discord-webhook-ghaction?include_prereleases&sort=semver&label=%20&style=flat-square) |
+| [![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=ffffff&style=flat-square "GitHub")](https://github.com/hugoalh/send-discord-webhook-ghaction/releases) ![GitHub總下載](https://img.shields.io/github/downloads/hugoalh/send-discord-webhook-ghaction/total?label=%20&style=flat-square "GitHub總下載") | ![GitHub最新發佈版本](https://img.shields.io/github/release/hugoalh/send-discord-webhook-ghaction?sort=semver&label=%20&style=flat-square "GitHub最新發佈版本") | ![GitHub最新預覽發佈版本](https://img.shields.io/github/release/hugoalh/send-discord-webhook-ghaction?include_prereleases&sort=semver&label=%20&style=flat-square "GitHub最新預覽發佈版本") |
 
 ## 📝 說明
 
 用於發送Discord網絡鉤手的GitHub Action。
 
-*之前稱為「［GitHub Action］傳送至Discord」。*
+### 🌟 特點
 
-### 🌟 Feature
-
-- Support attachments/files.
-- Support thread.
+- 支持附件／檔案。
+- 支持討論串。
 
 ## 📚 文檔
 
-> <b>⚠ 重要：</b>此文檔基於v4.2.0；如果要查看其他標籤／版本的文檔，請瀏覽[標籤／版本列表](https://github.com/hugoalh/send-discord-webhook-ghaction/tags)並選擇正確的標籤／版本。
+> <b>⚠ 重要：</b>此文檔基於v5.0.0；如果要查看其他發佈／標籤／版本的文檔，請瀏覽[發佈／標籤／版本列表](https://github.com/hugoalh/send-discord-webhook-ghaction/tags)並選擇正確的發佈／標籤／版本。
 
-### 🎯 進入點／目標
+### 開始
+
+#### 安裝（適用於自行架設）
+
+- GitHub Actions Runner >= v2.297.0
+  - NodeJS ^ v16.13.0
+
+#### 使用
 
 ```yml
 jobs:
   job_id:
-    runs-on: "________"
+    runs-on: "________" # 任何
     steps:
-      - uses: "hugoalh/send-discord-webhook-ghaction________@<tag/version>"
+      - uses: "hugoalh/send-discord-webhook-ghaction@<tag/version>"
 ```
-
-|  | **`jobs.job_id.runs-on`** | **`jobs.job_id.steps[*].uses`** | **需要軟體** |
-|:-:|:-:|:-:|:-:|
-| **預設（`+default`）** | `ubuntu-________` | *沒有* | Docker |
-| **Docker（`+docker`）** | `ubuntu-________` | `/use-docker` | Docker |
-| **NodeJS（`+nodejs`）** | 任何 | `/use-nodejs` | NodeJS（>= v14.15.0） + NPM（>= v6.14.8） |
-
-> **⚠ 重要：**
-> 
-> - 預設進入點目前是基於Docker（`+docker`），基底可能在沒有通知的情況下變更以確保正常運作。
-> - NodeJS進入點可能需要額外的步驟來手動設置NodeJS版本。
 
 ### 📥 輸入
 
@@ -66,13 +60,11 @@ jobs:
 **🔐** `<字串>` 密鑰；長格式和短格式都可以接受。
 
 ```
-https://discord.com/api/webhooks/70971114/ueyzeWxB_8bb1zMhL
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^  長
-                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^  短
+https://discord.com/api/webhooks/70971114/ueyzeWxB_8bb1zMhL  ⬅長
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^  ⬅短
 
-https://discordapp.com/api/webhooks/70971114/ueyzeWxB_8bb1zMhL
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^  長（舊）
-                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^  短（舊）
+https://discordapp.com/api/webhooks/70971114/ueyzeWxB_8bb1zMhL  ⬅長（舊）
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^  ⬅短（舊）
 ```
 
 #### `method`
@@ -92,7 +84,7 @@ When this input is `"json"`, and input `files` is defined, will throw an error.
 
 #### `payload`
 
-<b>［選擇性］</b>`<物件>` JSON/YAML/YML payload, which restricted format and pattern; At least one of the input `payload.content`, `payload.embeds`, or `files` must be provided. *[View the JSON payload template in here.](./discord-webhook-payload-template.json)*
+<b>［選擇性］</b>`<物件 = {}>` JSON/YAML/YML payload, which restricted format and pattern; At least one of the input [`payload.content`](#content), [`payload.embeds`](#embeds), or [`files`](#files) must be provided. View the JSON payload template in [here](./discord-webhook-payload-template.json).
 
 > <b>⚠ 重要：</b>Properties which have not listed in here or in the template are not supported.
 
@@ -118,12 +110,12 @@ When this input is `"json"`, and input `files` is defined, will throw an error.
 
 <b>［選擇性］</b>`<物件[]>` Embed rich content, up to 10 embeds, and up to 6000 characters for summation of:
 
-- `embeds[*].title`
-- `embeds[*].description`
-- `embeds[*].footer.text`
-- `embeds[*].author.name`
-- `embeds[*].fields[*].name`
-- `embeds[*].fields[*].value`
+- [`embeds[*].title`](#embedstitle)
+- [`embeds[*].description`](#embedsdescription)
+- [`embeds[*].footer.text`](#embedsfootertext)
+- [`embeds[*].author.name`](#embedsauthorname)
+- [`embeds[*].fields[*].name`](#embedsfieldsname)
+- [`embeds[*].fields[*].value`](#embedsfieldsvalue)
 
 ##### `embeds[*].title`
 
@@ -143,19 +135,18 @@ When this input is `"json"`, and input `files` is defined, will throw an error.
 
 ##### `embeds[*].color`
 
-<b>［選擇性］</b>`<(數字 | 字串) = 2105893>` Color of the embed (i.e.: left border's color of embed); Decimal (integer / RGB integer), Hex (6 digits, with prefix `#` (sharp)), namespaced string, and RGB string (split with `,` (comma)) forms are acceptable.
+<b>［選擇性］</b>`<數字 | 字串 = 2105893>` Color of embed (i.e.: left border's color of embed); Decimal (RGB integer), Hex (with prefix `#` (sharp)), namespaced string, and RGB string (split with `,` (comma)) forms are acceptable. Exclusive namespaced strings:
 
-|  | **Decimal** | **Hex** | **Namespace** | **RGB** |
-|:-:|:-:|:-:|:-:|:-:|
-| <img src="https://www.colorhexa.com/000000.png" height="16px" width="16px" /> **Black** | `0` | `"#000000"` | `"black"` | `"0,0,0"` |
-| <img src="https://www.colorhexa.com/202225.png" height="16px" width="16px" /> **Default** | `2105893` | `"#202225"` | `"default"` | `"32,34,37"` |
-| <img src="https://www.colorhexa.com/23272A.png" height="16px" width="16px" /> **Discord Black** | `2303786` | `"#23272A"` | `"discordblack"` | `"35,39,42"` |
-| <img src="https://www.colorhexa.com/2C2F33.png" height="16px" width="16px" /> **Discord Dark** | `2895667` | `"#2C2F33"` | `"discorddark"` | `"44,47,51"` |
-| <img src="https://www.colorhexa.com/2F3136.png" height="16px" width="16px" /> **Embed Background (Dark Mode)** | `3092790` | `"#2F3136"` | `"embeddark"` | `"47,49,54"` |
-| <img src="https://www.colorhexa.com/7289DA.png" height="16px" width="16px" /> **Discord Blue Purple** | `7506394` | `"#7289DA"` | `"discordblurple"` | `"114,137,218"` |
-| <img src="https://www.colorhexa.com/99AAB5.png" height="16px" width="16px" /> **Discord Gray/Grey Purple** | `10070709` | `"#99AAB5"` | `"discordgrayple"` / `"discordgreyple"` | `"153,170,181"` |
-| <img src="https://www.colorhexa.com/FFFFFF.png" height="16px" width="16px" /> **White** | `16777215` | `"#FFFFFF"` | `"white"` | `"255,255,255"` |
-| **Random** |  |  | `"random"` |  |
+|  | **Namespace** | **Hex** | **RGB** | **Description** |
+|:-:|:-:|:-:|:-:|:--|
+| <img src="https://www.colorhexa.com/202225.png" height="16px" width="16px" /> | `"Default"` |  `"#202225"` |`"32,34,37"` | Default. |
+| 🍭 | `"Random"` |  |  | Random. |
+| <img src="https://www.colorhexa.com/5865F2.png" height="16px" width="16px" /> | `"Discord Blurple"` | `"#5865F2"` | `"88,101,242"` | Discord blurple. |
+| <img src="https://www.colorhexa.com/EB459E.png" height="16px" width="16px" /> | `"Discord Fuchsia"` | `"#EB459E"` | `"254,231,92"` | Discord fuchsia. |
+| <img src="https://www.colorhexa.com/57F287.png" height="16px" width="16px" /> | `"Discord Green"` | `"#57F287"` | `"87,242,135"` | Discord green. |
+| <img src="https://www.colorhexa.com/ED4245.png" height="16px" width="16px" /> | `"Discord Red"` | `"#ED4245"` | `"237,66,69"` | Discord red. |
+| <img src="https://www.colorhexa.com/FEE75C.png" height="16px" width="16px" /> | `"Discord Yellow"` | `"#FEE75C"` | `"254,231,92"` | Discord yellow. |
+| <img src="https://www.colorhexa.com/2F3136.png" height="16px" width="16px" /> | `"Embed Background Dark"` | `"#2F3136"` | `"47,49,54"` | Embed background in dark mode. |
 
 ##### `embeds[*].footer`
 
@@ -241,7 +232,7 @@ When this input is `"json"`, and input `files` is defined, will throw an error.
 
 #### `files`
 
-<b>［選擇性］</b>`<字串[]>` Files as attachment, which must be relative paths from and inside GitHub Actions workspace, up to 8 MB and 10 files; At least one of the input `payload.content`, `payload.embeds`, or `files` must be provided.
+<b>［選擇性］</b>`<字串[]>` Files as attachments, which must be relative paths from and inside GitHub Actions workspace, up to 8 MB and 10 files; At least one of the input [`payload.content`](#content), [`payload.embeds`](#embeds), or [`files`](#files) must be provided.
 
 #### `threadid`
 
@@ -249,11 +240,11 @@ When this input is `"json"`, and input `files` is defined, will throw an error.
 
 #### `wait`
 
-<b>［選擇性］</b>`<布爾值 = false>` Wait for Discord confirmation of message send before response, and returns the created message body. When this input is `false`, a message that is not saved does not return an error.
+<b>［選擇性］</b>`<布爾值 = false>` Whether to wait for Discord confirmation of message send before response, and returns the created message body. When this input is `false`, a message that is not saved does not return an error.
 
 #### `truncate_enable`
 
-<b>［選擇性］</b>`<布爾值 = true>` When input `payload` is too large, try to prune/trim/truncate first.
+<b>［選擇性］</b>`<布爾值 = true>` Whether to try truncate firstly when input [`payload`](#payload) is too large.
 
 #### `truncate_ellipsis`
 
@@ -281,7 +272,7 @@ jobs:
     name: "Send Discord Webhook"
     runs-on: "ubuntu-latest"
     steps:
-      - uses: "hugoalh/send-discord-webhook-ghaction@v4.2.0"
+      - uses: "hugoalh/send-discord-webhook-ghaction@v5.0.0"
         with:
           key: "${{secrets.DISCORD_WEBHOOK_KEY}}"
           payload: |
@@ -298,7 +289,7 @@ jobs:
     name: "Send Discord Webhook"
     runs-on: "ubuntu-latest"
     steps:
-      - uses: "hugoalh/send-discord-webhook-ghaction@v4.0.0"
+      - uses: "hugoalh/send-discord-webhook-ghaction@v5.0.0"
         with:
           key: "${{secrets.DISCORD_WEBHOOK_KEY}}"
           payload: |
@@ -352,7 +343,7 @@ jobs:
             }
 ```
 
-![例子birdie0結果](https://birdie0.github.io/discord-webhooks-guide/img/webhook_example.png)
+![例子birdie0結果](https://birdie0.github.io/discord-webhooks-guide/img/webhook_example.png "例子birdie0結果")
 
 ### 指南
 

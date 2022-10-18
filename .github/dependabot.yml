@@ -1,19 +1,5 @@
 version: 2
 updates:
-  - package-ecosystem: "docker"
-    directory: "/"
-    schedule:
-      interval: "daily"
-      time: "00:00"
-      timezone: "Etc/UTC"
-    labels:
-      - "Platform/Docker 🐳"
-      - "Status/Pending 🔵"
-      - "Type/Dependency 📦"
-    open-pull-requests-limit: 100
-    pull-request-branch-name:
-      separator: "/"
-    rebase-strategy: "disabled"
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:

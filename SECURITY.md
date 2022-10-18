@@ -11,12 +11,13 @@
 > | ❌{🐛} | **No (Issue):** Not supported due to confirmed contains bugs and/or issues. |
 > | ❌{🧓} | **No (Old):** Not supported due to too old. |
 
-| **Versions** | **Status** | **Target - Docker** | **Target - NodeJS - NodeJS** | **Target - NodeJS - NPM** |
-|:-:|:-:|:-:|:-:|:-:|
-| v4.2.X | L | Latest Release | >= v14.15.0 | >= v6.14.8 |
-| v4.1.X | 👎{🧓} | Latest Release | >= v14.15.0 | >= v6.14.8 |
-| v4.0.X | ❌{🧓} | Latest Release | >= v14.15.0 | >= v6.14.8 |
-| < v4.0.0 | ❌{🐛🧓} | *N/A* | <= v12.13.0 | <= v6.12.0 |
+| **Releases / Tags / Versions** | **Status** | **Target - GitHub Actions Runner** | **Target - Docker** | **Target - NodeJS** | **Target - NPM** |
+|:-:|:-:|:-:|:-:|:-:|:-:|
+| v5.0.X | L | >= v2.297.0 | *N/A* | ^ v16.13.0 | *N/A* |
+| v4.2.X | ✔ | *N/A* | Latest Release | >= v14.15.0 | >= v6.14.8 |
+| v4.1.X | 👎{🧓} | *N/A* | Latest Release | >= v14.15.0 | >= v6.14.8 |
+| v4.0.X | ❌{🧓} | *N/A* | Latest Release | >= v14.15.0 | >= v6.14.8 |
+| < v4.0.0 | ❌{🐛🧓} | *N/A* | *N/A* | <= v12.13.0 | <= v6.12.0 |
 
 ## Report Vulnerability
 
@@ -46,7 +47,7 @@ Please provide as much as you can to help the security vulnerability report supe
 - Your account's platform (e.g.: GitHub, GitLab, ...).
 - Your account's username (e.g.: `@octocat`).
 - Project's ID or repository URI.
-  - Project's ID is displayed at the top part of readme (i.e.: `README` file), below the project display name (i.e.: header), inside a code block.
+  - Project's ID is displayed at the top part of the Readme (file: `README.md`), below the project display name (i.e.: header), inside a code block.
 - Affected branches, commits, tags, and/or versions.
   - Versions must be listed as supported.
   - For multiple versions, you can use version range instead.

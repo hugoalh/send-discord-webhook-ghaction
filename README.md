@@ -1,29 +1,27 @@
-🌐 | [English](./README.md) / [中文](./README-ZHHANT.md)
+🌐 | [English](./README.md) / [漢語](./README-ZH.md)
 
 ---
 
 # Send Discord Webhook (GitHub Action)
 
 [`SendDiscordWebhook.GitHubAction`](https://github.com/hugoalh/send-discord-webhook-ghaction)
-[![GitHub Contributors](https://img.shields.io/github/contributors/hugoalh/send-discord-webhook-ghaction?label=Contributors&logo=github&logoColor=ffffff&style=flat-square)](https://github.com/hugoalh/send-discord-webhook-ghaction/graphs/contributors)
-[![GitHub Issues](https://img.shields.io/github/issues-raw/hugoalh/send-discord-webhook-ghaction?label=Issues&logo=github&logoColor=ffffff&style=flat-square)](https://github.com/hugoalh/send-discord-webhook-ghaction/issues)
-[![GitHub Pull Requests](https://img.shields.io/github/issues-pr-raw/hugoalh/send-discord-webhook-ghaction?label=Pull%20Requests&logo=github&logoColor=ffffff&style=flat-square)](https://github.com/hugoalh/send-discord-webhook-ghaction/pulls)
-[![GitHub Discussions](https://img.shields.io/github/discussions/hugoalh/send-discord-webhook-ghaction?label=Discussions&logo=github&logoColor=ffffff&style=flat-square)](https://github.com/hugoalh/send-discord-webhook-ghaction/discussions)
-[![GitHub Stars](https://img.shields.io/github/stars/hugoalh/send-discord-webhook-ghaction?label=Stars&logo=github&logoColor=ffffff&style=flat-square)](https://github.com/hugoalh/send-discord-webhook-ghaction/stargazers)
-[![GitHub Forks](https://img.shields.io/github/forks/hugoalh/send-discord-webhook-ghaction?label=Forks&logo=github&logoColor=ffffff&style=flat-square)](https://github.com/hugoalh/send-discord-webhook-ghaction/network/members)
-![GitHub Languages](https://img.shields.io/github/languages/count/hugoalh/send-discord-webhook-ghaction?label=Languages&logo=github&logoColor=ffffff&style=flat-square)
-[![CodeFactor Grade](https://img.shields.io/codefactor/grade/github/hugoalh/send-discord-webhook-ghaction?label=Grade&logo=codefactor&logoColor=ffffff&style=flat-square)](https://www.codefactor.io/repository/github/hugoalh/send-discord-webhook-ghaction)
-[![License](https://img.shields.io/static/v1?label=License&message=MIT&style=flat-square)](./LICENSE.md)
 
-| **Release** | **Latest** (![GitHub Latest Release Date](https://img.shields.io/github/release-date/hugoalh/send-discord-webhook-ghaction?label=%20&style=flat-square)) | **Pre** (![GitHub Latest Pre-Release Date](https://img.shields.io/github/release-date-pre/hugoalh/send-discord-webhook-ghaction?label=%20&style=flat-square)) |
+![GitHub Action](https://img.shields.io/badge/GitHub%20Action-2088FF?logo=github-actions&logoColor=ffffff&style=flat-square "GitHub Action")
+![License](https://img.shields.io/static/v1?label=License&message=MIT&style=flat-square "License")
+[![GitHub Stars](https://img.shields.io/github/stars/hugoalh/send-discord-webhook-ghaction?label=Stars&logo=github&logoColor=ffffff&style=flat-square "GitHub Stars")](https://github.com/hugoalh/send-discord-webhook-ghaction/stargazers)
+[![GitHub Contributors](https://img.shields.io/github/contributors/hugoalh/send-discord-webhook-ghaction?label=Contributors&logo=github&logoColor=ffffff&style=flat-square "GitHub Contributors")](https://github.com/hugoalh/send-discord-webhook-ghaction/graphs/contributors)
+[![GitHub Issues](https://img.shields.io/github/issues-raw/hugoalh/send-discord-webhook-ghaction?label=Issues&logo=github&logoColor=ffffff&style=flat-square "GitHub Issues")](https://github.com/hugoalh/send-discord-webhook-ghaction/issues)
+[![GitHub Pull Requests](https://img.shields.io/github/issues-pr-raw/hugoalh/send-discord-webhook-ghaction?label=Pull%20Requests&logo=github&logoColor=ffffff&style=flat-square "GitHub Pull Requests")](https://github.com/hugoalh/send-discord-webhook-ghaction/pulls)
+[![GitHub Discussions](https://img.shields.io/github/discussions/hugoalh/send-discord-webhook-ghaction?label=Discussions&logo=github&logoColor=ffffff&style=flat-square "GitHub Discussions")](https://github.com/hugoalh/send-discord-webhook-ghaction/discussions)
+[![CodeFactor Grade](https://img.shields.io/codefactor/grade/github/hugoalh/send-discord-webhook-ghaction?label=Grade&logo=codefactor&logoColor=ffffff&style=flat-square "CodeFactor Grade")](https://www.codefactor.io/repository/github/hugoalh/send-discord-webhook-ghaction)
+
+| **Releases** | **Latest** (![GitHub Latest Release Date](https://img.shields.io/github/release-date/hugoalh/send-discord-webhook-ghaction?label=&style=flat-square "GitHub Latest Release Date")) | **Pre** (![GitHub Latest Pre-Release Date](https://img.shields.io/github/release-date-pre/hugoalh/send-discord-webhook-ghaction?label=&style=flat-square "GitHub Latest Pre-Release Date")) |
 |:-:|:-:|:-:|
-| [**GitHub**](https://github.com/hugoalh/send-discord-webhook-ghaction/releases) ![GitHub Total Downloads](https://img.shields.io/github/downloads/hugoalh/send-discord-webhook-ghaction/total?label=%20&style=flat-square) | ![GitHub Latest Release Version](https://img.shields.io/github/release/hugoalh/send-discord-webhook-ghaction?sort=semver&label=%20&style=flat-square) | ![GitHub Latest Pre-Release Version](https://img.shields.io/github/release/hugoalh/send-discord-webhook-ghaction?include_prereleases&sort=semver&label=%20&style=flat-square) |
+| [![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=ffffff&style=flat-square "GitHub")](https://github.com/hugoalh/send-discord-webhook-ghaction/releases) ![GitHub Total Downloads](https://img.shields.io/github/downloads/hugoalh/send-discord-webhook-ghaction/total?label=&style=flat-square "GitHub Total Downloads") | ![GitHub Latest Release Version](https://img.shields.io/github/release/hugoalh/send-discord-webhook-ghaction?sort=semver&label=&style=flat-square "GitHub Latest Release Version") | ![GitHub Latest Pre-Release Version](https://img.shields.io/github/release/hugoalh/send-discord-webhook-ghaction?include_prereleases&sort=semver&label=&style=flat-square "GitHub Latest Pre-Release Version") |
 
 ## 📝 Description
 
 A GitHub Action to send a Discord webhook.
-
-*Previous named "\[GitHub Action\] Send To Discord".*
 
 ### 🌟 Feature
 
@@ -32,28 +30,24 @@ A GitHub Action to send a Discord webhook.
 
 ## 📚 Documentation
 
-> **⚠ Important:** This documentation is v4.2.0 based; To view other tag's/version's documentation, please visit the [tag/version list](https://github.com/hugoalh/send-discord-webhook-ghaction/tags) and select the correct tag/version.
+> **⚠ Important:** This documentation is v5.0.0 based; To view other release's/tag's/version's documentation, please visit the [releases/tags/versions list](https://github.com/hugoalh/send-discord-webhook-ghaction/tags) and select the correct release/tag/version.
 
-### 🎯 Entrypoint / Target
+### Getting Started
+
+#### Install (For Self Host)
+
+- GitHub Actions Runner >= v2.297.0
+  - NodeJS ^ v16.13.0
+
+#### Use
 
 ```yml
 jobs:
   job_id:
-    runs-on: "________"
+    runs-on: "________" # Any
     steps:
-      - uses: "hugoalh/send-discord-webhook-ghaction________@<tag/version>"
+      - uses: "hugoalh/send-discord-webhook-ghaction@<tag/version>"
 ```
-
-|  | **`jobs.job_id.runs-on`** | **`jobs.job_id.steps[*].uses`** | **Require Software** |
-|:-:|:-:|:-:|:-:|
-| **Default (`+default`)** | `ubuntu-________` | *None* | Docker |
-| **Docker (`+docker`)** | `ubuntu-________` | `/use-docker` | Docker |
-| **NodeJS (`+nodejs`)** | Any | `/use-nodejs` | NodeJS (>= v14.15.0) + NPM (>= v6.14.8) |
-
-> **⚠ Important:**
->
-> - Default entrypoint is currently based to Docker (`+docker`), base can be changed between versions without announcement to ensure the stability.
-> - NodeJS entrypoint maybe need extra steps to manually setup NodeJS version.
 
 ### 📥 Input
 
@@ -66,13 +60,11 @@ jobs:
 **🔐** `<string>` Key; Both long and short forms are acceptable.
 
 ```
-https://discord.com/api/webhooks/70971114/ueyzeWxB_8bb1zMhL
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^  Long
-                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^  Short
+https://discord.com/api/webhooks/70971114/ueyzeWxB_8bb1zMhL  ⬅Long
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^  ⬅Short
 
-https://discordapp.com/api/webhooks/70971114/ueyzeWxB_8bb1zMhL
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^  Long (Old)
-                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^  Short (Old)
+https://discordapp.com/api/webhooks/70971114/ueyzeWxB_8bb1zMhL  ⬅Long (Legacy)
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^  ⬅Short (Legacy)
 ```
 
 #### `method`
@@ -83,16 +75,16 @@ https://discordapp.com/api/webhooks/70971114/ueyzeWxB_8bb1zMhL
 - **`"form"`:** Use `multipart/form-data`.
 - **`"json"`:** Use `application/json`.
 
-When this input is not defined, and input `files` is:
+When this input is not defined, and input [`files`](#files) is:
 
 - defined, will use `"form"`.
 - not defined, will use `"json"`.
 
-When this input is `"json"`, and input `files` is defined, will throw an error.
+When this input is `"json"`, and input [`files`](#files) is defined, will throw an error.
 
 #### `payload`
 
-**\[Optional\]** `<object>` JSON/YAML/YML payload, which restricted format and pattern; At least one of the input `payload.content`, `payload.embeds`, or `files` must be provided. *[View the JSON payload template in here.](./discord-webhook-payload-template.json)*
+**\[Optional\]** `<object = {}>` JSON/YAML/YML payload, which restricted format and pattern; At least one of the input [`payload.content`](#content), [`payload.embeds`](#embeds), or [`files`](#files) must be provided. View the JSON payload template in [here](./discord-webhook-payload-template.json).
 
 > **⚠ Important:** Properties which have not listed in here or in the template are not supported.
 
@@ -118,12 +110,12 @@ When this input is `"json"`, and input `files` is defined, will throw an error.
 
 **\[Optional\]** `<object[]>` Embed rich content, up to 10 embeds, and up to 6000 characters for summation of:
 
-- `embeds[*].title`
-- `embeds[*].description`
-- `embeds[*].footer.text`
-- `embeds[*].author.name`
-- `embeds[*].fields[*].name`
-- `embeds[*].fields[*].value`
+- [`embeds[*].title`](#embedstitle)
+- [`embeds[*].description`](#embedsdescription)
+- [`embeds[*].footer.text`](#embedsfootertext)
+- [`embeds[*].author.name`](#embedsauthorname)
+- [`embeds[*].fields[*].name`](#embedsfieldsname)
+- [`embeds[*].fields[*].value`](#embedsfieldsvalue)
 
 ##### `embeds[*].title`
 
@@ -143,19 +135,18 @@ When this input is `"json"`, and input `files` is defined, will throw an error.
 
 ##### `embeds[*].color`
 
-**\[Optional\]** `<(number | string) = 2105893>` Color of the embed (i.e.: left border's color of embed); Decimal (integer / RGB integer), Hex (6 digits, with prefix `#` (sharp)), namespaced string, and RGB string (split with `,` (comma)) forms are acceptable.
+**\[Optional\]** `<number | string = 2105893>` Color of embed (i.e.: left border's color of embed); Decimal (RGB integer), Hex (with prefix `#` (sharp)), namespaced string, and RGB string (split with `,` (comma)) forms are acceptable. Exclusive namespaced strings:
 
-|  | **Decimal** | **Hex** | **Namespace** | **RGB** |
-|:-:|:-:|:-:|:-:|:-:|
-| <img src="https://www.colorhexa.com/000000.png" height="16px" width="16px" /> **Black** | `0` | `"#000000"` | `"black"` | `"0,0,0"` |
-| <img src="https://www.colorhexa.com/202225.png" height="16px" width="16px" /> **Default** | `2105893` | `"#202225"` | `"default"` | `"32,34,37"` |
-| <img src="https://www.colorhexa.com/23272A.png" height="16px" width="16px" /> **Discord Black** | `2303786` | `"#23272A"` | `"discordblack"` | `"35,39,42"` |
-| <img src="https://www.colorhexa.com/2C2F33.png" height="16px" width="16px" /> **Discord Dark** | `2895667` | `"#2C2F33"` | `"discorddark"` | `"44,47,51"` |
-| <img src="https://www.colorhexa.com/2F3136.png" height="16px" width="16px" /> **Embed Background (Dark Mode)** | `3092790` | `"#2F3136"` | `"embeddark"` | `"47,49,54"` |
-| <img src="https://www.colorhexa.com/7289DA.png" height="16px" width="16px" /> **Discord Blue Purple** | `7506394` | `"#7289DA"` | `"discordblurple"` | `"114,137,218"` |
-| <img src="https://www.colorhexa.com/99AAB5.png" height="16px" width="16px" /> **Discord Gray/Grey Purple** | `10070709` | `"#99AAB5"` | `"discordgrayple"` / `"discordgreyple"` | `"153,170,181"` |
-| <img src="https://www.colorhexa.com/FFFFFF.png" height="16px" width="16px" /> **White** | `16777215` | `"#FFFFFF"` | `"white"` | `"255,255,255"` |
-| **Random** |  |  | `"random"` |  |
+|  | **Namespace** | **Hex** | **RGB** | **Description** |
+|:-:|:-:|:-:|:-:|:--|
+| <img src="https://www.colorhexa.com/202225.png" height="16px" width="16px" /> | `"Default"` |  `"#202225"` |`"32,34,37"` | Default. |
+| 🍭 | `"Random"` |  |  | Random. |
+| <img src="https://www.colorhexa.com/5865F2.png" height="16px" width="16px" /> | `"Discord Blurple"` | `"#5865F2"` | `"88,101,242"` | Discord blurple. |
+| <img src="https://www.colorhexa.com/EB459E.png" height="16px" width="16px" /> | `"Discord Fuchsia"` | `"#EB459E"` | `"254,231,92"` | Discord fuchsia. |
+| <img src="https://www.colorhexa.com/57F287.png" height="16px" width="16px" /> | `"Discord Green"` | `"#57F287"` | `"87,242,135"` | Discord green. |
+| <img src="https://www.colorhexa.com/ED4245.png" height="16px" width="16px" /> | `"Discord Red"` | `"#ED4245"` | `"237,66,69"` | Discord red. |
+| <img src="https://www.colorhexa.com/FEE75C.png" height="16px" width="16px" /> | `"Discord Yellow"` | `"#FEE75C"` | `"254,231,92"` | Discord yellow. |
+| <img src="https://www.colorhexa.com/2F3136.png" height="16px" width="16px" /> | `"Embed Background Dark"` | `"#2F3136"` | `"47,49,54"` | Embed background in dark mode. |
 
 ##### `embeds[*].footer`
 
@@ -241,7 +232,7 @@ When this input is `"json"`, and input `files` is defined, will throw an error.
 
 #### `files`
 
-**\[Optional\]** `<string[]>` Files as attachment, which must be relative paths from and inside GitHub Actions workspace, up to 8 MB and 10 files; At least one of the input `payload.content`, `payload.embeds`, or `files` must be provided.
+**\[Optional\]** `<string[]>` Files as attachments, which must be relative paths from and inside GitHub Actions workspace, up to 8 MB and 10 files; At least one of the input [`payload.content`](#content), [`payload.embeds`](#embeds), or [`files`](#files) must be provided.
 
 #### `threadid`
 
@@ -249,11 +240,11 @@ When this input is `"json"`, and input `files` is defined, will throw an error.
 
 #### `wait`
 
-**\[Optional\]** `<boolean = false>` Wait for Discord confirmation of message send before response, and returns the created message body. When this input is `false`, a message that is not saved does not return an error.
+**\[Optional\]** `<boolean = false>` Whether to wait for Discord confirmation of message send before response, and returns the created message body. When this input is `false`, a message that is not saved does not return an error.
 
 #### `truncate_enable`
 
-**\[Optional\]** `<boolean = true>` When input `payload` is too large, try to prune/trim/truncate first.
+**\[Optional\]** `<boolean = true>` Whether to try truncate firstly when input [`payload`](#payload) is too large.
 
 #### `truncate_ellipsis`
 
@@ -281,7 +272,7 @@ jobs:
     name: "Send Discord Webhook"
     runs-on: "ubuntu-latest"
     steps:
-      - uses: "hugoalh/send-discord-webhook-ghaction@v4.2.0"
+      - uses: "hugoalh/send-discord-webhook-ghaction@v5.0.0"
         with:
           key: "${{secrets.DISCORD_WEBHOOK_KEY}}"
           payload: |
@@ -298,7 +289,7 @@ jobs:
     name: "Send Discord Webhook"
     runs-on: "ubuntu-latest"
     steps:
-      - uses: "hugoalh/send-discord-webhook-ghaction@v4.0.0"
+      - uses: "hugoalh/send-discord-webhook-ghaction@v5.0.0"
         with:
           key: "${{secrets.DISCORD_WEBHOOK_KEY}}"
           payload: |
@@ -352,7 +343,7 @@ jobs:
             }
 ```
 
-![Example birdie0 Result](https://birdie0.github.io/discord-webhooks-guide/img/webhook_example.png)
+![Example birdie0 Result](https://birdie0.github.io/discord-webhooks-guide/img/webhook_example.png "Example birdie0 Result")
 
 ### Guide
 

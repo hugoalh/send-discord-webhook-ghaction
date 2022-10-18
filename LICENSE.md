@@ -1,4 +1,4 @@
-🌐 | [English](./LICENSE.md) / [中文](./LICENSE-ZHHANT.md)
+🌐 | [English](./LICENSE.md) / [漢語](./LICENSE-ZH.md)
 
 ---
 

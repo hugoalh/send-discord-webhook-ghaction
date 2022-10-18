@@ -116,58 +116,10 @@
 					},
 					"color": {
 						"title": "Embed Color",
-						"description": "Color code of the embed (i.e.: left border's color of embed).",
-						"anyOf": [
-							{
-								"type": "integer",
-								"minimum": 0,
-								"maximum": 16777215
-							},
-							{
-								"type": "string",
-								"pattern": "^#[\\dA-F]{6}$"
-							},
-							{
-								"type": "string",
-								"pattern": "^black$"
-							},
-							{
-								"type": "string",
-								"pattern": "^default$"
-							},
-							{
-								"type": "string",
-								"pattern": "^discord-?black$"
-							},
-							{
-								"type": "string",
-								"pattern": "^discord-?blue?-?(?:pu)?rple$"
-							},
-							{
-								"type": "string",
-								"pattern": "^discord-?dark$"
-							},
-							{
-								"type": "string",
-								"pattern": "^discord-?gr[ae]y-?(?:pur)?ple$"
-							},
-							{
-								"type": "string",
-								"pattern": "^embed-?dark$"
-							},
-							{
-								"type": "string",
-								"pattern": "^random$"
-							},
-							{
-								"type": "string",
-								"pattern": "^white$"
-							},
-							{
-								"type": "string",
-								"pattern": "^(2(5[0-5]|[0-4]\\d)|1\\d{2}|[1-9]\\d|\\d)(, ?(2(5[0-5]|[0-4]\\d)|1\\d{2}|[1-9]\\d|\\d)){2}$"
-							}
-						],
+						"description": "Color of embed (i.e.: left border's color of embed).",
+						"type": "integer",
+						"minimum": 0,
+						"maximum": 16777215,
 						"default": 2105893
 					},
 					"footer": {
