@@ -135,18 +135,23 @@ When this input is `"json"`, and input [`files`](#files) is defined, will throw 
 
 ##### `embeds[*].color`
 
-**\[Optional\]** `<number | string = 2105893>` Color of embed (i.e.: left border's color of embed); Decimal (RGB integer), Hex (with prefix `#` (sharp)), namespaced string, and RGB string (split with `,` (comma)) forms are acceptable. Exclusive namespaced strings:
+**\[Optional\]** `<number | string = 2105893>` Color of embed (i.e.: left border's color of embed); RGB integer, Hex (with prefix `#` (sharp)), namespaced string, and CSS colors string (e.g.: `"rgb(32, 34, 37)"`) forms are acceptable. Exclusive namespaced strings:
 
-|  | **Namespace** | **Hex** | **RGB** | **Description** |
-|:-:|:-:|:-:|:-:|:--|
-| <img src="https://www.colorhexa.com/202225.png" height="16px" width="16px" /> | `"Default"` |  `"#202225"` |`"32,34,37"` | Default. |
-| 🍭 | `"Random"` |  |  | Random. |
-| <img src="https://www.colorhexa.com/5865F2.png" height="16px" width="16px" /> | `"Discord Blurple"` | `"#5865F2"` | `"88,101,242"` | Discord blurple. |
-| <img src="https://www.colorhexa.com/EB459E.png" height="16px" width="16px" /> | `"Discord Fuchsia"` | `"#EB459E"` | `"254,231,92"` | Discord fuchsia. |
-| <img src="https://www.colorhexa.com/57F287.png" height="16px" width="16px" /> | `"Discord Green"` | `"#57F287"` | `"87,242,135"` | Discord green. |
-| <img src="https://www.colorhexa.com/ED4245.png" height="16px" width="16px" /> | `"Discord Red"` | `"#ED4245"` | `"237,66,69"` | Discord red. |
-| <img src="https://www.colorhexa.com/FEE75C.png" height="16px" width="16px" /> | `"Discord Yellow"` | `"#FEE75C"` | `"254,231,92"` | Discord yellow. |
-| <img src="https://www.colorhexa.com/2F3136.png" height="16px" width="16px" /> | `"Embed Background Dark"` | `"#2F3136"` | `"47,49,54"` | Embed background in dark mode. |
+|  | **Namespace** | **Value** | **Description** |
+|:-:|:-:|:-:|:--|
+| <img src="https://www.colorhexa.com/202225.png" height="16px" width="16px" /> | `"Default"` |  `"#202225"` / `"rgb(32, 34, 37)"` | Default. |
+| 🍭 | `"Random"` |  | Random. |
+| <img src="https://www.colorhexa.com/5865F2.png" height="16px" width="16px" /> | `"Discord Blurple"` | `"#5865F2"` / `"rgb(88, 101, 242)"` | Discord blurple. |
+| <img src="https://www.colorhexa.com/EB459E.png" height="16px" width="16px" /> | `"Discord Fuchsia"` | `"#EB459E"` / `"rgb(254, 231, 92)"` | Discord fuchsia. |
+| <img src="https://www.colorhexa.com/57F287.png" height="16px" width="16px" /> | `"Discord Green"` | `"#57F287"` / `"rgb(87, 242, 135)"` | Discord green. |
+| <img src="https://www.colorhexa.com/ED4245.png" height="16px" width="16px" /> | `"Discord Red"` | `"#ED4245"` / `"rgb(237, 66, 69)"` | Discord red. |
+| <img src="https://www.colorhexa.com/FEE75C.png" height="16px" width="16px" /> | `"Discord Yellow"` | `"#FEE75C"` / `"rgb(254, 231, 92)"` | Discord yellow. |
+| <img src="https://www.colorhexa.com/2F3136.png" height="16px" width="16px" /> | `"Embed Background Dark"` | `"#2F3136"` / `"rgb(47, 49, 54)"` | Embed background in dark mode. |
+
+> **💡 Hint:**
+>
+> - Alpha channel is not supported.
+> - Namespaced string maybe change and/or remove without any notification, use value instead except you want it random.
 
 ##### `embeds[*].footer`
 
@@ -232,7 +237,7 @@ When this input is `"json"`, and input [`files`](#files) is defined, will throw 
 
 #### `files`
 
-**\[Optional\]** `<string[]>` Files as attachments, which must be relative paths from and inside GitHub Actions workspace, up to 8 MB and 10 files; At least one of the input [`payload.content`](#content), [`payload.embeds`](#embeds), or [`files`](#files) must be provided.
+**\[Optional\]** `<string[] = []>` Files as attachments, which must be relative paths from GitHub Actions workspace, up to 8 MB and 10 files; At least one of the input [`payload.content`](#content), [`payload.embeds`](#embeds), or [`files`](#files) must be provided.
 
 #### `threadid`
 

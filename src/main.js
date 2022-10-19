@@ -1,18 +1,19 @@
-import * as fs from "node:fs/promises";
-import { basename, dirname, join as pathJoin } from "node:path";
+import { access as fsAccess, constants as fsConstants, readFile } from "node:fs/promises";
+import { basename as pathBasename, dirname, join as pathJoin } from "node:path";
 import { Chalk } from "chalk";
+import { createReadStream } from "node:fs";
 import { endGroup as ghactionsEndGroup, error as ghactionsError, getBooleanInput as ghactionsGetBooleanInput, getInput as ghactionsGetInput, setSecret as ghactionsSetSecret, setOutput as ghactionsSetOutput, startGroup as ghactionsStartGroup, warning as ghactionsWarning } from "@actions/core";
 import { fileURLToPath, URLSearchParams } from "node:url";
 import { isArray as adIsArray, isJSON as adIsJSON, isString as adIsString, isStringifyJSON as adIsStringifyJSON } from "@hugoalh/advanced-determine";
+import { randomInt } from "node:crypto";
+import { stringOverflow } from "@hugoalh/more-method";
 import Ajv2020 from "ajv/dist/2020.js";
 import ajvFormats from "ajv-formats";
 import ajvFormatsDraft2019 from "ajv-formats-draft2019";
+import Color from "color";
+import colorNamespaceList from "color-name-list";
 import nodeFetch from "node-fetch";
 import yaml from "yaml";
-import { stringOverflow } from "@hugoalh/more-method";
-import colorNamespaceList from "color-name-list";
-import Color from "color";
-import { randomInt } from "node:crypto";
 try {
 	const ghactionsActionDirectory = pathJoin(dirname(fileURLToPath(import.meta.url)), "../");
 	const ghactionsWorkspaceDirectory = process.env.GITHUB_WORKSPACE;
@@ -46,9 +47,8 @@ try {
 	});
 	ajvFormats(ajv);
 	ajvFormatsDraft2019(ajv);
-	const jsonSchemaValidator = ajv.compile(JSON.parse((await fs.readFile(pathJoin(ghactionsActionDirectory, "discord-webhook-payload-custom.schema.json"))).toString()));
-	const colourHexRegExp = /^#(?:[\da-fA-F]{3}|[\da-fA-F]{6})$/gu;
-	const exclusiveColorNamespaceList = JSON.parse((await fs.readFile(pathJoin(ghactionsActionDirectory, "exclusive-color-namespace.json"))).toString());
+	const jsonSchemaValidator = ajv.compile(JSON.parse((await readFile(pathJoin(ghactionsActionDirectory, "discord-webhook-payload-custom.schema.json"))).toString()));
+	const exclusiveColorNamespaceList = JSON.parse((await readFile(pathJoin(ghactionsActionDirectory, "exclusive-color-namespace.json"))).toString());
 	ghactionsStartGroup(`Import inputs.`);
 	let keyRaw = ghactionsGetInput("key");
 	if (!adIsString(keyRaw, { pattern: /^(?:https:\/\/(?:canary\.)?discord(?:app)?\.com\/api\/webhooks\/)?\d+\/(?:[\da-zA-Z][\da-zA-Z_-]*)?[\da-zA-Z]$/gu })) {
@@ -97,14 +97,6 @@ try {
 	if (!adIsJSON(payload, { arrayRoot: false })) {
 		throw new TypeError(`\`${payload}\` is not a valid Discord webhook JSON/YAML/YML payload!`);
 	}
-	/*
-	if (jsonSchemaValidator(payload) === false) {
-		for (let error of jsonSchemaValidator.errors) {
-			ghactionsError(error.message);
-		}
-		throw JSON.stringify(jsonSchemaValidator.errors);
-	}
-	*/
 	if (typeof payload.$schema !== "undefined") {
 		delete payload.$schema;
 	}
@@ -162,7 +154,7 @@ try {
 			}
 			if (typeof payload.embeds[embedsIndex].color === "string") {
 				if (payload.embeds[embedsIndex].color.toLowerCase() === "random") {
-					payload.embeds[embedsIndex].color = randomInt(0, 16777216);
+					payload.embeds[embedsIndex].color = randomInt(0, 256) * 65536 + randomInt(0, 256) * 256 + randomInt(0, 256);
 				} else if (exclusiveColorNamespaceList.map((value) => {
 					return value.name.toLowerCase();
 				}).includes(payload.embeds[embedsIndex].color.toLowerCase())) {
@@ -175,12 +167,11 @@ try {
 					payload.embeds[embedsIndex].color = Color(colorNamespaceList[colorNamespaceList.findIndex((value) => {
 						return (value.name.toLowerCase() === payload.embeds[embedsIndex].color.toLowerCase());
 					})].hex, "hex").rgbNumber();
-				} else if (payload.embeds[embedsIndex].color.search(colourHexRegExp) === 0) {
-					payload.embeds[embedsIndex].color = Number(payload.embeds[embedsIndex].color.replace("#", "0x"));
-				}/* else if (payload.embeds[embedsIndex].color.search(colourRGBRegExp) === 0) {
-					let [R, G, B] = payload.embeds[embedsIndex].color.split(/, ?/gu);
-					payload.embeds[embedsIndex].color = Number(R) * 65536 + Number(G) * 256 + Number(B);
-				}*/
+				} else {
+					try {
+						payload.embeds[embedsIndex].color = Color(payload.embeds[embedsIndex].color).rgbNumber();
+					} catch { }
+				}
 			}
 			if (typeof payload.embeds[embedsIndex].footer !== "undefined") {
 				if (typeof payload.embeds[embedsIndex].footer.text === "string") {
@@ -266,22 +257,30 @@ try {
 			delete payload.embeds;
 		}
 	}
+	if (jsonSchemaValidator(payload) === false) {
+		for (let error of jsonSchemaValidator.errors) {
+			ghactionsError(error?.message);
+		}
+		throw JSON.stringify(jsonSchemaValidator.errors);
+	}
 	let files = yaml.parse(ghactionsGetInput("files"));
-	if (!adIsArray(files, {
-		maximumLength: 10,
-		super: true,
-		unique: true
-	})) {
-		throw new TypeError(`Input \`files\` must be type of array (unique) and maximum 10 elements!`);
+	if (
+		!adIsArray(files, {
+			maximumLength: 10,
+			strict: true,
+			unique: true
+		}) ||
+		files.some((file) => {
+			return !adIsString(file, { empty: false });
+		})
+	) {
+		throw new TypeError(`Input \`files\` must be type of string-array (unique) and maximum 10 elements!`);
 	}
 	for (let file of files) {
-		if (!adIsString(file, { empty: false })) {
-			throw new TypeError(`Input \`files[*]\` must be type of strings (non-empty)!`);
-		}
 		try {
-			fs.accessSync(pathJoin(ghactionsWorkspaceDirectory, file), fs.constants.R_OK);
+			await fsAccess(pathJoin(ghactionsWorkspaceDirectory, file), fsConstants.R_OK);
 		} catch {
-			throw new Error(`File \`${file}\` does not assessible, exist, or readable!`);
+			throw new Error(`File \`${file}\` is not accessible, exist, and/or readable!`);
 		}
 	}
 	if (typeof payload.content === "undefined" && typeof payload.embeds === "undefined" && files.length === 0) {
@@ -301,7 +300,7 @@ try {
 		(method !== "form" && method !== "json") ||
 		(method === "json" && files.length > 0)
 	) {
-		throw new Error(`Input \`method\`'s value \`${method}\` is not a valid content type!`);
+		throw new Error(`\`${method}\` is not a valid method!`);
 	}
 	let payloadStringify = JSON.stringify(payload);
 	let requestBody;
@@ -316,12 +315,12 @@ try {
 			payload.attachments = [];
 			for (let filesIndex = 0; filesIndex < files.length; filesIndex++) {
 				let fileFullPath = pathJoin(ghactionsWorkspaceDirectory, files[filesIndex]);
-				let fileName = basename(fileFullPath);
+				let fileName = pathBasename(fileFullPath);
 				payload.attachments.push({
-					"id": filesIndex,
-					"filename": fileName
+					"filename": fileName,
+					"id": filesIndex
 				});
-				requestBody.append(`files[${filesIndex}]`, fs.createReadStream(fileFullPath));
+				requestBody.append(`files[${filesIndex}]`, createReadStream(fileFullPath));
 			}
 		}
 		requestBody.append("payload_json", JSON.stringify(payload));
@@ -362,11 +361,15 @@ try {
 		}
 	);
 	let responseText = await response.text();
-	let result = `${chalk.bold("Status Code:")} ${response.status}\n${chalk.bold("Response:")} ${responseText}`;
+	ghactionsSetOutput("response", responseText);
+	ghactionsSetOutput("status_code", response.status);
+	ghactionsSetOutput("status_ok", response.ok);
+	ghactionsSetOutput("status_text", response.statusText);
 	if (!response.ok) {
-		throw new Error(result);
+		throw new Error(`Unexpected response status \`${response.status} ${response.statusText}\`: ${responseText}`);
 	}
-	console.log(result);
+	console.log(`${chalk.bold("Response Status:")} ${response.status} ${response.statusText}`);
+	console.log(`${chalk.bold("Response Content:")} ${responseText}`);
 	ghactionsEndGroup();
 } catch (error) {
 	ghactionsError(error?.message);

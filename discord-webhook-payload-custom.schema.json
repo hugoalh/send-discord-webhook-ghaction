@@ -17,12 +17,14 @@
 		"content": {
 			"title": "Content",
 			"description": "The message contents, up to 2000 characters",
-			"type": "string"
+			"type": "string",
+			"maxLength": 2000
 		},
 		"username": {
 			"title": "Username",
 			"description": "Override the default username of the webhook, up to 80 characters; \"Clyde\" is not allowed.",
 			"type": "string",
+			"maxLength": 80,
 			"pattern": "^((?![cC][lL][yY][dD][eE]).)*$"
 		},
 		"avatar_url": {
@@ -77,11 +79,6 @@
 					},
 					{
 						"required": [
-							"video"
-						]
-					},
-					{
-						"required": [
 							"author"
 						]
 					},
@@ -95,12 +92,14 @@
 					"title": {
 						"title": "Embed Title",
 						"description": "Title of embed, up to 256 characters.",
-						"type": "string"
+						"type": "string",
+						"maxLength": 256
 					},
 					"description": {
 						"title": "Embed Description",
 						"description": "Description of embed, up to 4096 characters.",
-						"type": "string"
+						"type": "string",
+						"maxLength": 4096
 					},
 					"url": {
 						"title": "Embed URL",
@@ -134,7 +133,8 @@
 							"text": {
 								"title": "Embed Footer Text",
 								"description": "Footer text, up to 2048 characters.",
-								"type": "string"
+								"type": "string",
+								"maxLength": 2048
 							},
 							"icon_url": {
 								"title": "Embed Footer Icon URL",
@@ -190,7 +190,8 @@
 							"name": {
 								"title": "Embed Author Name",
 								"description": "Name of author, up to 256 characters.",
-								"type": "string"
+								"type": "string",
+								"maxLength": 256
 							},
 							"url": {
 								"title": "Embed Author URL",
@@ -220,11 +221,13 @@
 							"properties": {
 								"name": {
 									"description": "Name of field, up to 256 characters.",
-									"type": "string"
+									"type": "string",
+									"maxLength": 256
 								},
 								"value": {
 									"description": "Value of field, up to 1024 characters.",
-									"type": "string"
+									"type": "string",
+									"maxLength": 1024
 								},
 								"inline": {
 									"description": "Field should display inline or not.",
