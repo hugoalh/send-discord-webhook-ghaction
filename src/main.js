@@ -12,6 +12,7 @@ import ajvFormats from "ajv-formats";
 import ajvFormatsDraft2019 from "ajv-formats-draft2019";
 import Color from "color";
 import colorNamespaceList from "color-name-list";
+import FormData from "form-data";
 import nodeFetch from "node-fetch";
 import yaml from "yaml";
 try {
@@ -20,7 +21,7 @@ try {
 	const chalk = new Chalk({ level: 3 });
 	const requestUserAgent = `SendDiscordWebhook.GitHubAction/5.0.0 NodeJS/${process.versions.node}`;
 	const discordWebhookQuery = new URLSearchParams();
-	const discordWebhookURLRegExp = /^https:\/\/(?:canary\.)?discord(?:app)?\.com\/api\/webhooks\/(?<key>\d+\/(?:[\da-zA-Z][\da-zA-Z_-]*)?[\da-zA-Z])$/gu;
+	const discordWebhookURLRegExp = /^(?:https:\/\/(?:canary\.)?discord(?:app)?\.com\/api\/webhooks\/)?(?<key>\d+\/(?:[\da-zA-Z][\da-zA-Z_-]*)?[\da-zA-Z])$/u;
 	const ajv = new Ajv2020({
 		$comment: false,
 		$data: false,
@@ -51,18 +52,13 @@ try {
 	const exclusiveColorNamespaceList = JSON.parse((await readFile(pathJoin(ghactionsActionDirectory, "exclusive-color-namespace.json"))).toString());
 	ghactionsStartGroup(`Import inputs.`);
 	let keyRaw = ghactionsGetInput("key");
-	if (!adIsString(keyRaw, { pattern: /^(?:https:\/\/(?:canary\.)?discord(?:app)?\.com\/api\/webhooks\/)?\d+\/(?:[\da-zA-Z][\da-zA-Z_-]*)?[\da-zA-Z]$/gu })) {
+	if (!adIsString(keyRaw, { pattern: discordWebhookURLRegExp })) {
 		throw new TypeError(`Input \`key\` must be type of string (non-empty)!`);
 	}
-	let key;
-	if (keyRaw.search(discordWebhookURLRegExp) === 0) {
-		key = keyRaw.replace(discordWebhookURLRegExp, "$<key>");
-	} else {
-		key = keyRaw;
-	}
+	let key = keyRaw.match(discordWebhookURLRegExp).groups.key;
 	ghactionsSetSecret(key);
 	let threadID = ghactionsGetInput("threadid");
-	if (adIsString(threadID, { pattern: /^\d+$/gu })) {
+	if (adIsString(threadID, { pattern: /^\d+$/u })) {
 		ghactionsSetSecret(threadID);
 		discordWebhookQuery.set("thread_id", threadID);
 	}
@@ -88,12 +84,7 @@ try {
 		position: truncatePosition
 	};
 	let payloadRaw = ghactionsGetInput("payload");
-	let payload;
-	if (adIsStringifyJSON(payloadRaw, { arrayRoot: false })) {
-		payload = JSON.parse(payloadRaw);
-	} else {
-		payload = yaml.parse(payloadRaw);
-	}
+	let payload = adIsStringifyJSON(payloadRaw, { arrayRoot: false }) ? JSON.parse(payloadRaw) : yaml.parse(payloadRaw);
 	if (!adIsJSON(payload, { arrayRoot: false })) {
 		throw new TypeError(`\`${payload}\` is not a valid Discord webhook JSON/YAML/YML payload!`);
 	}
@@ -251,7 +242,7 @@ try {
 			}
 		}
 		payload.embeds = payload.embeds.filter((value) => {
-			return Object.keys(value).length > 0;
+			return (Object.keys(value).length > 0);
 		});
 		if (payload.embeds.length === 0) {
 			delete payload.embeds;
@@ -263,6 +254,8 @@ try {
 		}
 		throw JSON.stringify(jsonSchemaValidator.errors);
 	}
+	let payloadStringify = JSON.stringify(payload);
+	console.log(`${chalk.bold("Payload:")} ${payloadStringify}`);
 	let files = yaml.parse(ghactionsGetInput("files"));
 	if (
 		!adIsArray(files, {
@@ -274,7 +267,7 @@ try {
 			return !adIsString(file, { empty: false });
 		})
 	) {
-		throw new TypeError(`Input \`files\` must be type of string-array (unique) and maximum 10 elements!`);
+		throw new TypeError(`Input \`files\` must be type of strings-array (unique) and maximum 10 elements!`);
 	}
 	for (let file of files) {
 		try {
@@ -283,18 +276,13 @@ try {
 			throw new Error(`File \`${file}\` is not accessible, exist, and/or readable!`);
 		}
 	}
+	console.log(`${chalk.bold("Files:")} ${files}`);
 	if (typeof payload.content === "undefined" && typeof payload.embeds === "undefined" && files.length === 0) {
 		throw new Error(`At least one of the input \`payload.content\`, \`payload.embeds\`, or \`files\` must be provided!`);
 	}
 	let method = ghactionsGetInput("method").toLowerCase();
-	if (files.length > 0) {
-		if (method.length === 0) {
-			method = "form";
-		}
-	} else {
-		if (method.length === 0) {
-			method = "json";
-		}
+	if (method.length === 0) {
+		method = (files.length > 0) ? "form" : "json";
 	}
 	if (
 		(method !== "form" && method !== "json") ||
@@ -302,14 +290,10 @@ try {
 	) {
 		throw new Error(`\`${method}\` is not a valid method!`);
 	}
-	let payloadStringify = JSON.stringify(payload);
 	let requestBody;
-	let requestBodyInspect;
 	let requestHeader;
 	let requestQuery = discordWebhookQuery.toString();
 	if (method === "form") {
-		const FormData = (await import("form-data")).default;
-		const utility = (await import("util")).default;
 		requestBody = new FormData();
 		if (files.length > 0) {
 			payload.attachments = [];
@@ -324,30 +308,17 @@ try {
 			}
 		}
 		requestBody.append("payload_json", JSON.stringify(payload));
-		requestBodyInspect = utility.inspect(
-			requestBody,
-			{
-				breakLength: Infinity,
-				colors: true,
-				compact: false,
-				depth: Infinity,
-				maxArrayLength: Infinity,
-				showHidden: false
-			}
-		);
 		requestHeader = {
 			...requestBody.getHeaders(),
 			"User-Agent": requestUserAgent
 		};
 	} else {
 		requestBody = payloadStringify;
-		requestBodyInspect = payloadStringify;
 		requestHeader = {
 			"Content-Type": "application/json",
 			"User-Agent": requestUserAgent
 		};
 	}
-	console.log(`${chalk.bold("Payload:")} ${requestBodyInspect}`);
 	ghactionsEndGroup();
 	ghactionsStartGroup(`Post network request to Discord.`);
 	let response = await nodeFetch(
