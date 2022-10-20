@@ -265,7 +265,21 @@ When this input is `"json"`, and input [`files`](#files) is defined, will throw 
 
 ### 📤 Output
 
-*N/A*
+#### `response`
+
+`<string>` Response content.
+
+#### `status_code`
+
+`<number>` Request status code.
+
+#### `status_ok`
+
+`<boolean>` Whether the request was successful.
+
+#### `status_text`
+
+`<string>` Request status text.
 
 ### Example
 
