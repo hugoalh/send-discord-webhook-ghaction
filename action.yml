@@ -16,15 +16,19 @@ inputs:
     description: "{string[]} Files as attachments."
     required: false
     default: "[]"
-  threadid:
-    description: "{string} Thread ID; Send to the specified thread within a webhook's channel."
-    required: false
   wait:
     description: "{boolean} Whether to wait for Discord confirmation of message send before response."
     required: false
     default: "false"
+  thread_type:
+    description: "{string} Thread type; Send to the specified thread within a webhook's channel."
+    required: false
+    default: "none"
+  thread_value:
+    description: "{string} Thread value."
+    required: false
   truncate_enable:
-    description: "{boolean} Whether to try truncate firstly when input `payload` is too large."
+    description: "{boolean} Whether to try truncate firstly when inputs are too large."
     required: false
     default: "true"
   truncate_ellipsis:
@@ -35,6 +39,10 @@ inputs:
     description: "{string} Ellipsis position."
     required: false
     default: "end"
+  threadid:
+    description: "{string} Thread ID; Send to the specified thread within a webhook's channel."
+    required: false
+    deprecationMessage: "This input is replaced by `thread_type` and `thread_value`."
 runs:
   using: "node16"
   main: "dist/main.js"

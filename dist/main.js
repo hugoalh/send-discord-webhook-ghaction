@@ -37644,23 +37644,10 @@ try {
 	(0,_actions_core__WEBPACK_IMPORTED_MODULE_4__.startGroup)(`Import inputs.`);
 	let keyRaw = (0,_actions_core__WEBPACK_IMPORTED_MODULE_4__.getInput)("key");
 	if (!(0,_hugoalh_advanced_determine__WEBPACK_IMPORTED_MODULE_6__/* .isString */ .HD)(keyRaw, { pattern: discordWebhookURLRegExp })) {
-		throw new TypeError(`Input \`key\` must be type of string (non-empty)!`);
+		throw new TypeError(`Input \`key\` must be type of string (non-empty); Or this is not a valid Discord key!`);
 	}
 	let key = keyRaw.match(discordWebhookURLRegExp).groups.key;
 	(0,_actions_core__WEBPACK_IMPORTED_MODULE_4__.setSecret)(key);
-	let threadID = (0,_actions_core__WEBPACK_IMPORTED_MODULE_4__.getInput)("threadid");
-	if ((0,_hugoalh_advanced_determine__WEBPACK_IMPORTED_MODULE_6__/* .isString */ .HD)(threadID, { pattern: /^\d+$/u })) {
-		(0,_actions_core__WEBPACK_IMPORTED_MODULE_4__.setSecret)(threadID);
-		discordWebhookQuery.set("thread_id", threadID);
-	}
-	let wait = (0,_actions_core__WEBPACK_IMPORTED_MODULE_4__.getBooleanInput)("wait");
-	if (typeof wait !== "boolean") {
-		throw new TypeError(`Input \`wait\` must be type of boolean!`);
-	}
-	if (wait) {
-		discordWebhookQuery.set("wait", "true");
-	}
-	console.log(`${chalk.bold("Wait:")} ${wait}`);
 	let truncateEnable = (0,_actions_core__WEBPACK_IMPORTED_MODULE_4__.getBooleanInput)("truncate_enable");
 	if (typeof truncateEnable !== "boolean") {
 		throw new TypeError(`Input \`truncate_enable\` must be type of boolean!`);
@@ -37880,6 +37867,68 @@ try {
 		(method === "json" && files.length > 0)
 	) {
 		throw new Error(`\`${method}\` is not a valid method!`);
+	}
+	let wait = (0,_actions_core__WEBPACK_IMPORTED_MODULE_4__.getBooleanInput)("wait");
+	if (typeof wait !== "boolean") {
+		throw new TypeError(`Input \`wait\` must be type of boolean!`);
+	}
+	if (wait) {
+		discordWebhookQuery.set("wait", "true");
+	}
+	console.log(`${chalk.bold("Wait:")} ${wait}`);
+	let threadID = (0,_actions_core__WEBPACK_IMPORTED_MODULE_4__.getInput)("threadid");
+	let threadType = (0,_actions_core__WEBPACK_IMPORTED_MODULE_4__.getInput)("thread_type").toLowerCase();
+	let threadValue = (0,_actions_core__WEBPACK_IMPORTED_MODULE_4__.getInput)("thread_value");
+	if (threadID.length === 0) {
+		if (threadType === "id") {
+			if (!(0,_hugoalh_advanced_determine__WEBPACK_IMPORTED_MODULE_6__/* .isString */ .HD)(threadValue, { pattern: /^\d+$/u })) {
+				throw new TypeError(`Input \`thread_value\` must be type of string; Or this is not a valid thread ID!`);
+			}
+			(0,_actions_core__WEBPACK_IMPORTED_MODULE_4__.setSecret)(threadValue);
+			discordWebhookQuery.set("thread_id", threadValue);
+		} else if (threadType === "name") {
+			if (threadValue.length === 0) {
+				if ((0,_hugoalh_advanced_determine__WEBPACK_IMPORTED_MODULE_6__/* .isString */ .HD)(payload.content, {
+					empty: false,
+					preTrim: true
+				})) {
+					threadValue = (0,_hugoalh_more_method__WEBPACK_IMPORTED_MODULE_8__/* .stringOverflow */ .Fp)(payload.content.trim().replace(/\r?\n/gu, " "), 100, stringOverflowOption);
+				} else if ((0,_hugoalh_advanced_determine__WEBPACK_IMPORTED_MODULE_6__/* .isArray */ .kJ)(payload.embeds, {
+					maximumLength: 1,
+					minimumLength: 1
+				}) && (0,_hugoalh_advanced_determine__WEBPACK_IMPORTED_MODULE_6__/* .isString */ .HD)(payload.embeds[0].title, {
+					empty: false,
+					preTrim: true
+				})) {
+					threadValue = (0,_hugoalh_more_method__WEBPACK_IMPORTED_MODULE_8__/* .stringOverflow */ .Fp)(payload.embeds[0].title.trim().replace(/\r?\n/gu, " "), 100, stringOverflowOption);
+				} else if ((0,_hugoalh_advanced_determine__WEBPACK_IMPORTED_MODULE_6__/* .isArray */ .kJ)(payload.embeds, {
+					maximumLength: 1,
+					minimumLength: 1
+				}) && (0,_hugoalh_advanced_determine__WEBPACK_IMPORTED_MODULE_6__/* .isString */ .HD)(payload.embeds[0].description, {
+					empty: false,
+					preTrim: true
+				})) {
+					threadValue = (0,_hugoalh_more_method__WEBPACK_IMPORTED_MODULE_8__/* .stringOverflow */ .Fp)(payload.embeds[0].description.trim().replace(/\r?\n/gu, " "), 100, stringOverflowOption);
+				} else {
+					threadValue = `Send Discord Webhook - ${new Date().toISOString().replace(/\.000Z$/gu, "Z")}`;
+				}
+			} else if (threadValue.length > 100) {
+				if (!truncateEnable) {
+					throw new Error(`Input \`thread_value\` is too large!`);
+				}
+				threadValue = (0,_hugoalh_more_method__WEBPACK_IMPORTED_MODULE_8__/* .stringOverflow */ .Fp)(threadValue, 100, stringOverflowOption);
+			}
+			payload.thread_name = threadValue;
+			console.log(`${chalk.bold("Thread Name:")} ${threadValue}`);
+		} else if (threadType !== "none") {
+			throw new TypeError(`\`${threadType}\` is not a valid thread type!`);
+		}
+	} else {
+		if (!(0,_hugoalh_advanced_determine__WEBPACK_IMPORTED_MODULE_6__/* .isString */ .HD)(threadID, { pattern: /^\d+$/u })) {
+			throw new TypeError(`Input \`threadid\` must be type of string or undefined; Or this is not a valid thread ID!`);
+		}
+		(0,_actions_core__WEBPACK_IMPORTED_MODULE_4__.setSecret)(threadID);
+		discordWebhookQuery.set("thread_id", threadID);
 	}
 	let requestBody;
 	let requestHeader;

@@ -53,23 +53,10 @@ try {
 	ghactionsStartGroup(`Import inputs.`);
 	let keyRaw = ghactionsGetInput("key");
 	if (!adIsString(keyRaw, { pattern: discordWebhookURLRegExp })) {
-		throw new TypeError(`Input \`key\` must be type of string (non-empty)!`);
+		throw new TypeError(`Input \`key\` must be type of string (non-empty); Or this is not a valid Discord key!`);
 	}
 	let key = keyRaw.match(discordWebhookURLRegExp).groups.key;
 	ghactionsSetSecret(key);
-	let threadID = ghactionsGetInput("threadid");
-	if (adIsString(threadID, { pattern: /^\d+$/u })) {
-		ghactionsSetSecret(threadID);
-		discordWebhookQuery.set("thread_id", threadID);
-	}
-	let wait = ghactionsGetBooleanInput("wait");
-	if (typeof wait !== "boolean") {
-		throw new TypeError(`Input \`wait\` must be type of boolean!`);
-	}
-	if (wait) {
-		discordWebhookQuery.set("wait", "true");
-	}
-	console.log(`${chalk.bold("Wait:")} ${wait}`);
 	let truncateEnable = ghactionsGetBooleanInput("truncate_enable");
 	if (typeof truncateEnable !== "boolean") {
 		throw new TypeError(`Input \`truncate_enable\` must be type of boolean!`);
@@ -289,6 +276,68 @@ try {
 		(method === "json" && files.length > 0)
 	) {
 		throw new Error(`\`${method}\` is not a valid method!`);
+	}
+	let wait = ghactionsGetBooleanInput("wait");
+	if (typeof wait !== "boolean") {
+		throw new TypeError(`Input \`wait\` must be type of boolean!`);
+	}
+	if (wait) {
+		discordWebhookQuery.set("wait", "true");
+	}
+	console.log(`${chalk.bold("Wait:")} ${wait}`);
+	let threadID = ghactionsGetInput("threadid");
+	let threadType = ghactionsGetInput("thread_type").toLowerCase();
+	let threadValue = ghactionsGetInput("thread_value");
+	if (threadID.length === 0) {
+		if (threadType === "id") {
+			if (!adIsString(threadValue, { pattern: /^\d+$/u })) {
+				throw new TypeError(`Input \`thread_value\` must be type of string; Or this is not a valid thread ID!`);
+			}
+			ghactionsSetSecret(threadValue);
+			discordWebhookQuery.set("thread_id", threadValue);
+		} else if (threadType === "name") {
+			if (threadValue.length === 0) {
+				if (adIsString(payload.content, {
+					empty: false,
+					preTrim: true
+				})) {
+					threadValue = stringOverflow(payload.content.trim().replace(/\r?\n/gu, " "), 100, stringOverflowOption);
+				} else if (adIsArray(payload.embeds, {
+					maximumLength: 1,
+					minimumLength: 1
+				}) && adIsString(payload.embeds[0].title, {
+					empty: false,
+					preTrim: true
+				})) {
+					threadValue = stringOverflow(payload.embeds[0].title.trim().replace(/\r?\n/gu, " "), 100, stringOverflowOption);
+				} else if (adIsArray(payload.embeds, {
+					maximumLength: 1,
+					minimumLength: 1
+				}) && adIsString(payload.embeds[0].description, {
+					empty: false,
+					preTrim: true
+				})) {
+					threadValue = stringOverflow(payload.embeds[0].description.trim().replace(/\r?\n/gu, " "), 100, stringOverflowOption);
+				} else {
+					threadValue = `Send Discord Webhook - ${new Date().toISOString().replace(/\.000Z$/gu, "Z")}`;
+				}
+			} else if (threadValue.length > 100) {
+				if (!truncateEnable) {
+					throw new Error(`Input \`thread_value\` is too large!`);
+				}
+				threadValue = stringOverflow(threadValue, 100, stringOverflowOption);
+			}
+			payload.thread_name = threadValue;
+			console.log(`${chalk.bold("Thread Name:")} ${threadValue}`);
+		} else if (threadType !== "none") {
+			throw new TypeError(`\`${threadType}\` is not a valid thread type!`);
+		}
+	} else {
+		if (!adIsString(threadID, { pattern: /^\d+$/u })) {
+			throw new TypeError(`Input \`threadid\` must be type of string or undefined; Or this is not a valid thread ID!`);
+		}
+		ghactionsSetSecret(threadID);
+		discordWebhookQuery.set("thread_id", threadID);
 	}
 	let requestBody;
 	let requestHeader;

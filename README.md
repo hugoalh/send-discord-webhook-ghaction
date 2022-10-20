@@ -239,17 +239,36 @@ When this input is `"json"`, and input [`files`](#files) is defined, will throw 
 
 **\[Optional\]** `<string[] = []>` Files as attachments, which must be relative paths from GitHub Actions workspace, up to 8 MB and 10 files; At least one of the input [`payload.content`](#content), [`payload.embeds`](#embeds), or [`files`](#files) must be provided.
 
-#### `threadid`
-
-**🔐 \[Optional\]** `<string>` Thread ID; Send to the specified thread within a webhook's channel, the thread will automatically be unarchived.
-
 #### `wait`
 
 **\[Optional\]** `<boolean = false>` Whether to wait for Discord confirmation of message send before response, and returns the created message body. When this input is `false`, a message that is not saved does not return an error.
 
+#### `thread_type`
+
+**\[Optional\]** `<string = "none">` Thread type; Send to the specified thread within a webhook's channel.
+
+- **`"none"`:** Not a thread. When this is defined, will ignore input [`thread_value`](#thread_value).
+- **`"id"`:** A created thread for message channel, the thread will automatically unarchive. When this is defined, input [`thread_value`](#thread_value) is require.
+- **`"name"`:** A new thread for forum channel.
+
+#### `thread_value`
+
+**🔐 \[Optional\]** `<string>` Thread value.
+
+When [`thread_type`](#thread_type) is `"none"`, this is ignored.
+
+When [`thread_type`](#thread_type) is `"id"`, this is require the created thread ID.
+
+When [`thread_type`](#thread_type) is `"name"`, this is the new thread name (i.e.: thread title), up to 100 characters; When not defined, the value will fill with the first available value in this order:
+
+- [`payload.content`](#content)
+- [`payload.embeds[0].title`](#embedstitle) when [`payload.embeds`](#embeds) has only 1 element
+- [`payload.embeds[0].description`](#embedsdescription) when [`payload.embeds`](#embeds) has only 1 element
+- `Send Discord Webhook - {Timestamp}`, `Timestamp` is the current time in ISO 8601 format.
+
 #### `truncate_enable`
 
-**\[Optional\]** `<boolean = true>` Whether to try truncate firstly when input [`payload`](#payload) is too large.
+**\[Optional\]** `<boolean = true>` Whether to try truncate firstly when inputs are too large.
 
 #### `truncate_ellipsis`
 
