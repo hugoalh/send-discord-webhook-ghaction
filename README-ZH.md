@@ -389,5 +389,5 @@ jobs:
 
 #### GitHub Actions
 
-- [啟用調試日誌記錄（英文）](https://docs.github.com/en/actions/managing-workflow-runs/enabling-debug-logging)
-- [已加密的秘密（英文）](https://docs.github.com/en/actions/reference/encrypted-secrets)
+- [啟用調試日誌記錄（英文）](https://docs.github.com/en/actions/monitoring-and-troubleshooting-workflows/enabling-debug-logging)
+- [已加密的秘密（英文）](https://docs.github.com/en/actions/security-guides/encrypted-secrets)

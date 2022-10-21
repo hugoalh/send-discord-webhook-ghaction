@@ -389,5 +389,5 @@ jobs:
 
 #### GitHub Actions
 
-- [Enabling debug logging](https://docs.github.com/en/actions/managing-workflow-runs/enabling-debug-logging)
-- [Encrypted secrets](https://docs.github.com/en/actions/reference/encrypted-secrets)
+- [Enabling debug logging](https://docs.github.com/en/actions/monitoring-and-troubleshooting-workflows/enabling-debug-logging)
+- [Encrypted secrets](https://docs.github.com/en/actions/security-guides/encrypted-secrets)
