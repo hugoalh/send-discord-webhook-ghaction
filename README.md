@@ -253,18 +253,15 @@ When this input is `"json"`, and input [`files`](#files) is defined, will throw 
 
 #### `thread_value`
 
-**🔐 \[Optional\]** `<string>` Thread value.
+**🔐 \[Optional\]** `<string>` Thread value. When [`thread_type`](#thread_type) is:
 
-When [`thread_type`](#thread_type) is `"none"`, this is ignored.
-
-When [`thread_type`](#thread_type) is `"id"`, this is require the created thread ID.
-
-When [`thread_type`](#thread_type) is `"name"`, this is the new thread name (i.e.: thread title), up to 100 characters; When not defined, the value will fill with the first available value in this order:
-
-- [`payload.content`](#content)
-- [`payload.embeds[0].title`](#embedstitle) when [`payload.embeds`](#embeds) has only 1 element
-- [`payload.embeds[0].description`](#embedsdescription) when [`payload.embeds`](#embeds) has only 1 element
-- `Send Discord Webhook - {Timestamp}`, `Timestamp` is the current time in ISO 8601 format.
+- `"none"`, this is ignored.
+- `"id"`, this is require the created thread ID.
+- `"name"`, this is the new thread name (i.e.: thread title), up to 100 characters; When not defined, the value will fill with the first available value in this order:
+  - [`payload.content`](#content)
+  - [`payload.embeds[0].title`](#embedstitle) when [`payload.embeds`](#embeds) has only 1 element
+  - [`payload.embeds[0].description`](#embedsdescription) when [`payload.embeds`](#embeds) has only 1 element
+  - `Send Discord Webhook - {Timestamp}`, `Timestamp` is the current time in ISO 8601 format.
 
 #### `truncate_enable`
 
