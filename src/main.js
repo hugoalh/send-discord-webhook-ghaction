@@ -53,7 +53,7 @@ try {
 	ghactionsStartGroup(`Import inputs.`);
 	let keyRaw = ghactionsGetInput("key");
 	if (!adIsString(keyRaw, { pattern: discordWebhookURLRegExp })) {
-		throw new TypeError(`Input \`key\` must be type of string (non-empty); Or this is not a valid Discord key!`);
+		throw new TypeError(`Input \`key\` is not a valid Discord webhook key!`);
 	}
 	let key = keyRaw.match(discordWebhookURLRegExp).groups.key;
 	ghactionsSetSecret(key);
@@ -291,7 +291,7 @@ try {
 	if (threadID.length === 0) {
 		if (threadType === "id") {
 			if (!adIsString(threadValue, { pattern: /^\d+$/u })) {
-				throw new TypeError(`Input \`thread_value\` must be type of string; Or this is not a valid thread ID!`);
+				throw new TypeError(`Input \`thread_value\` is not a valid thread ID!`);
 			}
 			ghactionsSetSecret(threadValue);
 			discordWebhookQuery.set("thread_id", threadValue);
@@ -334,7 +334,7 @@ try {
 		}
 	} else {
 		if (!adIsString(threadID, { pattern: /^\d+$/u })) {
-			throw new TypeError(`Input \`threadid\` must be type of string or undefined; Or this is not a valid thread ID!`);
+			throw new TypeError(`Input \`threadid\` is not a valid thread ID!`);
 		}
 		ghactionsSetSecret(threadID);
 		discordWebhookQuery.set("thread_id", threadID);

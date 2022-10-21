@@ -37644,7 +37644,7 @@ try {
 	(0,_actions_core__WEBPACK_IMPORTED_MODULE_4__.startGroup)(`Import inputs.`);
 	let keyRaw = (0,_actions_core__WEBPACK_IMPORTED_MODULE_4__.getInput)("key");
 	if (!(0,_hugoalh_advanced_determine__WEBPACK_IMPORTED_MODULE_6__/* .isString */ .HD)(keyRaw, { pattern: discordWebhookURLRegExp })) {
-		throw new TypeError(`Input \`key\` must be type of string (non-empty); Or this is not a valid Discord key!`);
+		throw new TypeError(`Input \`key\` is not a valid Discord webhook key!`);
 	}
 	let key = keyRaw.match(discordWebhookURLRegExp).groups.key;
 	(0,_actions_core__WEBPACK_IMPORTED_MODULE_4__.setSecret)(key);
@@ -37882,7 +37882,7 @@ try {
 	if (threadID.length === 0) {
 		if (threadType === "id") {
 			if (!(0,_hugoalh_advanced_determine__WEBPACK_IMPORTED_MODULE_6__/* .isString */ .HD)(threadValue, { pattern: /^\d+$/u })) {
-				throw new TypeError(`Input \`thread_value\` must be type of string; Or this is not a valid thread ID!`);
+				throw new TypeError(`Input \`thread_value\` is not a valid thread ID!`);
 			}
 			(0,_actions_core__WEBPACK_IMPORTED_MODULE_4__.setSecret)(threadValue);
 			discordWebhookQuery.set("thread_id", threadValue);
@@ -37925,7 +37925,7 @@ try {
 		}
 	} else {
 		if (!(0,_hugoalh_advanced_determine__WEBPACK_IMPORTED_MODULE_6__/* .isString */ .HD)(threadID, { pattern: /^\d+$/u })) {
-			throw new TypeError(`Input \`threadid\` must be type of string or undefined; Or this is not a valid thread ID!`);
+			throw new TypeError(`Input \`threadid\` is not a valid thread ID!`);
 		}
 		(0,_actions_core__WEBPACK_IMPORTED_MODULE_4__.setSecret)(threadID);
 		discordWebhookQuery.set("thread_id", threadID);
