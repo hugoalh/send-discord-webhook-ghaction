@@ -19,7 +19,6 @@ try {
 	const ghactionsActionDirectory = pathJoin(dirname(fileURLToPath(import.meta.url)), "../");
 	const ghactionsWorkspaceDirectory = process.env.GITHUB_WORKSPACE;
 	const chalk = new Chalk({ level: 3 });
-	const requestUserAgent = `SendDiscordWebhook.GitHubAction/5.0.0 NodeJS/${process.versions.node}`;
 	const discordWebhookQuery = new URLSearchParams();
 	const discordWebhookURLRegExp = /^(?:https:\/\/(?:canary\.)?discord(?:app)?\.com\/api\/webhooks\/)?(?<key>\d+\/(?:[\da-zA-Z][\da-zA-Z_-]*)?[\da-zA-Z])$/u;
 	const ajv = new Ajv2020({
@@ -339,8 +338,12 @@ try {
 		ghactionsSetSecret(threadID);
 		discordWebhookQuery.set("thread_id", threadID);
 	}
+	ghactionsEndGroup();
+	ghactionsStartGroup(`Post network request to Discord.`);
 	let requestBody;
-	let requestHeader;
+	let requestHeaders = {
+		"User-Agent": `SendDiscordWebhook.GitHubAction/5.0.0 NodeJS/${process.versions.node}`
+	};
 	let requestQuery = discordWebhookQuery.toString();
 	if (method === "form") {
 		requestBody = new FormData();
@@ -357,29 +360,26 @@ try {
 			}
 		}
 		requestBody.append("payload_json", JSON.stringify(payload));
-		requestHeader = {
+		requestHeaders = {
 			...requestBody.getHeaders(),
-			"User-Agent": requestUserAgent
+			...requestHeaders
 		};
 	} else {
 		requestBody = payloadStringify;
-		requestHeader = {
+		requestHeaders = {
 			"Content-Type": "application/json",
-			"User-Agent": requestUserAgent
+			...requestHeaders
 		};
 	}
-	ghactionsEndGroup();
-	ghactionsStartGroup(`Post network request to Discord.`);
-	let response = await nodeFetch(
-		`https://discord.com/api/webhooks/${key}${(requestQuery.length > 0) ? `?${requestQuery}` : ""}`,
-		{
-			body: requestBody,
-			follow: 1,
-			headers: requestHeader,
-			method: "POST",
-			redirect: "follow"
-		}
-	);
+	let response = await nodeFetch(`https://discord.com/api/webhooks/${key}${(requestQuery.length > 0) ? `?${requestQuery}` : ""}`, {
+		body: requestBody,
+		follow: 1,
+		headers: requestHeaders,
+		method: "POST",
+		redirect: "follow"
+	}).catch((reason) => {
+		throw new Error(`Unexpected web request issue: ${reason?.message}`);
+	});
 	let responseText = await response.text();
 	ghactionsSetOutput("response", responseText);
 	ghactionsSetOutput("status_code", response.status);

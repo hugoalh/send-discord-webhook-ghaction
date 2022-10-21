@@ -37610,7 +37610,6 @@ try {
 	const ghactionsActionDirectory = (0,node_path__WEBPACK_IMPORTED_MODULE_1__.join)((0,node_path__WEBPACK_IMPORTED_MODULE_1__.dirname)((0,node_url__WEBPACK_IMPORTED_MODULE_5__.fileURLToPath)(import.meta.url)), "../");
 	const ghactionsWorkspaceDirectory = process.env.GITHUB_WORKSPACE;
 	const chalk = new chalk__WEBPACK_IMPORTED_MODULE_2__/* .Chalk */ .cX({ level: 3 });
-	const requestUserAgent = `SendDiscordWebhook.GitHubAction/5.0.0 NodeJS/${process.versions.node}`;
 	const discordWebhookQuery = new node_url__WEBPACK_IMPORTED_MODULE_5__.URLSearchParams();
 	const discordWebhookURLRegExp = /^(?:https:\/\/(?:canary\.)?discord(?:app)?\.com\/api\/webhooks\/)?(?<key>\d+\/(?:[\da-zA-Z][\da-zA-Z_-]*)?[\da-zA-Z])$/u;
 	const ajv = new ajv_dist_2020_js__WEBPACK_IMPORTED_MODULE_9__({
@@ -37930,8 +37929,12 @@ try {
 		(0,_actions_core__WEBPACK_IMPORTED_MODULE_4__.setSecret)(threadID);
 		discordWebhookQuery.set("thread_id", threadID);
 	}
+	(0,_actions_core__WEBPACK_IMPORTED_MODULE_4__.endGroup)();
+	(0,_actions_core__WEBPACK_IMPORTED_MODULE_4__.startGroup)(`Post network request to Discord.`);
 	let requestBody;
-	let requestHeader;
+	let requestHeaders = {
+		"User-Agent": `SendDiscordWebhook.GitHubAction/5.0.0 NodeJS/${process.versions.node}`
+	};
 	let requestQuery = discordWebhookQuery.toString();
 	if (method === "form") {
 		requestBody = new form_data__WEBPACK_IMPORTED_MODULE_13__();
@@ -37948,29 +37951,26 @@ try {
 			}
 		}
 		requestBody.append("payload_json", JSON.stringify(payload));
-		requestHeader = {
+		requestHeaders = {
 			...requestBody.getHeaders(),
-			"User-Agent": requestUserAgent
+			...requestHeaders
 		};
 	} else {
 		requestBody = payloadStringify;
-		requestHeader = {
+		requestHeaders = {
 			"Content-Type": "application/json",
-			"User-Agent": requestUserAgent
+			...requestHeaders
 		};
 	}
-	(0,_actions_core__WEBPACK_IMPORTED_MODULE_4__.endGroup)();
-	(0,_actions_core__WEBPACK_IMPORTED_MODULE_4__.startGroup)(`Post network request to Discord.`);
-	let response = await (0,node_fetch__WEBPACK_IMPORTED_MODULE_16__/* ["default"] */ .ZP)(
-		`https://discord.com/api/webhooks/${key}${(requestQuery.length > 0) ? `?${requestQuery}` : ""}`,
-		{
-			body: requestBody,
-			follow: 1,
-			headers: requestHeader,
-			method: "POST",
-			redirect: "follow"
-		}
-	);
+	let response = await (0,node_fetch__WEBPACK_IMPORTED_MODULE_16__/* ["default"] */ .ZP)(`https://discord.com/api/webhooks/${key}${(requestQuery.length > 0) ? `?${requestQuery}` : ""}`, {
+		body: requestBody,
+		follow: 1,
+		headers: requestHeaders,
+		method: "POST",
+		redirect: "follow"
+	}).catch((reason) => {
+		throw new Error(`Unexpected web request issue: ${reason?.message}`);
+	});
 	let responseText = await response.text();
 	(0,_actions_core__WEBPACK_IMPORTED_MODULE_4__.setOutput)("response", responseText);
 	(0,_actions_core__WEBPACK_IMPORTED_MODULE_4__.setOutput)("status_code", response.status);
