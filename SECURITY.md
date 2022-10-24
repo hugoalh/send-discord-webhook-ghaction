@@ -14,8 +14,8 @@
 | **Releases / Tags / Versions** | **Status** | **Target - GitHub Actions Runner** | **Target - Docker** | **Target - NodeJS** | **Target - NPM** |
 |:-:|:-:|:-:|:-:|:-:|:-:|
 | v5.0.X | L | >= v2.297.0 | *N/A* | ^ v16.13.0 | *N/A* |
-| v4.2.X | ✔ | *N/A* | Latest Release | >= v14.15.0 | >= v6.14.8 |
-| v4.1.X | 👎{🧓} | *N/A* | Latest Release | >= v14.15.0 | >= v6.14.8 |
+| v4.2.X | 👎{🧓} | *N/A* | Latest Release | >= v14.15.0 | >= v6.14.8 |
+| v4.1.X | ❌{🧓} | *N/A* | Latest Release | >= v14.15.0 | >= v6.14.8 |
 | v4.0.X | ❌{🧓} | *N/A* | Latest Release | >= v14.15.0 | >= v6.14.8 |
 | < v4.0.0 | ❌{🐛🧓} | *N/A* | *N/A* | <= v12.13.0 | <= v6.12.0 |
 
