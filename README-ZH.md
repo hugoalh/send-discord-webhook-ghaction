@@ -69,11 +69,11 @@ https://discordapp.com/api/webhooks/70971114/ueyzeWxB_8bb1zMhL  ⬅長（舊）
 
 #### `method`
 
-<b>［選擇性］</b>`<字串>` Method to send.
+<b>［選擇性］</b>`<字串>` 發送方式。
 
-- **Default:** Let this action automatically determine the best method.
-- **`"form"`:** Use `multipart/form-data`.
-- **`"json"`:** Use `application/json`.
+- <b>預設：</b>Let this action automatically determine the best method.
+- <b>`"form"`：</b>Use `multipart/form-data`.
+- <b>`"json"`：</b>Use `application/json`.
 
 When this input is not defined, and input `files` is:
 
@@ -84,7 +84,7 @@ When this input is `"json"`, and input `files` is defined, will throw an error.
 
 #### `payload`
 
-<b>［選擇性］</b>`<物件 = {}>` JSON/YAML/YML payload, which restricted format and pattern; At least one of the input [`payload.content`](#content), [`payload.embeds`](#embeds), or [`files`](#files) must be provided. View the JSON payload template in [here](./discord-webhook-payload-template.json).
+<b>［選擇性］</b>`<物件 = {}>` JSON/YAML/YML負載, which restricted format and pattern; At least one of the input [`payload.content`](#content), [`payload.embeds`](#embeds), or [`files`](#files) must be provided. View the JSON payload template in [here](./discord-webhook-payload-template.json).
 
 > <b>⚠ 重要：</b>Properties which have not listed in here or in the template are not supported.
 
@@ -92,11 +92,11 @@ When this input is `"json"`, and input `files` is defined, will throw an error.
 
 ##### `content`
 
-<b>［選擇性］</b>`<字串>` The message contents, up to 2000 characters.
+<b>［選擇性］</b>`<字串>` The message contents，上限2000個字元。
 
 ##### `username`
 
-<b>［選擇性］</b>`<字串>` Override the default username of the webhook, up to 80 characters; "Clyde" is not allowed.
+<b>［選擇性］</b>`<字串>` Override the default username of the webhook，上限80個字元；不允許使用「Clyde」。
 
 ##### `avatar_url`
 
@@ -108,7 +108,7 @@ When this input is `"json"`, and input `files` is defined, will throw an error.
 
 ##### `embeds`
 
-<b>［選擇性］</b>`<物件[]>` Embed rich content, up to 10 embeds, and up to 6000 characters for summation of:
+<b>［選擇性］</b>`<物件[]>` Embed rich content，上限10個嵌入，和基於下列輸入的累計上限6000個字元：
 
 - [`embeds[*].title`](#embedstitle)
 - [`embeds[*].description`](#embedsdescription)
@@ -119,23 +119,23 @@ When this input is `"json"`, and input `files` is defined, will throw an error.
 
 ##### `embeds[*].title`
 
-<b>［選擇性］</b>`<字串>` Title of embed, up to 256 characters.
+<b>［選擇性］</b>`<字串>` Title of the embed，上限256個字元。
 
 ##### `embeds[*].description`
 
-<b>［選擇性］</b>`<字串>` Description of embed, up to 4096 characters.
+<b>［選擇性］</b>`<字串>` Description of the embed，上限4096個字元。
 
 ##### `embeds[*].url`
 
-<b>［選擇性］</b>`<字串>` URL of embed.
+<b>［選擇性］</b>`<字串>` URL of the embed.
 
 ##### `embeds[*].timestamp`
 
-<b>［選擇性］</b>`<字串>` Timestamp of embed, with format ISO 8601 (e.g.: `"2011-11-11T11:11:11Z"`).
+<b>［選擇性］</b>`<字串>` Timestamp of the embed, with format ISO 8601 (e.g.: `"2011-11-11T11:11:11Z"`).
 
 ##### `embeds[*].color`
 
-<b>［選擇性］</b>`<數字 | 字串 = 2105893>` Color of embed (i.e.: left border's color of embed); RGB integer, Hex (with prefix `#` (sharp)), namespaced string, and CSS colors string (e.g.: `"rgb(32, 34, 37)"`) forms are acceptable. Exclusive namespaced strings:
+<b>［選擇性］</b>`<數字 | 字串 = 2105893>` Color of the embed (i.e.: left border's color of the embed); RGB integer, Hex (with prefix `#` (sharp)), namespaced string, and CSS colors string (e.g.: `"rgb(32, 34, 37)"`) forms are acceptable. Exclusive namespaced strings:
 
 |  | **Namespace** | **Value** | **Description** |
 |:-:|:-:|:-:|:--|
@@ -151,43 +151,43 @@ When this input is `"json"`, and input `files` is defined, will throw an error.
 > **💡 Hint:**
 >
 > - Alpha channel is not supported.
-> - Namespaced string maybe change and/or remove without any notification, use value instead except you want it random.
+> - Namespaced strings are provided by [`meodai/color-names`](https://github.com/meodai/color-names), maybe change and/or remove without any notification, use value instead except you want a random color.
 
 ##### `embeds[*].footer`
 
-<b>［選擇性］</b>`<物件>` Footer of embed.
+<b>［選擇性］</b>`<物件>` Footer of the embed.
 
 ##### `embeds[*].footer.text`
 
-<b>［選擇性］</b>`<字串>` Footer text, up to 2048 characters.
+<b>［選擇性］</b>`<字串>` Footer text，上限2048個字元。
 
 ##### `embeds[*].footer.icon_url`
 
-<b>［選擇性］</b>`<字串>` URL of footer icon, only supports HTTP, HTTPS, and attachments.
+<b>［選擇性］</b>`<字串>` URL of footer icon，只支持HTTP、HTTPS，和附件。
 
 ##### `embeds[*].image`
 
-<b>［選擇性］</b>`<物件>` Image of embed.
+<b>［選擇性］</b>`<物件>` Image of the embed.
 
 ##### `embeds[*].image.url`
 
-<b>［選擇性］</b>`<字串>` Source URL of image, only supports HTTP, HTTPS, and attachments.
+<b>［選擇性］</b>`<字串>` Source URL of image，只支持HTTP、HTTPS，和附件。
 
 ##### `embeds[*].thumbnail`
 
-<b>［選擇性］</b>`<物件>` Thumbnail of embed.
+<b>［選擇性］</b>`<物件>` Thumbnail of the embed.
 
 ##### `embeds[*].thumbnail.url`
 
-<b>［選擇性］</b>`<字串>` Source URL of thumbnail, only supports HTTP, HTTPS, and attachments.
+<b>［選擇性］</b>`<字串>` Source URL of thumbnail，只支持HTTP、HTTPS，和附件。
 
 ##### `embeds[*].author`
 
-<b>［選擇性］</b>`<物件>` Author of embed.
+<b>［選擇性］</b>`<物件>` Author of the embed.
 
 ##### `embeds[*].author.name`
 
-<b>［選擇性］</b>`<字串>` Name of author, up to 256 characters.
+<b>［選擇性］</b>`<字串>` Name of author，上限256個字元。
 
 ##### `embeds[*].author.url`
 
@@ -195,19 +195,19 @@ When this input is `"json"`, and input `files` is defined, will throw an error.
 
 ##### `embeds[*].author.icon_url`
 
-<b>［選擇性］</b>`<字串>` URL of author icon, only supports HTTP, HTTPS, and attachments.
+<b>［選擇性］</b>`<字串>` URL of author icon，只支持HTTP、HTTPS，和附件。
 
 ##### `embeds[*].fields`
 
-<b>［選擇性］</b>`<物件[]>` Fields of embed, up to 25 fields.
+<b>［選擇性］</b>`<物件[]>` Fields of the embed，上限25個字段。
 
 ##### `embeds[*].fields[*].name`
 
-<b>［選擇性］</b>`<字串>` Name of field, up to 256 characters.
+<b>［選擇性］</b>`<字串>` Name of field，上限256個字元。
 
 ##### `embeds[*].fields[*].value`
 
-<b>［選擇性］</b>`<字串>` Value of field, up to 1024 characters.
+<b>［選擇性］</b>`<字串>` Value of field，上限1024個字元。
 
 ##### `embeds[*].fields[*].inline`
 
@@ -227,17 +227,17 @@ When this input is `"json"`, and input `files` is defined, will throw an error.
 
 ##### `allowed_mentions.roles`
 
-<b>［選擇性］</b>`<字串[]>` Roles ID to mention, up to 100 IDs.
+<b>［選擇性］</b>`<字串[]>` Roles ID to mention，上限100個ID。
 
 ##### `allowed_mentions.users`
 
-<b>［選擇性］</b>`<字串[]>` Users ID to mention, up to 100 IDs.
+<b>［選擇性］</b>`<字串[]>` Users ID to mention，上限100個ID。
 
 </details>
 
 #### `files`
 
-<b>［選擇性］</b>`<字串[] = []>` Files as attachments, which must be relative paths from GitHub Actions workspace, up to 8 MB and 10 files; At least one of the input [`payload.content`](#content), [`payload.embeds`](#embeds), or [`files`](#files) must be provided.
+<b>［選擇性］</b>`<字串[] = []>` Files as attachments, which must be relative paths from GitHub Actions workspace，上限8 MB和10個檔案；At least one of the input [`payload.content`](#content), [`payload.embeds`](#embeds), or [`files`](#files) must be provided.
 
 #### `wait`
 
@@ -257,7 +257,7 @@ When this input is `"json"`, and input `files` is defined, will throw an error.
 
 - `"none"`, this is ignored.
 - `"id"`, this is require the created thread ID.
-- `"name"`, this is the new thread name (i.e.: thread title), up to 100 characters; When not defined, the value will fill with the first available value in this order:
+- `"name"`, this is the new thread name (i.e.: thread title)，上限100個字元；When not defined, the value will fill with the first available value in this order:
   - [`payload.content`](#content)
   - [`payload.embeds[0].title`](#embedstitle) when [`payload.embeds`](#embeds) has only 1 element
   - [`payload.embeds[0].description`](#embedsdescription) when [`payload.embeds`](#embeds) has only 1 element

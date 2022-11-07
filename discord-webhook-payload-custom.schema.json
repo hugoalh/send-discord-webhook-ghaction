@@ -91,31 +91,31 @@
 				"properties": {
 					"title": {
 						"title": "Embed Title",
-						"description": "Title of embed, up to 256 characters.",
+						"description": "Title of the embed, up to 256 characters.",
 						"type": "string",
 						"maxLength": 256
 					},
 					"description": {
 						"title": "Embed Description",
-						"description": "Description of embed, up to 4096 characters.",
+						"description": "Description of the embed, up to 4096 characters.",
 						"type": "string",
 						"maxLength": 4096
 					},
 					"url": {
 						"title": "Embed URL",
-						"description": "URL of embed.",
+						"description": "URL of the embed.",
 						"type": "string",
 						"format": "iri"
 					},
 					"timestamp": {
 						"title": "Embed Timestamp",
-						"description": "Timestamp of embed, with format ISO 8601.",
+						"description": "Timestamp of the embed, with format ISO 8601.",
 						"type": "string",
 						"format": "date-time"
 					},
 					"color": {
 						"title": "Embed Color",
-						"description": "Color of embed (i.e.: left border's color of embed).",
+						"description": "Color of the embed (i.e.: left border's color of the embed).",
 						"type": "integer",
 						"minimum": 0,
 						"maximum": 16777215,
@@ -123,7 +123,7 @@
 					},
 					"footer": {
 						"title": "Embed Footer",
-						"description": "Footer of embed.",
+						"description": "Footer of the embed.",
 						"type": "object",
 						"additionalProperties": false,
 						"required": [
@@ -146,7 +146,7 @@
 					},
 					"image": {
 						"title": "Embed Image",
-						"description": "Image of embed.",
+						"description": "Image of the embed.",
 						"type": "object",
 						"additionalProperties": false,
 						"required": [
@@ -163,7 +163,7 @@
 					},
 					"thumbnail": {
 						"title": "Embed Thumbnail",
-						"description": "Thumbnail of embed.",
+						"description": "Thumbnail of the embed.",
 						"type": "object",
 						"additionalProperties": false,
 						"required": [
@@ -180,7 +180,7 @@
 					},
 					"author": {
 						"title": "Embed Author",
-						"description": "Author of embed.",
+						"description": "Author of the embed.",
 						"type": "object",
 						"additionalProperties": false,
 						"required": [
@@ -209,7 +209,7 @@
 					},
 					"fields": {
 						"title": "Embed Fields",
-						"description": "Fields of embed, up to 25 fields.",
+						"description": "Fields of the embed, up to 25 fields.",
 						"type": "array",
 						"items": {
 							"type": "object",

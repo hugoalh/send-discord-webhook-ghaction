@@ -119,23 +119,23 @@ When this input is `"json"`, and input [`files`](#files) is defined, will throw 
 
 ##### `embeds[*].title`
 
-**\[Optional\]** `<string>` Title of embed, up to 256 characters.
+**\[Optional\]** `<string>` Title of the embed, up to 256 characters.
 
 ##### `embeds[*].description`
 
-**\[Optional\]** `<string>` Description of embed, up to 4096 characters.
+**\[Optional\]** `<string>` Description of the embed, up to 4096 characters.
 
 ##### `embeds[*].url`
 
-**\[Optional\]** `<string>` URL of embed.
+**\[Optional\]** `<string>` URL of the embed.
 
 ##### `embeds[*].timestamp`
 
-**\[Optional\]** `<string>` Timestamp of embed, with format ISO 8601 (e.g.: `"2011-11-11T11:11:11Z"`).
+**\[Optional\]** `<string>` Timestamp of the embed, with format ISO 8601 (e.g.: `"2011-11-11T11:11:11Z"`).
 
 ##### `embeds[*].color`
 
-**\[Optional\]** `<number | string = 2105893>` Color of embed (i.e.: left border's color of embed); RGB integer, Hex (with prefix `#` (sharp)), namespaced string, and CSS colors string (e.g.: `"rgb(32, 34, 37)"`) forms are acceptable. Exclusive namespaced strings:
+**\[Optional\]** `<number | string = 2105893>` Color of the embed (i.e.: left border's color of the embed); RGB integer, Hex (with prefix `#` (sharp)), namespaced string, and CSS colors string (e.g.: `"rgb(32, 34, 37)"`) forms are acceptable. Exclusive namespaced strings:
 
 |  | **Namespace** | **Value** | **Description** |
 |:-:|:-:|:-:|:--|
@@ -151,11 +151,11 @@ When this input is `"json"`, and input [`files`](#files) is defined, will throw 
 > **💡 Hint:**
 >
 > - Alpha channel is not supported.
-> - Namespaced string maybe change and/or remove without any notification, use value instead except you want it random.
+> - Namespaced strings are provided by [`meodai/color-names`](https://github.com/meodai/color-names), maybe change and/or remove without any notification, use value instead except you want a random color.
 
 ##### `embeds[*].footer`
 
-**\[Optional\]** `<object>` Footer of embed.
+**\[Optional\]** `<object>` Footer of the embed.
 
 ##### `embeds[*].footer.text`
 
@@ -167,7 +167,7 @@ When this input is `"json"`, and input [`files`](#files) is defined, will throw 
 
 ##### `embeds[*].image`
 
-**\[Optional\]** `<object>` Image of embed.
+**\[Optional\]** `<object>` Image of the embed.
 
 ##### `embeds[*].image.url`
 
@@ -175,7 +175,7 @@ When this input is `"json"`, and input [`files`](#files) is defined, will throw 
 
 ##### `embeds[*].thumbnail`
 
-**\[Optional\]** `<object>` Thumbnail of embed.
+**\[Optional\]** `<object>` Thumbnail of the embed.
 
 ##### `embeds[*].thumbnail.url`
 
@@ -183,7 +183,7 @@ When this input is `"json"`, and input [`files`](#files) is defined, will throw 
 
 ##### `embeds[*].author`
 
-**\[Optional\]** `<object>` Author of embed.
+**\[Optional\]** `<object>` Author of the embed.
 
 ##### `embeds[*].author.name`
 
@@ -199,7 +199,7 @@ When this input is `"json"`, and input [`files`](#files) is defined, will throw 
 
 ##### `embeds[*].fields`
 
-**\[Optional\]** `<object[]>` Fields of embed, up to 25 fields.
+**\[Optional\]** `<object[]>` Fields of the embed, up to 25 fields.
 
 ##### `embeds[*].fields[*].name`
 
