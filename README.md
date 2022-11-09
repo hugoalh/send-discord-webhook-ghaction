@@ -92,7 +92,7 @@ When this input is `"json"`, and input [`files`](#files) is defined, will throw 
 
 ##### `content`
 
-**\[Optional\]** `<string>` The message contents, up to 2000 characters.
+**\[Optional\]** `<string>` Content of the message, up to 2000 characters.
 
 ##### `username`
 
@@ -100,15 +100,15 @@ When this input is `"json"`, and input [`files`](#files) is defined, will throw 
 
 ##### `avatar_url`
 
-**\[Optional\]** `<string>` Override the default avatar of the webhook.
+**\[Optional\]** `<string>` Source URL of the avatar, only supports HTTP and HTTPS; Override the default avatar of the webhook.
 
 ##### `tts`
 
-**\[Optional\]** `<boolean = false>` Use TTS (Text To Speech).
+**\[Optional\]** `<boolean = false>` Whether to use TTS (Text To Speech) for the message.
 
 ##### `embeds`
 
-**\[Optional\]** `<object[]>` Embed rich content, up to 10 embeds, and up to 6000 characters for summation of:
+**\[Optional\]** `<object[]>` Embed rich content for the message, up to 10 embeds and 6000 characters for summation of:
 
 - [`embeds[*].title`](#embedstitle)
 - [`embeds[*].description`](#embedsdescription)
@@ -131,7 +131,7 @@ When this input is `"json"`, and input [`files`](#files) is defined, will throw 
 
 ##### `embeds[*].timestamp`
 
-**\[Optional\]** `<string>` Timestamp of the embed, with format ISO 8601 (e.g.: `"2011-11-11T11:11:11Z"`).
+**\[Optional\]** `<string>` Timestamp of the embed, by ISO 8601 format (e.g.: `"2011-11-11T11:11:11Z"`).
 
 ##### `embeds[*].color`
 
@@ -163,7 +163,7 @@ When this input is `"json"`, and input [`files`](#files) is defined, will throw 
 
 ##### `embeds[*].footer.icon_url`
 
-**\[Optional\]** `<string>` URL of footer icon, only supports HTTP, HTTPS, and attachments.
+**\[Optional\]** `<string>` Source URL of the footer icon, only supports HTTP, HTTPS, and attachments.
 
 ##### `embeds[*].image`
 
@@ -171,7 +171,7 @@ When this input is `"json"`, and input [`files`](#files) is defined, will throw 
 
 ##### `embeds[*].image.url`
 
-**\[Optional\]** `<string>` Source URL of image, only supports HTTP, HTTPS, and attachments.
+**\[Optional\]** `<string>` Source URL of the image, only supports HTTP, HTTPS, and attachments.
 
 ##### `embeds[*].thumbnail`
 
@@ -179,7 +179,7 @@ When this input is `"json"`, and input [`files`](#files) is defined, will throw 
 
 ##### `embeds[*].thumbnail.url`
 
-**\[Optional\]** `<string>` Source URL of thumbnail, only supports HTTP, HTTPS, and attachments.
+**\[Optional\]** `<string>` Source URL of the thumbnail, only supports HTTP, HTTPS, and attachments.
 
 ##### `embeds[*].author`
 
@@ -187,15 +187,15 @@ When this input is `"json"`, and input [`files`](#files) is defined, will throw 
 
 ##### `embeds[*].author.name`
 
-**\[Optional\]** `<string>` Name of author, up to 256 characters.
+**\[Optional\]** `<string>` Author name, up to 256 characters.
 
 ##### `embeds[*].author.url`
 
-**\[Optional\]** `<string>` URL of author.
+**\[Optional\]** `<string>` Author URL.
 
 ##### `embeds[*].author.icon_url`
 
-**\[Optional\]** `<string>` URL of author icon, only supports HTTP, HTTPS, and attachments.
+**\[Optional\]** `<string>` Source URL of the author icon, only supports HTTP, HTTPS, and attachments.
 
 ##### `embeds[*].fields`
 
@@ -203,15 +203,15 @@ When this input is `"json"`, and input [`files`](#files) is defined, will throw 
 
 ##### `embeds[*].fields[*].name`
 
-**\[Optional\]** `<string>` Name of field, up to 256 characters.
+**\[Optional\]** `<string>` Field name, up to 256 characters.
 
 ##### `embeds[*].fields[*].value`
 
-**\[Optional\]** `<string>` Value of field, up to 1024 characters.
+**\[Optional\]** `<string>` Field value, up to 1024 characters.
 
 ##### `embeds[*].fields[*].inline`
 
-**\[Optional\]** `<boolean = false>` Field should display inline or not.
+**\[Optional\]** `<boolean = false>` Whether the field should display inline.
 
 ##### `allowed_mentions`
 
@@ -221,23 +221,23 @@ When this input is `"json"`, and input [`files`](#files) is defined, will throw 
 
 **\[Optional\]** `<string[]>` Allowed mention types to parse from the content.
 
-- **`"roles"`:** Controls role mentions.
-- **`"users"`:** Controls user mentions.
-- **`"everyone"`:** Controls `@everyone` and `@here` mentions.
+- **`"roles"`:** Control roles mentions.
+- **`"users"`:** Control users mentions.
+- **`"everyone"`:** Control `@everyone` and `@here` mentions.
 
 ##### `allowed_mentions.roles`
 
-**\[Optional\]** `<string[]>` Roles ID to mention, up to 100 IDs.
+**\[Optional\]** `<string[]>` Allowed roles' IDs to mention, up to 100 IDs.
 
 ##### `allowed_mentions.users`
 
-**\[Optional\]** `<string[]>` Users ID to mention, up to 100 IDs.
+**\[Optional\]** `<string[]>` Allowed users' IDs to mention, up to 100 IDs.
 
 </details>
 
 #### `files`
 
-**\[Optional\]** `<string[] = []>` Files as attachments, which must be relative paths from GitHub Actions workspace, up to 8 MB and 10 files; At least one of the input [`payload.content`](#content), [`payload.embeds`](#embeds), or [`files`](#files) must be provided.
+**\[Optional\]** `<string[] = []>` Files as attachments of the message, which must be relative paths from GitHub Actions workspace, up to 8 MB and 10 files; At least one of the input [`payload.content`](#content), [`payload.embeds`](#embeds), or [`files`](#files) must be provided.
 
 #### `wait`
 
@@ -245,7 +245,7 @@ When this input is `"json"`, and input [`files`](#files) is defined, will throw 
 
 #### `thread_type`
 
-**\[Optional\]** `<string = "none">` Thread type; Send to the specified thread within a webhook's channel.
+**\[Optional\]** `<string = "none">` Thread type of the message; Send to the specified thread within a webhook's channel.
 
 - **`"none"`:** Not a thread. When this is defined, will ignore input [`thread_value`](#thread_value).
 - **`"id"`:** A created thread for message channel, the thread will automatically unarchive. When this is defined, input [`thread_value`](#thread_value) is require.
@@ -253,7 +253,7 @@ When this input is `"json"`, and input [`files`](#files) is defined, will throw 
 
 #### `thread_value`
 
-**🔐 \[Optional\]** `<string>` Thread value. When [`thread_type`](#thread_type) is:
+**🔐 \[Optional\]** `<string>` Thread value of the message. When [`thread_type`](#thread_type) is:
 
 - `"none"`, this is ignored.
 - `"id"`, this is require the created thread ID.
@@ -269,11 +269,11 @@ When this input is `"json"`, and input [`files`](#files) is defined, will throw 
 
 #### `truncate_ellipsis`
 
-**\[Optional\]** `<string = "...">` Ellipsis.
+**\[Optional\]** `<string = "...">` Mark of the ellipsis.
 
 #### `truncate_position`
 
-**\[Optional\]** `<string = "end">` Ellipsis position.
+**\[Optional\]** `<string = "end">` Position of the ellipsis.
 
 - **`"end"`:** At the end of the string.
 - **`"middle"`:** At the middle of the string.

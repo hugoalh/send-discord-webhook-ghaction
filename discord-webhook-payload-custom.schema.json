@@ -16,7 +16,7 @@
 		},
 		"content": {
 			"title": "Content",
-			"description": "The message contents, up to 2000 characters",
+			"description": "Content of the message, up to 2000 characters",
 			"type": "string",
 			"maxLength": 2000
 		},
@@ -29,19 +29,19 @@
 		},
 		"avatar_url": {
 			"title": "Avatar URL",
-			"description": "Override the default avatar of the webhook.",
+			"description": "Source URL of the avatar, only supports HTTP and HTTPS; Override the default avatar of the webhook.",
 			"type": "string",
 			"format": "iri"
 		},
 		"tts": {
 			"title": "TTS",
-			"description": "Use TTS (Text To Speech).",
+			"description": "Whether to use TTS (Text To Speech) for the message.",
 			"type": "boolean",
 			"default": false
 		},
 		"embeds": {
 			"title": "Embed",
-			"description": "Embed rich content, up to 10 embeds, and up to 6000 characters.",
+			"description": "Embed rich content for the message, up to 10 embeds and 6000 characters.",
 			"type": "array",
 			"items": {
 				"type": "object",
@@ -109,7 +109,7 @@
 					},
 					"timestamp": {
 						"title": "Embed Timestamp",
-						"description": "Timestamp of the embed, with format ISO 8601.",
+						"description": "Timestamp of the embed, by ISO 8601 format.",
 						"type": "string",
 						"format": "date-time"
 					},
@@ -138,7 +138,7 @@
 							},
 							"icon_url": {
 								"title": "Embed Footer Icon URL",
-								"description": "URL of footer icon, only supports HTTP, HTTPS, and attachments.",
+								"description": "Source URL of the footer icon, only supports HTTP, HTTPS, and attachments.",
 								"type": "string",
 								"format": "iri"
 							}
@@ -155,7 +155,7 @@
 						"properties": {
 							"url": {
 								"title": "Embed Image URL",
-								"description": "Source URL of image, only supports HTTP, HTTPS, and attachments.",
+								"description": "Source URL of the image, only supports HTTP, HTTPS, and attachments.",
 								"type": "string",
 								"format": "iri"
 							}
@@ -172,7 +172,7 @@
 						"properties": {
 							"url": {
 								"title": "Embed Thumbnail URL",
-								"description": "Source URL of thumbnail, only supports HTTP, HTTPS, and attachments.",
+								"description": "Source URL of the thumbnail, only supports HTTP, HTTPS, and attachments.",
 								"type": "string",
 								"format": "iri"
 							}
@@ -189,19 +189,19 @@
 						"properties": {
 							"name": {
 								"title": "Embed Author Name",
-								"description": "Name of author, up to 256 characters.",
+								"description": "Author name, up to 256 characters.",
 								"type": "string",
 								"maxLength": 256
 							},
 							"url": {
 								"title": "Embed Author URL",
-								"description": "URL of author.",
+								"description": "Author URL.",
 								"type": "string",
 								"format": "iri"
 							},
 							"icon_url": {
 								"title": "Embed Author Icon URL",
-								"description": "URL of author icon, only supports HTTP, HTTPS, and attachments.",
+								"description": "Source URL of the author icon, only supports HTTP, HTTPS, and attachments.",
 								"type": "string",
 								"format": "iri"
 							}
@@ -220,17 +220,17 @@
 							],
 							"properties": {
 								"name": {
-									"description": "Name of field, up to 256 characters.",
+									"description": "Field name, up to 256 characters.",
 									"type": "string",
 									"maxLength": 256
 								},
 								"value": {
-									"description": "Value of field, up to 1024 characters.",
+									"description": "Field value, up to 1024 characters.",
 									"type": "string",
 									"maxLength": 1024
 								},
 								"inline": {
-									"description": "Field should display inline or not.",
+									"description": "Whether the field should display inline.",
 									"type": "boolean",
 									"default": false
 								}
@@ -264,7 +264,7 @@
 				},
 				"roles": {
 					"title": "Allowed Mentions Roles",
-					"description": "Roles ID to mention.",
+					"description": "Allowed roles' IDs to mention.",
 					"type": "array",
 					"items": {
 						"$ref": "#/$defs/snowflake"
@@ -274,7 +274,7 @@
 				},
 				"users": {
 					"title": "Allowed Mentions Users",
-					"description": "Users ID to mention.",
+					"description": "Allowed users' IDs to mention.",
 					"type": "array",
 					"items": {
 						"$ref": "#/$defs/snowflake"

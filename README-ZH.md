@@ -92,7 +92,7 @@ When this input is `"json"`, and input `files` is defined, will throw an error.
 
 ##### `content`
 
-<b>［選擇性］</b>`<字串>` The message contents，上限2000個字元。
+<b>［選擇性］</b>`<字串>` Content of the message，上限2000個字元。
 
 ##### `username`
 
@@ -100,15 +100,15 @@ When this input is `"json"`, and input `files` is defined, will throw an error.
 
 ##### `avatar_url`
 
-<b>［選擇性］</b>`<字串>` Override the default avatar of the webhook.
+<b>［選擇性］</b>`<字串>` Source URL of the avatar, only supports HTTP and HTTPS; Override the default avatar of the webhook.
 
 ##### `tts`
 
-<b>［選擇性］</b>`<布爾值 = false>` Use TTS (Text To Speech).
+<b>［選擇性］</b>`<布爾值 = false>` Whether to use TTS (Text To Speech) for the message.
 
 ##### `embeds`
 
-<b>［選擇性］</b>`<物件[]>` Embed rich content，上限10個嵌入，和基於下列輸入的累計上限6000個字元：
+<b>［選擇性］</b>`<物件[]>` Embed rich content for the message，上限10個嵌入和基於下列輸入的累計上限6000個字元：
 
 - [`embeds[*].title`](#embedstitle)
 - [`embeds[*].description`](#embedsdescription)
@@ -131,7 +131,7 @@ When this input is `"json"`, and input `files` is defined, will throw an error.
 
 ##### `embeds[*].timestamp`
 
-<b>［選擇性］</b>`<字串>` Timestamp of the embed, with format ISO 8601 (e.g.: `"2011-11-11T11:11:11Z"`).
+<b>［選擇性］</b>`<字串>` Timestamp of the embed, by ISO 8601 format (e.g.: `"2011-11-11T11:11:11Z"`).
 
 ##### `embeds[*].color`
 
@@ -163,7 +163,7 @@ When this input is `"json"`, and input `files` is defined, will throw an error.
 
 ##### `embeds[*].footer.icon_url`
 
-<b>［選擇性］</b>`<字串>` URL of footer icon，只支持HTTP、HTTPS，和附件。
+<b>［選擇性］</b>`<字串>` Source URL of the footer icon，只支持HTTP、HTTPS，和附件。
 
 ##### `embeds[*].image`
 
@@ -171,7 +171,7 @@ When this input is `"json"`, and input `files` is defined, will throw an error.
 
 ##### `embeds[*].image.url`
 
-<b>［選擇性］</b>`<字串>` Source URL of image，只支持HTTP、HTTPS，和附件。
+<b>［選擇性］</b>`<字串>` Source URL of the image，只支持HTTP、HTTPS，和附件。
 
 ##### `embeds[*].thumbnail`
 
@@ -179,7 +179,7 @@ When this input is `"json"`, and input `files` is defined, will throw an error.
 
 ##### `embeds[*].thumbnail.url`
 
-<b>［選擇性］</b>`<字串>` Source URL of thumbnail，只支持HTTP、HTTPS，和附件。
+<b>［選擇性］</b>`<字串>` Source URL of the thumbnail，只支持HTTP、HTTPS，和附件。
 
 ##### `embeds[*].author`
 
@@ -187,15 +187,15 @@ When this input is `"json"`, and input `files` is defined, will throw an error.
 
 ##### `embeds[*].author.name`
 
-<b>［選擇性］</b>`<字串>` Name of author，上限256個字元。
+<b>［選擇性］</b>`<字串>` Author name，上限256個字元。
 
 ##### `embeds[*].author.url`
 
-<b>［選擇性］</b>`<字串>` URL of author.
+<b>［選擇性］</b>`<字串>` Author URL.
 
 ##### `embeds[*].author.icon_url`
 
-<b>［選擇性］</b>`<字串>` URL of author icon，只支持HTTP、HTTPS，和附件。
+<b>［選擇性］</b>`<字串>` Source URL of the author icon，只支持HTTP、HTTPS，和附件。
 
 ##### `embeds[*].fields`
 
@@ -203,15 +203,15 @@ When this input is `"json"`, and input `files` is defined, will throw an error.
 
 ##### `embeds[*].fields[*].name`
 
-<b>［選擇性］</b>`<字串>` Name of field，上限256個字元。
+<b>［選擇性］</b>`<字串>` Field name，上限256個字元。
 
 ##### `embeds[*].fields[*].value`
 
-<b>［選擇性］</b>`<字串>` Value of field，上限1024個字元。
+<b>［選擇性］</b>`<字串>` Field value，上限1024個字元。
 
 ##### `embeds[*].fields[*].inline`
 
-<b>［選擇性］</b>`<布爾值 = false>` Field should display inline or not.
+<b>［選擇性］</b>`<布爾值 = false>` Whether the field should display inline.
 
 ##### `allowed_mentions`
 
@@ -221,23 +221,23 @@ When this input is `"json"`, and input `files` is defined, will throw an error.
 
 <b>［選擇性］</b>`<字串[]>` Allowed mention types to parse from the content.
 
-- **`"roles"`:** Controls role mentions.
-- **`"users"`:** Controls user mentions.
-- **`"everyone"`:** Controls `@everyone` and `@here` mentions.
+- **`"roles"`:** Control roles mentions.
+- **`"users"`:** Control users mentions.
+- **`"everyone"`:** Control `@everyone` and `@here` mentions.
 
 ##### `allowed_mentions.roles`
 
-<b>［選擇性］</b>`<字串[]>` Roles ID to mention，上限100個ID。
+<b>［選擇性］</b>`<字串[]>` Allowed roles' IDs to mention，上限100個ID。
 
 ##### `allowed_mentions.users`
 
-<b>［選擇性］</b>`<字串[]>` Users ID to mention，上限100個ID。
+<b>［選擇性］</b>`<字串[]>` Allowed users's IDs to mention，上限100個ID。
 
 </details>
 
 #### `files`
 
-<b>［選擇性］</b>`<字串[] = []>` Files as attachments, which must be relative paths from GitHub Actions workspace，上限8 MB和10個檔案；At least one of the input [`payload.content`](#content), [`payload.embeds`](#embeds), or [`files`](#files) must be provided.
+<b>［選擇性］</b>`<字串[] = []>` Files as attachments of the message, which must be relative paths from GitHub Actions workspace，上限8 MB和10個檔案；At least one of the input [`payload.content`](#content), [`payload.embeds`](#embeds), or [`files`](#files) must be provided.
 
 #### `wait`
 
@@ -245,7 +245,7 @@ When this input is `"json"`, and input `files` is defined, will throw an error.
 
 #### `thread_type`
 
-<b>［選擇性］</b>`<字串 = "none">` Thread type; Send to the specified thread within a webhook's channel.
+<b>［選擇性］</b>`<字串 = "none">` Thread type of the message; Send to the specified thread within a webhook's channel.
 
 - **`"none"`:** Not a thread. When this is defined, will ignore input [`thread_value`](#thread_value).
 - **`"id"`:** A created thread for message channel, the thread will automatically unarchive. When this is defined, input [`thread_value`](#thread_value) is require.
@@ -253,7 +253,7 @@ When this input is `"json"`, and input `files` is defined, will throw an error.
 
 #### `thread_value`
 
-<b>🔐［選擇性］</b>`<字串>` Thread value. When [`thread_type`](#thread_type) is:
+<b>🔐［選擇性］</b>`<字串>` Thread value of the message. When [`thread_type`](#thread_type) is:
 
 - `"none"`, this is ignored.
 - `"id"`, this is require the created thread ID.
@@ -269,11 +269,11 @@ When this input is `"json"`, and input `files` is defined, will throw an error.
 
 #### `truncate_ellipsis`
 
-<b>［選擇性］</b>`<字串 = "...">` Ellipsis.
+<b>［選擇性］</b>`<字串 = "...">` Mark of the ellipsis.
 
 #### `truncate_position`
 
-<b>［選擇性］</b>`<字串 = "end">` Ellipsis position.
+<b>［選擇性］</b>`<字串 = "end">` Position of the ellipsis.
 
 - **`"end"`:** At the end of the string.
 - **`"middle"`:** At the middle of the string.

@@ -13,7 +13,7 @@ inputs:
     required: false
     default: "{}"
   files:
-    description: "{string[]} Files as attachments."
+    description: "{string[]} Files as attachments of the message."
     required: false
     default: "[]"
   wait:
@@ -21,26 +21,26 @@ inputs:
     required: false
     default: "false"
   thread_type:
-    description: "{string} Thread type; Send to the specified thread within a webhook's channel."
+    description: "{string} Thread type of the message; Send to the specified thread within a webhook's channel."
     required: false
     default: "none"
   thread_value:
-    description: "{string} Thread value."
+    description: "{string} Thread value of the message."
     required: false
   truncate_enable:
     description: "{boolean} Whether to try truncate firstly when inputs are too large."
     required: false
     default: "true"
   truncate_ellipsis:
-    description: "{string} Ellipsis."
+    description: "{string} Mark of the ellipsis."
     required: false
     default: "..."
   truncate_position:
-    description: "{string} Ellipsis position."
+    description: "{string} Position of the ellipsis."
     required: false
     default: "end"
   threadid:
-    description: "{string} Thread ID; Send to the specified thread within a webhook's channel."
+    description: "{string} Thread ID of the message; Send to the specified thread within a webhook's channel."
     required: false
     deprecationMessage: "This input is replaced by `thread_type` and `thread_value`."
 outputs:
