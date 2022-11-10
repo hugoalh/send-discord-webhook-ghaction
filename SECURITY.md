@@ -21,13 +21,19 @@
 
 ## Report Vulnerability
 
-If you believe you have found any security vulnerability, please do not report it publicly! Instead, please report it via [fill this form](https://forms.gle/iYjv8jGqkBzjy9yW9) or send an e-mail.
+If you believe you have found any security vulnerability, please do not report it publicly! Instead, please report it via [the repository Security Advisories system](https://github.com/hugoalh/send-discord-webhook-ghaction/security/advisories/new), [fill this form (legacy)](https://forms.gle/iYjv8jGqkBzjy9yW9), or send an e-mail (legacy).
 
 All new reports may need up to `~48 hours (~2 days)` to begin the process.
 
+> **📢 Security Vulnerability Report for GitHub repositories should report to their Security Advisories system:**
+>
+> GitHub now introduced private vulnerability reporting, a dedicated communications channel where the community can disclose security issues directly on GitHub, and allow security researchers to report vulnerabilities securely in the repository.
+>
+> For the instruction on how to submit a security vulnerability report via the new Security Advisories system, please visit "[Creating a repository security advisory](https://docs.github.com/en/code-security/security-advisories/repository-security-advisories/creating-a-repository-security-advisory)".
+
 > **⚠ Important:**
 >
-> All reports will only proceed to further process while:
+> All legacy reports will only proceed to further process while:
 >
 > - with the correct personal information of the reporter, and
 > - with the correct project's ID or repository URI.
@@ -48,7 +54,7 @@ Please provide as much as you can to help the security vulnerability report supe
 - Your account's username (e.g.: `@octocat`).
 - Project's ID or repository URI.
   - Project's ID is displayed at the top part of the Readme (file: `README.md`), below the project display name (i.e.: header), inside a code block.
-- Affected branches, commits, tags, and/or versions.
+- Affected branches, commits, releases, tags, and/or versions.
   - Versions must be listed as supported.
   - For multiple versions, you can use version range instead.
 - Affected files.
