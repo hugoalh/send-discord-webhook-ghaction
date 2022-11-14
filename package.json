@@ -30,7 +30,7 @@
 		"@actions/core": "^1.10.0",
 		"@hugoalh/advanced-determine": "^7.2.0",
 		"@hugoalh/more-method": "^0.7.0",
-		"ajv": "^8.11.0",
+		"ajv": "^8.11.2",
 		"ajv-formats": "^3.0.0-rc.0",
 		"ajv-formats-draft2019": "^1.6.1",
 		"chalk": "^5.1.2",
