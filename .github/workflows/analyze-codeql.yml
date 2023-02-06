@@ -1,4 +1,4 @@
-name: "Analyze Code - CodeQL"
+name: "Analyze - CodeQL"
 on:
   push:
     branches:
@@ -7,15 +7,16 @@ on:
     branches:
       - "**"
     types:
-      - "opened"
       - "edited"
+      - "opened"
       - "reopened"
       - "synchronize"
   workflow_dispatch:
 jobs:
-  analyze-code-codeql:
-    name: "Analyze Code - CodeQL"
+  analyze-codeql:
+    name: "Analyze - CodeQL"
     runs-on: "ubuntu-latest"
+    if: "${{!(github.event_name == 'pull_request' && startsWith(github.event.pull_request.head.label, format('{0}:', github.repository_owner)))}}"
     steps:
       - name: "Checkout Repository"
         uses: "actions/checkout@v3.3.0"

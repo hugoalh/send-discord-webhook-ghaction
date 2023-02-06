@@ -1,4 +1,4 @@
-name: "Scan Virus"
+name: "Scan - Virus"
 on:
   push:
     branches:
@@ -7,8 +7,8 @@ on:
     branches:
       - "**"
     types:
-      - "opened"
       - "edited"
+      - "opened"
       - "reopened"
       - "synchronize"
   workflow_dispatch:
@@ -19,8 +19,9 @@ on:
         default: "true"
 jobs:
   scan-virus:
-    name: "Scan Virus"
+    name: "Scan - Virus"
     runs-on: "ubuntu-latest"
+    if: "${{!(github.event_name == 'pull_request' && startsWith(github.event.pull_request.head.label, format('{0}:', github.repository_owner)))}}"
     steps:
       - name: "Checkout Repository"
         uses: "actions/checkout@v3.3.0"
