@@ -41,7 +41,7 @@
 		"yaml": "^2.2.1"
 	},
 	"devDependencies": {
-		"@types/node": "^18.11.19",
+		"@types/node": "^18.13.0",
 		"@vercel/ncc": "^0.36.1",
 		"eslint": "^8.33.0",
 		"eslint-plugin-only-warn": "^1.1.0",
