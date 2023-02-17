@@ -252,6 +252,7 @@ try {
 	let files = yaml.parse(ghactionsGetInput("files"));
 	if (
 		!(new ArrayItemFilter({
+			allowEmpty: true,
 			maximumLength: 10,
 			strict: true,
 			unique: true

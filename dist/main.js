@@ -34589,6 +34589,7 @@ try {
 	let files = yaml__WEBPACK_IMPORTED_MODULE_14__.parse((0,_actions_core__WEBPACK_IMPORTED_MODULE_5__.getInput)("files"));
 	if (
 		!(new _hugoalh_advanced_determine__WEBPACK_IMPORTED_MODULE_1__/* .ArrayItemFilter */ .xG({
+			allowEmpty: true,
 			maximumLength: 10,
 			strict: true,
 			unique: true
