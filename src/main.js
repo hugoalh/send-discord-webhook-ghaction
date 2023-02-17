@@ -77,8 +77,14 @@ try {
 	const stringTruncate2048 = new StringOverflowTruncator(2048, stringOverflowTruncatorOptions);
 	const stringTruncate4096 = new StringOverflowTruncator(4096, stringOverflowTruncatorOptions);
 	let payloadRaw = ghactionsGetInput("payload");
-	let payload = new StringifyJSONItemFilter({ arrayRoot: false }).test(payloadRaw) ? JSON.parse(payloadRaw) : yaml.parse(payloadRaw);
-	if (!(new JSONItemFilter({ arrayRoot: false }).test(payload))) {
+	let payload = new StringifyJSONItemFilter({
+		allowEmpty: true,
+		arrayRoot: false
+	}).test(payloadRaw) ? JSON.parse(payloadRaw) : yaml.parse(payloadRaw);
+	if (!(new JSONItemFilter({
+		allowEmpty: true,
+		arrayRoot: false
+	}).test(payload))) {
 		throw new TypeError(`\`${payload}\` is not a valid Discord webhook JSON/YAML/YML payload!`);
 	}
 	if (typeof payload.$schema !== "undefined") {

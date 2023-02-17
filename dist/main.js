@@ -34414,8 +34414,14 @@ try {
 	const stringTruncate2048 = new _hugoalh_string_overflow__WEBPACK_IMPORTED_MODULE_8__/* .StringOverflowTruncator */ .Qy(2048, stringOverflowTruncatorOptions);
 	const stringTruncate4096 = new _hugoalh_string_overflow__WEBPACK_IMPORTED_MODULE_8__/* .StringOverflowTruncator */ .Qy(4096, stringOverflowTruncatorOptions);
 	let payloadRaw = (0,_actions_core__WEBPACK_IMPORTED_MODULE_5__.getInput)("payload");
-	let payload = new _hugoalh_advanced_determine__WEBPACK_IMPORTED_MODULE_1__/* .StringifyJSONItemFilter */ .yA({ arrayRoot: false }).test(payloadRaw) ? JSON.parse(payloadRaw) : yaml__WEBPACK_IMPORTED_MODULE_14__.parse(payloadRaw);
-	if (!(new _hugoalh_advanced_determine__WEBPACK_IMPORTED_MODULE_1__/* .JSONItemFilter */ .eP({ arrayRoot: false }).test(payload))) {
+	let payload = new _hugoalh_advanced_determine__WEBPACK_IMPORTED_MODULE_1__/* .StringifyJSONItemFilter */ .yA({
+		allowEmpty: true,
+		arrayRoot: false
+	}).test(payloadRaw) ? JSON.parse(payloadRaw) : yaml__WEBPACK_IMPORTED_MODULE_14__.parse(payloadRaw);
+	if (!(new _hugoalh_advanced_determine__WEBPACK_IMPORTED_MODULE_1__/* .JSONItemFilter */ .eP({
+		allowEmpty: true,
+		arrayRoot: false
+	}).test(payload))) {
 		throw new TypeError(`\`${payload}\` is not a valid Discord webhook JSON/YAML/YML payload!`);
 	}
 	if (typeof payload.$schema !== "undefined") {
