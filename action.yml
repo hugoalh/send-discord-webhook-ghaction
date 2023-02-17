@@ -32,11 +32,11 @@ inputs:
     required: false
     default: "true"
   truncate_ellipsis:
-    description: "{string} Mark of the ellipsis."
+    description: "{string} Ellipsis mark."
     required: false
     default: "..."
   truncate_position:
-    description: "{string} Position of the ellipsis."
+    description: "{string} Ellipsis position."
     required: false
     default: "end"
   threadid:

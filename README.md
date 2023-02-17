@@ -268,11 +268,11 @@ When this input is `"json"`, and input [`files`](#files) is defined, will throw 
 
 #### `truncate_ellipsis`
 
-**\[Optional\]** `<string = "...">` Mark of the ellipsis.
+**\[Optional\]** `<string = "...">` Ellipsis mark.
 
 #### `truncate_position`
 
-**\[Optional\]** `<string = "end">` Position of the ellipsis.
+**\[Optional\]** `<string = "end">` Ellipsis position.
 
 - **`"end"`:** At the end of the string.
 - **`"middle"`:** At the middle of the string.

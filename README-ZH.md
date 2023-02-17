@@ -268,11 +268,11 @@ When this input is `"json"`, and input `files` is defined, will throw an error.
 
 #### `truncate_ellipsis`
 
-<b>［選擇性］</b>`<字串 = "...">` Mark of the ellipsis.
+<b>［選擇性］</b>`<字串 = "...">` Ellipsis mark.
 
 #### `truncate_position`
 
-<b>［選擇性］</b>`<字串 = "end">` Position of the ellipsis.
+<b>［選擇性］</b>`<字串 = "end">` Ellipsis position.
 
 - **`"end"`:** At the end of the string.
 - **`"middle"`:** At the middle of the string.
