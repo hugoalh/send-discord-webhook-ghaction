@@ -18,22 +18,8 @@ body:
       description: "甚麼版本受到影響？必須是安全政策（檔案：`SECURITY-ZH.md`）中列出的受支持版本。"
       multiple: true
       options:
+        - "v5.0.1-beta.1"
         - "v5.0.0"
-        - "v4.2.4+default"
-        - "v4.2.4+docker"
-        - "v4.2.4+nodejs"
-        - "v4.2.3+default"
-        - "v4.2.3+docker"
-        - "v4.2.3+nodejs"
-        - "v4.2.2+default"
-        - "v4.2.2+docker"
-        - "v4.2.2+nodejs"
-        - "v4.2.1+default"
-        - "v4.2.1+docker"
-        - "v4.2.1+nodejs"
-        - "v4.2.0+default"
-        - "v4.2.0+docker"
-        - "v4.2.0+nodejs"
     validations:
       required: false
   - type: "textarea"

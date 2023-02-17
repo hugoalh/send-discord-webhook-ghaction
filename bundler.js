@@ -11,7 +11,7 @@ for (const outputFile of await readdir(outputDirectoryFullPath, { withFileTypes:
 	await rm(pathJoin(outputDirectoryFullPath, outputFile.name));
 }
 /* Invoke `ncc` bundler. */
-console.log(await childProcessExec(`ncc build src/main.js --out ${outputDirectory} --no-cache --no-source-map-register --target es2021`));
+console.log(await childProcessExec(`"./node_modules/.bin/ncc.cmd" build src/main.js --out "${outputDirectory}" --no-cache --no-source-map-register --target es2021`));
 /* Fix `ncc` bundler issues, no need to await due to no race conditions. */
 for (const outputFile of await readdir(outputDirectoryFullPath, { withFileTypes: true })) {
 	const outputFileFullPath = pathJoin(outputDirectoryFullPath, outputFile.name);

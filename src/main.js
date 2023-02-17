@@ -1,12 +1,12 @@
 import { access as fsAccess, constants as fsConstants, readFile } from "node:fs/promises";
+import { ArrayItemFilter, JSONItemFilter, StringifyJSONItemFilter, StringItemFilter } from "@hugoalh/advanced-determine";
 import { basename as pathBasename, dirname, join as pathJoin } from "node:path";
 import { Chalk } from "chalk";
 import { createReadStream } from "node:fs";
 import { endGroup as ghactionsEndGroup, error as ghactionsError, getBooleanInput as ghactionsGetBooleanInput, getInput as ghactionsGetInput, setSecret as ghactionsSetSecret, setOutput as ghactionsSetOutput, startGroup as ghactionsStartGroup, warning as ghactionsWarning } from "@actions/core";
 import { fileURLToPath, URLSearchParams } from "node:url";
-import { isArray as adIsArray, isJSON as adIsJSON, isString as adIsString, isStringifyJSON as adIsStringifyJSON } from "@hugoalh/advanced-determine";
 import { randomInt } from "node:crypto";
-import { stringOverflow } from "@hugoalh/more-method";
+import { StringOverflowTruncator } from "@hugoalh/string-overflow";
 import Ajv2020 from "ajv/dist/2020.js";
 import ajvFormats from "ajv-formats";
 import ajvFormatsDraft2019 from "ajv-formats-draft2019";
@@ -51,7 +51,7 @@ try {
 	const exclusiveColorNamespaceList = JSON.parse((await readFile(pathJoin(ghactionsActionDirectory, "exclusive-color-namespace.json"))).toString());
 	ghactionsStartGroup(`Import inputs.`);
 	let keyRaw = ghactionsGetInput("key");
-	if (!adIsString(keyRaw, { pattern: discordWebhookURLRegExp })) {
+	if (!(new StringItemFilter({ pattern: discordWebhookURLRegExp }).test(keyRaw))) {
 		throw new TypeError(`Input \`key\` is not a valid Discord webhook key!`);
 	}
 	let key = keyRaw.match(discordWebhookURLRegExp).groups.key;
@@ -65,13 +65,20 @@ try {
 	console.log(`${chalk.bold("Truncate Ellipsis:")} ${truncateEllipsis}`);
 	let truncatePosition = ghactionsGetInput("truncate_position");
 	console.log(`${chalk.bold("Truncate Position:")} ${truncatePosition}`);
-	let stringOverflowOption = {
-		ellipsis: truncateEllipsis,
-		position: truncatePosition
+	let stringOverflowTruncatorOptions = {
+		ellipsisMark: truncateEllipsis,
+		ellipsisPosition: truncatePosition
 	};
+	const stringTruncate80 = new StringOverflowTruncator(80, stringOverflowTruncatorOptions);
+	const stringTruncate100 = new StringOverflowTruncator(100, stringOverflowTruncatorOptions);
+	const stringTruncate256 = new StringOverflowTruncator(256, stringOverflowTruncatorOptions);
+	const stringTruncate1024 = new StringOverflowTruncator(1024, stringOverflowTruncatorOptions);
+	const stringTruncate2000 = new StringOverflowTruncator(2000, stringOverflowTruncatorOptions);
+	const stringTruncate2048 = new StringOverflowTruncator(2048, stringOverflowTruncatorOptions);
+	const stringTruncate4096 = new StringOverflowTruncator(4096, stringOverflowTruncatorOptions);
 	let payloadRaw = ghactionsGetInput("payload");
-	let payload = adIsStringifyJSON(payloadRaw, { arrayRoot: false }) ? JSON.parse(payloadRaw) : yaml.parse(payloadRaw);
-	if (!adIsJSON(payload, { arrayRoot: false })) {
+	let payload = new StringifyJSONItemFilter({ arrayRoot: false }).test(payloadRaw) ? JSON.parse(payloadRaw) : yaml.parse(payloadRaw);
+	if (!(new JSONItemFilter({ arrayRoot: false }).test(payload))) {
 		throw new TypeError(`\`${payload}\` is not a valid Discord webhook JSON/YAML/YML payload!`);
 	}
 	if (typeof payload.$schema !== "undefined") {
@@ -84,7 +91,7 @@ try {
 			if (!truncateEnable) {
 				throw new Error(`Input \`payload.content\` is too large!`);
 			}
-			payload.content = stringOverflow(payload.content, 2000, stringOverflowOption);
+			payload.content = stringTruncate2000.truncate(payload.content);
 		}
 	}
 	if (typeof payload.username === "string") {
@@ -94,7 +101,7 @@ try {
 			if (!truncateEnable) {
 				throw new Error(`Input \`payload.username\` is too large!`);
 			}
-			payload.username = stringOverflow(payload.username, 80, stringOverflowOption);
+			payload.username = stringTruncate80.truncate(payload.username);
 		}
 	}
 	if (typeof payload.avatar_url === "string") {
@@ -111,7 +118,7 @@ try {
 					if (!truncateEnable) {
 						throw new Error(`Input \`payload.embeds[${embedsIndex}].title\` is too large!`);
 					}
-					payload.embeds[embedsIndex].title = stringOverflow(payload.embeds[embedsIndex].title, 256, stringOverflowOption);
+					payload.embeds[embedsIndex].title = stringTruncate256.truncate(payload.embeds[embedsIndex].title);
 				}
 			}
 			if (typeof payload.embeds[embedsIndex].description === "string") {
@@ -121,7 +128,7 @@ try {
 					if (!truncateEnable) {
 						throw new Error(`Input \`payload.embeds[${embedsIndex}].description\` is too large!`);
 					}
-					payload.embeds[embedsIndex].description = stringOverflow(payload.embeds[embedsIndex].description, 4096, stringOverflowOption);
+					payload.embeds[embedsIndex].description = stringTruncate4096.truncate(payload.embeds[embedsIndex].description);
 				}
 			}
 			if (typeof payload.embeds[embedsIndex].url === "string") {
@@ -158,7 +165,7 @@ try {
 						if (!truncateEnable) {
 							throw new Error(`Input \`payload.embeds[${embedsIndex}].footer.text\` is too large!`);
 						}
-						payload.embeds[embedsIndex].footer.text = stringOverflow(payload.embeds[embedsIndex].footer.text, 2048, stringOverflowOption);
+						payload.embeds[embedsIndex].footer.text = stringTruncate2048.truncate(payload.embeds[embedsIndex].footer.text);
 					}
 				}
 				if (typeof payload.embeds[embedsIndex].footer.icon_url === "string") {
@@ -189,7 +196,7 @@ try {
 						if (!truncateEnable) {
 							throw new Error(`Input \`payload.embeds[${embedsIndex}].author.name\` is too large!`);
 						}
-						payload.embeds[embedsIndex].author.name = stringOverflow(payload.embeds[embedsIndex].author.name, 256, stringOverflowOption);
+						payload.embeds[embedsIndex].author.name = stringTruncate256.truncate(payload.embeds[embedsIndex].author.name);
 					}
 				}
 				if (typeof payload.embeds[embedsIndex].author.url === "string") {
@@ -210,7 +217,7 @@ try {
 							if (!truncateEnable) {
 								throw new Error(`Input \`payload.embeds[${embedsIndex}].fields[${fieldsIndex}].name\` is too large!`);
 							}
-							payload.embeds[embedsIndex].fields[fieldsIndex].name = stringOverflow(payload.embeds[embedsIndex].fields[fieldsIndex].name, 256, stringOverflowOption);
+							payload.embeds[embedsIndex].fields[fieldsIndex].name = stringTruncate256.truncate(payload.embeds[embedsIndex].fields[fieldsIndex].name);
 						}
 					}
 					if (typeof payload.embeds[embedsIndex].fields[fieldsIndex].value === "string") {
@@ -218,7 +225,7 @@ try {
 							if (!truncateEnable) {
 								throw new Error(`Input \`payload.embeds[${embedsIndex}].fields[${fieldsIndex}].value\` is too large!`);
 							}
-							payload.embeds[embedsIndex].fields[fieldsIndex].value = stringOverflow(payload.embeds[embedsIndex].fields[fieldsIndex].value, 1024, stringOverflowOption);
+							payload.embeds[embedsIndex].fields[fieldsIndex].value = stringTruncate1024.truncate(payload.embeds[embedsIndex].fields[fieldsIndex].value);
 						}
 					}
 				}
@@ -244,13 +251,13 @@ try {
 	console.log(`${chalk.bold("Payload:")} ${payloadStringify}`);
 	let files = yaml.parse(ghactionsGetInput("files"));
 	if (
-		!adIsArray(files, {
+		!(new ArrayItemFilter({
 			maximumLength: 10,
 			strict: true,
 			unique: true
-		}) ||
+		}).test(files)) ||
 		files.some((file) => {
-			return !adIsString(file, { empty: false });
+			return !(new StringItemFilter().test(file));
 		})
 	) {
 		throw new TypeError(`Input \`files\` must be type of strings-array (unique) and maximum 10 elements!`);
@@ -289,34 +296,24 @@ try {
 	let threadValue = ghactionsGetInput("thread_value");
 	if (threadID.length === 0) {
 		if (threadType === "id") {
-			if (!adIsString(threadValue, { pattern: /^\d+$/u })) {
+			if (!(new StringItemFilter({ pattern: /^\d+$/u }).test(threadValue))) {
 				throw new TypeError(`Input \`thread_value\` is not a valid thread ID!`);
 			}
 			ghactionsSetSecret(threadValue);
 			discordWebhookQuery.set("thread_id", threadValue);
 		} else if (threadType === "name") {
 			if (threadValue.length === 0) {
-				if (adIsString(payload.content, {
-					empty: false,
-					preTrim: true
-				})) {
-					threadValue = stringOverflow(payload.content.trim().replace(/\r?\n/gu, " "), 100, stringOverflowOption);
-				} else if (adIsArray(payload.embeds, {
+				const arrayAloneFilter = new ArrayItemFilter({
 					maximumLength: 1,
 					minimumLength: 1
-				}) && adIsString(payload.embeds[0].title, {
-					empty: false,
-					preTrim: true
-				})) {
-					threadValue = stringOverflow(payload.embeds[0].title.trim().replace(/\r?\n/gu, " "), 100, stringOverflowOption);
-				} else if (adIsArray(payload.embeds, {
-					maximumLength: 1,
-					minimumLength: 1
-				}) && adIsString(payload.embeds[0].description, {
-					empty: false,
-					preTrim: true
-				})) {
-					threadValue = stringOverflow(payload.embeds[0].description.trim().replace(/\r?\n/gu, " "), 100, stringOverflowOption);
+				});
+				const stringTFilter = new StringItemFilter({ preTrim: true });
+				if (stringTFilter.test(payload.content)) {
+					threadValue = stringTruncate100.truncate(payload.content.trim().replace(/\r?\n/gu, " "));
+				} else if (arrayAloneFilter.test(payload.embeds) && stringTFilter.test(payload.embeds[0].title)) {
+					threadValue = stringTruncate100.truncate(payload.embeds[0].title.trim().replace(/\r?\n/gu, " "));
+				} else if (arrayAloneFilter.test(payload.embeds) && stringTFilter.test(payload.embeds[0].description)) {
+					threadValue = stringTruncate100.truncate(payload.embeds[0].description.trim().replace(/\r?\n/gu, " "));
 				} else {
 					threadValue = `Send Discord Webhook - ${new Date().toISOString().replace(/\.000Z$/gu, "Z")}`;
 				}
@@ -324,7 +321,7 @@ try {
 				if (!truncateEnable) {
 					throw new Error(`Input \`thread_value\` is too large!`);
 				}
-				threadValue = stringOverflow(threadValue, 100, stringOverflowOption);
+				threadValue = stringTruncate100.truncate(threadValue);
 			}
 			payload.thread_name = threadValue;
 			console.log(`${chalk.bold("Thread Name:")} ${threadValue}`);
@@ -332,7 +329,7 @@ try {
 			throw new TypeError(`\`${threadType}\` is not a valid thread type!`);
 		}
 	} else {
-		if (!adIsString(threadID, { pattern: /^\d+$/u })) {
+		if (!(new StringItemFilter({ pattern: /^\d+$/u }).test(threadID))) {
 			throw new TypeError(`Input \`threadid\` is not a valid thread ID!`);
 		}
 		ghactionsSetSecret(threadID);
@@ -342,7 +339,7 @@ try {
 	ghactionsStartGroup(`Post network request to Discord.`);
 	let requestBody;
 	let requestHeaders = {
-		"User-Agent": `SendDiscordWebhook.GitHubAction/5.0.0 NodeJS/${process.versions.node}-${process.platform}-${process.arch}`
+		"User-Agent": `SendDiscordWebhook.GitHubAction/5.0.1 NodeJS/${process.versions.node}-${process.platform}-${process.arch}`
 	};
 	let requestQuery = discordWebhookQuery.toString();
 	if (method === "form") {

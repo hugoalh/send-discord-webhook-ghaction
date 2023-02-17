@@ -6,7 +6,6 @@
 
 [`SendDiscordWebhook.GitHubAction`](https://github.com/hugoalh/send-discord-webhook-ghaction)
 
-![GitHub Action](https://img.shields.io/badge/GitHub%20Action-2088FF?logo=github-actions&logoColor=ffffff&style=flat-square "GitHub Action")
 ![License](https://img.shields.io/static/v1?label=License&message=MIT&style=flat-square "License")
 [![GitHub Stars](https://img.shields.io/github/stars/hugoalh/send-discord-webhook-ghaction?label=Stars&logo=github&logoColor=ffffff&style=flat-square "GitHub Stars")](https://github.com/hugoalh/send-discord-webhook-ghaction/stargazers)
 [![GitHub Contributors](https://img.shields.io/github/contributors/hugoalh/send-discord-webhook-ghaction?label=Contributors&logo=github&logoColor=ffffff&style=flat-square "GitHub Contributors")](https://github.com/hugoalh/send-discord-webhook-ghaction/graphs/contributors)
@@ -30,7 +29,7 @@ A GitHub Action to send a Discord webhook.
 
 ## 📚 Documentation
 
-> **⚠ Important:** This documentation is v5.0.0 based; To view other release's/tag's/version's documentation, please visit the [releases/tags/versions list](https://github.com/hugoalh/send-discord-webhook-ghaction/tags) and select the correct release/tag/version.
+> **⚠ Important:** This documentation is v5.0.0 based; To view other version's documentation, please visit the [versions list](https://github.com/hugoalh/send-discord-webhook-ghaction/tags) and select the correct version.
 
 ### Getting Started
 
@@ -46,7 +45,7 @@ jobs:
   job_id:
     runs-on: "________" # Any
     steps:
-      - uses: "hugoalh/send-discord-webhook-ghaction@<tag/version>"
+      - uses: "hugoalh/send-discord-webhook-ghaction@<Version>"
 ```
 
 ### 📥 Input
