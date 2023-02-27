@@ -4,7 +4,7 @@ specifiers:
   '@actions/core': ^1.10.0
   '@hugoalh/advanced-determine': ^10.0.0
   '@hugoalh/string-overflow': ^1.0.0
-  '@types/node': ^18.14.1
+  '@types/node': ^18.14.2
   '@vercel/ncc': ^0.36.1
   ajv: ^8.12.0
   ajv-formats: 3.0.0-rc.0
@@ -12,7 +12,7 @@ specifiers:
   chalk: ^5.2.0
   color: ^4.2.3
   color-name-list: ^10.5.0
-  eslint: ^8.34.0
+  eslint: ^8.35.0
   eslint-plugin-only-warn: ^1.1.0
   form-data: ^4.0.0
   node-fetch: ^3.3.0
@@ -34,9 +34,9 @@ dependencies:
   yaml: 2.2.1
 
 devDependencies:
-  '@types/node': 18.14.1
+  '@types/node': 18.14.2
   '@vercel/ncc': 0.36.1
-  eslint: 8.34.0
+  eslint: 8.35.0
   eslint-plugin-only-warn: 1.1.0
   typescript: 4.9.5
 
@@ -55,8 +55,8 @@ packages:
       tunnel: 0.0.6
     dev: false
 
-  /@eslint/eslintrc/1.4.1:
-    resolution: {integrity: sha512-XXrH9Uarn0stsyldqDYq8r++mROmWRI1xKMXa640Bb//SY1+ECYX6VzT6Lcx5frD0V30XieqJ0oX9I2Xj5aoMA==}
+  /@eslint/eslintrc/2.0.0:
+    resolution: {integrity: sha512-fluIaaV+GyV24CCu/ggiHdV+j4RNh85yQnAYS/G2mZODZgGmmlrgCydjUcV3YvxCm9x8nMAfThsqTni4KiXT4A==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dependencies:
       ajv: 6.12.6
@@ -70,6 +70,11 @@ packages:
       strip-json-comments: 3.1.1
     transitivePeerDependencies:
       - supports-color
+    dev: true
+
+  /@eslint/js/8.35.0:
+    resolution: {integrity: sha512-JXdzbRiWclLVoD8sNUjR443VVlYqiYmDVT6rGUEIEHU5YJW0gaVZwV2xgM7D4arkvASqD0IlLUVjHiFuxaftRw==}
+    engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: true
 
   /@hugoalh/advanced-determine/10.0.0:
@@ -138,8 +143,8 @@ packages:
       fastq: 1.15.0
     dev: true
 
-  /@types/node/18.14.1:
-    resolution: {integrity: sha512-QH+37Qds3E0eDlReeboBxfHbX9omAcBCXEzswCu6jySP642jiM3cYSIkU/REqwhCUqXdonHFuBfJDiAJxMNhaQ==}
+  /@types/node/18.14.2:
+    resolution: {integrity: sha512-1uEQxww3DaghA0RxqHx0O0ppVlo43pJhepY51OxuQIKHpjbnYLA7vcdwioNPzIqmC2u3I/dmylcqjlh0e7AyUA==}
     dev: true
 
   /@vercel/ncc/0.36.1:
@@ -373,13 +378,13 @@ packages:
       estraverse: 5.3.0
     dev: true
 
-  /eslint-utils/3.0.0_eslint@8.34.0:
+  /eslint-utils/3.0.0_eslint@8.35.0:
     resolution: {integrity: sha512-uuQC43IGctw68pJA1RgbQS8/NP7rch6Cwd4j3ZBtgo4/8Flj4eGE7ZYSZRN3iq5pVUv6GPdW5Z1RFleo84uLDA==}
     engines: {node: ^10.0.0 || ^12.0.0 || >= 14.0.0}
     peerDependencies:
       eslint: '>=5'
     dependencies:
-      eslint: 8.34.0
+      eslint: 8.35.0
       eslint-visitor-keys: 2.1.0
     dev: true
 
@@ -393,12 +398,13 @@ packages:
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: true
 
-  /eslint/8.34.0:
-    resolution: {integrity: sha512-1Z8iFsucw+7kSqXNZVslXS8Ioa4u2KM7GPwuKtkTFAqZ/cHMcEaR+1+Br0wLlot49cNxIiZk5wp8EAbPcYZxTg==}
+  /eslint/8.35.0:
+    resolution: {integrity: sha512-BxAf1fVL7w+JLRQhWl2pzGeSiGqbWumV4WNvc9Rhp6tiCtm4oHnyPBSEtMGZwrQgudFQ+otqzWoPB7x+hxoWsw==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     hasBin: true
     dependencies:
-      '@eslint/eslintrc': 1.4.1
+      '@eslint/eslintrc': 2.0.0
+      '@eslint/js': 8.35.0
       '@humanwhocodes/config-array': 0.11.8
       '@humanwhocodes/module-importer': 1.0.1
       '@nodelib/fs.walk': 1.2.8
@@ -409,7 +415,7 @@ packages:
       doctrine: 3.0.0
       escape-string-regexp: 4.0.0
       eslint-scope: 7.1.1
-      eslint-utils: 3.0.0_eslint@8.34.0
+      eslint-utils: 3.0.0_eslint@8.35.0
       eslint-visitor-keys: 3.3.0
       espree: 9.4.1
       esquery: 1.4.2
