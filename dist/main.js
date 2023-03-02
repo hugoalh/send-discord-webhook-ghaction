@@ -28214,7 +28214,7 @@ try {
 
 /***/ }),
 
-/***/ 5137:
+/***/ 9164:
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __nccwpck_require__) => {
 
 
@@ -28231,7 +28231,7 @@ __nccwpck_require__.d(__webpack_exports__, {
 
 ;// CONCATENATED MODULE: external "node:assert"
 const external_node_assert_namespaceObject = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("node:assert");
-;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.0.0/node_modules/@hugoalh/advanced-determine/lib/internal/object-meta.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.1.0/node_modules/@hugoalh/advanced-determine/lib/internal/object-meta.js
 /**
  * @access private
  * @class ObjectMeta
@@ -28287,7 +28287,7 @@ class ObjectMeta {
 }
 /* harmony default export */ const object_meta = (ObjectMeta);
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.0.0/node_modules/@hugoalh/advanced-determine/lib/type-of.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.1.0/node_modules/@hugoalh/advanced-determine/lib/type-of.js
 /**
  * @function typeOf
  * @description Determine item type of the unevaluated operand.
@@ -28315,7 +28315,7 @@ function typeOf(item) {
 }
 /* harmony default export */ const type_of = (typeOf);
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.0.0/node_modules/@hugoalh/advanced-determine/lib/are-equal.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.1.0/node_modules/@hugoalh/advanced-determine/lib/are-equal.js
 
 
 
@@ -28538,7 +28538,7 @@ function areEqual(...items) {
 }
 /* harmony default export */ const are_equal = (areEqual);
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.0.0/node_modules/@hugoalh/advanced-determine/lib/internal/check-item.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.1.0/node_modules/@hugoalh/advanced-determine/lib/internal/check-item.js
 /**
  * @access private
  * @function checkNumber
@@ -28596,7 +28596,7 @@ function undefinish(...inputs) {
 }
 /* harmony default export */ const main = (undefinish);
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.0.0/node_modules/@hugoalh/advanced-determine/lib/item-filter/array.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.1.0/node_modules/@hugoalh/advanced-determine/lib/item-filter/array.js
 
 
 /**
@@ -28715,37 +28715,30 @@ class ArrayItemFilter {
 }
 /* harmony default export */ const array = (ArrayItemFilter);
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.0.0/node_modules/@hugoalh/advanced-determine/lib/internal/integer-types-range.js
-const grid8 = 2n ** 8n;
-const grid16 = 2n ** 16n;
-const grid32 = 2n ** 32n;
-const grid64 = 2n ** 64n;
+;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.1.0/node_modules/@hugoalh/advanced-determine/lib/internal/integer-types-range.js
 /**
  * @access private
  * @function integerTypesRangeInt
- * @param {bigint} grid Grid.
+ * @param {bigint} base
  * @returns {[bigint, bigint]}
  */
-function integerTypesRangeInt(grid) {
-	let gridHalf = grid / 2n;
+function integerTypesRangeInt(base) {
+	let gridHalf = (2n ** base) / 2n;
 	return [-gridHalf, gridHalf - 1n];
 }
 /**
  * @access private
  * @function integerTypesRangeUInt
- * @param {bigint} grid Grid.
+ * @param {bigint} base
  * @returns {[bigint, bigint]}
  */
-function integerTypesRangeUInt(grid) {
-	return [0n, grid - 1n];
+function integerTypesRangeUInt(base) {
+	return [0n, (2n ** base) - 1n];
 }
-/**
- * @typedef {boolean} AsNumber Whether to return result as type of number.
- */
 /**
  * @access private
  * @function integerTypesRangeOutput
- * @template {AsNumber} T
+ * @template {boolean} T
  * @param {[bigint, bigint]} output Output.
  * @param {T} [asNumber=false] Whether to return result as type of number.
  * @returns {T extends true ? [number, number] : [bigint, bigint]}
@@ -28762,7 +28755,7 @@ function integerTypesRangeOutput(output, asNumber = false) {
  * @access private
  * @function integerTypesRange
  * @param {string} name Name of the integer type.
- * @param {AsNumber} [asNumber=false] Whether to return result as type of number.
+ * @param {boolean} [asNumber=false] Whether to return result as type of number.
  * @returns {ReturnType<typeof integerTypesRangeOutput>}
  */
 function integerTypesRange(name, asNumber = false) {
@@ -28771,22 +28764,25 @@ function integerTypesRange(name, asNumber = false) {
 		case "Char":
 		case "int8":
 		case "Int8":
-			return integerTypesRangeOutput(integerTypesRangeInt(grid8), asNumber);
+			return integerTypesRangeOutput(integerTypesRangeInt(8n), asNumber);
 		case "int16":
 		case "Int16":
 		case "short":
 		case "Short":
-			return integerTypesRangeOutput(integerTypesRangeInt(grid16), asNumber);
+			return integerTypesRangeOutput(integerTypesRangeInt(16n), asNumber);
 		case "int32":
 		case "Int32":
 		case "rune":
 		case "Rune":
-			return integerTypesRangeOutput(integerTypesRangeInt(grid32), asNumber);
+			return integerTypesRangeOutput(integerTypesRangeInt(32n), asNumber);
 		case "int64":
 		case "Int64":
 		case "long":
 		case "Long":
-			return integerTypesRangeOutput(integerTypesRangeInt(grid64), asNumber);
+			return integerTypesRangeOutput(integerTypesRangeInt(64n), asNumber);
+		case "int128":
+		case "Int128":
+			return integerTypesRangeOutput(integerTypesRangeInt(128n), asNumber);
 		case "byte":
 		case "Byte":
 		case "uchar":
@@ -28795,32 +28791,36 @@ function integerTypesRange(name, asNumber = false) {
 		case "uint8":
 		case "Uint8":
 		case "UInt8":
-			return integerTypesRangeOutput(integerTypesRangeUInt(grid8), asNumber);
+			return integerTypesRangeOutput(integerTypesRangeUInt(8n), asNumber);
 		case "uint16":
 		case "Uint16":
 		case "UInt16":
 		case "ushort":
 		case "Ushort":
 		case "UShort":
-			return integerTypesRangeOutput(integerTypesRangeUInt(grid16), asNumber);
+			return integerTypesRangeOutput(integerTypesRangeUInt(16n), asNumber);
 		case "uint32":
 		case "Uint32":
 		case "UInt32":
-			return integerTypesRangeOutput(integerTypesRangeUInt(grid32), asNumber);
+			return integerTypesRangeOutput(integerTypesRangeUInt(32n), asNumber);
 		case "uint64":
 		case "Uint64":
 		case "UInt64":
 		case "ulong":
 		case "Ulong":
 		case "ULong":
-			return integerTypesRangeOutput(integerTypesRangeUInt(grid64), asNumber);
+			return integerTypesRangeOutput(integerTypesRangeUInt(64n), asNumber);
+		case "uint128":
+		case "Uint128":
+		case "UInt128":
+			return integerTypesRangeOutput(integerTypesRangeUInt(128n), asNumber);
 		default:
 			throw new RangeError(`\`${name}\` is not a valid interger type.`);
 	}
 }
 /* harmony default export */ const integer_types_range = (integerTypesRange);
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.0.0/node_modules/@hugoalh/advanced-determine/lib/internal/is-prime-number.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.1.0/node_modules/@hugoalh/advanced-determine/lib/internal/is-prime-number.js
 /**
  * @access private
  * @function bigIntegerSquareRoot
@@ -28875,7 +28875,7 @@ function isPrimeNumber(item) {
 }
 /* harmony default export */ const is_prime_number = (isPrimeNumber);
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.0.0/node_modules/@hugoalh/advanced-determine/lib/item-filter/big-integer.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.1.0/node_modules/@hugoalh/advanced-determine/lib/item-filter/big-integer.js
 
 
 
@@ -29039,7 +29039,7 @@ class BigIntegerItemFilter {
 
 // EXTERNAL MODULE: external "node:util"
 var external_node_util_ = __nccwpck_require__(7261);
-;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.0.0/node_modules/@hugoalh/advanced-determine/lib/item-filter/function.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.1.0/node_modules/@hugoalh/advanced-determine/lib/item-filter/function.js
 
 
 /**
@@ -29100,7 +29100,7 @@ class FunctionItemFilter {
 }
 /* harmony default export */ const item_filter_function = (FunctionItemFilter);
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.0.0/node_modules/@hugoalh/advanced-determine/lib/item-filter/object.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.1.0/node_modules/@hugoalh/advanced-determine/lib/item-filter/object.js
 /**
  * @class ObjectItemFilter
  * @description Determine item with the filter of type of object.
@@ -29123,7 +29123,7 @@ class ObjectItemFilter {
 }
 /* harmony default export */ const object = (ObjectItemFilter);
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.0.0/node_modules/@hugoalh/advanced-determine/lib/item-filter/generator.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.1.0/node_modules/@hugoalh/advanced-determine/lib/item-filter/generator.js
 
 
 
@@ -29171,7 +29171,7 @@ class GeneratorItemFilter {
 }
 /* harmony default export */ const generator = (GeneratorItemFilter);
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.0.0/node_modules/@hugoalh/advanced-determine/lib/is/array.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.1.0/node_modules/@hugoalh/advanced-determine/lib/is/array.js
 
 /**
  * @function isArray
@@ -29204,7 +29204,7 @@ function isArray(item, {
 }
 /* harmony default export */ const is_array = (isArray);
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.0.0/node_modules/@hugoalh/advanced-determine/lib/is/big-integer.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.1.0/node_modules/@hugoalh/advanced-determine/lib/is/big-integer.js
 
 /**
  * @function isBigInteger
@@ -29259,7 +29259,7 @@ function isBigInteger(item, {
 }
 /* harmony default export */ const is_big_integer = (isBigInteger);
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.0.0/node_modules/@hugoalh/advanced-determine/lib/is/function.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.1.0/node_modules/@hugoalh/advanced-determine/lib/is/function.js
 
 /**
  * @function isFunction
@@ -29283,7 +29283,7 @@ function isFunction(item, {
 }
 /* harmony default export */ const is_function = (isFunction);
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.0.0/node_modules/@hugoalh/advanced-determine/lib/is/generator.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.1.0/node_modules/@hugoalh/advanced-determine/lib/is/generator.js
 
 /**
  * @function isGenerator
@@ -29304,7 +29304,7 @@ function isGenerator(item, {
 }
 /* harmony default export */ const is_generator = (isGenerator);
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.0.0/node_modules/@hugoalh/advanced-determine/lib/item-filter/plain-object.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.1.0/node_modules/@hugoalh/advanced-determine/lib/item-filter/plain-object.js
 
 
 
@@ -29461,7 +29461,7 @@ class PlainObjectItemFilter {
 }
 /* harmony default export */ const plain_object = (PlainObjectItemFilter);
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.0.0/node_modules/@hugoalh/advanced-determine/lib/item-filter/json.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.1.0/node_modules/@hugoalh/advanced-determine/lib/item-filter/json.js
 
 
 
@@ -29610,7 +29610,7 @@ class JSONItemFilter {
 }
 /* harmony default export */ const json = (JSONItemFilter);
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.0.0/node_modules/@hugoalh/advanced-determine/lib/is/json.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.1.0/node_modules/@hugoalh/advanced-determine/lib/is/json.js
 
 /**
  * @function isJSON
@@ -29649,7 +29649,7 @@ function isJSON(item, {
 }
 /* harmony default export */ const is_json = (isJSON);
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.0.0/node_modules/@hugoalh/advanced-determine/lib/item-filter/map.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.1.0/node_modules/@hugoalh/advanced-determine/lib/item-filter/map.js
 
 
 /**
@@ -29706,7 +29706,7 @@ class MapItemFilter {
 }
 /* harmony default export */ const map = (MapItemFilter);
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.0.0/node_modules/@hugoalh/advanced-determine/lib/is/map.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.1.0/node_modules/@hugoalh/advanced-determine/lib/is/map.js
 
 /**
  * @function isMap
@@ -29733,7 +29733,7 @@ function isMap(item, {
 }
 /* harmony default export */ const is_map = (isMap);
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.0.0/node_modules/@hugoalh/advanced-determine/lib/item-filter/number.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.1.0/node_modules/@hugoalh/advanced-determine/lib/item-filter/number.js
 
 
 
@@ -29954,7 +29954,7 @@ class NumberItemFilter {
 }
 /* harmony default export */ const number = (NumberItemFilter);
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.0.0/node_modules/@hugoalh/advanced-determine/lib/is/number.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.1.0/node_modules/@hugoalh/advanced-determine/lib/is/number.js
 
 /**
  * @function isNumber
@@ -30020,7 +30020,7 @@ function isNumber(item, {
 }
 /* harmony default export */ const is_number = (isNumber);
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.0.0/node_modules/@hugoalh/advanced-determine/lib/is/object.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.1.0/node_modules/@hugoalh/advanced-determine/lib/is/object.js
 
 /**
  * @function isObject
@@ -30033,7 +30033,7 @@ function isObject(item) {
 }
 /* harmony default export */ const is_object = (isObject);
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.0.0/node_modules/@hugoalh/advanced-determine/lib/is/plain-object.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.1.0/node_modules/@hugoalh/advanced-determine/lib/is/plain-object.js
 
 /**
  * @function isPlainObject
@@ -30082,7 +30082,7 @@ function isPlainObject(item, {
 }
 /* harmony default export */ const is_plain_object = (isPlainObject);
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.0.0/node_modules/@hugoalh/advanced-determine/lib/item-filter/regular-expression.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.1.0/node_modules/@hugoalh/advanced-determine/lib/item-filter/regular-expression.js
 
 /**
  * @class RegularExpressionItemFilter
@@ -30186,7 +30186,7 @@ class RegularExpressionItemFilter {
 }
 /* harmony default export */ const regular_expression = (RegularExpressionItemFilter);
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.0.0/node_modules/@hugoalh/advanced-determine/lib/is/regular-expression.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.1.0/node_modules/@hugoalh/advanced-determine/lib/is/regular-expression.js
 
 /**
  * @function isRegularExpression
@@ -30227,7 +30227,7 @@ function isRegularExpression(item, {
 }
 /* harmony default export */ const is_regular_expression = (isRegularExpression);
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.0.0/node_modules/@hugoalh/advanced-determine/lib/item-filter/set.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.1.0/node_modules/@hugoalh/advanced-determine/lib/item-filter/set.js
 
 
 /**
@@ -30284,7 +30284,7 @@ class SetItemFilter {
 }
 /* harmony default export */ const set = (SetItemFilter);
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.0.0/node_modules/@hugoalh/advanced-determine/lib/is/set.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.1.0/node_modules/@hugoalh/advanced-determine/lib/is/set.js
 
 /**
  * @function isSet
@@ -30311,7 +30311,7 @@ function isSet(item, {
 }
 /* harmony default export */ const is_set = (isSet);
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.0.0/node_modules/@hugoalh/advanced-determine/lib/item-filter/string.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.1.0/node_modules/@hugoalh/advanced-determine/lib/item-filter/string.js
 
 
 const newLineRegExp = /[\n\r]/gu;
@@ -30450,7 +30450,7 @@ class StringItemFilter {
 }
 /* harmony default export */ const string = (StringItemFilter);
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.0.0/node_modules/@hugoalh/advanced-determine/lib/is/string.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.1.0/node_modules/@hugoalh/advanced-determine/lib/is/string.js
 
 /**
  * @function isString
@@ -30498,7 +30498,7 @@ function isString(item, {
 }
 /* harmony default export */ const is_string = (isString);
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.0.0/node_modules/@hugoalh/advanced-determine/lib/item-filter/stringify-json.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.1.0/node_modules/@hugoalh/advanced-determine/lib/item-filter/stringify-json.js
 
 /**
  * @class StringifyJSONItemFilter
@@ -30563,7 +30563,7 @@ class StringifyJSONItemFilter {
 }
 /* harmony default export */ const stringify_json = (StringifyJSONItemFilter);
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.0.0/node_modules/@hugoalh/advanced-determine/lib/is/stringify-json.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.1.0/node_modules/@hugoalh/advanced-determine/lib/is/stringify-json.js
 
 /**
  * @function isStringifyJSON
@@ -30605,7 +30605,7 @@ function isStringifyJSON(item, {
 }
 /* harmony default export */ const is_stringify_json = (isStringifyJSON);
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.0.0/node_modules/@hugoalh/advanced-determine/lib/main.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.1.0/node_modules/@hugoalh/advanced-determine/lib/main.js
 
 
 
@@ -30683,7 +30683,7 @@ function isStringifyJSON(item, {
 
 /***/ }),
 
-/***/ 8033:
+/***/ 1118:
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __nccwpck_require__) => {
 
 
@@ -30694,8 +30694,8 @@ __nccwpck_require__.d(__webpack_exports__, {
 
 // UNUSED EXPORTS: default, stringOverflow
 
-// EXTERNAL MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.0.0/node_modules/@hugoalh/advanced-determine/lib/main.js + 34 modules
-var main = __nccwpck_require__(5137);
+// EXTERNAL MODULE: ./node_modules/.pnpm/@hugoalh+advanced-determine@10.1.0/node_modules/@hugoalh/advanced-determine/lib/main.js + 34 modules
+var main = __nccwpck_require__(9164);
 ;// CONCATENATED MODULE: ./node_modules/.pnpm/ansi-regex@6.0.1/node_modules/ansi-regex/index.js
 function ansiRegex({onlyFirst = false} = {}) {
 	const pattern = [
@@ -30759,7 +30759,7 @@ function charRegex() {
 var emoji_regex = __nccwpck_require__(1149);
 // EXTERNAL MODULE: ./node_modules/.pnpm/url-regex-safe@3.0.0/node_modules/url-regex-safe/lib/index.js
 var lib = __nccwpck_require__(4558);
-;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+string-overflow@1.0.0/node_modules/@hugoalh/string-overflow/dist/string-overflow-truncator.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+string-overflow@1.1.0/node_modules/@hugoalh/string-overflow/dist/string-overflow-truncator.js
 var __classPrivateFieldSet = (undefined && undefined.__classPrivateFieldSet) || function (receiver, state, value, kind, f) {
     if (kind === "m") throw new TypeError("Private method is not writable");
     if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
@@ -30774,12 +30774,12 @@ var __classPrivateFieldGet = (undefined && undefined.__classPrivateFieldGet) || 
 var _StringOverflowTruncator_ellipsisMark, _StringOverflowTruncator_ellipsisPosition, _StringOverflowTruncator_maximumLength, _StringOverflowTruncator_resultLengthMaximum, _StringOverflowTruncator_safeURLs, _StringOverflowTruncator_safeWords;
 
 
+
+
+
 const ansiRegExp = new RegExp(ansiRegex().source, "u");
-
 const characterRegExp = new RegExp(charRegex().source, "u");
-
 const emojiRegExp = new RegExp(emoji_regex().source, "u");
-
 const urlRegExp = new RegExp(lib().source, "u");
 const ellipsisPositionEndRegExp = /^(?:[Ee](?:nd)?|[Rr](?:ight)?)$/u;
 const ellipsisPositionMiddleRegExp = /^(?:[Cc](?:enter)?|[Mm](?:iddle)?)$/u;
@@ -30790,6 +30790,21 @@ const numberIPSFilter = new main/* NumberItemFilter */.Lz({
     safe: true
 });
 const wordsRegExp = /[\d\w]+(?:[~@#$%&*_'.-][\d\w]+)*/u;
+/**
+ * @access private
+ * @function checkLength
+ * @param {number} maximumLength Maximum length of the target string.
+ * @param {number} ellipsisMarkLength Ellipsis mark length of the target string.
+ * @returns {void}
+ */
+function checkLength(maximumLength, ellipsisMarkLength) {
+    if (!numberIPSFilter.test(maximumLength)) {
+        throw new TypeError(`Argument \`maximumLength\` must be type of number (integer, positive, and safe)!`);
+    }
+    if (ellipsisMarkLength > maximumLength) {
+        throw new Error(`Ellipsis string also overflow!`);
+    }
+}
 /**
  * @access private
  * @function stringDissect
@@ -30859,9 +30874,6 @@ class StringOverflowTruncator {
         _StringOverflowTruncator_resultLengthMaximum.set(this, void 0);
         _StringOverflowTruncator_safeURLs.set(this, void 0);
         _StringOverflowTruncator_safeWords.set(this, void 0);
-        if (!numberIPSFilter.test(maximumLength)) {
-            throw new TypeError(`Argument \`maximumLength\` must be type of number (integer, positive, and safe)!`);
-        }
         if (typeof ellipsisMark !== "string") {
             throw new TypeError(`Argument \`ellipsisMark\` must be type of string!`);
         }
@@ -30880,14 +30892,12 @@ class StringOverflowTruncator {
         else {
             throw new RangeError(`\`${ellipsisPosition}\` is not a valid ellipsis position!`);
         }
+        checkLength(maximumLength, ellipsisMark.length);
         if (typeof safeURLs !== "boolean") {
             throw new TypeError(`Argument \`safeURLs\` must be type of boolean!`);
         }
         if (typeof safeWords !== "boolean") {
             throw new TypeError(`Argument \`safeWords\` must be type of boolean!`);
-        }
-        if (ellipsisMark.length > maximumLength) {
-            throw new Error(`Ellipsis string also overflow!`);
         }
         __classPrivateFieldSet(this, _StringOverflowTruncator_ellipsisMark, ellipsisMark, "f");
         __classPrivateFieldSet(this, _StringOverflowTruncator_maximumLength, maximumLength, "f");
@@ -30899,27 +30909,35 @@ class StringOverflowTruncator {
      * @method truncate
      * @description Truncate the string.
      * @param {string} item String that need to truncate.
+     * @param {number} [maximumLengthOverride] Override the preset maximum length of the target string.
      * @returns {string} A truncated string.
      */
-    truncate(item) {
+    truncate(item, maximumLengthOverride) {
         if (typeof item !== "string") {
             throw new TypeError(`Argument \`item\` must be type of string!`);
         }
-        if (item.length <= __classPrivateFieldGet(this, _StringOverflowTruncator_maximumLength, "f")) {
+        let maximumLength = __classPrivateFieldGet(this, _StringOverflowTruncator_maximumLength, "f");
+        let resultLengthMaximum = __classPrivateFieldGet(this, _StringOverflowTruncator_resultLengthMaximum, "f");
+        if (typeof maximumLengthOverride !== "undefined") {
+            checkLength(maximumLengthOverride, __classPrivateFieldGet(this, _StringOverflowTruncator_ellipsisMark, "f").length);
+            maximumLength = maximumLengthOverride;
+            resultLengthMaximum = maximumLengthOverride - __classPrivateFieldGet(this, _StringOverflowTruncator_ellipsisMark, "f").length;
+        }
+        if (item.length <= maximumLength) {
             return item;
         }
         let resultLengthLeft = 0;
         let resultLengthRight = 0;
         if (__classPrivateFieldGet(this, _StringOverflowTruncator_ellipsisPosition, "f") === "S") {
-            resultLengthRight = __classPrivateFieldGet(this, _StringOverflowTruncator_resultLengthMaximum, "f");
+            resultLengthRight = resultLengthMaximum;
         }
         else if (__classPrivateFieldGet(this, _StringOverflowTruncator_ellipsisPosition, "f") === "M") {
-            let resultLengthHalf = Math.floor(__classPrivateFieldGet(this, _StringOverflowTruncator_resultLengthMaximum, "f") / 2);
+            let resultLengthHalf = Math.floor(resultLengthMaximum / 2);
             resultLengthLeft = resultLengthHalf;
             resultLengthRight = resultLengthHalf;
         }
         else {
-            resultLengthLeft = __classPrivateFieldGet(this, _StringOverflowTruncator_resultLengthMaximum, "f");
+            resultLengthLeft = resultLengthMaximum;
         }
         let stringGroup = stringDissect(item, {
             safeURLs: __classPrivateFieldGet(this, _StringOverflowTruncator_safeURLs, "f"),
@@ -30949,7 +30967,7 @@ class StringOverflowTruncator {
 _StringOverflowTruncator_ellipsisMark = new WeakMap(), _StringOverflowTruncator_ellipsisPosition = new WeakMap(), _StringOverflowTruncator_maximumLength = new WeakMap(), _StringOverflowTruncator_resultLengthMaximum = new WeakMap(), _StringOverflowTruncator_safeURLs = new WeakMap(), _StringOverflowTruncator_safeWords = new WeakMap();
 /* harmony default export */ const string_overflow_truncator = (StringOverflowTruncator);
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+string-overflow@1.0.0/node_modules/@hugoalh/string-overflow/dist/string-overflow.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+string-overflow@1.1.0/node_modules/@hugoalh/string-overflow/dist/string-overflow.js
 
 /**
  * @function stringOverflow
@@ -30973,7 +30991,7 @@ function stringOverflow(item, maximumLength, { ellipsisMark = "...", ellipsisPos
 }
 /* harmony default export */ const string_overflow = (stringOverflow);
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+string-overflow@1.0.0/node_modules/@hugoalh/string-overflow/dist/main.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/@hugoalh+string-overflow@1.1.0/node_modules/@hugoalh/string-overflow/dist/main.js
 
 
 
@@ -34319,14 +34337,14 @@ function fixResponseChunkedTransferBadEnding(request, errorCallback) {
 
 __nccwpck_require__.a(__webpack_module__, async (__webpack_handle_async_dependencies__, __webpack_async_result__) => { try {
 /* harmony import */ var node_fs_promises__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(3977);
-/* harmony import */ var _hugoalh_advanced_determine__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(5137);
+/* harmony import */ var _hugoalh_advanced_determine__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(9164);
 /* harmony import */ var node_path__WEBPACK_IMPORTED_MODULE_2__ = __nccwpck_require__(9411);
 /* harmony import */ var chalk__WEBPACK_IMPORTED_MODULE_3__ = __nccwpck_require__(4261);
 /* harmony import */ var node_fs__WEBPACK_IMPORTED_MODULE_4__ = __nccwpck_require__(7561);
 /* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_5__ = __nccwpck_require__(7733);
 /* harmony import */ var node_url__WEBPACK_IMPORTED_MODULE_6__ = __nccwpck_require__(1041);
 /* harmony import */ var node_crypto__WEBPACK_IMPORTED_MODULE_7__ = __nccwpck_require__(6005);
-/* harmony import */ var _hugoalh_string_overflow__WEBPACK_IMPORTED_MODULE_8__ = __nccwpck_require__(8033);
+/* harmony import */ var _hugoalh_string_overflow__WEBPACK_IMPORTED_MODULE_8__ = __nccwpck_require__(1118);
 /* harmony import */ var ajv_dist_2020_js__WEBPACK_IMPORTED_MODULE_9__ = __nccwpck_require__(9407);
 /* harmony import */ var ajv_formats__WEBPACK_IMPORTED_MODULE_10__ = __nccwpck_require__(6314);
 /* harmony import */ var ajv_formats_draft2019__WEBPACK_IMPORTED_MODULE_11__ = __nccwpck_require__(7152);
@@ -34406,13 +34424,7 @@ try {
 		ellipsisMark: truncateEllipsis,
 		ellipsisPosition: truncatePosition
 	};
-	const stringTruncate80 = new _hugoalh_string_overflow__WEBPACK_IMPORTED_MODULE_8__/* .StringOverflowTruncator */ .Qy(80, stringOverflowTruncatorOptions);
-	const stringTruncate100 = new _hugoalh_string_overflow__WEBPACK_IMPORTED_MODULE_8__/* .StringOverflowTruncator */ .Qy(100, stringOverflowTruncatorOptions);
-	const stringTruncate256 = new _hugoalh_string_overflow__WEBPACK_IMPORTED_MODULE_8__/* .StringOverflowTruncator */ .Qy(256, stringOverflowTruncatorOptions);
-	const stringTruncate1024 = new _hugoalh_string_overflow__WEBPACK_IMPORTED_MODULE_8__/* .StringOverflowTruncator */ .Qy(1024, stringOverflowTruncatorOptions);
-	const stringTruncate2000 = new _hugoalh_string_overflow__WEBPACK_IMPORTED_MODULE_8__/* .StringOverflowTruncator */ .Qy(2000, stringOverflowTruncatorOptions);
-	const stringTruncate2048 = new _hugoalh_string_overflow__WEBPACK_IMPORTED_MODULE_8__/* .StringOverflowTruncator */ .Qy(2048, stringOverflowTruncatorOptions);
-	const stringTruncate4096 = new _hugoalh_string_overflow__WEBPACK_IMPORTED_MODULE_8__/* .StringOverflowTruncator */ .Qy(4096, stringOverflowTruncatorOptions);
+	const stringTruncator = new _hugoalh_string_overflow__WEBPACK_IMPORTED_MODULE_8__/* .StringOverflowTruncator */ .Qy(128, stringOverflowTruncatorOptions);
 	let payloadRaw = (0,_actions_core__WEBPACK_IMPORTED_MODULE_5__.getInput)("payload");
 	let payload = new _hugoalh_advanced_determine__WEBPACK_IMPORTED_MODULE_1__/* .StringifyJSONItemFilter */ .yA({
 		allowEmpty: true,
@@ -34434,7 +34446,7 @@ try {
 			if (!truncateEnable) {
 				throw new Error(`Input \`payload.content\` is too large!`);
 			}
-			payload.content = stringTruncate2000.truncate(payload.content);
+			payload.content = stringTruncator.truncate(payload.content, 2000);
 		}
 	}
 	if (typeof payload.username === "string") {
@@ -34444,7 +34456,7 @@ try {
 			if (!truncateEnable) {
 				throw new Error(`Input \`payload.username\` is too large!`);
 			}
-			payload.username = stringTruncate80.truncate(payload.username);
+			payload.username = stringTruncator.truncate(payload.username, 80);
 		}
 	}
 	if (typeof payload.avatar_url === "string") {
@@ -34461,7 +34473,7 @@ try {
 					if (!truncateEnable) {
 						throw new Error(`Input \`payload.embeds[${embedsIndex}].title\` is too large!`);
 					}
-					payload.embeds[embedsIndex].title = stringTruncate256.truncate(payload.embeds[embedsIndex].title);
+					payload.embeds[embedsIndex].title = stringTruncator.truncate(payload.embeds[embedsIndex].title, 256);
 				}
 			}
 			if (typeof payload.embeds[embedsIndex].description === "string") {
@@ -34471,7 +34483,7 @@ try {
 					if (!truncateEnable) {
 						throw new Error(`Input \`payload.embeds[${embedsIndex}].description\` is too large!`);
 					}
-					payload.embeds[embedsIndex].description = stringTruncate4096.truncate(payload.embeds[embedsIndex].description);
+					payload.embeds[embedsIndex].description = stringTruncator.truncate(payload.embeds[embedsIndex].description, 4096);
 				}
 			}
 			if (typeof payload.embeds[embedsIndex].url === "string") {
@@ -34508,7 +34520,7 @@ try {
 						if (!truncateEnable) {
 							throw new Error(`Input \`payload.embeds[${embedsIndex}].footer.text\` is too large!`);
 						}
-						payload.embeds[embedsIndex].footer.text = stringTruncate2048.truncate(payload.embeds[embedsIndex].footer.text);
+						payload.embeds[embedsIndex].footer.text = stringTruncator.truncate(payload.embeds[embedsIndex].footer.text, 2048);
 					}
 				}
 				if (typeof payload.embeds[embedsIndex].footer.icon_url === "string") {
@@ -34539,7 +34551,7 @@ try {
 						if (!truncateEnable) {
 							throw new Error(`Input \`payload.embeds[${embedsIndex}].author.name\` is too large!`);
 						}
-						payload.embeds[embedsIndex].author.name = stringTruncate256.truncate(payload.embeds[embedsIndex].author.name);
+						payload.embeds[embedsIndex].author.name = stringTruncator.truncate(payload.embeds[embedsIndex].author.name, 256);
 					}
 				}
 				if (typeof payload.embeds[embedsIndex].author.url === "string") {
@@ -34560,7 +34572,7 @@ try {
 							if (!truncateEnable) {
 								throw new Error(`Input \`payload.embeds[${embedsIndex}].fields[${fieldsIndex}].name\` is too large!`);
 							}
-							payload.embeds[embedsIndex].fields[fieldsIndex].name = stringTruncate256.truncate(payload.embeds[embedsIndex].fields[fieldsIndex].name);
+							payload.embeds[embedsIndex].fields[fieldsIndex].name = stringTruncator.truncate(payload.embeds[embedsIndex].fields[fieldsIndex].name, 256);
 						}
 					}
 					if (typeof payload.embeds[embedsIndex].fields[fieldsIndex].value === "string") {
@@ -34568,7 +34580,7 @@ try {
 							if (!truncateEnable) {
 								throw new Error(`Input \`payload.embeds[${embedsIndex}].fields[${fieldsIndex}].value\` is too large!`);
 							}
-							payload.embeds[embedsIndex].fields[fieldsIndex].value = stringTruncate1024.truncate(payload.embeds[embedsIndex].fields[fieldsIndex].value);
+							payload.embeds[embedsIndex].fields[fieldsIndex].value = stringTruncator.truncate(payload.embeds[embedsIndex].fields[fieldsIndex].value, 1024);
 						}
 					}
 				}
@@ -34653,11 +34665,11 @@ try {
 				});
 				const stringTFilter = new _hugoalh_advanced_determine__WEBPACK_IMPORTED_MODULE_1__/* .StringItemFilter */ .Pf({ preTrim: true });
 				if (stringTFilter.test(payload.content)) {
-					threadValue = stringTruncate100.truncate(payload.content.trim().replace(/\r?\n/gu, " "));
+					threadValue = stringTruncator.truncate(payload.content.trim().replace(/\r?\n/gu, " "), 100);
 				} else if (arrayAloneFilter.test(payload.embeds) && stringTFilter.test(payload.embeds[0].title)) {
-					threadValue = stringTruncate100.truncate(payload.embeds[0].title.trim().replace(/\r?\n/gu, " "));
+					threadValue = stringTruncator.truncate(payload.embeds[0].title.trim().replace(/\r?\n/gu, " "), 100);
 				} else if (arrayAloneFilter.test(payload.embeds) && stringTFilter.test(payload.embeds[0].description)) {
-					threadValue = stringTruncate100.truncate(payload.embeds[0].description.trim().replace(/\r?\n/gu, " "));
+					threadValue = stringTruncator.truncate(payload.embeds[0].description.trim().replace(/\r?\n/gu, " "), 100);
 				} else {
 					threadValue = `Send Discord Webhook - ${new Date().toISOString().replace(/\.000Z$/gu, "Z")}`;
 				}
@@ -34665,7 +34677,7 @@ try {
 				if (!truncateEnable) {
 					throw new Error(`Input \`thread_value\` is too large!`);
 				}
-				threadValue = stringTruncate100.truncate(threadValue);
+				threadValue = stringTruncator.truncate(threadValue, 100);
 			}
 			payload.thread_name = threadValue;
 			console.log(`${chalk.bold("Thread Name:")} ${threadValue}`);
@@ -34683,7 +34695,7 @@ try {
 	(0,_actions_core__WEBPACK_IMPORTED_MODULE_5__.startGroup)(`Post network request to Discord.`);
 	let requestBody;
 	let requestHeaders = {
-		"User-Agent": `SendDiscordWebhook.GitHubAction/5.0.1 NodeJS/${process.versions.node}-${process.platform}-${process.arch}`
+		"User-Agent": `SendDiscordWebhook.GitHubAction/5.0.2 NodeJS/${process.versions.node}-${process.platform}-${process.arch}`
 	};
 	let requestQuery = discordWebhookQuery.toString();
 	if (method === "form") {

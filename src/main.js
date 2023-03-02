@@ -69,13 +69,7 @@ try {
 		ellipsisMark: truncateEllipsis,
 		ellipsisPosition: truncatePosition
 	};
-	const stringTruncate80 = new StringOverflowTruncator(80, stringOverflowTruncatorOptions);
-	const stringTruncate100 = new StringOverflowTruncator(100, stringOverflowTruncatorOptions);
-	const stringTruncate256 = new StringOverflowTruncator(256, stringOverflowTruncatorOptions);
-	const stringTruncate1024 = new StringOverflowTruncator(1024, stringOverflowTruncatorOptions);
-	const stringTruncate2000 = new StringOverflowTruncator(2000, stringOverflowTruncatorOptions);
-	const stringTruncate2048 = new StringOverflowTruncator(2048, stringOverflowTruncatorOptions);
-	const stringTruncate4096 = new StringOverflowTruncator(4096, stringOverflowTruncatorOptions);
+	const stringTruncator = new StringOverflowTruncator(128, stringOverflowTruncatorOptions);
 	let payloadRaw = ghactionsGetInput("payload");
 	let payload = new StringifyJSONItemFilter({
 		allowEmpty: true,
@@ -97,7 +91,7 @@ try {
 			if (!truncateEnable) {
 				throw new Error(`Input \`payload.content\` is too large!`);
 			}
-			payload.content = stringTruncate2000.truncate(payload.content);
+			payload.content = stringTruncator.truncate(payload.content, 2000);
 		}
 	}
 	if (typeof payload.username === "string") {
@@ -107,7 +101,7 @@ try {
 			if (!truncateEnable) {
 				throw new Error(`Input \`payload.username\` is too large!`);
 			}
-			payload.username = stringTruncate80.truncate(payload.username);
+			payload.username = stringTruncator.truncate(payload.username, 80);
 		}
 	}
 	if (typeof payload.avatar_url === "string") {
@@ -124,7 +118,7 @@ try {
 					if (!truncateEnable) {
 						throw new Error(`Input \`payload.embeds[${embedsIndex}].title\` is too large!`);
 					}
-					payload.embeds[embedsIndex].title = stringTruncate256.truncate(payload.embeds[embedsIndex].title);
+					payload.embeds[embedsIndex].title = stringTruncator.truncate(payload.embeds[embedsIndex].title, 256);
 				}
 			}
 			if (typeof payload.embeds[embedsIndex].description === "string") {
@@ -134,7 +128,7 @@ try {
 					if (!truncateEnable) {
 						throw new Error(`Input \`payload.embeds[${embedsIndex}].description\` is too large!`);
 					}
-					payload.embeds[embedsIndex].description = stringTruncate4096.truncate(payload.embeds[embedsIndex].description);
+					payload.embeds[embedsIndex].description = stringTruncator.truncate(payload.embeds[embedsIndex].description, 4096);
 				}
 			}
 			if (typeof payload.embeds[embedsIndex].url === "string") {
@@ -171,7 +165,7 @@ try {
 						if (!truncateEnable) {
 							throw new Error(`Input \`payload.embeds[${embedsIndex}].footer.text\` is too large!`);
 						}
-						payload.embeds[embedsIndex].footer.text = stringTruncate2048.truncate(payload.embeds[embedsIndex].footer.text);
+						payload.embeds[embedsIndex].footer.text = stringTruncator.truncate(payload.embeds[embedsIndex].footer.text, 2048);
 					}
 				}
 				if (typeof payload.embeds[embedsIndex].footer.icon_url === "string") {
@@ -202,7 +196,7 @@ try {
 						if (!truncateEnable) {
 							throw new Error(`Input \`payload.embeds[${embedsIndex}].author.name\` is too large!`);
 						}
-						payload.embeds[embedsIndex].author.name = stringTruncate256.truncate(payload.embeds[embedsIndex].author.name);
+						payload.embeds[embedsIndex].author.name = stringTruncator.truncate(payload.embeds[embedsIndex].author.name, 256);
 					}
 				}
 				if (typeof payload.embeds[embedsIndex].author.url === "string") {
@@ -223,7 +217,7 @@ try {
 							if (!truncateEnable) {
 								throw new Error(`Input \`payload.embeds[${embedsIndex}].fields[${fieldsIndex}].name\` is too large!`);
 							}
-							payload.embeds[embedsIndex].fields[fieldsIndex].name = stringTruncate256.truncate(payload.embeds[embedsIndex].fields[fieldsIndex].name);
+							payload.embeds[embedsIndex].fields[fieldsIndex].name = stringTruncator.truncate(payload.embeds[embedsIndex].fields[fieldsIndex].name, 256);
 						}
 					}
 					if (typeof payload.embeds[embedsIndex].fields[fieldsIndex].value === "string") {
@@ -231,7 +225,7 @@ try {
 							if (!truncateEnable) {
 								throw new Error(`Input \`payload.embeds[${embedsIndex}].fields[${fieldsIndex}].value\` is too large!`);
 							}
-							payload.embeds[embedsIndex].fields[fieldsIndex].value = stringTruncate1024.truncate(payload.embeds[embedsIndex].fields[fieldsIndex].value);
+							payload.embeds[embedsIndex].fields[fieldsIndex].value = stringTruncator.truncate(payload.embeds[embedsIndex].fields[fieldsIndex].value, 1024);
 						}
 					}
 				}
@@ -316,11 +310,11 @@ try {
 				});
 				const stringTFilter = new StringItemFilter({ preTrim: true });
 				if (stringTFilter.test(payload.content)) {
-					threadValue = stringTruncate100.truncate(payload.content.trim().replace(/\r?\n/gu, " "));
+					threadValue = stringTruncator.truncate(payload.content.trim().replace(/\r?\n/gu, " "), 100);
 				} else if (arrayAloneFilter.test(payload.embeds) && stringTFilter.test(payload.embeds[0].title)) {
-					threadValue = stringTruncate100.truncate(payload.embeds[0].title.trim().replace(/\r?\n/gu, " "));
+					threadValue = stringTruncator.truncate(payload.embeds[0].title.trim().replace(/\r?\n/gu, " "), 100);
 				} else if (arrayAloneFilter.test(payload.embeds) && stringTFilter.test(payload.embeds[0].description)) {
-					threadValue = stringTruncate100.truncate(payload.embeds[0].description.trim().replace(/\r?\n/gu, " "));
+					threadValue = stringTruncator.truncate(payload.embeds[0].description.trim().replace(/\r?\n/gu, " "), 100);
 				} else {
 					threadValue = `Send Discord Webhook - ${new Date().toISOString().replace(/\.000Z$/gu, "Z")}`;
 				}
@@ -328,7 +322,7 @@ try {
 				if (!truncateEnable) {
 					throw new Error(`Input \`thread_value\` is too large!`);
 				}
-				threadValue = stringTruncate100.truncate(threadValue);
+				threadValue = stringTruncator.truncate(threadValue, 100);
 			}
 			payload.thread_name = threadValue;
 			console.log(`${chalk.bold("Thread Name:")} ${threadValue}`);
@@ -346,7 +340,7 @@ try {
 	ghactionsStartGroup(`Post network request to Discord.`);
 	let requestBody;
 	let requestHeaders = {
-		"User-Agent": `SendDiscordWebhook.GitHubAction/5.0.1 NodeJS/${process.versions.node}-${process.platform}-${process.arch}`
+		"User-Agent": `SendDiscordWebhook.GitHubAction/5.0.2 NodeJS/${process.versions.node}-${process.platform}-${process.arch}`
 	};
 	let requestQuery = discordWebhookQuery.toString();
 	if (method === "form") {
