@@ -11,7 +11,7 @@ specifiers:
   ajv-formats-draft2019: ^1.6.1
   chalk: ^5.2.0
   color: ^4.2.3
-  color-name-list: ^10.5.0
+  color-name-list: ^10.6.0
   eslint: ^8.35.0
   eslint-plugin-only-warn: ^1.1.0
   form-data: ^4.0.0
@@ -28,7 +28,7 @@ dependencies:
   ajv-formats-draft2019: 1.6.1_ajv@8.12.0
   chalk: 5.2.0
   color: 4.2.3
-  color-name-list: 10.5.0
+  color-name-list: 10.6.0
   form-data: 4.0.0
   node-fetch: 3.3.0
   yaml: 2.2.1
@@ -272,8 +272,8 @@ packages:
     dependencies:
       color-name: 1.1.4
 
-  /color-name-list/10.5.0:
-    resolution: {integrity: sha512-oGDSrxZu9DchyoR4nA4d4HnkMe/CKGSP70TJ7XHYL/cQs220i+gF4fN1mgjlTcjXBFQ8qj8JuY5G4uaMbrD0aw==}
+  /color-name-list/10.6.0:
+    resolution: {integrity: sha512-THiIzIG96gfNgGepWseqJfEKoJ8qJiXaaS2Xb8PNbbj0L2G20pe97XoEKdbUEJGhyxq1gi0miI9c6lQpe4IPRQ==}
     engines: {node: '>=16', npm: '>=8.11.0'}
     dev: false
 
