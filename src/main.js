@@ -1,8 +1,8 @@
-import { access as fsAccess, constants as fsConstants, readFile } from "node:fs/promises";
+import { access as fsAccess, constants as fsConstants, readFile as fsReadFile } from "node:fs/promises";
 import { ArrayItemFilter, JSONItemFilter, StringifyJSONItemFilter, StringItemFilter } from "@hugoalh/advanced-determine";
-import { basename as pathBasename, dirname, join as pathJoin } from "node:path";
+import { basename as pathBaseName, dirname as pathDirName, join as pathJoin } from "node:path";
 import { Chalk } from "chalk";
-import { createReadStream } from "node:fs";
+import { createReadStream as fsCreateReadStream } from "node:fs";
 import { endGroup as ghactionsEndGroup, error as ghactionsError, getBooleanInput as ghactionsGetBooleanInput, getInput as ghactionsGetInput, setSecret as ghactionsSetSecret, setOutput as ghactionsSetOutput, startGroup as ghactionsStartGroup, warning as ghactionsWarning } from "@actions/core";
 import { fileURLToPath, URLSearchParams } from "node:url";
 import { randomInt } from "node:crypto";
@@ -16,7 +16,7 @@ import FormData from "form-data";
 import nodeFetch from "node-fetch";
 import yaml from "yaml";
 try {
-	const ghactionsActionDirectory = pathJoin(dirname(fileURLToPath(import.meta.url)), "../");
+	const ghactionsActionDirectory = pathJoin(pathDirName(fileURLToPath(import.meta.url)), "../");
 	const ghactionsWorkspaceDirectory = process.env.GITHUB_WORKSPACE;
 	const chalk = new Chalk({ level: 3 });
 	const discordWebhookQuery = new URLSearchParams();
@@ -47,8 +47,8 @@ try {
 	});
 	ajvFormats(ajv);
 	ajvFormatsDraft2019(ajv);
-	const jsonSchemaValidator = ajv.compile(JSON.parse((await readFile(pathJoin(ghactionsActionDirectory, "discord-webhook-payload-custom.schema.json"))).toString()));
-	const exclusiveColorNamespaceList = JSON.parse((await readFile(pathJoin(ghactionsActionDirectory, "exclusive-color-namespace.json"))).toString());
+	const jsonSchemaValidator = ajv.compile(JSON.parse((await fsReadFile(pathJoin(ghactionsActionDirectory, "discord-webhook-payload-custom.schema.json"))).toString()));
+	const exclusiveColorNamespaceList = JSON.parse((await fsReadFile(pathJoin(ghactionsActionDirectory, "exclusive-color-namespace.json"))).toString());
 	ghactionsStartGroup(`Import inputs.`);
 	let keyRaw = ghactionsGetInput("key");
 	if (!(new StringItemFilter({ pattern: discordWebhookURLRegExp }).test(keyRaw))) {
@@ -349,12 +349,12 @@ try {
 			payload.attachments = [];
 			for (let filesIndex = 0; filesIndex < files.length; filesIndex++) {
 				let fileFullPath = pathJoin(ghactionsWorkspaceDirectory, files[filesIndex]);
-				let fileName = pathBasename(fileFullPath);
+				let fileName = pathBaseName(fileFullPath);
 				payload.attachments.push({
 					"filename": fileName,
 					"id": filesIndex
 				});
-				requestBody.append(`files[${filesIndex}]`, createReadStream(fileFullPath));
+				requestBody.append(`files[${filesIndex}]`, fsCreateReadStream(fileFullPath));
 			}
 		}
 		requestBody.append("payload_json", JSON.stringify(payload));
