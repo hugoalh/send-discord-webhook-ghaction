@@ -4,14 +4,14 @@ specifiers:
   '@actions/core': ^1.10.0
   '@hugoalh/advanced-determine': ^10.2.1
   '@hugoalh/string-overflow': ^1.2.0
-  '@types/node': ^18.15.2
+  '@types/node': ^18.15.3
   '@vercel/ncc': ^0.36.1
   ajv: ^8.12.0
   ajv-formats: 3.0.0-rc.0
   ajv-formats-draft2019: ^1.6.1
   chalk: ^5.2.0
   color: ^4.2.3
-  color-name-list: ^10.6.0
+  color-name-list: ^10.7.0
   eslint: ^8.36.0
   eslint-plugin-only-warn: ^1.1.0
   form-data: ^4.0.0
@@ -28,13 +28,13 @@ dependencies:
   ajv-formats-draft2019: 1.6.1_ajv@8.12.0
   chalk: 5.2.0
   color: 4.2.3
-  color-name-list: 10.6.0
+  color-name-list: 10.7.0
   form-data: 4.0.0
   node-fetch: 3.3.1
   yaml: 2.2.1
 
 devDependencies:
-  '@types/node': 18.15.2
+  '@types/node': 18.15.3
   '@vercel/ncc': 0.36.1
   eslint: 8.36.0
   eslint-plugin-only-warn: 1.1.0
@@ -167,8 +167,8 @@ packages:
       fastq: 1.15.0
     dev: true
 
-  /@types/node/18.15.2:
-    resolution: {integrity: sha512-sDPHm2wfx2QhrMDK0pOt2J4KLJMAcerqWNvnED0itPRJWvI+bK+uNHzcH1dFsBlf7G3u8tqXmRF3wkvL9yUwMw==}
+  /@types/node/18.15.3:
+    resolution: {integrity: sha512-p6ua9zBxz5otCmbpb5D3U4B5Nanw6Pk3PPyX05xnxbB/fRv71N7CPmORg7uAD5P70T0xmx1pzAx/FUfa5X+3cw==}
     dev: true
 
   /@vercel/ncc/0.36.1:
@@ -296,8 +296,8 @@ packages:
     dependencies:
       color-name: 1.1.4
 
-  /color-name-list/10.6.0:
-    resolution: {integrity: sha512-THiIzIG96gfNgGepWseqJfEKoJ8qJiXaaS2Xb8PNbbj0L2G20pe97XoEKdbUEJGhyxq1gi0miI9c6lQpe4IPRQ==}
+  /color-name-list/10.7.0:
+    resolution: {integrity: sha512-caycAVx3+tHBKQzvPtyO5eXxC6gFo+9iyBSkWp+7Dx9UYOt6DkqA9cwW8dEcJL6Fd5IAi5GZRotDVjAKneUZRQ==}
     engines: {node: '>=16', npm: '>=8.11.0'}
     dev: false
 
