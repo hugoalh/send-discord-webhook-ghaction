@@ -340,7 +340,7 @@ try {
 	ghactionsStartGroup(`Post network request to Discord.`);
 	let requestBody;
 	let requestHeaders = {
-		"User-Agent": `SendDiscordWebhook.GitHubAction/5.0.2 NodeJS/${process.versions.node}-${process.platform}-${process.arch}`
+		"User-Agent": `SendDiscordWebhook.GitHubAction/5.0.3 NodeJS/${process.versions.node}-${process.platform}-${process.arch}`
 	};
 	let requestQuery = discordWebhookQuery.toString();
 	if (method === "form") {

@@ -1,30 +1,43 @@
 import { dirname as pathDirName, join as pathJoin } from "node:path";
-import { exec } from "node:child_process";
+import { existsSync as fsExistsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
-import { promisify } from "node:util";
-import { readdir as fsReadDir, rename as fsRename, rm as fsRemove } from "node:fs/promises";
-const childProcessExec = promisify(exec);
-const outputDirectory = "dist";
-const outputDirectoryFullPath = pathJoin(pathDirName(fileURLToPath(import.meta.url)), outputDirectory);
+import { mkdir as fsMKDir, readdir as fsReadDir, rm as fsRemove, writeFile as fsWriteFile } from "node:fs/promises";
+import ncc from "@vercel/ncc";
+const scriptRoot = pathDirName(fileURLToPath(import.meta.url));
+const scriptFileName = "main.js";
+const inputDirectoryPath = pathJoin(scriptRoot, "src");
+const inputFilePath = pathJoin(inputDirectoryPath, scriptFileName);
+const outputDirectoryPath = pathJoin(scriptRoot, "dist");
+const outputFilePath = pathJoin(outputDirectoryPath, scriptFileName);
 async function readOutputDirectory() {
 	try {
-		return await fsReadDir(outputDirectoryFullPath, { withFileTypes: true });
+		return await fsReadDir(outputDirectoryPath, { withFileTypes: true });
 	} catch {
 		return [];
 	}
 }
-/* Remove all of the files in the output directory, need to await in order to prevent race conditions. */
-for (const outputFile of await readOutputDirectory()) {
-	await fsRemove(pathJoin(outputDirectoryFullPath, outputFile.name));
-}
-/* Invoke `ncc` bundler. */
-console.log(await childProcessExec(`"./node_modules/.bin/ncc.cmd" build src/main.js --out "${outputDirectory}" --no-cache --no-source-map-register --target es2021`));
-/* Fix `ncc` bundler issues, no need to await due to no race conditions. */
-for (const outputFile of await readOutputDirectory()) {
-	const outputFileFullPath = pathJoin(outputDirectoryFullPath, outputFile.name);
-	if (outputFile.name === "index.js") {
-		fsRename(outputFileFullPath, pathJoin(outputDirectoryFullPath, "main.js"));
-	} else {
-		fsRemove(outputFileFullPath);
+
+/* Clean up or initialize output directory (need to await in order to prevent race conditions). */
+if (fsExistsSync(outputDirectoryPath)) {
+	for (const outputFile of await readOutputDirectory()) {
+		await fsRemove(pathJoin(outputDirectoryPath, outputFile.name));
 	}
+} else {
+	await fsMKDir(outputDirectoryPath, { recursive: true });
 }
+
+/* Create bundle. */
+let { code } = await ncc(inputFilePath, {
+	assetBuilds: false,
+	cache: false,
+	debugLog: false,
+	license: "",
+	minify: true,
+	quiet: false,
+	sourceMap: false,
+	sourceMapRegister: false,
+	target: "es2022",
+	v8cache: false,
+	watch: false
+});
+await fsWriteFile(outputFilePath, code, { encoding: "utf8" });
