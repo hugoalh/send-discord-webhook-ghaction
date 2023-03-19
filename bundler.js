@@ -3,15 +3,15 @@ import { existsSync as fsExistsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { mkdir as fsMKDir, readdir as fsReadDir, rm as fsRemove, writeFile as fsWriteFile } from "node:fs/promises";
 import ncc from "@vercel/ncc";
-const scriptRoot = pathDirName(fileURLToPath(import.meta.url));
-const scriptFileName = "main.js";
-const inputDirectoryPath = pathJoin(scriptRoot, "src");
-const inputFilePath = pathJoin(inputDirectoryPath, scriptFileName);
-const outputDirectoryPath = pathJoin(scriptRoot, "dist");
-const outputFilePath = pathJoin(outputDirectoryPath, scriptFileName);
-async function readOutputDirectory() {
+const root = pathDirName(fileURLToPath(import.meta.url));
+const scriptEntryPointFileName = "main.js";
+const inputDirectoryPath = pathJoin(root, "src");
+const inputFilePath = pathJoin(inputDirectoryPath, scriptEntryPointFileName);
+const outputDirectoryPath = pathJoin(root, "dist");
+const outputFilePath = pathJoin(outputDirectoryPath, scriptEntryPointFileName);
+async function getDirectoryItem(directoryPath) {
 	try {
-		return await fsReadDir(outputDirectoryPath, { withFileTypes: true });
+		return await fsReadDir(directoryPath, { withFileTypes: true });
 	} catch {
 		return [];
 	}
@@ -19,8 +19,8 @@ async function readOutputDirectory() {
 
 /* Clean up or initialize output directory (need to await in order to prevent race conditions). */
 if (fsExistsSync(outputDirectoryPath)) {
-	for (const outputFile of await readOutputDirectory()) {
-		await fsRemove(pathJoin(outputDirectoryPath, outputFile.name));
+	for (const outputFile of await getDirectoryItem(outputDirectoryPath)) {
+		await fsRemove(pathJoin(outputDirectoryPath, outputFile.name), { recursive: true });
 	}
 } else {
 	await fsMKDir(outputDirectoryPath, { recursive: true });
