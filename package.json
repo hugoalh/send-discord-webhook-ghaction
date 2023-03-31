@@ -45,7 +45,7 @@
 		"@vercel/ncc": "^0.36.1",
 		"eslint": "^8.37.0",
 		"eslint-plugin-only-warn": "^1.1.0",
-		"typescript": "^5.0.2"
+		"typescript": "^5.0.3"
 	},
 	"engines": {
 		"node": "^16.13.0"
