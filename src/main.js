@@ -1,15 +1,15 @@
-import { access as fsAccess, constants as fsConstants, readFile as fsReadFile } from "node:fs/promises";
-import { ArrayItemFilter, JSONItemFilter, StringifyJSONItemFilter, StringItemFilter } from "@hugoalh/advanced-determine";
-import { basename as pathBaseName, dirname as pathDirName, join as pathJoin } from "node:path";
-import { Chalk } from "chalk";
-import { createReadStream as fsCreateReadStream } from "node:fs";
-import { endGroup as ghactionsEndGroup, error as ghactionsError, getBooleanInput as ghactionsGetBooleanInput, getInput as ghactionsGetInput, setSecret as ghactionsSetSecret, setOutput as ghactionsSetOutput, startGroup as ghactionsStartGroup, warning as ghactionsWarning } from "@actions/core";
-import { fileURLToPath, URLSearchParams } from "node:url";
 import { randomInt } from "node:crypto";
+import { createReadStream as fsCreateReadStream } from "node:fs";
+import { access as fsAccess, constants as fsConstants, readFile as fsReadFile } from "node:fs/promises";
+import { basename as pathBaseName, dirname as pathDirName, join as pathJoin } from "node:path";
+import { fileURLToPath, URLSearchParams } from "node:url";
+import { endGroup as ghactionsEndGroup, error as ghactionsError, getBooleanInput as ghactionsGetBooleanInput, getInput as ghactionsGetInput, setSecret as ghactionsSetSecret, setOutput as ghactionsSetOutput, startGroup as ghactionsStartGroup, warning as ghactionsWarning } from "@actions/core";
+import { ArrayItemFilter, JSONItemFilter, StringifyJSONItemFilter, StringItemFilter } from "@hugoalh/advanced-determine";
 import { StringOverflowTruncator } from "@hugoalh/string-overflow";
 import Ajv2020 from "ajv/dist/2020.js";
 import ajvFormats from "ajv-formats";
 import ajvFormatsDraft2019 from "ajv-formats-draft2019";
+import chalk from "chalk";
 import Color from "color";
 import colorNamespaceList from "color-name-list";
 import FormData from "form-data";
@@ -18,7 +18,6 @@ import yaml from "yaml";
 try {
 	const ghactionsActionDirectory = pathJoin(pathDirName(fileURLToPath(import.meta.url)), "../");
 	const ghactionsWorkspaceDirectory = process.env.GITHUB_WORKSPACE;
-	const chalk = new Chalk({ level: 3 });
 	const discordWebhookQuery = new URLSearchParams();
 	const discordWebhookURLRegExp = /^(?:https:\/\/(?:canary\.)?discord(?:app)?\.com\/api\/webhooks\/)?(?<key>\d+\/(?:[\da-zA-Z][\da-zA-Z_-]*)?[\da-zA-Z])$/u;
 	const ajv = new Ajv2020({
