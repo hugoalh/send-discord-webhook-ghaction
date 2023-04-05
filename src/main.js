@@ -3,8 +3,8 @@ import { createReadStream as fsCreateReadStream } from "node:fs";
 import { access as fsAccess, constants as fsConstants, readFile as fsReadFile } from "node:fs/promises";
 import { basename as pathBaseName, dirname as pathDirName, join as pathJoin } from "node:path";
 import { fileURLToPath, URLSearchParams } from "node:url";
-import { endGroup as ghactionsEndGroup, error as ghactionsError, getBooleanInput as ghactionsGetBooleanInput, getInput as ghactionsGetInput, setSecret as ghactionsSetSecret, setOutput as ghactionsSetOutput, startGroup as ghactionsStartGroup, warning as ghactionsWarning } from "@actions/core";
-import { ArrayItemFilter, JSONItemFilter, StringifyJSONItemFilter, StringItemFilter } from "@hugoalh/advanced-determine";
+import { endGroup as ghactionsEndGroup, error as ghactionsError, getBooleanInput as ghactionsGetBooleanInput, getInput as ghactionsGetInput, setOutput as ghactionsSetOutput, setSecret as ghactionsSetSecret, startGroup as ghactionsStartGroup, warning as ghactionsWarning } from "@actions/core";
+import { ArrayItemFilter, isArray, isJSON, isString, isStringifyJSON, StringItemFilter } from "@hugoalh/advanced-determine";
 import { StringOverflowTruncator } from "@hugoalh/string-overflow";
 import Ajv2020 from "ajv/dist/2020.js";
 import ajvFormats from "ajv-formats";
@@ -50,7 +50,7 @@ try {
 	const exclusiveColorNamespaceList = JSON.parse((await fsReadFile(pathJoin(ghactionsActionDirectory, "exclusive-color-namespace.json"))).toString());
 	ghactionsStartGroup(`Import inputs.`);
 	let keyRaw = ghactionsGetInput("key");
-	if (!(new StringItemFilter({ pattern: discordWebhookURLRegExp }).test(keyRaw))) {
+	if (!isString(keyRaw, { pattern: discordWebhookURLRegExp })) {
 		throw new TypeError(`Input \`key\` is not a valid Discord webhook key!`);
 	}
 	let key = keyRaw.match(discordWebhookURLRegExp).groups.key;
@@ -70,14 +70,14 @@ try {
 	};
 	const stringTruncator = new StringOverflowTruncator(128, stringOverflowTruncatorOptions);
 	let payloadRaw = ghactionsGetInput("payload");
-	let payload = new StringifyJSONItemFilter({
+	let payload = isStringifyJSON(payloadRaw, {
 		allowEmpty: true,
 		arrayRoot: false
-	}).test(payloadRaw) ? JSON.parse(payloadRaw) : yaml.parse(payloadRaw);
-	if (!(new JSONItemFilter({
+	}) ? JSON.parse(payloadRaw) : yaml.parse(payloadRaw);
+	if (!isJSON(payload, {
 		allowEmpty: true,
 		arrayRoot: false
-	}).test(payload))) {
+	})) {
 		throw new TypeError(`\`${payload}\` is not a valid Discord webhook JSON/YAML/YML payload!`);
 	}
 	if (typeof payload.$schema !== "undefined") {
@@ -250,14 +250,14 @@ try {
 	console.log(`${chalk.bold("Payload:")} ${payloadStringify}`);
 	let files = yaml.parse(ghactionsGetInput("files"));
 	if (
-		!(new ArrayItemFilter({
+		!isArray(files, {
 			allowEmpty: true,
-			maximumLength: 10,
+			lengthMaximum: 10,
 			strict: true,
 			unique: true
-		}).test(files)) ||
+		}) ||
 		files.some((file) => {
-			return !(new StringItemFilter().test(file));
+			return !isString(file);
 		})
 	) {
 		throw new TypeError(`Input \`files\` must be type of strings-array (unique) and maximum 10 elements!`);
@@ -296,17 +296,14 @@ try {
 	let threadValue = ghactionsGetInput("thread_value");
 	if (threadID.length === 0) {
 		if (threadType === "id") {
-			if (!(new StringItemFilter({ pattern: /^\d+$/u }).test(threadValue))) {
+			if (!isString(threadValue, { pattern: /^\d+$/u })) {
 				throw new TypeError(`Input \`thread_value\` is not a valid thread ID!`);
 			}
 			ghactionsSetSecret(threadValue);
 			discordWebhookQuery.set("thread_id", threadValue);
 		} else if (threadType === "name") {
 			if (threadValue.length === 0) {
-				const arrayAloneFilter = new ArrayItemFilter({
-					maximumLength: 1,
-					minimumLength: 1
-				});
+				const arrayAloneFilter = new ArrayItemFilter({ length: 1 });
 				const stringTFilter = new StringItemFilter({ preTrim: true });
 				if (stringTFilter.test(payload.content)) {
 					threadValue = stringTruncator.truncate(payload.content.trim().replace(/\r?\n/gu, " "), 100);
@@ -329,7 +326,7 @@ try {
 			throw new TypeError(`\`${threadType}\` is not a valid thread type!`);
 		}
 	} else {
-		if (!(new StringItemFilter({ pattern: /^\d+$/u }).test(threadID))) {
+		if (!isString(threadID, { pattern: /^\d+$/u })) {
 			throw new TypeError(`Input \`threadid\` is not a valid thread ID!`);
 		}
 		ghactionsSetSecret(threadID);

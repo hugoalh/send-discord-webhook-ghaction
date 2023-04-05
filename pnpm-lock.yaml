@@ -2,7 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@actions/core': ^1.10.0
-  '@hugoalh/advanced-determine': ^10.2.1
+  '@hugoalh/advanced-determine': ^10.3.0
   '@hugoalh/string-overflow': ^1.2.0
   '@types/node': ^18.15.11
   '@vercel/ncc': ^0.36.1
@@ -21,7 +21,7 @@ specifiers:
 
 dependencies:
   '@actions/core': 1.10.0
-  '@hugoalh/advanced-determine': 10.2.1
+  '@hugoalh/advanced-determine': 10.3.0
   '@hugoalh/string-overflow': 1.2.0
   ajv: 8.12.0
   ajv-formats: 3.0.0-rc.0_ajv@8.12.0
@@ -92,8 +92,8 @@ packages:
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: true
 
-  /@hugoalh/advanced-determine/10.2.1:
-    resolution: {integrity: sha512-1bZ+Jmu++xP/n7G3y29cgJrYs1s5z/3i49b25E3kGBu0PnY5U+h/13L9OFR5Er0MYxBque0OYGkBM6iLJWJjVQ==}
+  /@hugoalh/advanced-determine/10.3.0:
+    resolution: {integrity: sha512-MtfqUdVIq0oMy4fBnQzWFGBSVZeFBeaKHEpM8F3Q3jxiG5x1MCE2CDT1qUNucg+vcKCopR5yHcwFTdtUf4bkLQ==}
     engines: {node: ^12.20.0 || ^14.15.0 || >=16.13.0}
     dependencies:
       '@hugoalh/undefinish': 1.0.20
@@ -115,7 +115,7 @@ packages:
     resolution: {integrity: sha512-1vggkEMk8oEiPgO7SI74IJe9D1Z8/kx/pSaOh3e4zY6VgO3JGHgfs+mbOEOqYhSj6288bmOQvnyLYUZZlwNXhQ==}
     engines: {node: ^12.20.0 || ^14.15.0 || >=16.13.0}
     dependencies:
-      '@hugoalh/advanced-determine': 10.2.1
+      '@hugoalh/advanced-determine': 10.3.0
       '@hugoalh/string-dissect': 1.1.0
     transitivePeerDependencies:
       - re2
