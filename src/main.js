@@ -9,45 +9,44 @@ import { StringOverflowTruncator } from "@hugoalh/string-overflow";
 import Ajv2020 from "ajv/dist/2020.js";
 import ajvFormats from "ajv-formats";
 import ajvFormatsDraft2019 from "ajv-formats-draft2019";
-import chalk from "chalk";
 import Color from "color";
 import colorNamespaceList from "color-name-list";
 import FormData from "form-data";
 import nodeFetch from "node-fetch";
 import yaml from "yaml";
+const ghactionsActionDirectory = pathJoin(pathDirName(fileURLToPath(import.meta.url)), "../");
+const ghactionsWorkspaceDirectory = process.env.GITHUB_WORKSPACE;
+const discordWebhookQuery = new URLSearchParams();
+const discordWebhookURLRegExp = /^(?:https:\/\/(?:canary\.)?discord(?:app)?\.com\/api\/webhooks\/)?(?<key>\d+\/(?:[\da-zA-Z][\da-zA-Z_-]*)?[\da-zA-Z])$/u;
+const ajv = new Ajv2020({
+	$comment: false,
+	$data: false,
+	allErrors: true,
+	allowMatchingProperties: true,
+	allowUnionTypes: true,
+	code: {
+		es5: false,
+		esm: true,
+		lines: false,
+		optimize: true,
+		source: false
+	},
+	coerceTypes: false,
+	logger: {
+		error: ghactionsError,
+		log: console.log,
+		warn: ghactionsWarning
+	},
+	strictSchema: "log",
+	timestamp: "string",
+	useDefaults: false,
+	validateSchema: true
+});
+ajvFormats(ajv);
+ajvFormatsDraft2019(ajv);
+const jsonSchemaValidator = ajv.compile(JSON.parse((await fsReadFile(pathJoin(ghactionsActionDirectory, "discord-webhook-payload-custom.schema.json"))).toString()));
+const exclusiveColorNamespaceList = JSON.parse((await fsReadFile(pathJoin(ghactionsActionDirectory, "exclusive-color-namespace.json"))).toString());
 try {
-	const ghactionsActionDirectory = pathJoin(pathDirName(fileURLToPath(import.meta.url)), "../");
-	const ghactionsWorkspaceDirectory = process.env.GITHUB_WORKSPACE;
-	const discordWebhookQuery = new URLSearchParams();
-	const discordWebhookURLRegExp = /^(?:https:\/\/(?:canary\.)?discord(?:app)?\.com\/api\/webhooks\/)?(?<key>\d+\/(?:[\da-zA-Z][\da-zA-Z_-]*)?[\da-zA-Z])$/u;
-	const ajv = new Ajv2020({
-		$comment: false,
-		$data: false,
-		allErrors: true,
-		allowMatchingProperties: true,
-		allowUnionTypes: true,
-		code: {
-			es5: false,
-			esm: true,
-			lines: false,
-			optimize: true,
-			source: false
-		},
-		coerceTypes: false,
-		logger: {
-			error: ghactionsError,
-			log: console.log,
-			warn: ghactionsWarning
-		},
-		strictSchema: "log",
-		timestamp: "string",
-		useDefaults: false,
-		validateSchema: true
-	});
-	ajvFormats(ajv);
-	ajvFormatsDraft2019(ajv);
-	const jsonSchemaValidator = ajv.compile(JSON.parse((await fsReadFile(pathJoin(ghactionsActionDirectory, "discord-webhook-payload-custom.schema.json"))).toString()));
-	const exclusiveColorNamespaceList = JSON.parse((await fsReadFile(pathJoin(ghactionsActionDirectory, "exclusive-color-namespace.json"))).toString());
 	ghactionsStartGroup(`Import inputs.`);
 	let keyRaw = ghactionsGetInput("key");
 	if (!isString(keyRaw, { pattern: discordWebhookURLRegExp })) {
@@ -59,11 +58,11 @@ try {
 	if (typeof truncateEnable !== "boolean") {
 		throw new TypeError(`Input \`truncate_enable\` must be type of boolean!`);
 	}
-	console.log(`${chalk.bold("Truncate Enable:")} ${truncateEnable}`);
+	console.log(`Truncate Enable: ${truncateEnable}`);
 	let truncateEllipsis = ghactionsGetInput("truncate_ellipsis");
-	console.log(`${chalk.bold("Truncate Ellipsis:")} ${truncateEllipsis}`);
+	console.log(`Truncate Ellipsis: ${truncateEllipsis}`);
 	let truncatePosition = ghactionsGetInput("truncate_position");
-	console.log(`${chalk.bold("Truncate Position:")} ${truncatePosition}`);
+	console.log(`Truncate Position: ${truncatePosition}`);
 	let stringOverflowTruncatorOptions = {
 		ellipsisMark: truncateEllipsis,
 		ellipsisPosition: truncatePosition
@@ -247,7 +246,7 @@ try {
 		throw JSON.stringify(jsonSchemaValidator.errors);
 	}
 	let payloadStringify = JSON.stringify(payload);
-	console.log(`${chalk.bold("Payload:")} ${payloadStringify}`);
+	console.log(`Payload: ${payloadStringify}`);
 	let files = yaml.parse(ghactionsGetInput("files"));
 	if (
 		!isArray(files, {
@@ -269,7 +268,7 @@ try {
 			throw new Error(`File \`${file}\` is not accessible, exist, and/or readable!`);
 		}
 	}
-	console.log(`${chalk.bold("Files:")} ${files}`);
+	console.log(`Files: ${files}`);
 	if (typeof payload.content === "undefined" && typeof payload.embeds === "undefined" && files.length === 0) {
 		throw new Error(`At least one of the input \`payload.content\`, \`payload.embeds\`, or \`files\` must be provided!`);
 	}
@@ -290,7 +289,7 @@ try {
 	if (wait) {
 		discordWebhookQuery.set("wait", "true");
 	}
-	console.log(`${chalk.bold("Wait:")} ${wait}`);
+	console.log(`Wait: ${wait}`);
 	let threadID = ghactionsGetInput("threadid");
 	let threadType = ghactionsGetInput("thread_type").toLowerCase();
 	let threadValue = ghactionsGetInput("thread_value");
@@ -321,7 +320,7 @@ try {
 				threadValue = stringTruncator.truncate(threadValue, 100);
 			}
 			payload.thread_name = threadValue;
-			console.log(`${chalk.bold("Thread Name:")} ${threadValue}`);
+			console.log(`Thread Name: ${threadValue}`);
 		} else if (threadType !== "none") {
 			throw new TypeError(`\`${threadType}\` is not a valid thread type!`);
 		}
@@ -382,8 +381,8 @@ try {
 	if (!response.ok) {
 		throw new Error(`Unexpected response status \`${response.status} ${response.statusText}\`: ${responseText}`);
 	}
-	console.log(`${chalk.bold("Response Status:")} ${response.status} ${response.statusText}`);
-	console.log(`${chalk.bold("Response Content:")} ${responseText}`);
+	console.log(`Response Status: ${response.status} ${response.statusText}`);
+	console.log(`Response Content: ${responseText}`);
 	ghactionsEndGroup();
 } catch (error) {
 	ghactionsError(error?.message ?? error);
