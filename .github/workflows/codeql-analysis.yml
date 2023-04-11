@@ -14,21 +14,5 @@ on:
   workflow_dispatch:
 jobs:
   codeql-analysis:
-    name: "CodeQL - Analysis"
-    runs-on: "ubuntu-latest"
-    if: "${{!(github.event_name == 'pull_request' && startsWith(github.event.pull_request.head.label, format('{0}:', github.repository_owner)))}}"
-    steps:
-      - name: "Checkout Repository"
-        uses: "actions/checkout@v3.5.0"
-        with:
-          fetch-depth: 0
-      - name: "Initialize CodeQL"
-        uses: "github/codeql-action/init@v2.2.11"
-        with:
-          queries: "+security-and-quality"
-      # Automatically build attempts to build any compiled languages (C/C++, C#, Go, or Java).
-      - name: "Build Repository"
-        uses: "github/codeql-action/autobuild@v2.2.11"
-        continue-on-error: true
-      - name: "Analyze Repository"
-        uses: "github/codeql-action/analyze@v2.2.11"
+    name: "CodeQL - Analysis (Reusable Workflow)"
+    uses: "hugoalh/hugoalh/.github/workflows/codeql-analysis.yml@main"
