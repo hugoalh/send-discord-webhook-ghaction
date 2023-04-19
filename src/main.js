@@ -16,13 +16,15 @@ import nodeFetch from "node-fetch";
 import yaml from "yaml";
 console.log("Initialize.");
 const ghactionsActionDirectory = pathJoin(pathDirName(fileURLToPath(import.meta.url)), "../");
+const discordWebhookSchemaFilePath = pathJoin(ghactionsActionDirectory, "discord-webhook-payload-custom.schema.json");
+const exclusiveColorNamespaceFilePath = pathJoin(ghactionsActionDirectory, "exclusive-color-namespace.json");
 const ghactionsWorkspaceDirectory = process.env.GITHUB_WORKSPACE;
 if (!(typeof ghactionsActionDirectory === "string" && ghactionsWorkspaceDirectory.length > 0)) {
 	ghactionsError(`Environment variable \`GITHUB_WORKSPACE\` is not defined!`);
 	process.exit(1);
 }
 const discordWebhookQuery = new URLSearchParams();
-const discordWebhookURLRegExp = /^(?:https:\/\/(?:canary\.)?discord(?:app)?\.com\/api\/webhooks\/)?(?<key>\d+\/(?:[\da-zA-Z][\da-zA-Z_-]*)?[\da-zA-Z])$/u;
+const discordWebhookURLRegExp = /^(?:https:\/\/(?:canary\.)?discord(?:app)?\.com\/api\/webhooks\/)?(?<key>\d+\/(?:[\dA-Za-z][\dA-Za-z_-]*)?[\dA-Za-z])$/u;
 const ajv = new Ajv2020({
 	$comment: false,
 	$data: false,
@@ -49,8 +51,8 @@ const ajv = new Ajv2020({
 });
 ajvFormats(ajv);
 ajvFormatsDraft2019(ajv);
-const jsonSchemaValidator = ajv.compile(JSON.parse((await fsReadFile(pathJoin(ghactionsActionDirectory, "discord-webhook-payload-custom.schema.json"))).toString()));
-const exclusiveColorNamespaceList = JSON.parse((await fsReadFile(pathJoin(ghactionsActionDirectory, "exclusive-color-namespace.json"))).toString());
+const jsonSchemaValidator = ajv.compile(JSON.parse((await fsReadFile(discordWebhookSchemaFilePath, { encoding: "utf8" }))));
+const exclusiveColorNamespaceList = JSON.parse((await fsReadFile(exclusiveColorNamespaceFilePath, { encoding: "utf8" })));
 try {
 	ghactionsStartGroup(`Import inputs.`);
 	let keyRaw = ghactionsGetInput("key");
