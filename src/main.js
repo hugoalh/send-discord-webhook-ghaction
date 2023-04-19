@@ -14,8 +14,13 @@ import colorNamespaceList from "color-name-list";
 import FormData from "form-data";
 import nodeFetch from "node-fetch";
 import yaml from "yaml";
+console.log("Initialize.");
 const ghactionsActionDirectory = pathJoin(pathDirName(fileURLToPath(import.meta.url)), "../");
 const ghactionsWorkspaceDirectory = process.env.GITHUB_WORKSPACE;
+if (!(typeof ghactionsActionDirectory === "string" && ghactionsWorkspaceDirectory.length > 0)) {
+	ghactionsError(`Environment variable \`GITHUB_WORKSPACE\` is not defined!`);
+	process.exit(1);
+}
 const discordWebhookQuery = new URLSearchParams();
 const discordWebhookURLRegExp = /^(?:https:\/\/(?:canary\.)?discord(?:app)?\.com\/api\/webhooks\/)?(?<key>\d+\/(?:[\da-zA-Z][\da-zA-Z_-]*)?[\da-zA-Z])$/u;
 const ajv = new Ajv2020({
@@ -171,6 +176,9 @@ try {
 						delete payload.embeds[embedsIndex].footer.icon_url;
 					}
 				}
+				if (Object.keys(payload.embeds[embedsIndex].footer).length === 0) {
+					delete payload.embeds[embedsIndex].footer;
+				}
 			}
 			if (typeof payload.embeds[embedsIndex].image !== "undefined") {
 				if (typeof payload.embeds[embedsIndex].image.url === "string") {
@@ -178,12 +186,18 @@ try {
 						delete payload.embeds[embedsIndex].image.url;
 					}
 				}
+				if (Object.keys(payload.embeds[embedsIndex].image).length === 0) {
+					delete payload.embeds[embedsIndex].image;
+				}
 			}
 			if (typeof payload.embeds[embedsIndex].thumbnail !== "undefined") {
 				if (typeof payload.embeds[embedsIndex].thumbnail.url === "string") {
 					if (payload.embeds[embedsIndex].thumbnail.url.length === 0) {
 						delete payload.embeds[embedsIndex].thumbnail.url;
 					}
+				}
+				if (Object.keys(payload.embeds[embedsIndex].thumbnail).length === 0) {
+					delete payload.embeds[embedsIndex].thumbnail;
 				}
 			}
 			if (typeof payload.embeds[embedsIndex].author !== "undefined") {
@@ -207,6 +221,9 @@ try {
 						delete payload.embeds[embedsIndex].author.icon_url;
 					}
 				}
+				if (Object.keys(payload.embeds[embedsIndex].author).length === 0) {
+					delete payload.embeds[embedsIndex].author;
+				}
 			}
 			if (Array.isArray(payload.embeds[embedsIndex].fields)) {
 				for (let fieldsIndex = 0; fieldsIndex < payload.embeds[embedsIndex].fields.length; fieldsIndex++) {
@@ -227,6 +244,12 @@ try {
 						}
 					}
 				}
+				payload.embeds[embedsIndex].fields = payload.embeds[embedsIndex].fields.filter((value) => {
+					return (
+						value.name.length > 0 ||
+						value.value.length > 0
+					);
+				});
 				if (payload.embeds[embedsIndex].fields.length === 0) {
 					delete payload.embeds[embedsIndex].fields;
 				}
