@@ -67,9 +67,9 @@ try {
 	}
 	console.log(`Truncate Enable: ${truncateEnable}`);
 	let truncateEllipsis = ghactionsGetInput("truncate_ellipsis");
-	console.log(`Truncate Ellipsis: ${truncateEllipsis}`);
+	console.log(`Truncate Ellipsis: "${truncateEllipsis}"`);
 	let truncatePosition = ghactionsGetInput("truncate_position");
-	console.log(`Truncate Position: ${truncatePosition}`);
+	console.log(`Truncate Position: "${truncatePosition}"`);
 	let stringOverflowTruncatorOptions = {
 		ellipsisMark: truncateEllipsis,
 		ellipsisPosition: truncatePosition
