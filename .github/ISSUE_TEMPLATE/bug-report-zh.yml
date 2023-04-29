@@ -18,6 +18,7 @@ body:
       description: "甚麼版本受到影響？必須是安全政策（檔案：`SECURITY-ZH.md`）中列出的受支持版本。"
       multiple: true
       options:
+        - "v5.0.5"
         - "v5.0.4"
         - "v5.0.3"
         - "v5.0.2"
