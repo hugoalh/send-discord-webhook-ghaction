@@ -4,8 +4,8 @@ on:
     types:
       - "published"
 jobs:
-  announce-new-release-discord:
-    name: "Announce New Release - Discord"
+  main:
+    name: "Main"
     runs-on: "ubuntu-latest"
     steps:
       - uses: "hugoalh/send-discord-webhook-ghaction@main"

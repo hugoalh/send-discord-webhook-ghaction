@@ -13,6 +13,6 @@ on:
       - "synchronize"
   workflow_dispatch:
 jobs:
-  codeql-analysis:
-    name: "CodeQL - Analysis (Reusable Workflow)"
+  main:
+    name: "Main"
     uses: "hugoalh/hugoalh/.github/workflows/codeql-analysis.yml@main"
