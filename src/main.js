@@ -19,7 +19,7 @@ const ghactionsActionDirectory = pathJoin(pathDirName(fileURLToPath(import.meta.
 const discordWebhookSchemaFilePath = pathJoin(ghactionsActionDirectory, "discord-webhook-payload-custom.schema.json");
 const exclusiveColorNamespaceFilePath = pathJoin(ghactionsActionDirectory, "exclusive-color-namespace.json");
 const ghactionsWorkspaceDirectory = process.env.GITHUB_WORKSPACE;
-if (!(typeof ghactionsActionDirectory === "string" && ghactionsWorkspaceDirectory.length > 0)) {
+if (!(ghactionsWorkspaceDirectory.length > 0)) {
 	ghactionsError(`Environment variable \`GITHUB_WORKSPACE\` is not defined!`);
 	process.exit(1);
 }
@@ -327,8 +327,8 @@ try {
 			discordWebhookQuery.set("thread_id", threadValue);
 		} else if (threadType === "name") {
 			if (threadValue.length === 0) {
-				const arrayAloneFilter = new ArrayItemFilter({ length: 1 });
-				const stringTFilter = new StringItemFilter({ preTrim: true });
+				const arrayAloneFilter = new ArrayItemFilter().length(1);
+				const stringTFilter = new StringItemFilter().preTrim(true);
 				if (stringTFilter.test(payload.content)) {
 					threadValue = stringTruncator.truncate(payload.content.trim().replace(/\r?\n/gu, " "), 100);
 				} else if (arrayAloneFilter.test(payload.embeds) && stringTFilter.test(payload.embeds[0].title)) {
@@ -336,7 +336,7 @@ try {
 				} else if (arrayAloneFilter.test(payload.embeds) && stringTFilter.test(payload.embeds[0].description)) {
 					threadValue = stringTruncator.truncate(payload.embeds[0].description.trim().replace(/\r?\n/gu, " "), 100);
 				} else {
-					threadValue = `Send Discord Webhook - ${new Date().toISOString().replace(/\.000Z$/gu, "Z")}`;
+					threadValue = `Send Discord Webhook - ${new Date().toISOString().replace(/\.\d+Z$/gu, "Z")}`;
 				}
 			} else if (threadValue.length > 100) {
 				if (!truncateEnable) {
@@ -360,7 +360,7 @@ try {
 	ghactionsStartGroup(`Post network request to Discord.`);
 	let requestBody;
 	let requestHeaders = {
-		"User-Agent": `SendDiscordWebhook.GitHubAction/5.0.5 NodeJS/${process.versions.node}-${process.platform}-${process.arch}`
+		"User-Agent": `SendDiscordWebhook.GitHubAction/5.0.6 NodeJS/${process.versions.node}-${process.platform}-${process.arch}`
 	};
 	let requestQuery = discordWebhookQuery.toString();
 	if (method === "form") {
