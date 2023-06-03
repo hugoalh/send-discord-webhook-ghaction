@@ -42,7 +42,7 @@
 	"devDependencies": {
 		"@types/node": "^20.2.5",
 		"@vercel/ncc": "^0.36.1",
-		"eslint": "^8.41.0",
+		"eslint": "^8.42.0",
 		"eslint-plugin-only-warn": "^1.1.0",
 		"typescript": "^5.1.3"
 	},
