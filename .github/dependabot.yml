@@ -20,6 +20,14 @@ updates:
       interval: "daily"
       time: "00:00"
       timezone: "Etc/UTC"
+    groups:
+      development:
+        patterns:
+          - "@types/*"
+          - "@typescript-eslint/*"
+          - "eslint"
+          - "eslint-plugin-*"
+          - "typescript"
     labels:
       - "Platform/NodeJS"
       - "Status/Pending 🔵"
