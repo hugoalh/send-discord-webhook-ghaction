@@ -28,7 +28,7 @@ A GitHub Action to send a Discord webhook.
 
 ## 📚 Documentation
 
-> **⚠ Important:** This documentation is v5.0.0 based; To view other version's documentation, please visit the [versions list](https://github.com/hugoalh/send-discord-webhook-ghaction/tags) and select the correct version.
+> **⚠️ Important:** This documentation is v5.0.0 based; To view other version's documentation, please visit the [versions list](https://github.com/hugoalh/send-discord-webhook-ghaction/tags) and select the correct version.
 
 ### Getting Started
 
@@ -80,7 +80,7 @@ When this input is `"json"`, and input [`files`](#files) is defined, will throw 
 
 **\[Optional\]** `<object = {}>` JSON/YAML/YML payload, which restricted format and pattern; At least one of the input [`payload.content`](#content), [`payload.embeds`](#embeds), or [`files`](#files) must be provided. View the JSON payload template in [here](./discord-webhook-payload-template.json).
 
-> **⚠ Important:** Properties which have not listed in here or in the template are not supported.
+> **⚠️ Important:** Properties which have not listed in here or in the template are not supported.
 
 <details open>
 
