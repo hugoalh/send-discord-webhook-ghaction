@@ -26,7 +26,7 @@ A GitHub Action to send a Discord webhook.
 - Support attachments/files.
 - Support thread.
 
-## 📚 Documentation
+## 📓 Documentation
 
 > **⚠️ Important:** This documentation is v5.0.0 based; To view other version's documentation, please visit the [versions list](https://github.com/hugoalh/send-discord-webhook-ghaction/tags) and select the correct version.
 

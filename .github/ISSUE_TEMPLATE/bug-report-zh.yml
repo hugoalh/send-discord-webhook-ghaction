@@ -1,4 +1,4 @@
-name: "錯誤報告（表單）"
+name: "錯誤報告"
 description: "報告一個錯誤。"
 labels:
   - "Status/Pending 🔵"
