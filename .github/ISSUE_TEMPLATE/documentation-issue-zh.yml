@@ -2,7 +2,7 @@ name: "文檔問題"
 description: "報告一個文檔問題。"
 labels:
   - "Status/Pending 🔵"
-  - "Type/Documentation 📚"
+  - "Type/Documentation 📓"
 body:
   - type: "textarea"
     id: "describe"
