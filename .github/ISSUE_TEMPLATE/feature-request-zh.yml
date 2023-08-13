@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-issue-forms.json
 name: "功能要求"
 description: "提出一個想法。"
 labels:
