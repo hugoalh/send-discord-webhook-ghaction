@@ -41,7 +41,7 @@ parserOptions:
     generators: true
     globalReturn: false
     impliedStrict: true
-    jsx: false
+    jsx: true
     modules: true
     objectLiteralComputedProperties: true
     objectLiteralDuplicateProperties: true
@@ -89,6 +89,10 @@ rules:
   function-paren-newline:
     - "warn"
     - "multiline-arguments"
+  generator-star-spacing:
+    - "warn"
+    - before: false
+      after: true
   guard-for-in: "off"
   id-length:
     - "warn"
@@ -190,18 +194,9 @@ rules:
     - "warn"
     - "always"
     - omitLastInOneLineBlock: false
-  sort-imports:
-    - "warn"
-    - allowSeparatedGroups: false
-      ignoreCase: true
-  sort-keys:
-    - "warn"
-    - "asc"
-    - caseSensitive: false
-      natural: true
-  sort-vars:
-    - "warn"
-    - ignoreCase: true
+  sort-imports: "off"
+  sort-keys: "off"
+  sort-vars: "off"
   space-before-function-paren:
     - "warn"
     - anonymous: "always"
