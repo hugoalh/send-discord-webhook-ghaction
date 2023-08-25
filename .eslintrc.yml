@@ -1,39 +1,48 @@
 # yaml-language-server: $schema=https://json.schemastore.org/eslintrc.json
 # ESLint v8.47.0
 env:
-  amd: false
-  applescript: false
-  atomtest: false
   browser: true
+  node: true
   commonjs: true
-  embertest: false
+  shared-node-browser: true
   es6: true
+  es2016: true
   es2017: true
+  es2018: true
+  es2019: true
   es2020: true
   es2021: true
-  greasemonkey: false
-  jasmine: false
-  jest: false
-  jquery: false
-  meteor: false
-  mocha: false
-  mongo: false
-  nashorn: false
-  node: true
-  phantomjs: false
-  prototypejs: false
-  protractor: false
-  qunit: false
-  serviceworker: true
-  shared-node-browser: true
-  shelljs: false
-  webextensions: true
+  es2022: true
+  es2023: true
+  es2024: true
   worker: true
+  amd: true
+  mocha: true
+  jasmine: true
+  jest: true
+  phantomjs: true
+  protractor: true
+  qunit: true
+  jquery: true
+  prototypejs: true
+  shelljs: true
+  meteor: true
+  mongo: true
+  applescript: true
+  nashorn: true
+  serviceworker: true
+  atomtest: true
+  embertest: true
+  webextensions: true
+  greasemonkey: true
 extends:
   - "eslint:recommended"
   - "plugin:@typescript-eslint/recommended"
 parser: "@typescript-eslint/parser"
 parserOptions:
+  ecmaVersion: "latest"
+  sourceType: "module"
+  allowReserved: false
   ecmaFeatures:
     arrowFunctions: true
     classes: true
@@ -57,8 +66,6 @@ parserOptions:
     superInFunctions: false
     templateStrings: true
     unicodeCodePointEscapes: true
-  ecmaVersion: "latest"
-  sourceType: "module"
 plugins:
   - "@typescript-eslint"
   - "only-warn"
