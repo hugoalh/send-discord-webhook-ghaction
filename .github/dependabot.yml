@@ -24,10 +24,21 @@ updates:
     groups:
       development:
         patterns:
+          - "@*/eslint-config-*"
+          - "@*/eslint-config"
+          - "@*/eslint-formatter-*"
+          - "@*/eslint-formatter"
+          - "@*/eslint-parser-*"
+          - "@*/eslint-parser"
+          - "@*/eslint-plugin-*"
+          - "@*/eslint-plugin"
           - "@types/*"
           - "@typescript-eslint/*"
-          - "eslint"
+          - "eslint-config-*"
+          - "eslint-formatter-*"
+          - "eslint-parser-*"
           - "eslint-plugin-*"
+          - "eslint"
           - "typescript"
     labels:
       - "Platform/NodeJS"
