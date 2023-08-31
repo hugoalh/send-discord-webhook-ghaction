@@ -277,8 +277,7 @@ rules:
       arraysInArrays: false
   array-element-newline:
     - "warn"
-    - multiline: true
-      minItems: null
+    - "consistent"
   arrow-parens:
     - "warn"
     - "always"
