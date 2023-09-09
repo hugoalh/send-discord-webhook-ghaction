@@ -6,30 +6,40 @@ labels:
   - "Type/Documentation 📓"
 body:
   - type: "textarea"
-    id: "describe"
-    attributes:
-      label: "描述"
-      description: "是甚麼問題？"
-    validations:
-      required: false
-  - type: "textarea"
     id: "page"
     attributes:
       label: "頁面"
-      description: "相關頁面的列表。"
+      description: |-
+        相關頁面的列表。
     validations:
-      required: false
+      required: true
+  - type: "textarea"
+    id: "describe"
+    attributes:
+      label: "描述"
+      description: |-
+        是甚麼問題？如果需要，附加圖片和／或影片以幫助解釋這個錯誤。
+        
+        > **ℹ️ 注意：**
+        >
+        > - 不應該模糊圖片和／或影片中的任何內容，個人資料除外。
+        > - 對於上載圖片和／或影片，請確保等待上載過程完成。
+        > - 對於外部圖片和／或影片，請確保我們是否可以檢閱它們。
+    validations:
+      required: true
   - type: "textarea"
     id: "expected-content"
     attributes:
       label: "預期內容"
-      description: "應該要有甚麼內容？"
+      description: |-
+        應該要有甚麼內容？
     validations:
       required: false
   - type: "textarea"
     id: "additional-information"
     attributes:
       label: "額外資料"
-      description: "如果有與此議題相關但是不適用於其他欄位的資料，請在此處列出。"
+      description: |-
+        如果有與這個問題相關但是不適用於其他欄位的資料，請在此處列出。
     validations:
       required: false

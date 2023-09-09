@@ -9,20 +9,23 @@ body:
     id: "describe"
     attributes:
       label: "描述"
-      description: "想要甚麼功能？"
+      description: |-
+        想要甚麼功能？您的功能要求是否與難題相關？
     validations:
-      required: false
+      required: true
   - type: "textarea"
-    id: "expected-behavior"
+    id: "expected-behaviour"
     attributes:
       label: "預期行為"
-      description: "應該要發生甚麼事情？"
+      description: |-
+        預期要發生甚麼事情？
     validations:
-      required: false
+      required: true
   - type: "textarea"
     id: "additional-information"
     attributes:
       label: "額外資料"
-      description: "如果有與此議題相關但是不適用於其他欄位的資料，請在此處列出。"
+      description: |-
+        如果有與這個議題相關但是不適用於其他欄位的資料，請在此處列出。
     validations:
       required: false
