@@ -28,13 +28,13 @@ jobs:
                   url: "${{github.event.release.author.html_url}}"
                   icon_url: "${{github.event.release.author.avatar_url}}"
                 fields:
-                  - name: "Repositories"
-                    value: |
-                      **- GitHub (${{github.event.repository.full_name}}):** ${{github.event.repository.html_url}}
+                  - name: "GitHub - Repository"
+                    value: "${{github.event.repository.html_url}}"
                     inline: false
-                  - name: "Releases"
-                    value: |
-                      **- GitHub (& Changelog):** ${{github.event.release.html_url}}
-                      **- GitHub Marketplace:** https://github.com/marketplace/actions/send-discord-webhook
+                  - name: "GitHub - Release"
+                    value: "${{github.event.release.html_url}}"
+                    inline: false
+                  - name: "GitHub Marketplace"
+                    value: "https://github.com/marketplace/actions/send-discord-webhook"
                     inline: false
           wait: "true"

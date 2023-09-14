@@ -16,4 +16,4 @@ on:
 jobs:
   main:
     name: "Main"
-    uses: "hugoalh/hugoalh/.github/workflows/codeql-analysis.yml@main"
+    uses: "hugoalh/hugoalh/.github/workflows/reusable-codeql-analysis.yml@main"
