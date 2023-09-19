@@ -45,7 +45,7 @@ jobs:
   job_id:
     runs-on: "________" # 任何
     steps:
-      - uses: "hugoalh/send-discord-webhook-ghaction@<Version>"
+      - uses: "hugoalh/send-discord-webhook-ghaction@<Tag>"
 ```
 
 ### 📥 輸入

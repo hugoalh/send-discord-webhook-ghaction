@@ -39,7 +39,7 @@ jobs:
   job_id:
     runs-on: "________" # Any
     steps:
-      - uses: "hugoalh/send-discord-webhook-ghaction@<Version>"
+      - uses: "hugoalh/send-discord-webhook-ghaction@<Tag>"
 ```
 
 ## 🧩 Input
