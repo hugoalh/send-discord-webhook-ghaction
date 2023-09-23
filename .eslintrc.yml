@@ -265,10 +265,6 @@ rules:
     - "warn"
     - "never"
     - exceptRange: true
-  array-bracket-newline:
-    - "warn"
-    - multiline: true
-      minItems: null
   array-bracket-spacing:
     - "warn"
     - "never"
