@@ -83,7 +83,7 @@ When this input is `"json"`, and input `files` is defined, will throw an error.
 
 #### `payload`
 
-<b>［選擇性］</b>`<物件 = {}>` JSON/YAML/YML 負載, which restricted format and pattern; At least one of the input [`payload.content`](#content), [`payload.embeds`](#embeds), or [`files`](#files) must be provided. View the JSON payload template in [here](./discord-webhook-payload-template.json).
+<b>［選擇性］</b>`<物件 = {}>` JSON/YAML 負載, which restricted format and pattern; At least one of the input [`payload.content`](#content), [`payload.embeds`](#embeds), or [`files`](#files) must be provided. View the JSON payload template in [here](./discord-webhook-payload-template.json).
 
 > <b>⚠️ 重要：</b>Properties which have not listed in here or in the template are not supported.
 

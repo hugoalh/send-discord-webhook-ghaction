@@ -77,7 +77,7 @@ When this input is `"json"`, and input [`files`](#files) is defined, will throw 
 
 ### `payload`
 
-**\[Optional\]** `<object = {}>` JSON/YAML/YML payload, which restricted format and pattern; At least one of the input [`payload.content`](#content), [`payload.embeds`](#embeds), or [`files`](#files) must be provided. View the JSON payload template in [here](./discord-webhook-payload-template.json).
+**\[Optional\]** `<object = {}>` JSON/YAML payload, which restricted format and pattern; At least one of the input [`payload.content`](#content), [`payload.embeds`](#embeds), or [`files`](#files) must be provided. View the JSON payload template in [here](./discord-webhook-payload-template.json).
 
 > **⚠️ Important:** Properties which have not listed in here or in the template are not supported.
 
