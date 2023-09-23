@@ -1,5 +1,5 @@
 # yaml-language-server: $schema=https://json.schemastore.org/eslintrc.json
-# ESLint v8.47.0
+# ESLint v8.50.0
 env:
   browser: true
   node: true
@@ -186,9 +186,9 @@ rules:
     - "warn"
   no-new-func:
     - "warn"
-  no-new-object:
-    - "warn"
   no-new-wrappers:
+    - "warn"
+  no-object-constructor:
     - "warn"
   no-octal-escape:
     - "warn"
