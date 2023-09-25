@@ -34,7 +34,7 @@
 		"ajv-formats": "3.0.0-rc.0",
 		"ajv-formats-draft2019": "^1.6.1",
 		"color": "^4.2.3",
-		"color-name-list": "^10.13.0",
+		"color-name-list": "^10.14.0",
 		"form-data": "^4.0.0",
 		"node-fetch": "^3.3.2",
 		"yaml": "^2.3.2"
