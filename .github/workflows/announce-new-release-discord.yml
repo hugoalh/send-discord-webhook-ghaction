@@ -12,29 +12,27 @@ jobs:
       - uses: "hugoalh/send-discord-webhook-ghaction@main"
         with:
           key: "${{secrets.DISCORD_HXHS_PROJECTNEWRELEASEANNOUNCER_WEBHOOK}}"
-          payload: |
-            embeds:
-              - title: "Send Discord Webhook (GitHub Action)"
-                description: |
-                  > ${{github.event.repository.description}}
+          embeds: |
+            - title: "Send Discord Webhook (GitHub Action)"
+              description: |
+                > ${{github.event.repository.description}}
 
-                  Version ${{github.event.release.name}} (${{github.event.release.tag_name}}) just released!
-                timestamp: "${{github.event.release.published_at}}"
-                color: "#2088FF"
-                thumbnail:
-                  url: "https://i.imgur.com/6qM8z4w.png"
-                author:
-                  name: "${{github.event.release.author.login}}"
-                  url: "${{github.event.release.author.html_url}}"
-                  icon_url: "${{github.event.release.author.avatar_url}}"
-                fields:
-                  - name: "GitHub - Repository"
-                    value: "${{github.event.repository.html_url}}"
-                    inline: false
-                  - name: "GitHub - Release"
-                    value: "${{github.event.release.html_url}}"
-                    inline: false
-                  - name: "GitHub Marketplace"
-                    value: "https://github.com/marketplace/actions/send-discord-webhook"
-                    inline: false
-          wait: "true"
+                Version ${{github.event.release.name}} (${{github.event.release.tag_name}}) just released!
+              timestamp: "${{github.event.release.published_at}}"
+              color: "#2088FF"
+              thumbnail:
+                url: "https://i.imgur.com/6qM8z4w.png"
+              author:
+                name: "${{github.event.release.author.login}}"
+                url: "${{github.event.release.author.html_url}}"
+                icon_url: "${{github.event.release.author.avatar_url}}"
+              fields:
+                - name: "GitHub - Repository"
+                  value: "${{github.event.repository.html_url}}"
+                  inline: false
+                - name: "GitHub - Release"
+                  value: "${{github.event.release.html_url}}"
+                  inline: false
+                - name: "GitHub Marketplace"
+                  value: "https://github.com/marketplace/actions/send-discord-webhook"
+                  inline: false
