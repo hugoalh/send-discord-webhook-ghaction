@@ -173,7 +173,7 @@ Exclusive namespace:
 
 #### `embeds[*].fields[*].name`
 
-**\[Optional\]** `<string>` Field name, up to 256 characters.
+**\[Optional\]** `<string>` Field name, up to 256 characters; Support Discord Markdown.
 
 #### `embeds[*].fields[*].value`
 
