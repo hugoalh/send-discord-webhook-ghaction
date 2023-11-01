@@ -3,6 +3,7 @@ import { createReadStream as fsCreateReadStream } from "node:fs";
 import { access as fsAccess, constants as fsConstants, readFile as fsReadFile } from "node:fs/promises";
 import { basename as pathBaseName, join as pathJoin } from "node:path";
 import { debug as ghactionsDebug, error as ghactionsError, getBooleanInput as ghactionsGetBooleanInput, getInput as ghactionsGetInput, setOutput as ghactionsSetOutput, setSecret as ghactionsSetSecret } from "@actions/core";
+import { create as ghactionsGlob } from "@actions/glob";
 import { isJSON } from "@hugoalh/advanced-determine";
 import { StringOverflowTruncator } from "@hugoalh/string-overflow";
 import { underscorePath } from "@hugoalh/underscore-path";
@@ -10,6 +11,8 @@ import Color from "color";
 import colorNamespaceList from "color-name-list";
 import yaml from "yaml";
 console.log("Initialize.");
+const splitterNewLine = /\r?\n/gu;
+const splitterCommonDelimiter = /,|;|\||\r?\n/gu;
 const ghactionsActionDirectory = pathJoin(underscorePath(import.meta.url).__dirname, "../");
 const exclusiveColorNamespaceFilePath = pathJoin(ghactionsActionDirectory, "exclusive-color-namespace.json");
 const ghactionsWorkspaceDirectory = process.env.GITHUB_WORKSPACE ?? "";
@@ -333,7 +336,7 @@ try {
 	if (embeds.length > 10) {
 		throw new SyntaxError(`Input \`embeds\` has more than 10 elements (current ${embeds.length})!`);
 	}
-	const allowedMentionsParse = Array.from(new Set(ghactionsGetInput("allowed_mentions_parse").split(/,|;|\|\r?\n/gu).map((value) => {
+	const allowedMentionsParse = Array.from(new Set(ghactionsGetInput("allowed_mentions_parse").split(splitterCommonDelimiter).map((value) => {
 		return value.trim();
 	}).filter((value) => {
 		return (value.length > 0);
@@ -343,7 +346,7 @@ try {
 			throw new SyntaxError(`\`${element}\` is not a valid Discord allowed mention type!`);
 		}
 	}
-	const allowedMentionsRoles = Array.from(new Set(ghactionsGetInput("allowed_mentions_roles").split(/,|;|\|\r?\n/gu).map((value) => {
+	const allowedMentionsRoles = Array.from(new Set(ghactionsGetInput("allowed_mentions_roles").split(splitterCommonDelimiter).map((value) => {
 		return value.trim();
 	}).filter((value) => {
 		return (value.length > 0);
@@ -351,7 +354,7 @@ try {
 	if (allowedMentionsRoles.length > 100) {
 		throw new RangeError(`Input \`allowed_mentions_roles\` has more than 100 elements (current ${allowedMentionsRoles.length})!`);
 	}
-	const allowedMentionsUsers = Array.from(new Set(ghactionsGetInput("allowed_mentions_users").split(/,|;|\|\r?\n/gu).map((value) => {
+	const allowedMentionsUsers = Array.from(new Set(ghactionsGetInput("allowed_mentions_users").split(splitterCommonDelimiter).map((value) => {
 		return value.trim();
 	}).filter((value) => {
 		return (value.length > 0);
@@ -359,11 +362,19 @@ try {
 	if (allowedMentionsUsers.length > 100) {
 		throw new RangeError(`Input \`allowed_mentions_users\` has more than 100 elements (current ${allowedMentionsUsers.length})!`);
 	}
-	const files = Array.from(new Set(ghactionsGetInput("files").split(/\r?\n/gu).map((value) => {
+	const filesRaw = Array.from(new Set(ghactionsGetInput("files").split(splitterNewLine).map((value) => {
 		return value.trim();
 	}).filter((value) => {
 		return (value.length > 0);
 	})));
+	const files = [];
+	if (filesRaw.length > 0) {
+		files.push(...(await (await ghactionsGlob(filesRaw.join("\n"), {
+			followSymbolicLinks: false,
+			matchDirectories: false,
+			omitBrokenSymbolicLinks: false
+		})).glob()));
+	}
 	if (files.length > 10) {
 		throw new RangeError(`Input \`files\` has more than 10 elements (current ${files.length})!`);
 	}
