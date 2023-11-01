@@ -66,7 +66,7 @@ https://discordapp.com/api/webhooks/70971114/ueyzeWxB_8bb1zMhL  ⬅Long (Legacy)
 
 ### `avatar_url`
 
-**\[Optional\]** `<string>` Override the default avatar of the webhook with source URL of the avatar, only supports HTTP and HTTPS.
+**\[Optional\]** `<string>` Override the default avatar of the webhook with source URL, only supports HTTP and HTTPS.
 
 ### `tts`
 
@@ -74,7 +74,7 @@ https://discordapp.com/api/webhooks/70971114/ueyzeWxB_8bb1zMhL  ⬅Long (Legacy)
 
 ### `embeds`
 
-**\[Optional\]** `<object[]>` Embed rich content for the message, by JSON/YAML with restricted format and pattern, up to 10 embeds and 6000 characters for summation of:
+**\[Optional\]** `<object[]>` Embed rich content for the message, by JSON or YAML with restricted format and pattern, up to 10 embeds and 6000 characters for summation from inputs:
 
 - [`embeds[*].title`](#embedstitle)
 - [`embeds[*].description`](#embedsdescription)

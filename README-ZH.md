@@ -56,25 +56,25 @@ https://discordapp.com/api/webhooks/70971114/ueyzeWxB_8bb1zMhL  ⬅長（舊）
 
 ### `content`
 
-**\[Optional\]** `<string>` Content of the message, up to 2000 characters; Support Discord Markdown.
+**［選擇性］** `<字串>` 訊息內容，最多 2000 個字元；支援 Discord Markdown。
 
 > **⚠️ Important:** At least either inputs of [`content`](#content), [`embeds`](#embeds), or [`files`](#files) must be provided.
 
 ### `username`
 
-**\[Optional\]** `<string>` Override the default username of the webhook, up to 80 characters; "Clyde" is not allowed.
+**［選擇性］** `<字串>` 覆蓋網絡鉤手的預設用戶名，最多 80 個字元；「Clyde」是不被允許的。
 
 ### `avatar_url`
 
-**\[Optional\]** `<string>` Override the default avatar of the webhook with source URL of the avatar, only supports HTTP and HTTPS.
+**［選擇性］** `<字串>` 覆蓋網絡鉤手的預設頭像，使用來源鏈結，只支援 HTTP 和 HTTPS。
 
 ### `tts`
 
-**\[Optional\]** `<boolean = false>` Whether to use TTS (Text To Speech) for the message.
+**［選擇性］** `<布林值 = false>` 是否對訊息使用文字轉語音。
 
 ### `embeds`
 
-**\[Optional\]** `<object[]>` Embed rich content for the message, by JSON/YAML with restricted format and pattern, up to 10 embeds and 6000 characters for summation of:
+**［選擇性］** `<物件[]>` 嵌入豐富的訊息內容，使用具有受限格式和模式的 JSON 或 YAML，最多 10 個嵌入和基於下列輸入總和 6000 個字元：
 
 - [`embeds[*].title`](#embedstitle)
 - [`embeds[*].description`](#embedsdescription)
@@ -87,27 +87,27 @@ https://discordapp.com/api/webhooks/70971114/ueyzeWxB_8bb1zMhL  ⬅長（舊）
 
 #### `embeds[*].title`
 
-**\[Optional\]** `<string>` Title of the embed, up to 256 characters; Support Discord Markdown.
+**［選擇性］** `<字串>` 嵌入的標題，最多 256 個字元；支援 Discord Markdown。
 
 #### `embeds[*].description`
 
-**\[Optional\]** `<string>` Description of the embed, up to 4096 characters; Support Discord Markdown.
+**［選擇性］** `<字串>` 嵌入的描述，最多 4096 個字元；支援 Discord Markdown。
 
 #### `embeds[*].url`
 
-**\[Optional\]** `<string>` URL of the embed.
+**［選擇性］** `<字串>` 嵌入的鏈結。
 
 #### `embeds[*].timestamp`
 
-**\[Optional\]** `<string>` Timestamp of the embed, by ISO 8601 format (e.g.: `"2011-11-11T11:11:11Z"`).
+**［選擇性］** `<字串>` 嵌入的時間戳，採用 ISO 8601 格式（例如：`2011-11-11T11:11:11Z`）。
 
 #### `embeds[*].color`
 
-**\[Optional\]** `<number | string = 2105893>` Color of the embed (i.e.: left border's color of the embed); RGB integer, Hex (with prefix `#` (sharp)), namespace, and CSS colors (e.g.: `"rgb(32, 34, 37)"`) forms are acceptable.
+**［選擇性］** `<數值 | 字串 = 2105893>` 嵌入的顏色（即是：嵌入的左邊框顏色）；RGB 整數、十六進位（帶有前綴「`#`」）、命名空間和 CSS 顏色（例如：`rgb(32, 34, 37)`）形式都可以接受。
 
-Exclusive namespace:
+專屬命名空間：
 
-|  | **Namespace** | **Value** | **Description** |
+|  | **命名空間** | **值** | **說明** |
 |:-:|:-:|:-:|:--|
 | <img src="https://www.colorhexa.com/202225.png" height="16px" width="16px" /> | `"Default"` |  `"#202225"` / `"rgb(32, 34, 37)"` | Default. |
 | 🍭 | `"Random"` |  | Random. |
@@ -125,67 +125,67 @@ Exclusive namespace:
 
 #### `embeds[*].footer`
 
-**\[Optional\]** `<object>` Footer of the embed.
+**［選擇性］** `<物件>` Footer of the embed.
 
 #### `embeds[*].footer.text`
 
-**\[Optional\]** `<string>` Footer text, up to 2048 characters; Support Discord Markdown.
+**［選擇性］** `<字串>` Footer text, up to 2048 characters; Support Discord Markdown.
 
 #### `embeds[*].footer.icon_url`
 
-**\[Optional\]** `<string>` Source URL of the footer icon, only supports HTTP, HTTPS, and attachments.
+**［選擇性］** `<字串>` Source URL of the footer icon, only supports HTTP, HTTPS, and attachments.
 
 #### `embeds[*].image`
 
-**\[Optional\]** `<object>` Image of the embed.
+**［選擇性］** `<物件>` Image of the embed.
 
 #### `embeds[*].image.url`
 
-**\[Optional\]** `<string>` Source URL of the image, only supports HTTP, HTTPS, and attachments.
+**［選擇性］** `<字串>` Source URL of the image, only supports HTTP, HTTPS, and attachments.
 
 #### `embeds[*].thumbnail`
 
-**\[Optional\]** `<object>` Thumbnail of the embed.
+**［選擇性］** `<物件>` Thumbnail of the embed.
 
 #### `embeds[*].thumbnail.url`
 
-**\[Optional\]** `<string>` Source URL of the thumbnail, only supports HTTP, HTTPS, and attachments.
+**［選擇性］** `<字串>` Source URL of the thumbnail, only supports HTTP, HTTPS, and attachments.
 
 #### `embeds[*].author`
 
-**\[Optional\]** `<object>` Author of the embed.
+**［選擇性］** `<物件>` Author of the embed.
 
 #### `embeds[*].author.name`
 
-**\[Optional\]** `<string>` Author name, up to 256 characters.
+**［選擇性］** `<字串>` Author name, up to 256 characters.
 
 #### `embeds[*].author.url`
 
-**\[Optional\]** `<string>` Author URL.
+**［選擇性］** `<字串>` Author URL.
 
 #### `embeds[*].author.icon_url`
 
-**\[Optional\]** `<string>` Source URL of the author icon, only supports HTTP, HTTPS, and attachments.
+**［選擇性］** `<字串>` Source URL of the author icon, only supports HTTP, HTTPS, and attachments.
 
 #### `embeds[*].fields`
 
-**\[Optional\]** `<object[]>` Fields of the embed, up to 25 fields.
+**［選擇性］** `<物件[]>` Fields of the embed, up to 25 fields.
 
 #### `embeds[*].fields[*].name`
 
-**\[Optional\]** `<string>` Field name, up to 256 characters; Support Discord Markdown.
+**［選擇性］** `<字串>` Field name, up to 256 characters; Support Discord Markdown.
 
 #### `embeds[*].fields[*].value`
 
-**\[Optional\]** `<string>` Field value, up to 1024 characters; Support Discord Markdown.
+**［選擇性］** `<字串>` Field value, up to 1024 characters; Support Discord Markdown.
 
 #### `embeds[*].fields[*].inline`
 
-**\[Optional\]** `<boolean = false>` Whether the field should display inline.
+**［選擇性］** `<布林值 = false>` Whether the field should display inline.
 
 ### `allowed_mentions_parse`
 
-**\[Optional\]** `<string[] = "roles,users,everyone">` Allowed mention types to parse from the content, separate each value with comma (`,`), vertical bar (`|`), semi-colon (`;`), whitespace, or per line.
+**［選擇性］** `<字串[] = "roles,users,everyone">` Allowed mention types to parse from the content, separate each value with comma (`,`), vertical bar (`|`), semi-colon (`;`), whitespace, or per line.
 
 - **`"roles"`:** Control roles mentions.
 - **`"users"`:** Control users mentions.
@@ -193,45 +193,45 @@ Exclusive namespace:
 
 ### `allowed_mentions_roles`
 
-**\[Optional\]** `<string[]>` Allowed roles' IDs to mention, separate each value with comma (`,`), vertical bar (`|`), semi-colon (`;`), whitespace, or per line, up to 100 IDs.
+**［選擇性］** `<字串[]>` Allowed roles' IDs to mention, separate each value with comma (`,`), vertical bar (`|`), semi-colon (`;`), whitespace, or per line, up to 100 IDs.
 
 ### `allowed_mentions_users`
 
-**\[Optional\]** `<string[]>` Allowed users' IDs to mention, separate each value with comma (`,`), vertical bar (`|`), semi-colon (`;`), whitespace, or per line, up to 100 IDs.
+**［選擇性］** `<字串[]>` Allowed users' IDs to mention, separate each value with comma (`,`), vertical bar (`|`), semi-colon (`;`), whitespace, or per line, up to 100 IDs.
 
 ### `files`
 
-**\[Optional\]** `<string[]>` Files as attachments of the message, which must be relative paths from GitHub Actions workspace (i.e.: `GITHUB_WORKSPACE`), separate each value per line, up to 8 MB and 10 files.
+**［選擇性］** `<字串[]>` Files as attachments of the message, which must be relative paths from GitHub Actions workspace (i.e.: `GITHUB_WORKSPACE`), separate each value per line, up to 8 MB and 10 files.
 
 > **⚠️ Important:** At least either inputs of [`content`](#content), [`embeds`](#embeds), or [`files`](#files) must be provided.
 
 ### `wait`
 
-**\[Optional\]** `<boolean = true>` Whether to wait for Discord confirmation of message send before response, and returns the created message body. When this input is `false`, a message that is not saved does not return an error.
+**［選擇性］** `<布林值 = true>` Whether to wait for Discord confirmation of message send before response, and returns the created message body. When this input is `false`, a message that is not saved does not return an error.
 
 ### `thread_id`
 
-**\[Optional\]** `<string>` Thread ID for the message channel. When this input is defined, the message will send to the specify thread, the thread will automatically unarchive.
+**［選擇性］** `<字串>` Thread ID for the message channel. When this input is defined, the message will send to the specify thread, the thread will automatically unarchive.
 
 > **⚠️ Important:** Only either inputs of [`thread_id`](#thread_id) or [`thread_name`](#thread_name) can be provided.
 
 ### `thread_name`
 
-**\[Optional\]** `<string>` Thread name for the forum channel, up to 100 characters. When this input is defined, the message will create a new thread with the name.
+**［選擇性］** `<字串>` Thread name for the forum channel, up to 100 characters. When this input is defined, the message will create a new thread with the name.
 
 > **⚠️ Important:** Only either inputs of [`thread_id`](#thread_id) or [`thread_name`](#thread_name) can be provided.
 
 ### `truncate_enable`
 
-<b>［選擇性］</b>`<布爾值 = true>` Whether to try truncate firstly when inputs are too large.
+**［選擇性］** `<布爾值 = true>` Whether to try truncate firstly when inputs are too large.
 
 ### `truncate_ellipsis`
 
-<b>［選擇性］</b>`<字串 = "...">` Ellipsis mark.
+**［選擇性］** `<字串 = "...">` Ellipsis mark.
 
 ### `truncate_position`
 
-<b>［選擇性］</b>`<字串 = "end">` Ellipsis position.
+**［選擇性］** `<字串 = "end">` Ellipsis position.
 
 - **`"end"`:** At the end of the string.
 - **`"middle"`:** At the middle of the string.
@@ -245,7 +245,7 @@ Exclusive namespace:
 
 ### `status_code`
 
-`<數字>` 請求狀態代碼。
+`<數值>` 請求狀態代碼。
 
 ### `status_ok`
 
@@ -270,7 +270,7 @@ Exclusive namespace:
             content: "你好，世界！"
   ```
 - birdie0
-  > 來自[birdie0's Discord Webhooks Guide（英文）](https://birdie0.github.io/discord-webhooks-guide/discord_webhook.html)。
+  > 來自 [birdie0's Discord Webhooks Guide（英文）](https://birdie0.github.io/discord-webhooks-guide/discord_webhook.html)。
   ```yml
   jobs:
     job_id:
