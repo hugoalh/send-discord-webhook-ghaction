@@ -1,404 +1,464 @@
 import { randomInt } from "node:crypto";
 import { createReadStream as fsCreateReadStream } from "node:fs";
 import { access as fsAccess, constants as fsConstants, readFile as fsReadFile } from "node:fs/promises";
-import { basename as pathBaseName, dirname as pathDirName, join as pathJoin } from "node:path";
-import { fileURLToPath, URLSearchParams } from "node:url";
-import { endGroup as ghactionsEndGroup, error as ghactionsError, getBooleanInput as ghactionsGetBooleanInput, getInput as ghactionsGetInput, setOutput as ghactionsSetOutput, setSecret as ghactionsSetSecret, startGroup as ghactionsStartGroup, warning as ghactionsWarning } from "@actions/core";
-import { ArrayItemFilter, isArray, isJSON, isString, isStringifyJSON, StringItemFilter } from "@hugoalh/advanced-determine";
+import { basename as pathBaseName, join as pathJoin } from "node:path";
+import { debug as ghactionsDebug, error as ghactionsError, getBooleanInput as ghactionsGetBooleanInput, getInput as ghactionsGetInput, setOutput as ghactionsSetOutput, setSecret as ghactionsSetSecret } from "@actions/core";
+import { isJSON } from "@hugoalh/advanced-determine";
 import { StringOverflowTruncator } from "@hugoalh/string-overflow";
-import Ajv2020 from "ajv/dist/2020.js";
-import ajvFormats from "ajv-formats";
-import ajvFormatsDraft2019 from "ajv-formats-draft2019";
+import { underscorePath } from "@hugoalh/underscore-path";
 import Color from "color";
 import colorNamespaceList from "color-name-list";
-import FormData from "form-data";
-import nodeFetch from "node-fetch";
 import yaml from "yaml";
 console.log("Initialize.");
-const ghactionsActionDirectory = pathJoin(pathDirName(fileURLToPath(import.meta.url)), "../");
-const discordWebhookSchemaFilePath = pathJoin(ghactionsActionDirectory, "discord-webhook-payload-custom.schema.json");
+const ghactionsActionDirectory = pathJoin(underscorePath(import.meta.url).__dirname, "../");
 const exclusiveColorNamespaceFilePath = pathJoin(ghactionsActionDirectory, "exclusive-color-namespace.json");
-const ghactionsWorkspaceDirectory = process.env.GITHUB_WORKSPACE;
+const ghactionsWorkspaceDirectory = process.env.GITHUB_WORKSPACE ?? "";
 if (!(ghactionsWorkspaceDirectory.length > 0)) {
 	ghactionsError(`Environment variable \`GITHUB_WORKSPACE\` is not defined!`);
 	process.exit(1);
 }
 const discordWebhookQuery = new URLSearchParams();
 const discordWebhookURLRegExp = /^(?:https:\/\/(?:canary\.)?discord(?:app)?\.com\/api\/webhooks\/)?(?<key>\d+\/(?:[\dA-Za-z][\dA-Za-z_-]*)?[\dA-Za-z])$/u;
-const ajv = new Ajv2020({
-	$comment: false,
-	$data: false,
-	allErrors: true,
-	allowMatchingProperties: true,
-	allowUnionTypes: true,
-	code: {
-		es5: false,
-		esm: true,
-		lines: false,
-		optimize: true,
-		source: false
-	},
-	coerceTypes: false,
-	logger: {
-		error: ghactionsError,
-		log: console.log,
-		warn: ghactionsWarning
-	},
-	strictSchema: "log",
-	timestamp: "string",
-	useDefaults: false,
-	validateSchema: true
-});
-ajvFormats(ajv);
-ajvFormatsDraft2019(ajv);
-const jsonSchemaValidator = ajv.compile(JSON.parse((await fsReadFile(discordWebhookSchemaFilePath, { encoding: "utf8" }))));
-const exclusiveColorNamespaceList = JSON.parse((await fsReadFile(exclusiveColorNamespaceFilePath, { encoding: "utf8" })));
+const exclusiveColorNamespaceList = JSON.parse(await fsReadFile(exclusiveColorNamespaceFilePath, { encoding: "utf8" }));
 try {
-	ghactionsStartGroup(`Import inputs.`);
-	let keyRaw = ghactionsGetInput("key");
-	if (!isString(keyRaw, { pattern: discordWebhookURLRegExp })) {
+	const truncateEnable = ghactionsGetBooleanInput("truncate_enable", { required: true });
+	const stringTruncator = new StringOverflowTruncator(128, {
+		ellipsisMark: ghactionsGetInput("truncate_ellipsis", { required: true }),
+		ellipsisPosition: ghactionsGetInput("truncate_position", { required: true })
+	});
+	const keyRaw = ghactionsGetInput("key", { required: true });
+	if (!discordWebhookURLRegExp.test(keyRaw)) {
 		throw new TypeError(`Input \`key\` is not a valid Discord webhook key!`);
 	}
-	let key = keyRaw.match(discordWebhookURLRegExp).groups.key;
+	const key = keyRaw.match(discordWebhookURLRegExp).groups.key;
 	ghactionsSetSecret(key);
-	let truncateEnable = ghactionsGetBooleanInput("truncate_enable");
-	if (typeof truncateEnable !== "boolean") {
-		throw new TypeError(`Input \`truncate_enable\` must be type of boolean!`);
-	}
-	console.log(`Truncate Enable: ${truncateEnable}`);
-	let truncateEllipsis = ghactionsGetInput("truncate_ellipsis");
-	console.log(`Truncate Ellipsis: "${truncateEllipsis}"`);
-	let truncatePosition = ghactionsGetInput("truncate_position");
-	console.log(`Truncate Position: "${truncatePosition}"`);
-	let stringOverflowTruncatorOptions = {
-		ellipsisMark: truncateEllipsis,
-		ellipsisPosition: truncatePosition
-	};
-	const stringTruncator = new StringOverflowTruncator(128, stringOverflowTruncatorOptions);
-	let payloadRaw = ghactionsGetInput("payload");
-	let payload = isStringifyJSON(payloadRaw, {
-		allowEmpty: true,
-		arrayRoot: false
-	}) ? JSON.parse(payloadRaw) : yaml.parse(payloadRaw);
-	if (!isJSON(payload, {
-		allowEmpty: true,
-		arrayRoot: false
-	})) {
-		throw new TypeError(`\`${payload}\` is not a valid Discord webhook JSON/YAML/YML payload!`);
-	}
-	if (typeof payload.$schema !== "undefined") {
-		delete payload.$schema;
-	}
-	if (typeof payload.content === "string") {
-		if (payload.content.length === 0) {
-			delete payload.content;
-		} else if (payload.content.length > 2000) {
-			if (!truncateEnable) {
-				throw new Error(`Input \`payload.content\` is too large!`);
-			}
-			payload.content = stringTruncator.truncate(payload.content, 2000);
+	let content = ghactionsGetInput("content");
+	if (content.length > 2000) {
+		if (truncateEnable) {
+			content = stringTruncator.truncate(content, 2000);
 		}
 	}
-	if (typeof payload.username === "string") {
-		if (payload.username.length === 0) {
-			delete payload.username;
-		} else if (payload.username.length > 80) {
-			if (!truncateEnable) {
-				throw new Error(`Input \`payload.username\` is too large!`);
-			}
-			payload.username = stringTruncator.truncate(payload.username, 80);
+	let username = ghactionsGetInput("username");
+	if (username.length > 0) {
+		if (username.toLowerCase() === "clyde") {
+			throw new Error(`"Clyde" is not allowed to use as the username of the webhook!`);
+		}
+		if (username.length > 80 && truncateEnable) {
+			username = stringTruncator.truncate(username, 80);
 		}
 	}
-	if (typeof payload.avatar_url === "string") {
-		if (payload.avatar_url.length === 0) {
-			delete payload.avatar_url;
-		}
+	const avatarURL = ghactionsGetInput("avatar_url");
+	const tts = ghactionsGetBooleanInput("tts", { required: true });
+	let embeds = yaml.parse(ghactionsGetInput("embeds")) ?? [];
+	if (!(isJSON(embeds) && Array.isArray(embeds))) {
+		throw new TypeError(`Input \`embeds\` is not a valid Discord embeds!`);
 	}
-	if (Array.isArray(payload.embeds)) {
-		for (let embedsIndex = 0; embedsIndex < payload.embeds.length; embedsIndex++) {
-			if (typeof payload.embeds[embedsIndex].title === "string") {
-				if (payload.embeds[embedsIndex].title.length === 0) {
-					delete payload.embeds[embedsIndex].title;
-				} else if (payload.embeds[embedsIndex].title.length > 256) {
-					if (!truncateEnable) {
-						throw new Error(`Input \`payload.embeds[${embedsIndex}].title\` is too large!`);
-					}
-					payload.embeds[embedsIndex].title = stringTruncator.truncate(payload.embeds[embedsIndex].title, 256);
-				}
+	if (embeds.length > 0) {
+		embeds = embeds.map((embed, embedsIndex) => {
+			if (!(typeof embed === "object" && !Array.isArray(embed) && embed !== null)) {
+				throw new TypeError(`Unknown input \`embeds[${embedsIndex}]\`!`);
 			}
-			if (typeof payload.embeds[embedsIndex].description === "string") {
-				if (payload.embeds[embedsIndex].description.length === 0) {
-					delete payload.embeds[embedsIndex].description;
-				} else if (payload.embeds[embedsIndex].description.length > 4096) {
-					if (!truncateEnable) {
-						throw new Error(`Input \`payload.embeds[${embedsIndex}].description\` is too large!`);
-					}
-					payload.embeds[embedsIndex].description = stringTruncator.truncate(payload.embeds[embedsIndex].description, 4096);
-				}
-			}
-			if (typeof payload.embeds[embedsIndex].url === "string") {
-				if (payload.embeds[embedsIndex].url.length === 0) {
-					delete payload.embeds[embedsIndex].url;
-				}
-			}
-			if (typeof payload.embeds[embedsIndex].color === "string") {
-				if (payload.embeds[embedsIndex].color.toLowerCase() === "random") {
-					payload.embeds[embedsIndex].color = randomInt(0, 256) * 65536 + randomInt(0, 256) * 256 + randomInt(0, 256);
-				} else if (exclusiveColorNamespaceList.map((value) => {
-					return value.name.toLowerCase();
-				}).includes(payload.embeds[embedsIndex].color.toLowerCase())) {
-					payload.embeds[embedsIndex].color = Color(exclusiveColorNamespaceList[exclusiveColorNamespaceList.findIndex((value) => {
-						return (value.name.toLowerCase() === payload.embeds[embedsIndex].color.toLowerCase());
-					})].hex, "hex").rgbNumber();
-				} else if (colorNamespaceList.map((value) => {
-					return value.name.toLowerCase();
-				}).includes(payload.embeds[embedsIndex].color.toLowerCase())) {
-					payload.embeds[embedsIndex].color = Color(colorNamespaceList[colorNamespaceList.findIndex((value) => {
-						return (value.name.toLowerCase() === payload.embeds[embedsIndex].color.toLowerCase());
-					})].hex, "hex").rgbNumber();
-				} else {
-					try {
-						payload.embeds[embedsIndex].color = Color(payload.embeds[embedsIndex].color).rgbNumber();
-					} catch { }
-				}
-			}
-			if (typeof payload.embeds[embedsIndex].footer !== "undefined") {
-				if (typeof payload.embeds[embedsIndex].footer.text === "string") {
-					if (payload.embeds[embedsIndex].footer.text.length === 0) {
-						delete payload.embeds[embedsIndex].footer.text;
-					} else if (payload.embeds[embedsIndex].footer.text.length > 2048) {
-						if (!truncateEnable) {
-							throw new Error(`Input \`payload.embeds[${embedsIndex}].footer.text\` is too large!`);
+			for (const embedKey of Object.keys(embed)) {
+				switch (embedKey) {
+					case "title":
+						embed.title = embed.title?.toString() ?? embed.title;
+						if (typeof embed.title !== "string") {
+							throw new TypeError(`Unknown input \`embeds[${embedsIndex}].title\`!`);
 						}
-						payload.embeds[embedsIndex].footer.text = stringTruncator.truncate(payload.embeds[embedsIndex].footer.text, 2048);
-					}
-				}
-				if (typeof payload.embeds[embedsIndex].footer.icon_url === "string") {
-					if (payload.embeds[embedsIndex].footer.icon_url.length === 0) {
-						delete payload.embeds[embedsIndex].footer.icon_url;
-					}
-				}
-				if (Object.keys(payload.embeds[embedsIndex].footer).length === 0) {
-					delete payload.embeds[embedsIndex].footer;
-				}
-			}
-			if (typeof payload.embeds[embedsIndex].image !== "undefined") {
-				if (typeof payload.embeds[embedsIndex].image.url === "string") {
-					if (payload.embeds[embedsIndex].image.url.length === 0) {
-						delete payload.embeds[embedsIndex].image.url;
-					}
-				}
-				if (Object.keys(payload.embeds[embedsIndex].image).length === 0) {
-					delete payload.embeds[embedsIndex].image;
-				}
-			}
-			if (typeof payload.embeds[embedsIndex].thumbnail !== "undefined") {
-				if (typeof payload.embeds[embedsIndex].thumbnail.url === "string") {
-					if (payload.embeds[embedsIndex].thumbnail.url.length === 0) {
-						delete payload.embeds[embedsIndex].thumbnail.url;
-					}
-				}
-				if (Object.keys(payload.embeds[embedsIndex].thumbnail).length === 0) {
-					delete payload.embeds[embedsIndex].thumbnail;
-				}
-			}
-			if (typeof payload.embeds[embedsIndex].author !== "undefined") {
-				if (typeof payload.embeds[embedsIndex].author.name === "string") {
-					if (payload.embeds[embedsIndex].author.name.length === 0) {
-						delete payload.embeds[embedsIndex].author.name;
-					} else if (payload.embeds[embedsIndex].author.name.length > 256) {
-						if (!truncateEnable) {
-							throw new Error(`Input \`payload.embeds[${embedsIndex}].author.name\` is too large!`);
+						if (embed.title.length === 0) {
+							delete embed.title;
+							break;
 						}
-						payload.embeds[embedsIndex].author.name = stringTruncator.truncate(payload.embeds[embedsIndex].author.name, 256);
-					}
-				}
-				if (typeof payload.embeds[embedsIndex].author.url === "string") {
-					if (payload.embeds[embedsIndex].author.url.length === 0) {
-						delete payload.embeds[embedsIndex].author.url;
-					}
-				}
-				if (typeof payload.embeds[embedsIndex].author.icon_url === "string") {
-					if (payload.embeds[embedsIndex].author.icon_url.length === 0) {
-						delete payload.embeds[embedsIndex].author.icon_url;
-					}
-				}
-				if (Object.keys(payload.embeds[embedsIndex].author).length === 0) {
-					delete payload.embeds[embedsIndex].author;
-				}
-			}
-			if (Array.isArray(payload.embeds[embedsIndex].fields)) {
-				for (let fieldsIndex = 0; fieldsIndex < payload.embeds[embedsIndex].fields.length; fieldsIndex++) {
-					if (typeof payload.embeds[embedsIndex].fields[fieldsIndex].name === "string") {
-						if (payload.embeds[embedsIndex].fields[fieldsIndex].name.length > 256) {
-							if (!truncateEnable) {
-								throw new Error(`Input \`payload.embeds[${embedsIndex}].fields[${fieldsIndex}].name\` is too large!`);
+						if (embed.title.length > 256 && truncateEnable) {
+							embed.title = stringTruncator.truncate(embed.title, 256);
+						}
+						break;
+					case "description":
+						embed.description = embed.description?.toString() ?? embed.description;
+						if (typeof embed.description !== "string") {
+							throw new TypeError(`Unknown input \`embeds[${embedsIndex}].description\`!`);
+						}
+						if (embed.description.length === 0) {
+							delete embed.description;
+							break;
+						}
+						if (embed.description.length > 4096 && truncateEnable) {
+							embed.description = stringTruncator.truncate(embed.description, 4096);
+						}
+						break;
+					case "url":
+						embed.url = embed.url?.toString() ?? embed.url;
+						if (typeof embed.url !== "string") {
+							throw new TypeError(`Unknown input \`embeds[${embedsIndex}].url\`!`);
+						}
+						if (embed.url.length === 0) {
+							delete embed.url;
+							break;
+						}
+						break;
+					case "color":
+						if (typeof embed.color === "number") {
+							if (!(Number.isSafeInteger(embed.color) && embed.color >= 0 && embed.color <= 16777215)) {
+								throw new RangeError(`Input \`embeds[${embedsIndex}].color\` is not a valid RGB integer!`);
 							}
-							payload.embeds[embedsIndex].fields[fieldsIndex].name = stringTruncator.truncate(payload.embeds[embedsIndex].fields[fieldsIndex].name, 256);
-						}
-					}
-					if (typeof payload.embeds[embedsIndex].fields[fieldsIndex].value === "string") {
-						if (payload.embeds[embedsIndex].fields[fieldsIndex].value.length > 1024) {
-							if (!truncateEnable) {
-								throw new Error(`Input \`payload.embeds[${embedsIndex}].fields[${fieldsIndex}].value\` is too large!`);
+						} else if (typeof embed.color === "string") {
+							if (embed.color.length === 0) {
+								delete embed.color;
+								break;
 							}
-							payload.embeds[embedsIndex].fields[fieldsIndex].value = stringTruncator.truncate(payload.embeds[embedsIndex].fields[fieldsIndex].value, 1024);
+							if (embed.color.toLowerCase() === "random") {
+								embed.color = randomInt(0, 256) * 65536 + randomInt(0, 256) * 256 + randomInt(0, 256);
+							} else if (exclusiveColorNamespaceList.map((value) => {
+								return value.name.toLowerCase();
+							}).includes(embed.color.toLowerCase())) {
+								embed.color = Color(exclusiveColorNamespaceList[exclusiveColorNamespaceList.findIndex((value) => {
+									return (value.name.toLowerCase() === embed.color.toLowerCase());
+								})].hex, "hex").rgbNumber();
+							} else if (colorNamespaceList.map((value) => {
+								return value.name.toLowerCase();
+							}).includes(embed.color.toLowerCase())) {
+								embed.color = Color(colorNamespaceList[colorNamespaceList.findIndex((value) => {
+									return (value.name.toLowerCase() === embed.color.toLowerCase());
+								})].hex, "hex").rgbNumber();
+							} else {
+								try {
+									embed.color = Color(embed.color).rgbNumber();
+								} catch (error) {
+									throw new SyntaxError(`Input \`embeds[${embedsIndex}].color\` is not a valid CSS color: ${error}`);
+								}
+							}
+						} else {
+							throw new TypeError(`Unknown input \`embeds[${embedsIndex}].color\`!`);
 						}
-					}
-				}
-				payload.embeds[embedsIndex].fields = payload.embeds[embedsIndex].fields.filter((value) => {
-					return (
-						value.name.length > 0 ||
-						value.value.length > 0
-					);
-				});
-				if (payload.embeds[embedsIndex].fields.length === 0) {
-					delete payload.embeds[embedsIndex].fields;
+						break;
+					case "footer":
+						if (!(typeof embed.footer === "object" && !Array.isArray(embed.footer) && embed.footer !== null)) {
+							throw new TypeError(`Unknown input \`embeds[${embedsIndex}].footer\`!`);
+						}
+						for (const embedFooterKey of Object.keys(embed.footer)) {
+							switch (embedFooterKey) {
+								case "text":
+									embed.footer.text = embed.footer.text?.toString() ?? embed.footer.text;
+									if (typeof embed.footer.text !== "string") {
+										throw new TypeError(`Unknown input \`embeds[${embedsIndex}].footer.text\`!`);
+									}
+									if (embed.footer.text.length === 0) {
+										delete embed.footer.text;
+										break;
+									}
+									if (embed.footer.text.length > 2048 && truncateEnable) {
+										embed.footer.text = stringTruncator.truncate(embed.footer.text, 2048);
+									}
+									break;
+								case "icon_url":
+									embed.footer.icon_url = embed.footer.icon_url?.toString() ?? embed.footer.icon_url;
+									if (typeof embed.footer.icon_url !== "string") {
+										throw new TypeError(`Unknown input \`embeds[${embedsIndex}].footer.icon_url\`!`);
+									}
+									if (embed.footer.icon_url.length === 0) {
+										delete embed.footer.icon_url;
+										break;
+									}
+									break;
+								default:
+									throw new SyntaxError(`Unknown input \`embeds[${embedsIndex}].footer.${embedFooterKey}\`!`);
+							}
+						}
+						if (Object.keys(embed.footer).length === 0) {
+							delete embed.footer;
+							break;
+						}
+						break;
+					case "image":
+						if (!(typeof embed.image === "object" && !Array.isArray(embed.image) && embed.image !== null)) {
+							throw new TypeError(`Unknown input \`embeds[${embedsIndex}].image\`!`);
+						}
+						for (const embedImageKey of Object.keys(embed.image)) {
+							switch (embedImageKey) {
+								case "url":
+									embed.image.url = embed.image.url?.toString() ?? embed.image.url;
+									if (typeof embed.image.url !== "string") {
+										throw new TypeError(`Unknown input \`embeds[${embedsIndex}].image.url\`!`);
+									}
+									if (embed.image.url.length === 0) {
+										delete embed.image.url;
+										break;
+									}
+									break;
+								default:
+									throw new SyntaxError(`Unknown input \`embeds[${embedsIndex}].image.${embedImageKey}\`!`);
+							}
+						}
+						if (Object.keys(embed.image).length === 0) {
+							delete embed.image;
+							break;
+						}
+						break;
+					case "thumbnail":
+						if (!(typeof embed.thumbnail === "object" && !Array.isArray(embed.thumbnail) && embed.thumbnail !== null)) {
+							throw new TypeError(`Unknown input \`embeds[${embedsIndex}].thumbnail\`!`);
+						}
+						for (const embedThumbnailKey of Object.keys(embed.thumbnail)) {
+							switch (embedThumbnailKey) {
+								case "url":
+									embed.thumbnail.url = embed.thumbnail.url?.toString() ?? embed.thumbnail.url;
+									if (typeof embed.thumbnail.url !== "string") {
+										throw new TypeError(`Unknown input \`embeds[${embedsIndex}].thumbnail.url\`!`);
+									}
+									if (embed.thumbnail.url.length === 0) {
+										delete embed.thumbnail.url;
+										break;
+									}
+									break;
+								default:
+									throw new SyntaxError(`Unknown input \`embeds[${embedsIndex}].thumbnail.${embedThumbnailKey}\`!`);
+							}
+						}
+						if (Object.keys(embed.thumbnail).length === 0) {
+							delete embed.thumbnail;
+							break;
+						}
+						break;
+					case "author":
+						if (!(typeof embed.author === "object" && !Array.isArray(embed.author) && embed.author !== null)) {
+							throw new TypeError(`Unknown input \`embeds[${embedsIndex}].author\`!`);
+						}
+						for (const embedAuthorKey of Object.keys(embed.author)) {
+							switch (embedAuthorKey) {
+								case "name":
+									embed.author.name = embed.author.name?.toString() ?? embed.author.name;
+									if (typeof embed.author.name !== "string") {
+										throw new TypeError(`Unknown input \`embeds[${embedsIndex}].author.name\`!`);
+									}
+									if (embed.author.name.length === 0) {
+										delete embed.author.name;
+										break;
+									}
+									if (embed.author.name.length > 256 && truncateEnable) {
+										embed.author.name = stringTruncator.truncate(embed.author.name, 256);
+									}
+									break;
+								case "url":
+									embed.author.url = embed.author.url?.toString() ?? embed.author.url;
+									if (typeof embed.author.url !== "string") {
+										throw new TypeError(`Unknown input \`embeds[${embedsIndex}].author.url\`!`);
+									}
+									if (embed.author.url.length === 0) {
+										delete embed.author.url;
+										break;
+									}
+									break;
+								case "icon_url":
+									embed.author.icon_url = embed.author.icon_url?.toString() ?? embed.author.icon_url;
+									if (typeof embed.author.icon_url !== "string") {
+										throw new TypeError(`Unknown input \`embeds[${embedsIndex}].author.icon_url\`!`);
+									}
+									if (embed.author.icon_url.length === 0) {
+										delete embed.author.icon_url;
+										break;
+									}
+									break;
+								default:
+									throw new SyntaxError(`Unknown input \`embeds[${embedsIndex}].author.${embedAuthorKey}\`!`);
+							}
+						}
+						if (Object.keys(embed.author).length === 0) {
+							delete embed.author;
+							break;
+						}
+						break;
+					case "fields":
+						if (!(isJSON(embed.fields) && Array.isArray(embed.fields))) {
+							throw new TypeError(`Input \`embed[${embedsIndex}].fields\` is not a valid Discord embed fields!`);
+						}
+						if (embed.fields.length > 0) {
+							embed.fields = embed.fields.map((field, fieldsIndex) => {
+								if (!(typeof field === "object" && !Array.isArray(field) && field !== null)) {
+									throw new TypeError(`Unknown input \`embeds[${embedsIndex}].fields[${fieldsIndex}]\`!`);
+								}
+								for (const embedFieldKey of Object.keys(field)) {
+									switch (embedFieldKey) {
+										case "name":
+											field.name = field.name?.toString() ?? field.name;
+											if (typeof field.name !== "string") {
+												throw new TypeError(`Unknown input \`embeds[${embedsIndex}].fields[${fieldsIndex}].name\`!`);
+											}
+											if (field.name.length > 256 && truncateEnable) {
+												field.name = stringTruncator.truncate(field.name, 256);
+											}
+											break;
+										case "value":
+											field.value = field.value?.toString() ?? field.value;
+											if (typeof field.value !== "string") {
+												throw new TypeError(`Unknown input \`embeds[${embedsIndex}].fields[${fieldsIndex}].value\`!`);
+											}
+											if (field.value.length > 1024 && truncateEnable) {
+												field.value = stringTruncator.truncate(field.value, 1024);
+											}
+											break;
+										case "inline":
+											if (typeof field.inline !== "boolean") {
+												throw new TypeError(`Unknown input \`embeds[${embedsIndex}].fields[${fieldsIndex}].inline\`!`);
+											}
+											break;
+										default:
+											throw new SyntaxError(`Unknown input \`embeds[${embedsIndex}].fields[${fieldsIndex}].${embedFieldKey}\`!`);
+									}
+								}
+								return field;
+							}).filter((field) => {
+								return (
+									field.name.length > 0 ||
+									field.value.length > 0
+								);
+							});
+						}
+						if (embed.fields.length > 25) {
+							throw new SyntaxError(`Input \`embeds[${embedsIndex}].fields\` has more than 25 elements (current ${embed.fields.length})!`);
+						}
+						if (embed.fields.length === 0) {
+							delete embed.fields;
+							break;
+						}
+						break;
+					default:
+						throw new SyntaxError(`Unknown input \`embeds[${embedsIndex}].${embedKey}\`!`);
 				}
 			}
-		}
-		payload.embeds = payload.embeds.filter((value) => {
-			return (Object.keys(value).length > 0);
+			return embed;
+		}).filter((embed) => {
+			return (Object.keys(embed).length > 0);
 		});
-		if (payload.embeds.length === 0) {
-			delete payload.embeds;
+	}
+	if (embeds.length > 10) {
+		throw new SyntaxError(`Input \`embeds\` has more than 10 elements (current ${embeds.length})!`);
+	}
+	const allowedMentionsParse = Array.from(new Set(ghactionsGetInput("allowed_mentions_parse").split(/,|;|\|\r?\n/gu).map((value) => {
+		return value.trim();
+	}).filter((value) => {
+		return (value.length > 0);
+	})));
+	for (const element of allowedMentionsParse) {
+		if (!["roles", "users", "everyone"].includes(element)) {
+			throw new SyntaxError(`\`${element}\` is not a valid Discord allowed mention type!`);
 		}
 	}
-	if (jsonSchemaValidator(payload) === false) {
-		for (let error of jsonSchemaValidator.errors) {
-			ghactionsError(error?.message ?? error);
-		}
-		throw JSON.stringify(jsonSchemaValidator.errors);
+	const allowedMentionsRoles = Array.from(new Set(ghactionsGetInput("allowed_mentions_roles").split(/,|;|\|\r?\n/gu).map((value) => {
+		return value.trim();
+	}).filter((value) => {
+		return (value.length > 0);
+	})));
+	if (allowedMentionsRoles.length > 100) {
+		throw new RangeError(`Input \`allowed_mentions_roles\` has more than 100 elements (current ${allowedMentionsRoles.length})!`);
 	}
-	let payloadStringify = JSON.stringify(payload);
-	console.log(`Payload: ${payloadStringify}`);
-	let files = yaml.parse(ghactionsGetInput("files"));
-	if (
-		!isArray(files, {
-			allowEmpty: true,
-			lengthMaximum: 10,
-			strict: true,
-			unique: true
-		}) ||
-		files.some((file) => {
-			return !isString(file);
-		})
-	) {
-		throw new TypeError(`Input \`files\` must be type of strings-array (unique) and maximum 10 elements!`);
+	const allowedMentionsUsers = Array.from(new Set(ghactionsGetInput("allowed_mentions_users").split(/,|;|\|\r?\n/gu).map((value) => {
+		return value.trim();
+	}).filter((value) => {
+		return (value.length > 0);
+	})));
+	if (allowedMentionsUsers.length > 100) {
+		throw new RangeError(`Input \`allowed_mentions_users\` has more than 100 elements (current ${allowedMentionsUsers.length})!`);
 	}
-	for (let file of files) {
+	const files = Array.from(new Set(ghactionsGetInput("files").split(/\r?\n/gu).map((value) => {
+		return value.trim();
+	}).filter((value) => {
+		return (value.length > 0);
+	})));
+	if (files.length > 10) {
+		throw new RangeError(`Input \`files\` has more than 10 elements (current ${files.length})!`);
+	}
+	for (const file of files) {
 		try {
 			await fsAccess(pathJoin(ghactionsWorkspaceDirectory, file), fsConstants.R_OK);
 		} catch {
 			throw new Error(`File \`${file}\` is not accessible, exist, and/or readable!`);
 		}
 	}
-	console.log(`Files: ${files}`);
-	if (typeof payload.content === "undefined" && typeof payload.embeds === "undefined" && files.length === 0) {
-		throw new Error(`At least one of the input \`payload.content\`, \`payload.embeds\`, or \`files\` must be provided!`);
+	if (content.length === 0 && embeds.length === 0 && files.length === 0) {
+		throw new Error(`At least either inputs of \`content\`, \`embeds\`, or \`files\` must be provided!`);
+	}
+	const wait = ghactionsGetBooleanInput("wait", { required: true });
+	if (wait) {
+		discordWebhookQuery.set("wait", "true");
+	}
+	const threadID = ghactionsGetInput("thread_id");
+	if (threadID.length > 0) {
+		if (!/^\d+$/u.test(threadID)) {
+			throw new SyntaxError(`Input \`thread_id\` is not a valid Discord thread ID!`);
+		}
+		discordWebhookQuery.set("thread_id", threadID);
+	}
+	const threadName = ghactionsGetInput("thread_name");
+	if (threadID.length > 0 && threadName.length > 0) {
+		throw new Error(`Only either inputs of \`thread_id\` or \`thread_name\` can be provided!`);
 	}
 	let method = ghactionsGetInput("method").toLowerCase();
 	if (method.length === 0) {
 		method = (files.length > 0) ? "form" : "json";
 	}
-	if (
-		(method !== "form" && method !== "json") ||
-		(method === "json" && files.length > 0)
-	) {
-		throw new Error(`\`${method}\` is not a valid method!`);
-	}
-	let wait = ghactionsGetBooleanInput("wait");
-	if (typeof wait !== "boolean") {
-		throw new TypeError(`Input \`wait\` must be type of boolean!`);
-	}
-	if (wait) {
-		discordWebhookQuery.set("wait", "true");
-	}
-	console.log(`Wait: ${wait}`);
-	let threadID = ghactionsGetInput("threadid");
-	let threadType = ghactionsGetInput("thread_type").toLowerCase();
-	let threadValue = ghactionsGetInput("thread_value");
-	if (threadID.length === 0) {
-		if (threadType === "id") {
-			if (!isString(threadValue, { pattern: /^\d+$/u })) {
-				throw new TypeError(`Input \`thread_value\` is not a valid thread ID!`);
-			}
-			ghactionsSetSecret(threadValue);
-			discordWebhookQuery.set("thread_id", threadValue);
-		} else if (threadType === "name") {
-			if (threadValue.length === 0) {
-				const arrayAloneFilter = new ArrayItemFilter().length(1);
-				const stringTFilter = new StringItemFilter().preTrim(true);
-				if (stringTFilter.test(payload.content)) {
-					threadValue = stringTruncator.truncate(payload.content.trim().replace(/\r?\n/gu, " "), 100);
-				} else if (arrayAloneFilter.test(payload.embeds) && stringTFilter.test(payload.embeds[0].title)) {
-					threadValue = stringTruncator.truncate(payload.embeds[0].title.trim().replace(/\r?\n/gu, " "), 100);
-				} else if (arrayAloneFilter.test(payload.embeds) && stringTFilter.test(payload.embeds[0].description)) {
-					threadValue = stringTruncator.truncate(payload.embeds[0].description.trim().replace(/\r?\n/gu, " "), 100);
-				} else {
-					threadValue = `Send Discord Webhook - ${new Date().toISOString().replace(/\.\d+Z$/gu, "Z")}`;
-				}
-			} else if (threadValue.length > 100) {
-				if (!truncateEnable) {
-					throw new Error(`Input \`thread_value\` is too large!`);
-				}
-				threadValue = stringTruncator.truncate(threadValue, 100);
-			}
-			payload.thread_name = threadValue;
-			console.log(`Thread Name: ${threadValue}`);
-		} else if (threadType !== "none") {
-			throw new TypeError(`\`${threadType}\` is not a valid thread type!`);
+	const requestHeaders = new Headers({
+		"User-Agent": `NodeJS/${process.versions.node}-${process.platform}-${process.arch} SendDiscordWebhook.GitHubAction/6.0.0`
+	});
+	const requestPayload = {
+		tts,
+		allowed_mentions: {
+			parse: allowedMentionsParse,
+			roles: allowedMentionsRoles,
+			users: allowedMentionsUsers
 		}
-	} else {
-		if (!isString(threadID, { pattern: /^\d+$/u })) {
-			throw new TypeError(`Input \`threadid\` is not a valid thread ID!`);
-		}
-		ghactionsSetSecret(threadID);
-		discordWebhookQuery.set("thread_id", threadID);
-	}
-	ghactionsEndGroup();
-	ghactionsStartGroup(`Post network request to Discord.`);
-	let requestBody;
-	let requestHeaders = {
-		"User-Agent": `SendDiscordWebhook.GitHubAction/5.0.6 NodeJS/${process.versions.node}-${process.platform}-${process.arch}`
 	};
-	let requestQuery = discordWebhookQuery.toString();
-	if (method === "form") {
-		requestBody = new FormData();
-		if (files.length > 0) {
-			payload.attachments = [];
-			for (let filesIndex = 0; filesIndex < files.length; filesIndex++) {
-				let fileFullPath = pathJoin(ghactionsWorkspaceDirectory, files[filesIndex]);
-				let fileName = pathBaseName(fileFullPath);
-				payload.attachments.push({
-					"filename": fileName,
+	if (content.length > 0) {
+		requestPayload.content = content;
+	}
+	if (username.length > 0) {
+		requestPayload.username = username;
+	}
+	if (avatarURL.length > 0) {
+		requestPayload.avatar_url = avatarURL;
+	}
+	if (embeds.length > 0) {
+		requestPayload.embeds = embeds;
+	}
+	if (threadName.length > 0) {
+		requestPayload.thread_name = threadName;
+	}
+	const requestPayloadStringify = JSON.stringify(requestPayload);
+	ghactionsDebug(`Payload: ${requestPayloadStringify}`);
+	const requestQuery = discordWebhookQuery.toString();
+	let requestBody;
+	const attachments = [];
+	switch (method) {
+		case "form":
+			requestBody = new FormData();
+			requestHeaders.append("Content-Type", "multipart/form-data");
+			files.forEach((file, filesIndex) => {
+				const fileFullPath = pathJoin(ghactionsWorkspaceDirectory, file);
+				attachments.push({
+					"filename": pathBaseName(fileFullPath),
 					"id": filesIndex
 				});
 				requestBody.append(`files[${filesIndex}]`, fsCreateReadStream(fileFullPath));
-			}
-		}
-		requestBody.append("payload_json", JSON.stringify(payload));
-		requestHeaders = {
-			...requestBody.getHeaders(),
-			...requestHeaders
-		};
-	} else {
-		requestBody = payloadStringify;
-		requestHeaders = {
-			"Content-Type": "application/json",
-			...requestHeaders
-		};
+			});
+			requestBody.append("attachments", JSON.stringify(attachments));
+			requestBody.append("payload_json", requestPayloadStringify);
+			break;
+		case "json":
+			requestBody = requestPayloadStringify;
+			requestHeaders.append("Content-Type", "application/json");
+			break;
+		default:
+			throw new Error();
 	}
-	let response = await nodeFetch(`https://discord.com/api/webhooks/${key}${(requestQuery.length > 0) ? `?${requestQuery}` : ""}`, {
+	console.log(`Post network request to Discord.`);
+	const response = await fetch(`https://discord.com/api/webhooks/${key}${(requestQuery.length > 0) ? `?${requestQuery}` : ""}`, {
 		body: requestBody,
-		follow: 1,
 		headers: requestHeaders,
 		method: "POST",
 		redirect: "follow"
 	}).catch((reason) => {
 		throw new Error(`Unexpected web request issue: ${reason?.message ?? reason}`);
 	});
-	let responseText = await response.text();
+	const responseText = await response.text();
 	ghactionsSetOutput("response", responseText);
 	ghactionsSetOutput("status_code", response.status);
 	ghactionsSetOutput("status_ok", response.ok);
@@ -408,9 +468,7 @@ try {
 	}
 	console.log(`Response Status: ${response.status} ${response.statusText}`);
 	console.log(`Response Content: ${responseText}`);
-	ghactionsEndGroup();
 } catch (error) {
 	ghactionsError(error?.message ?? error);
-	ghactionsEndGroup();
 	process.exit(1);
 }

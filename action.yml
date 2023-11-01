@@ -5,27 +5,44 @@ inputs:
   key:
     description: "{string} Key."
     required: true
-  method:
-    description: "{string} Method to send."
+  content:
+    description: "{string} Content of the message."
     required: false
-  payload:
-    description: "{object} JSON/YAML payload."
+  username:
+    description: "{string} Override the default username of the webhook."
     required: false
-    default: "{}"
+  avatar_url:
+    description: "{string} Override the default avatar of the webhook."
+    required: false
+  tts:
+    description: "{boolean} Whether to use TTS (Text To Speech) for the message."
+    required: false
+    default: "false"
+  embeds:
+    description: "{object[]} Embed rich content for the message."
+    required: false
+  allowed_mentions_parse:
+    description: "{string[]} Allowed mention types to parse from the content."
+    required: false
+    default: "roles,users,everyone"
+  allowed_mentions_roles:
+    description: "{string[]} Allowed roles' IDs to mention."
+    required: false
+  allowed_mentions_users:
+    description: "{string[]} Allowed users' IDs to mention."
+    required: false
   files:
     description: "{string[]} Files as attachments of the message."
     required: false
-    default: "[]"
   wait:
     description: "{boolean} Whether to wait for Discord confirmation of message send before response."
     required: false
-    default: "false"
-  thread_type:
-    description: "{string} Thread type of the message; Send to the specified thread within a webhook's channel."
+    default: "true"
+  thread_id:
+    description: "{string} Thread ID for the message channel."
     required: false
-    default: "none"
-  thread_value:
-    description: "{string} Thread value of the message."
+  thread_name:
+    description: "{string} Thread name for the forum channel."
     required: false
   truncate_enable:
     description: "{boolean} Whether to try truncate firstly when inputs are too large."
@@ -39,10 +56,6 @@ inputs:
     description: "{string} Ellipsis position."
     required: false
     default: "end"
-  threadid:
-    description: "{string} Thread ID of the message; Send to the specified thread within a webhook's channel."
-    required: false
-    deprecationMessage: "This input is replaced by `thread_type` and `thread_value`."
 outputs:
   response:
     description: "{string} Response content."
@@ -53,7 +66,7 @@ outputs:
   status_text:
     description: "{string} Request status text."
 runs:
-  using: "node16"
+  using: "node20"
   main: "dist/main.js"
 branding:
   icon: "send"

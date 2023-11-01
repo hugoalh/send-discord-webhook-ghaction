@@ -13,7 +13,8 @@
 
 | **Versions** | **Status** | **Target - GitHub Actions Runner** | **Target - NodeJS** |
 |:-:|:-:|:-:|:-:|
-| v5.X.X | L | >= v2.297.0 | ^ v16.13.0 |
+| v6.X.X | L | >= v2.310.0 | ^ v20.9.0 |
+| v5.X.X | ✔️ | >= v2.297.0 | ^ v16.13.0 |
 | < v5.0.0 | ❌{🐛🧓} | *Multiple* | *Multiple* |
 
 ## Report Vulnerability
