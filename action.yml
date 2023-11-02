@@ -8,6 +8,9 @@ inputs:
   content:
     description: "{string} Content of the message."
     required: false
+  content_links_no_embed:
+    description: "{RegExp[]} Specify links in the content to prevent Discord resolve and display as embed under the message."
+    required: false
   username:
     description: "{string} Override the default username of the webhook."
     required: false

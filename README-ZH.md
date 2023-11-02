@@ -60,6 +60,15 @@ https://discordapp.com/api/webhooks/70971114/ueyzeWxB_8bb1zMhL  ⬅長（舊）
 
 > **⚠️ Important:** At least either inputs of [`content`](#content), [`embeds`](#embeds), or [`files`](#files) must be provided.
 
+### `content_links_no_embed`
+
+**［選擇性］** `<RegExp[]>` Specify links in the [content](#content) to prevent Discord resolve and display as embed under the message, only supports HTTP and HTTPS, separate each value per line.
+
+- **All:** `.+`
+- **`.png` Image:** `\.png(?:\?|#|$)`
+- **`.webp` Image:** `\.webp(?:\?|#|$)`
+- **Twitch:** `twitch\.tv`
+
 ### `username`
 
 **［選擇性］** `<字串>` 覆蓋網絡鉤手的預設用戶名，最多 80 個字元；「Clyde」是不被允許的。
