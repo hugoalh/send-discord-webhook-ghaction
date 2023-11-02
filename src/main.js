@@ -7,24 +7,24 @@ import { create as ghactionsGlob } from "@actions/glob";
 import { isJSON } from "@hugoalh/advanced-determine";
 import { StringOverflowTruncator } from "@hugoalh/string-overflow";
 import Color from "color";
-import colorNamespaceList from "color-name-list";
+import colorNameList from "color-name-list";
 import yaml from "yaml";
 console.log("Initialize.");
 const iso8601RegExp = /^\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\dZ$/u;
 const snowflakeRegExp = /^\d+$/u;
 const splitterNewLine = /\r?\n/gu;
 const splitterCommonDelimiter = /,|;|\||\r?\n/gu;
-const colorNameSpaceList = new Map();
-for (const { name, hex } of colorNamespaceList) {
-	colorNameSpaceList.set(name, hex);
+const colorNamespaceList = new Map();
+for (const { name, hex } of colorNameList) {
+	colorNamespaceList.set(name, hex);
 }
-colorNameSpaceList.set("Default", "#202225");
-colorNameSpaceList.set("Discord Blurple", "#5865F2");
-colorNameSpaceList.set("Discord Fuchsia", "#EB459E");
-colorNameSpaceList.set("Discord Green", "#57F287");
-colorNameSpaceList.set("Discord Red", "#ED4245");
-colorNameSpaceList.set("Discord Yellow", "#FEE75C");
-colorNameSpaceList.set("Embed Background Dark", "#2F3136");
+colorNamespaceList.set("Default", "#202225");
+colorNamespaceList.set("Discord Blurple", "#5865F2");
+colorNamespaceList.set("Discord Fuchsia", "#EB459E");
+colorNamespaceList.set("Discord Green", "#57F287");
+colorNamespaceList.set("Discord Red", "#ED4245");
+colorNamespaceList.set("Discord Yellow", "#FEE75C");
+colorNamespaceList.set("Embed Background Dark", "#2F3136");
 const ghactionsWorkspaceDirectory = process.env.GITHUB_WORKSPACE ?? "";
 if (!(ghactionsWorkspaceDirectory.length > 0)) {
 	ghactionsError(`Environment variable \`GITHUB_WORKSPACE\` is not defined!`);
@@ -501,6 +501,6 @@ try {
 	console.log(`Response Status: ${response.status} ${response.statusText}`);
 	console.log(`Response Content: ${responseText}`);
 } catch (error) {
-	ghactionsError((typeof error?.name !== "undefined" && typeof error?.message !== "undefined") ? `${error.name}: ${error.message}` : error);
+	ghactionsError((typeof error?.name !== "undefined" && typeof error?.message !== "undefined") ? `${error.name}: ${error.message}${(typeof error?.stack === "undefined") ? "" : `\n${error.stack}`}` : error);
 	process.exit(1);
 }
