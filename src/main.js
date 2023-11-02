@@ -1,20 +1,30 @@
 import { randomInt } from "node:crypto";
 import { createReadStream as fsCreateReadStream } from "node:fs";
-import { access as fsAccess, constants as fsConstants, readFile as fsReadFile } from "node:fs/promises";
+import { access as fsAccess, constants as fsConstants } from "node:fs/promises";
 import { basename as pathBaseName, join as pathJoin } from "node:path";
 import { debug as ghactionsDebug, error as ghactionsError, getBooleanInput as ghactionsGetBooleanInput, getInput as ghactionsGetInput, setOutput as ghactionsSetOutput, setSecret as ghactionsSetSecret } from "@actions/core";
 import { create as ghactionsGlob } from "@actions/glob";
 import { isJSON } from "@hugoalh/advanced-determine";
 import { StringOverflowTruncator } from "@hugoalh/string-overflow";
-import { underscorePath } from "@hugoalh/underscore-path";
 import Color from "color";
 import colorNamespaceList from "color-name-list";
 import yaml from "yaml";
 console.log("Initialize.");
+const iso8601RegExp = /^\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\dZ$/u;
+const snowflakeRegExp = /^\d+$/u;
 const splitterNewLine = /\r?\n/gu;
 const splitterCommonDelimiter = /,|;|\||\r?\n/gu;
-const ghactionsActionDirectory = pathJoin(underscorePath(import.meta.url).__dirname, "../");
-const exclusiveColorNamespaceFilePath = pathJoin(ghactionsActionDirectory, "exclusive-color-namespace.json");
+const colorNameSpaceList = new Map();
+for (const { name, hex } of colorNamespaceList) {
+	colorNameSpaceList.set(name, hex);
+}
+colorNameSpaceList.set("Default", "#202225");
+colorNameSpaceList.set("Discord Blurple", "#5865F2");
+colorNameSpaceList.set("Discord Fuchsia", "#EB459E");
+colorNameSpaceList.set("Discord Green", "#57F287");
+colorNameSpaceList.set("Discord Red", "#ED4245");
+colorNameSpaceList.set("Discord Yellow", "#FEE75C");
+colorNameSpaceList.set("Embed Background Dark", "#2F3136");
 const ghactionsWorkspaceDirectory = process.env.GITHUB_WORKSPACE ?? "";
 if (!(ghactionsWorkspaceDirectory.length > 0)) {
 	ghactionsError(`Environment variable \`GITHUB_WORKSPACE\` is not defined!`);
@@ -22,7 +32,6 @@ if (!(ghactionsWorkspaceDirectory.length > 0)) {
 }
 const discordWebhookQuery = new URLSearchParams();
 const discordWebhookURLRegExp = /^(?:https:\/\/(?:canary\.)?discord(?:app)?\.com\/api\/webhooks\/)?(?<key>\d+\/(?:[\dA-Za-z][\dA-Za-z_-]*)?[\dA-Za-z])$/u;
-const exclusiveColorNamespaceList = JSON.parse(await fsReadFile(exclusiveColorNamespaceFilePath, { encoding: "utf8" }));
 try {
 	const truncateEnable = ghactionsGetBooleanInput("truncate_enable", { required: true });
 	const stringTruncator = new StringOverflowTruncator(128, {
@@ -99,6 +108,18 @@ try {
 							break;
 						}
 						break;
+					case "timestamp":
+						if (typeof embed.timestamp !== "string") {
+							throw new TypeError(`Unknown input \`embeds[${embedsIndex}].timestamp\`!`);
+						}
+						if (embed.timestamp.length === 0) {
+							delete embed.timestamp;
+							break;
+						}
+						if (!(iso8601RegExp.test(embed.timestamp) && new Date(embed.timestamp))) {
+							throw new SyntaxError(`${embed.timestamp} (input \`embeds[${embedsIndex}].timestamp\`) is not a valid ISO 8601 timestamp!`);
+						}
+						break;
 					case "color":
 						if (typeof embed.color === "number") {
 							if (!(Number.isSafeInteger(embed.color) && embed.color >= 0 && embed.color <= 16777215)) {
@@ -109,20 +130,10 @@ try {
 								delete embed.color;
 								break;
 							}
-							if (embed.color.toLowerCase() === "random") {
+							if (embed.color === "Random") {
 								embed.color = randomInt(0, 256) * 65536 + randomInt(0, 256) * 256 + randomInt(0, 256);
-							} else if (exclusiveColorNamespaceList.map((value) => {
-								return value.name.toLowerCase();
-							}).includes(embed.color.toLowerCase())) {
-								embed.color = Color(exclusiveColorNamespaceList[exclusiveColorNamespaceList.findIndex((value) => {
-									return (value.name.toLowerCase() === embed.color.toLowerCase());
-								})].hex, "hex").rgbNumber();
-							} else if (colorNamespaceList.map((value) => {
-								return value.name.toLowerCase();
-							}).includes(embed.color.toLowerCase())) {
-								embed.color = Color(colorNamespaceList[colorNamespaceList.findIndex((value) => {
-									return (value.name.toLowerCase() === embed.color.toLowerCase());
-								})].hex, "hex").rgbNumber();
+							} else if (colorNamespaceList.has(embed.color)) {
+								embed.color = Color(colorNamespaceList.get(embed.color), "hex").rgbNumber();
 							} else {
 								try {
 									embed.color = Color(embed.color).rgbNumber();
@@ -351,6 +362,11 @@ try {
 	}).filter((value) => {
 		return (value.length > 0);
 	})));
+	for (const allowedMentionsRole of allowedMentionsRoles) {
+		if (!snowflakeRegExp.test(allowedMentionsRole)) {
+			throw new SyntaxError(`${allowedMentionsRole} (input \`allowed_mentions_roles[*]\`) is not a valid snowflake!`);
+		}
+	}
 	if (allowedMentionsRoles.length > 100) {
 		throw new RangeError(`Input \`allowed_mentions_roles\` has more than 100 elements (current ${allowedMentionsRoles.length})!`);
 	}
@@ -359,6 +375,11 @@ try {
 	}).filter((value) => {
 		return (value.length > 0);
 	})));
+	for (const allowedMentionsUser of allowedMentionsUsers) {
+		if (!snowflakeRegExp.test(allowedMentionsUser)) {
+			throw new SyntaxError(`${allowedMentionsUser} (input \`allowed_mentions_users[*]\`) is not a valid snowflake!`);
+		}
+	}
 	if (allowedMentionsUsers.length > 100) {
 		throw new RangeError(`Input \`allowed_mentions_users\` has more than 100 elements (current ${allowedMentionsUsers.length})!`);
 	}
@@ -394,8 +415,8 @@ try {
 	}
 	const threadID = ghactionsGetInput("thread_id");
 	if (threadID.length > 0) {
-		if (!/^\d+$/u.test(threadID)) {
-			throw new SyntaxError(`Input \`thread_id\` is not a valid Discord thread ID!`);
+		if (!snowflakeRegExp.test(threadID)) {
+			throw new SyntaxError(`${threadID} (input \`thread_id\`) is not a valid snowflake!`);
 		}
 		discordWebhookQuery.set("thread_id", threadID);
 	}
@@ -480,6 +501,6 @@ try {
 	console.log(`Response Status: ${response.status} ${response.statusText}`);
 	console.log(`Response Content: ${responseText}`);
 } catch (error) {
-	ghactionsError(error?.message ?? error);
+	ghactionsError((typeof error?.name !== "undefined" && typeof error?.message !== "undefined") ? `${error.name}: ${error.message}` : error);
 	process.exit(1);
 }
