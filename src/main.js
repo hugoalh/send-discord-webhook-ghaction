@@ -54,7 +54,7 @@ try {
 	if (contentLinksNoEmbed.length > 0 && content.length > 0) {
 		const contentLinksNoEmbedRegExp = new RegExp(contentLinksNoEmbed.split(splitterNewLine).join("|"), "gu");
 		content = content.split(/ /gu).map((value) => {
-			return ((URL.canParse(value) && contentLinksNoEmbedRegExp.test(value)) ? `<${value}>` : value);
+			return ((URL.canParse(value) && /^https?:\/\//u.test(value) && contentLinksNoEmbedRegExp.test(value)) ? `<${value}>` : value);
 		}).join(" ");
 	}
 	let username = ghactionsGetInput("username");
