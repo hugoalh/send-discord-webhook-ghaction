@@ -123,7 +123,7 @@ try {
 					case "color":
 						if (typeof embed.color === "number") {
 							if (!(Number.isSafeInteger(embed.color) && embed.color >= 0 && embed.color <= 16777215)) {
-								throw new RangeError(`Input \`embeds[${embedsIndex}].color\` is not a valid RGB integer!`);
+								throw new RangeError(`${embed.color} (input \`embeds[${embedsIndex}].color\`) is not a valid RGB integer!`);
 							}
 						} else if (typeof embed.color === "string") {
 							if (embed.color.length === 0) {
@@ -138,7 +138,7 @@ try {
 								try {
 									embed.color = Color(embed.color).rgbNumber();
 								} catch (error) {
-									throw new SyntaxError(`Input \`embeds[${embedsIndex}].color\` is not a valid CSS color: ${error}`);
+									throw new SyntaxError(`${embed.color} (input \`embeds[${embedsIndex}].color\`) is not a valid CSS color: ${error}`);
 								}
 							}
 						} else {
