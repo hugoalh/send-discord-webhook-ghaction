@@ -441,9 +441,7 @@ try {
 	const requestPayload = {
 		tts,
 		allowed_mentions: {
-			parse: allowedMentionsParse,
-			roles: allowedMentionsRoles,
-			users: allowedMentionsUsers
+			parse: allowedMentionsParse
 		}
 	};
 	if (content.length > 0) {
@@ -457,6 +455,12 @@ try {
 	}
 	if (embeds.length > 0) {
 		requestPayload.embeds = embeds;
+	}
+	if (allowedMentionsRoles.length > 0) {
+		requestPayload.allowed_mentions.roles = allowedMentionsRoles;
+	}
+	if (allowedMentionsUsers.length > 0) {
+		requestPayload.allowed_mentions.users = allowedMentionsUsers;
 	}
 	if (threadName.length > 0) {
 		requestPayload.thread_name = threadName;
