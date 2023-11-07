@@ -45,17 +45,17 @@ try {
 	const key = keyRaw.match(discordWebhookURLRegExp).groups.key;
 	ghactionsSetSecret(key);
 	let content = ghactionsGetInput("content");
-	if (content.length > 2000) {
-		if (truncateEnable) {
-			content = stringTruncator.truncate(content, 2000);
-		}
-	}
 	const contentLinksNoEmbed = ghactionsGetInput("content_links_no_embed");
 	if (contentLinksNoEmbed.length > 0 && content.length > 0) {
 		const contentLinksNoEmbedRegExp = new RegExp(contentLinksNoEmbed.split(splitterNewLine).join("|"), "gu");
 		content = content.split(/ /gu).map((value) => {
 			return ((URL.canParse(value) && /^https?:\/\//u.test(value) && contentLinksNoEmbedRegExp.test(value)) ? `<${value}>` : value);
 		}).join(" ");
+	}
+	if (content.length > 2000) {
+		if (truncateEnable) {
+			content = stringTruncator.truncate(content, 2000);
+		}
 	}
 	let username = ghactionsGetInput("username");
 	if (username.length > 0) {
