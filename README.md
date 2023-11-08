@@ -62,7 +62,7 @@ https://discordapp.com/api/webhooks/70971114/ueyzeWxB_8bb1zMhL  ⬅Long (Legacy)
 
 ### `content_links_no_embed`
 
-**\[Optional\]** `<RegExp[]>` Specify links in the [content](#content) to prevent Discord resolve and display as embed under the message, only supports HTTP and HTTPS, separate each value per line.
+**\[Optional\]** `<RegExp[]>` Specify links in the [`content`](#content) to prevent Discord resolve and display as embed under the message, only supports HTTP and HTTPS, separate each value per line.
 
 - **All:** `.+`
 - **`.png` Image:** `\.png(?:\?|#|$)`

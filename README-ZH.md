@@ -5,7 +5,7 @@
 # 發送 Discord 網絡鉤手（GitHub Action）
 
 [⚖️ MIT](./LICENSE-ZH.md)
-[![CodeFactor 評等](https://img.shields.io/codefactor/grade/github/hugoalh/send-discord-webhook-ghaction?label=Grade&logo=codefactor&logoColor=ffffff&style=flat-square "CodeFactor 評等")](https://www.codefactor.io/repository/github/hugoalh/send-discord-webhook-ghaction)
+[![CodeFactor 評等](https://img.shields.io/codefactor/grade/github/hugoalh/send-discord-webhook-ghaction?label=%E8%A9%95%E7%AD%89&logo=codefactor&logoColor=ffffff&style=flat-square "CodeFactor 評等")](https://www.codefactor.io/repository/github/hugoalh/send-discord-webhook-ghaction)
 
 |  | **熱度** | **發佈—最新** | **發佈—預覽** |
 |:-:|:-:|:-:|:-:|
@@ -58,16 +58,16 @@ https://discordapp.com/api/webhooks/70971114/ueyzeWxB_8bb1zMhL  ⬅長（舊）
 
 **［選擇性］** `<字串>` 訊息內容，最多 2000 個字元；支援 Discord Markdown。
 
-> **⚠️ Important:** At least either inputs of [`content`](#content), [`embeds`](#embeds), or [`files`](#files) must be provided.
+> <b>⚠️ 重要：</b> 至少必須提供 [`content`](#content)、[`embeds`](#embeds) 或 [`files`](#files) 輸入。
 
 ### `content_links_no_embed`
 
-**［選擇性］** `<RegExp[]>` Specify links in the [content](#content) to prevent Discord resolve and display as embed under the message, only supports HTTP and HTTPS, separate each value per line.
+**［選擇性］** `<規律表達式[]>` 指定在 [`content`](#content) 中的鏈結以防止 Discord 解析並嵌入在訊息下方，只支援 HTTP 和 HTTPS，以每行分隔每個值。
 
-- **All:** `.+`
-- **`.png` Image:** `\.png(?:\?|#|$)`
-- **`.webp` Image:** `\.webp(?:\?|#|$)`
-- **Twitch:** `twitch\.tv`
+- <b>所有：</b>`.+`
+- <b>`.png` 圖像：</b>`\.png(?:\?|#|$)`
+- <b>`.webp` 圖像：</b>`\.webp(?:\?|#|$)`
+- <b>Twitch：</b>`twitch\.tv`
 
 ### `username`
 
@@ -92,7 +92,7 @@ https://discordapp.com/api/webhooks/70971114/ueyzeWxB_8bb1zMhL  ⬅長（舊）
 - [`embeds[*].fields[*].name`](#embedsfieldsname)
 - [`embeds[*].fields[*].value`](#embedsfieldsvalue)
 
-> **⚠️ Important:** At least either inputs of [`content`](#content), [`embeds`](#embeds), or [`files`](#files) must be provided.
+> <b>⚠️ 重要：</b> 至少必須提供 [`content`](#content)、[`embeds`](#embeds) 或 [`files`](#files) 輸入。
 
 #### `embeds[*].title`
 
@@ -118,133 +118,133 @@ https://discordapp.com/api/webhooks/70971114/ueyzeWxB_8bb1zMhL  ⬅長（舊）
 
 |  | **命名空間** | **值** | **說明** |
 |:-:|:-:|:-:|:--|
-| <img src="https://www.colorhexa.com/202225.png" height="16px" width="16px" /> | `"Default"` |  `"#202225"` / `"rgb(32, 34, 37)"` | Default. |
-| 🍭 | `"Random"` |  | Random. |
-| <img src="https://www.colorhexa.com/5865F2.png" height="16px" width="16px" /> | `"Discord Blurple"` | `"#5865F2"` / `"rgb(88, 101, 242)"` | Discord blurple. |
-| <img src="https://www.colorhexa.com/EB459E.png" height="16px" width="16px" /> | `"Discord Fuchsia"` | `"#EB459E"` / `"rgb(254, 231, 92)"` | Discord fuchsia. |
-| <img src="https://www.colorhexa.com/57F287.png" height="16px" width="16px" /> | `"Discord Green"` | `"#57F287"` / `"rgb(87, 242, 135)"` | Discord green. |
-| <img src="https://www.colorhexa.com/ED4245.png" height="16px" width="16px" /> | `"Discord Red"` | `"#ED4245"` / `"rgb(237, 66, 69)"` | Discord red. |
-| <img src="https://www.colorhexa.com/FEE75C.png" height="16px" width="16px" /> | `"Discord Yellow"` | `"#FEE75C"` / `"rgb(254, 231, 92)"` | Discord yellow. |
-| <img src="https://www.colorhexa.com/2F3136.png" height="16px" width="16px" /> | `"Embed Background Dark"` | `"#2F3136"` / `"rgb(47, 49, 54)"` | Embed background in dark mode. |
+| <img src="https://www.colorhexa.com/202225.png" height="16px" width="16px" /> | `"Default"` |  `"#202225"` / `"rgb(32, 34, 37)"` | 預設。 |
+| 🍭 | `"Random"` |  | 隨機。 |
+| <img src="https://www.colorhexa.com/5865F2.png" height="16px" width="16px" /> | `"Discord Blurple"` | `"#5865F2"` / `"rgb(88, 101, 242)"` | Discord 紫藍。 |
+| <img src="https://www.colorhexa.com/EB459E.png" height="16px" width="16px" /> | `"Discord Fuchsia"` | `"#EB459E"` / `"rgb(254, 231, 92)"` | Discord 紫紅。 |
+| <img src="https://www.colorhexa.com/57F287.png" height="16px" width="16px" /> | `"Discord Green"` | `"#57F287"` / `"rgb(87, 242, 135)"` | Discord 綠。 |
+| <img src="https://www.colorhexa.com/ED4245.png" height="16px" width="16px" /> | `"Discord Red"` | `"#ED4245"` / `"rgb(237, 66, 69)"` | Discord 紅。 |
+| <img src="https://www.colorhexa.com/FEE75C.png" height="16px" width="16px" /> | `"Discord Yellow"` | `"#FEE75C"` / `"rgb(254, 231, 92)"` | Discord 黃。 |
+| <img src="https://www.colorhexa.com/2F3136.png" height="16px" width="16px" /> | `"Embed Background Dark"` | `"#2F3136"` / `"rgb(47, 49, 54)"` | 在深色模式下的嵌入的背景。 |
 
-> **⚠️ Important:**
+> <b>⚠️ 重要：</b>
 >
-> - Alpha channel is not supported.
-> - General namespace are provided by [`meodai/color-names`](https://github.com/meodai/color-names), maybe change and/or remove without any notification, it is recommended to use value instead except you want a random color.
+> - 不支援不透明度。
+> - 一般命名空間由 [`meodai/color-names`](https://github.com/meodai/color-names) 提供，可能會在沒有任何通知的情況下更改和／或刪除，建議使用數值代替，除非您想要隨機顏色。
 
 #### `embeds[*].footer`
 
-**［選擇性］** `<物件>` Footer of the embed.
+**［選擇性］** `<物件>` 嵌入的頁腳。
 
 #### `embeds[*].footer.text`
 
-**［選擇性］** `<字串>` Footer text, up to 2048 characters; Support Discord Markdown.
+**［選擇性］** `<字串>` 嵌入頁腳的內容，最多 2048 個字元；支援 Discord Markdown。
 
 #### `embeds[*].footer.icon_url`
 
-**［選擇性］** `<字串>` Source URL of the footer icon, only supports HTTP, HTTPS, and attachments.
+**［選擇性］** `<字串>` 嵌入頁腳的圖示的來源鏈結，只支援 HTTP、HTTPS 和附件。
 
 #### `embeds[*].image`
 
-**［選擇性］** `<物件>` Image of the embed.
+**［選擇性］** `<物件>` 嵌入的圖像。
 
 #### `embeds[*].image.url`
 
-**［選擇性］** `<字串>` Source URL of the image, only supports HTTP, HTTPS, and attachments.
+**［選擇性］** `<字串>` 嵌入圖像的來源鏈結，只支援 HTTP、HTTPS 和附件。
 
 #### `embeds[*].thumbnail`
 
-**［選擇性］** `<物件>` Thumbnail of the embed.
+**［選擇性］** `<物件>` 嵌入的縮圖。
 
 #### `embeds[*].thumbnail.url`
 
-**［選擇性］** `<字串>` Source URL of the thumbnail, only supports HTTP, HTTPS, and attachments.
+**［選擇性］** `<字串>` 嵌入縮圖的來源鏈結，只支援 HTTP、HTTPS 和附件。
 
 #### `embeds[*].author`
 
-**［選擇性］** `<物件>` Author of the embed.
+**［選擇性］** `<物件>` 嵌入的作者。
 
 #### `embeds[*].author.name`
 
-**［選擇性］** `<字串>` Author name, up to 256 characters.
+**［選擇性］** `<字串>` 嵌入作者的姓名，最多 256 個字元。
 
 #### `embeds[*].author.url`
 
-**［選擇性］** `<字串>` Author URL.
+**［選擇性］** `<字串>` 嵌入作者的網址。
 
 #### `embeds[*].author.icon_url`
 
-**［選擇性］** `<字串>` Source URL of the author icon, only supports HTTP, HTTPS, and attachments.
+**［選擇性］** `<字串>` 嵌入作者的圖示的來源鏈結，只支援 HTTP、HTTPS 和附件。
 
 #### `embeds[*].fields`
 
-**［選擇性］** `<物件[]>` Fields of the embed, up to 25 fields.
+**［選擇性］** `<物件[]>` 嵌入的欄位，最多 25 個欄位。
 
 #### `embeds[*].fields[*].name`
 
-**［選擇性］** `<字串>` Field name, up to 256 characters; Support Discord Markdown.
+**［選擇性］** `<字串>` 嵌入欄位的名稱，最多 256 個字元；支援 Discord Markdown。
 
 #### `embeds[*].fields[*].value`
 
-**［選擇性］** `<字串>` Field value, up to 1024 characters; Support Discord Markdown.
+**［選擇性］** `<字串>` 嵌入欄位的值，最多 1024 個字元；支援 Discord Markdown。
 
 #### `embeds[*].fields[*].inline`
 
-**［選擇性］** `<布林值 = false>` Whether the field should display inline.
+**［選擇性］** `<布林值 = false>` 該嵌入的欄位是否可以並列顯示。
 
 ### `allowed_mentions_parse`
 
-**［選擇性］** `<字串[] = "roles,users,everyone">` Allowed mention types to parse from the content, separate each value with comma (`,`), vertical bar (`|`), semi-colon (`;`), whitespace, or per line.
+**［選擇性］** `<字串[] = "roles,users,everyone">` 允許從訊息中解析的提及類型，以半形逗號 (`,`)、半形垂直線 (`|`)、半形分號 (`;`)、半形空格或每行分隔每個值。
 
-- **`"roles"`:** Control roles mentions.
-- **`"users"`:** Control users mentions.
-- **`"everyone"`:** Control `@everyone` and `@here` mentions.
+- **`"roles"`:** 控制身份組提及。
+- **`"users"`:** 控制使用者提及。
+- **`"everyone"`:** 控制 `@everyone` 和 `@here` 提及。
 
 ### `allowed_mentions_roles`
 
-**［選擇性］** `<字串[]>` Allowed roles' IDs to mention, separate each value with comma (`,`), vertical bar (`|`), semi-colon (`;`), whitespace, or per line, up to 100 IDs.
+**［選擇性］** `<字串[]>` 允許提及身份組的 ID，以半形逗號 (`,`)、半形垂直線 (`|`)、半形分號 (`;`)、半形空格或每行分隔每個值，最多 100 個 ID。
 
 ### `allowed_mentions_users`
 
-**［選擇性］** `<字串[]>` Allowed users' IDs to mention, separate each value with comma (`,`), vertical bar (`|`), semi-colon (`;`), whitespace, or per line, up to 100 IDs.
+**［選擇性］** `<字串[]>` 允許提及使用者的 ID，以半形逗號 (`,`)、半形垂直線 (`|`)、半形分號 (`;`)、半形空格或每行分隔每個值，最多 100 個 ID。
 
 ### `files`
 
-**［選擇性］** `<字串[]>` Files as attachments of the message, which must be relative paths from GitHub Actions workspace (i.e.: `GITHUB_WORKSPACE`), separate each value per line, up to 8 MB and 10 files.
+**［選擇性］** `<字串[]>` 作為訊息附件的文件，必須是 GitHub Actions 工作區的相對路徑（即：`GITHUB_WORKSPACE`），以每行分隔每個值，最多 8 MB 和 10 個文件。
 
-> **⚠️ Important:** At least either inputs of [`content`](#content), [`embeds`](#embeds), or [`files`](#files) must be provided.
+> <b>⚠️ 重要：</b> 至少必須提供 [`content`](#content)、[`embeds`](#embeds) 或 [`files`](#files) 輸入。
 
 ### `wait`
 
-**［選擇性］** `<布林值 = true>` Whether to wait for Discord confirmation of message send before response, and returns the created message body. When this input is `false`, a message that is not saved does not return an error.
+**［選擇性］** `<布林值 = true>` 是否等待 Discord 確認訊息發送後再回應，並傳回建立的訊息體。當此輸入為 `false` 時，未儲存的訊息不會傳回錯誤。
 
 ### `thread_id`
 
-**［選擇性］** `<字串>` Thread ID for the message channel. When this input is defined, the message will send to the specify thread, the thread will automatically unarchive.
+**［選擇性］** `<字串>` 文字頻道的討論串 ID。當定義此輸入時，訊息將會發送到指定的討論串，該討論串將會自動取消歸檔。
 
-> **⚠️ Important:** Only either inputs of [`thread_id`](#thread_id) or [`thread_name`](#thread_name) can be provided.
+> <b>⚠️ 重要：</b>只能提供 [`thread_id`](#thread_id) 或 [`thread_name`](#thread_name) 輸入。
 
 ### `thread_name`
 
-**［選擇性］** `<字串>` Thread name for the forum channel, up to 100 characters. When this input is defined, the message will create a new thread with the name.
+**［選擇性］** `<字串>` 論壇頻道的主題名稱，最多 100 個字元。當定義此輸入時，訊息將會建立一個具有該名稱的新討論串。
 
-> **⚠️ Important:** Only either inputs of [`thread_id`](#thread_id) or [`thread_name`](#thread_name) can be provided.
+> <b>⚠️ 重要：</b>只能提供 [`thread_id`](#thread_id) 或 [`thread_name`](#thread_name) 輸入。
 
 ### `truncate_enable`
 
-**［選擇性］** `<布爾值 = true>` Whether to try truncate firstly when inputs are too large.
+**［選擇性］** `<布爾值 = true>` 輸入太大時是否先嘗試截斷。
 
 ### `truncate_ellipsis`
 
-**［選擇性］** `<字串 = "...">` Ellipsis mark.
+**［選擇性］** `<字串 = "...">` 省略號標記。
 
 ### `truncate_position`
 
-**［選擇性］** `<字串 = "end">` Ellipsis position.
+**［選擇性］** `<字串 = "end">` 省略號位置。
 
-- **`"end"`:** At the end of the string.
-- **`"middle"`:** At the middle of the string.
-- **`"start"`:** At the start of the string.
+- **`"end"`:** 在字串的末尾。
+- **`"middle"`:** 在字串的中間。
+- **`"start"`:** 在字串的開頭。
 
 ## 🧩 輸出
 
