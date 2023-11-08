@@ -138,11 +138,11 @@ https://discordapp.com/api/webhooks/70971114/ueyzeWxB_8bb1zMhL  ⬅長（舊）
 
 #### `embeds[*].footer.text`
 
-**［選擇性］** `<字串>` 嵌入頁腳的內容，最多 2048 個字元；支援 Discord Markdown。
+**［選擇性］** `<字串>` 頁腳內容，最多 2048 個字元；支援 Discord Markdown。
 
 #### `embeds[*].footer.icon_url`
 
-**［選擇性］** `<字串>` 嵌入頁腳的圖示的來源鏈結，只支援 HTTP、HTTPS 和附件。
+**［選擇性］** `<字串>` 頁腳圖示的來源鏈結，只支援 HTTP、HTTPS 和附件。
 
 #### `embeds[*].image`
 
@@ -150,7 +150,7 @@ https://discordapp.com/api/webhooks/70971114/ueyzeWxB_8bb1zMhL  ⬅長（舊）
 
 #### `embeds[*].image.url`
 
-**［選擇性］** `<字串>` 嵌入圖像的來源鏈結，只支援 HTTP、HTTPS 和附件。
+**［選擇性］** `<字串>` 圖像的來源鏈結，只支援 HTTP、HTTPS 和附件。
 
 #### `embeds[*].thumbnail`
 
@@ -158,7 +158,7 @@ https://discordapp.com/api/webhooks/70971114/ueyzeWxB_8bb1zMhL  ⬅長（舊）
 
 #### `embeds[*].thumbnail.url`
 
-**［選擇性］** `<字串>` 嵌入縮圖的來源鏈結，只支援 HTTP、HTTPS 和附件。
+**［選擇性］** `<字串>` 縮圖的來源鏈結，只支援 HTTP、HTTPS 和附件。
 
 #### `embeds[*].author`
 
@@ -166,15 +166,15 @@ https://discordapp.com/api/webhooks/70971114/ueyzeWxB_8bb1zMhL  ⬅長（舊）
 
 #### `embeds[*].author.name`
 
-**［選擇性］** `<字串>` 嵌入作者的姓名，最多 256 個字元。
+**［選擇性］** `<字串>` 作者的姓名，最多 256 個字元。
 
 #### `embeds[*].author.url`
 
-**［選擇性］** `<字串>` 嵌入作者的網址。
+**［選擇性］** `<字串>` 作者的網址。
 
 #### `embeds[*].author.icon_url`
 
-**［選擇性］** `<字串>` 嵌入作者的圖示的來源鏈結，只支援 HTTP、HTTPS 和附件。
+**［選擇性］** `<字串>` 作者的圖示的來源鏈結，只支援 HTTP、HTTPS 和附件。
 
 #### `embeds[*].fields`
 
@@ -182,15 +182,15 @@ https://discordapp.com/api/webhooks/70971114/ueyzeWxB_8bb1zMhL  ⬅長（舊）
 
 #### `embeds[*].fields[*].name`
 
-**［選擇性］** `<字串>` 嵌入欄位的名稱，最多 256 個字元；支援 Discord Markdown。
+**［選擇性］** `<字串>` 欄位的名稱，最多 256 個字元；支援 Discord Markdown。
 
 #### `embeds[*].fields[*].value`
 
-**［選擇性］** `<字串>` 嵌入欄位的值，最多 1024 個字元；支援 Discord Markdown。
+**［選擇性］** `<字串>` 欄位的值，最多 1024 個字元；支援 Discord Markdown。
 
 #### `embeds[*].fields[*].inline`
 
-**［選擇性］** `<布林值 = false>` 該嵌入的欄位是否可以並列顯示。
+**［選擇性］** `<布林值 = false>` 欄位是否可以並列顯示。
 
 ### `allowed_mentions_parse`
 
@@ -210,7 +210,7 @@ https://discordapp.com/api/webhooks/70971114/ueyzeWxB_8bb1zMhL  ⬅長（舊）
 
 ### `files`
 
-**［選擇性］** `<字串[]>` 作為訊息附件的文件，必須是 GitHub Actions 工作區的相對路徑（即：`GITHUB_WORKSPACE`），以每行分隔每個值，最多 8 MB 和 10 個文件。
+**［選擇性］** `<字串[]>` 作為訊息附件的文件，必須是 GitHub Actions 工作區的相對路徑（即是：`GITHUB_WORKSPACE`），以每行分隔每個值，最多 8 MB 和 10 個文件。
 
 > <b>⚠️ 重要：</b> 至少必須提供 [`content`](#content)、[`embeds`](#embeds) 或 [`files`](#files) 輸入。
 
