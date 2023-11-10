@@ -2,20 +2,22 @@
 
 ## Supported Versions
 
-> | **Legend** | **Description** |
-> |:-:|:--|
-> | L | **LTS:** Long term supported. |
-> | ✔️ | **Active / Current:** Currently supported. |
-> | 👎{🐛} | **Partially (Issue):** Partially supported due to confirmed contains bugs and/or issues. |
-> | 👎{🧓} | **Partially (Old):** Partially supported due to deprecated by newer versions. |
-> | ❌{🐛} | **No (Issue):** Not supported due to confirmed contains bugs and/or issues. |
-> | ❌{🧓} | **No (Old):** Not supported due to too old. |
+> | **Support** | **Legend** | **Description** |
+> |:-:|:-:|:--|
+> | ✔️ | 🟤 | Pending / Pre Release / Unstable |
+> | ✔️ | 🔵 | Current Release |
+> | ✔️ | 🟢 | Long Term Support |
+> | ❌ | 🔴 | End of Life |
 
-| **Versions** | **Status** | **Target - GitHub Actions Runner** | **Target - NodeJS** |
-|:-:|:-:|:-:|:-:|
-| v6.X.X | L | >= v2.310.0 | ^ v20.9.0 |
-| v5.X.X | ✔️ | >= v2.297.0 | ^ v16.13.0 |
-| < v5.0.0 | ❌{🐛🧓} | *Multiple* | *Multiple* |
+| **Versions** | **Status** | **🔵 Date** | **🟢 Date** | **🔴 Date** | **Target - GitHub Actions Runner** | **Target - NodeJS** |
+|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+| v6.0.X | 🔵 | 2023-11-08 | *Pending 2023-11-26* | *Unknown* | >= v2.310.0 | ^ v20.9.0 |
+| v5.0.X | 🟢 | 2022-10-24 | 2022-11-26 | *Pending 2023-11-26* | >= v2.297.0 | ^ v16.13.0 |
+
+> **ℹ️ Notice:**
+>
+> - The date format is according to ISO 8601 standard.
+> - Versions which not in the list are also end of life.
 
 ## Report Vulnerability
 
