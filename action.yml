@@ -1,6 +1,6 @@
 name: "Send Discord Webhook"
 author: "hugoalh"
-description: "Send a Discord webhook."
+description: "Send Discord webhook."
 inputs:
   key:
     description: "{string} Key."
