@@ -7,9 +7,9 @@
 [⚖️ MIT](./LICENSE-ZH.md)
 [![CodeFactor 評等](https://img.shields.io/codefactor/grade/github/hugoalh/send-discord-webhook-ghaction?label=%E8%A9%95%E7%AD%89&logo=codefactor&logoColor=ffffff&style=flat-square "CodeFactor 評等")](https://www.codefactor.io/repository/github/hugoalh/send-discord-webhook-ghaction)
 
-|  | **熱度** | **發佈—最新** | **發佈—預覽** |
-|:-:|:-:|:-:|:-:|
-| [![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=ffffff&style=flat-square "GitHub")](https://github.com/hugoalh/send-discord-webhook-ghaction) | [![GitHub 星](https://img.shields.io/github/stars/hugoalh/send-discord-webhook-ghaction?label=&logoColor=ffffff&style=flat-square "GitHub 星")](https://github.com/hugoalh/send-discord-webhook-ghaction/stargazers) ｜ ![GitHub 總下載](https://img.shields.io/github/downloads/hugoalh/send-discord-webhook-ghaction/total?label=&style=flat-square "GitHub 總下載") | ![GitHub 最新發佈版本](https://img.shields.io/github/release/hugoalh/send-discord-webhook-ghaction?sort=semver&label=&style=flat-square "GitHub 最新發佈版本") （![GitHub 最新發佈日期](https://img.shields.io/github/release-date/hugoalh/send-discord-webhook-ghaction?label=&style=flat-square "GitHub 最新發佈日期")） | ![GitHub 最新預覽發佈版本](https://img.shields.io/github/release/hugoalh/send-discord-webhook-ghaction?include_prereleases&sort=semver&label=&style=flat-square "GitHub 最新預覽發佈版本") （![GitHub 最新預覽發佈日期](https://img.shields.io/github/release-date-pre/hugoalh/send-discord-webhook-ghaction?label=&style=flat-square "GitHub 最新預覽發佈日期")） |
+|  | **發佈—最新** | **發佈—預覽** |
+|:-:|:-:|:-:|
+| [![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=ffffff&style=flat-square "GitHub")](https://github.com/hugoalh/send-discord-webhook-ghaction) | ![GitHub 最新發佈版本](https://img.shields.io/github/release/hugoalh/send-discord-webhook-ghaction?sort=semver&label=&style=flat-square "GitHub 最新發佈版本") （![GitHub 最新發佈日期](https://img.shields.io/github/release-date/hugoalh/send-discord-webhook-ghaction?label=&style=flat-square "GitHub 最新發佈日期")） | ![GitHub 最新預覽發佈版本](https://img.shields.io/github/release/hugoalh/send-discord-webhook-ghaction?include_prereleases&sort=semver&label=&style=flat-square "GitHub 最新預覽發佈版本") （![GitHub 最新預覽發佈日期](https://img.shields.io/github/release-date-pre/hugoalh/send-discord-webhook-ghaction?label=&style=flat-square "GitHub 最新預覽發佈日期")） |
 
 用於發送 Discord 網絡鉤手的 GitHub Action。
 
