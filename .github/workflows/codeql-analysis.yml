@@ -13,7 +13,10 @@ on:
       - "reopened"
       - "synchronize"
   workflow_dispatch:
+permissions:
+  contents: "read"
+  security-events: "write"
 jobs:
   main:
     name: "Main"
-    uses: "hugoalh/hugoalh/.github/workflows/reusable-codeql-analysis.yml@main"
+    uses: "hugoalh/hugoalh/.github/workflows/call-codeql-analysis-0.yml@main"
