@@ -490,7 +490,7 @@ try {
 			requestHeaders.append("Content-Type", "application/json");
 			break;
 		default:
-			throw new Error();
+			throw new Error(`${method} is not a valid method!`);
 	}
 	console.log(`Post network request to Discord.`);
 	const response = await fetch(`https://discord.com/api/webhooks/${key}${(requestQuery.length > 0) ? `?${requestQuery}` : ""}`, {
