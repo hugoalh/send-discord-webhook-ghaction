@@ -436,7 +436,7 @@ try {
 		method = (files.length > 0) ? "form" : "json";
 	}
 	const requestHeaders = new Headers({
-		"User-Agent": `NodeJS/${process.versions.node}-${process.platform}-${process.arch} SendDiscordWebhook.GitHubAction/6.0.0`
+		"User-Agent": `NodeJS/${process.versions.node}-${process.platform}-${process.arch} SendDiscordWebhook.GitHubAction/6.0.1`
 	});
 	const requestPayload = {
 		tts,
