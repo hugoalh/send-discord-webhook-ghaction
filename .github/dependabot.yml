@@ -15,7 +15,6 @@ updates:
     open-pull-requests-limit: 100
     pull-request-branch-name:
       separator: "/"
-    rebase-strategy: "disabled"
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
@@ -49,5 +48,4 @@ updates:
     open-pull-requests-limit: 100
     pull-request-branch-name:
       separator: "/"
-    rebase-strategy: "disabled"
     versioning-strategy: "increase"
