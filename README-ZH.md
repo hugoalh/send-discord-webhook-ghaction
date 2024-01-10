@@ -278,8 +278,7 @@ https://discordapp.com/api/webhooks/70971114/ueyzeWxB_8bb1zMhL  ⬅長（舊）
             key: "${{secrets.DISCORD_WEBHOOK_KEY}}"
             content: "你好，世界！"
   ```
-- birdie0
-  > 來自 [birdie0's Discord Webhooks Guide（英文）](https://birdie0.github.io/discord-webhooks-guide/discord_webhook.html)。
+- birdie0（來自 [birdie0's Discord Webhooks Guide（英文）](https://birdie0.github.io/discord-webhooks-guide/discord_webhook.html)）
   ```yml
   jobs:
     job_id:

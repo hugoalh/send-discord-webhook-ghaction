@@ -13,7 +13,8 @@
 
 A GitHub Action to send Discord webhook.
 
-> **⚠️ Important:** This documentation is v6.0.0 based; To view other version's documentation, please visit the [versions list](https://github.com/hugoalh/send-discord-webhook-ghaction/tags) and select the correct version.
+> [!IMPORTANT]
+> This documentation is v6.0.0 based; To view other version's documentation, please visit the [versions list](https://github.com/hugoalh/send-discord-webhook-ghaction/tags) and select the correct version.
 
 ## 🌟 Feature
 
@@ -58,7 +59,8 @@ https://discordapp.com/api/webhooks/70971114/ueyzeWxB_8bb1zMhL  ⬅Long (Legacy)
 
 **\[Optional\]** `<string>` Content of the message, up to 2000 characters; Support Discord Markdown.
 
-> **⚠️ Important:** At least either inputs of [`content`](#content), [`embeds`](#embeds), or [`files`](#files) must be provided.
+> [!IMPORTANT]
+> At least either inputs of [`content`](#content), [`embeds`](#embeds), or [`files`](#files) must be provided.
 
 ### `content_links_no_embed`
 
@@ -92,7 +94,8 @@ https://discordapp.com/api/webhooks/70971114/ueyzeWxB_8bb1zMhL  ⬅Long (Legacy)
 - [`embeds[*].fields[*].name`](#embedsfieldsname)
 - [`embeds[*].fields[*].value`](#embedsfieldsvalue)
 
-> **⚠️ Important:** At least either inputs of [`content`](#content), [`embeds`](#embeds), or [`files`](#files) must be provided.
+> [!IMPORTANT]
+> At least either inputs of [`content`](#content), [`embeds`](#embeds), or [`files`](#files) must be provided.
 
 #### `embeds[*].title`
 
@@ -127,8 +130,7 @@ Exclusive namespace:
 | <img src="https://www.colorhexa.com/FEE75C.png" height="16px" width="16px" /> | `"Discord Yellow"` | `"#FEE75C"` / `"rgb(254, 231, 92)"` | Discord yellow. |
 | <img src="https://www.colorhexa.com/2F3136.png" height="16px" width="16px" /> | `"Embed Background Dark"` | `"#2F3136"` / `"rgb(47, 49, 54)"` | Embed background in dark mode. |
 
-> **⚠️ Important:**
->
+> [!IMPORTANT]
 > - Alpha channel is not supported.
 > - General namespace are provided by [`meodai/color-names`](https://github.com/meodai/color-names), maybe change and/or remove without any notification, it is recommended to use value instead except you want a random color.
 
@@ -212,7 +214,8 @@ Exclusive namespace:
 
 **\[Optional\]** `<string[]>` Files as attachments of the message, which must be relative paths from GitHub Actions workspace (i.e.: `GITHUB_WORKSPACE`), separate each value per line, up to 8 MB and 10 files.
 
-> **⚠️ Important:** At least either inputs of [`content`](#content), [`embeds`](#embeds), or [`files`](#files) must be provided.
+> [!IMPORTANT]
+> At least either inputs of [`content`](#content), [`embeds`](#embeds), or [`files`](#files) must be provided.
 
 ### `wait`
 
@@ -222,13 +225,15 @@ Exclusive namespace:
 
 **\[Optional\]** `<string>` Thread ID for the message channel. When this input is defined, the message will send to the specify thread, the thread will automatically unarchive.
 
-> **⚠️ Important:** Only either inputs of [`thread_id`](#thread_id) or [`thread_name`](#thread_name) can be provided.
+> [!IMPORTANT]
+> Only either inputs of [`thread_id`](#thread_id) or [`thread_name`](#thread_name) can be provided.
 
 ### `thread_name`
 
 **\[Optional\]** `<string>` Thread name for the forum channel, up to 100 characters. When this input is defined, the message will create a new thread with the name.
 
-> **⚠️ Important:** Only either inputs of [`thread_id`](#thread_id) or [`thread_name`](#thread_name) can be provided.
+> [!IMPORTANT]
+> Only either inputs of [`thread_id`](#thread_id) or [`thread_name`](#thread_name) can be provided.
 
 ### `truncate_enable`
 
@@ -278,8 +283,7 @@ Exclusive namespace:
             key: "${{secrets.DISCORD_WEBHOOK_KEY}}"
             content: "Hello, world!"
   ```
-- birdie0
-  > From [birdie0's Discord Webhooks Guide](https://birdie0.github.io/discord-webhooks-guide/discord_webhook.html).
+- birdie0 (from [birdie0's Discord Webhooks Guide](https://birdie0.github.io/discord-webhooks-guide/discord_webhook.html))
   ```yml
   jobs:
     job_id:
