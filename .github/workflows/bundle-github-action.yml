@@ -1,0 +1,119 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+name: "Bundle GitHub Action"
+on:
+  push:
+    branches:
+      - "main"
+    paths:
+      - "src/**"
+      - "action.yml"
+      - "package-lock.json"
+      - "package.json"
+  workflow_dispatch:
+concurrency:
+  group: "bundle-github-action"
+  cancel-in-progress: false
+jobs:
+  main:
+    name: "Main"
+    permissions:
+      contents: "write"
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: "Setup NodeJS"
+        uses: "actions/setup-node@v4.0.1"
+        with:
+          node-version: "^20.9.0"
+          check-latest: true
+          registry-url: "https://registry.npmjs.org/"
+      - name: "Setup PowerShell Toolkit"
+        uses: "hugoalh-studio/setup-powershell-toolkit-ghaction@v2.0.0"
+        with:
+          version: "^2.1.0"
+      - name: "Resolve NPM Cache Path"
+        id: "resolve-cache-path"
+        run: |
+          Import-Module -Name 'hugoalh.GitHubActionsToolkit' -Scope 'Local'
+          [String]$NpmCachePath = npm config get cache |
+            Join-String -Separator "`n"
+          Set-GitHubActionsOutput -Name 'npm' -Value $NpmCachePath
+        shell: "pwsh"
+      - name: "Restore NPM Cache"
+        id: "restore-cache"
+        uses: "actions/cache/restore@v4.0.0"
+        with:
+          key: "NPM/${{github.run_id}}-${{github.run_attempt}}-${{github.job}}-${{runner.os}}"
+          path: "${{steps.resolve-cache-path.outputs.npm}}"
+          restore-keys: |-
+            NPM/${{github.run_id}}-${{github.run_attempt}}-${{github.job}}-
+            NPM/${{github.run_id}}-${{github.run_attempt}}-${{github.job}}
+            NPM/${{github.run_id}}-${{github.run_attempt}}-
+            NPM/${{github.run_id}}-${{github.run_attempt}}
+            NPM/${{github.run_id}}-
+            NPM/${{github.run_id}}
+            NPM/
+      - name: "Checkout Repository Branch `main`"
+        uses: "actions/checkout@v4.1.1"
+        with:
+          ref: "main"
+          fetch-depth: "0"
+      - name: "Checkout Repository Branch `bundle`"
+        id: "checkout-branch-bundle"
+        run: |
+          Import-Module -Name 'hugoalh.GitHubActionsToolkit' -Scope 'Local'
+          [String]$Branches = git --no-pager branch --all |
+            Join-String -Separator "`n"
+          [Boolean]$IsExist = $Branches -imatch 'origin\/bundle'
+          If ($Branches -imatch 'origin\/bundle') {
+            git --no-pager checkout -b bundle origin/bundle
+          }
+          Else {
+            git --no-pager switch --orphan bundle
+          }
+          Set-GitHubActionsOutput -Name 'exist' -Value $IsExist.ToString().ToLower()
+        shell: "pwsh"
+      - name: "Config Git"
+        run: |
+          git --no-pager config --global 'user.name' 'github-actions'
+          git --no-pager config --global 'user.email' 'github-actions@users.noreply.github.com'
+        shell: "pwsh"
+      - name: "Build Bundle"
+        run: |
+          Get-ChildItem -LiteralPath $Env:GITHUB_WORKSPACE -Exclude @('.git') -Force |
+            Remove-Item -Recurse -Force -Confirm:$False
+          ForEach ($File In @(
+            'src/**',
+            '.npmrc',
+            'action.yml',
+            'package-lock.json',
+            'package.json',
+            'tsconfig.json'
+          )) {
+            git --no-pager restore --source main -- $File
+          }
+          npm install
+          npm run build
+          Get-ChildItem -LiteralPath $Env:GITHUB_WORKSPACE -Exclude @('.git', 'dist', '.npmrc', 'action.yml', 'package-lock.json', 'package.json') -Force |
+            Remove-Item -Recurse -Force -Confirm:$False
+          npm install --omit dev
+          Get-ChildItem -LiteralPath $Env:GITHUB_WORKSPACE -Exclude @('.git', 'dist', 'node_modules', 'action.yml', 'package.json') -Force |
+            Remove-Item -Recurse -Force -Confirm:$False
+        shell: "pwsh"
+      - name: "Push Repository Branch `bundle`"
+        run: |
+          [String]$GitStatus = git --no-pager status --short |
+            Join-String -Separator "`n"
+          If ($GitStatus.Length -gt 0) {
+            git --no-pager add --all
+            git --no-pager commit "--message=Update bundle $($Env:GITHUB_SHA ? "based on commit $($Env:GITHUB_SHA)" : 'by dispatch')"
+            [Boolean]::Parse($Env:INPUT_BRANCHEXIST) ? (git --no-pager push) : (git --no-pager push --set-upstream origin bundle)
+          }
+        shell: "pwsh"
+        env:
+          INPUT_BRANCHEXIST: "${{steps.checkout-branch-bundle.outputs.exist}}"
+      - name: "Save NPM Cache"
+        if: "${{!cancelled() && steps.restore-cache.outcome == 'success'}}"
+        uses: "actions/cache/save@v4.0.0"
+        with:
+          key: "NPM/${{github.run_id}}-${{github.run_attempt}}-${{github.job}}-${{runner.os}}"
+          path: "${{steps.resolve-cache-path.outputs.npm}}"
