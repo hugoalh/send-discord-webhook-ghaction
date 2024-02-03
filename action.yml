@@ -1,0 +1,76 @@
+name: "Send Discord Webhook"
+author: "hugoalh"
+description: "Send Discord webhook."
+inputs:
+  key:
+    description: "{string} Key."
+    required: true
+  content:
+    description: "{string} Content of the message."
+    required: false
+  content_links_no_embed:
+    description: "{RegExp[]} Specify links in the content to prevent Discord resolve and display as embed under the message."
+    required: false
+  username:
+    description: "{string} Override the default username of the webhook."
+    required: false
+  avatar_url:
+    description: "{string} Override the default avatar of the webhook."
+    required: false
+  tts:
+    description: "{boolean} Whether to use TTS (Text To Speech) for the message."
+    required: false
+    default: "false"
+  embeds:
+    description: "{object[]} Embed rich content for the message."
+    required: false
+  allowed_mentions_parse:
+    description: "{string[]} Allowed mention types to parse from the content."
+    required: false
+    default: "roles,users,everyone"
+  allowed_mentions_roles:
+    description: "{string[]} Allowed roles' IDs to mention."
+    required: false
+  allowed_mentions_users:
+    description: "{string[]} Allowed users' IDs to mention."
+    required: false
+  files:
+    description: "{string[]} Files as attachments of the message."
+    required: false
+  wait:
+    description: "{boolean} Whether to wait for Discord confirmation of message send before response."
+    required: false
+    default: "true"
+  thread_id:
+    description: "{string} Thread ID for the message channel."
+    required: false
+  thread_name:
+    description: "{string} Thread name for the forum channel."
+    required: false
+  truncate_enable:
+    description: "{boolean} Whether to try truncate firstly when inputs are too large."
+    required: false
+    default: "true"
+  truncate_ellipsis:
+    description: "{string} Ellipsis mark."
+    required: false
+    default: "..."
+  truncate_position:
+    description: "{string} Ellipsis position."
+    required: false
+    default: "end"
+outputs:
+  response:
+    description: "{string} Response content."
+  status_code:
+    description: "{number} Request status code."
+  status_ok:
+    description: "{boolean} Whether the request was successful."
+  status_text:
+    description: "{string} Request status text."
+runs:
+  using: "node20"
+  main: "dist/main.js"
+branding:
+  icon: "send"
+  color: "blue"

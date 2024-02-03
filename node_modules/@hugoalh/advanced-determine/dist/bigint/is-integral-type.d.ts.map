@@ -1,0 +1,1 @@
+{"version":3,"file":"is-integral-type.d.ts","sourceRoot":"","sources":["../../src/bigint/is-integral-type.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,qBAAqB,EAAE,MAAM,gCAAgC,CAAC;AACvE;;;;;GAKG;AACH,wBAAgB,oBAAoB,CAAC,QAAQ,EAAE,UAAU,CAAC,OAAO,qBAAqB,CAAC,CAAC,CAAC,CAAC,EAAE,IAAI,EAAE,MAAM,GAAG,OAAO,CAEjH;AACD,OAAO,EACN,oBAAoB,IAAI,wBAAwB,EAChD,CAAC;AACF,eAAe,oBAAoB,CAAC"}

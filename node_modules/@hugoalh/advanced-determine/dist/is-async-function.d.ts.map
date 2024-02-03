@@ -1,0 +1,1 @@
+{"version":3,"file":"is-async-function.d.ts","sourceRoot":"","sources":["../src/is-async-function.ts"],"names":[],"mappings":"AACA;;;;;;GAMG;AACH,wBAAgB,eAAe,CAAC,IAAI,EAAE,OAAO,GAAG,IAAI,IAAI,CAAC,GAAG,UAAU,EAAE,OAAO,EAAE,KAAK,OAAO,CAAC,OAAO,CAAC,CAErG;AACD,OAAO,EACN,eAAe,IAAI,sBAAsB,EACzC,CAAC;AACF,eAAe,eAAe,CAAC"}

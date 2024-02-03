@@ -1,0 +1,1 @@
+{"version":3,"file":"is-prime.d.ts","sourceRoot":"","sources":["../../src/bigint/is-prime.ts"],"names":[],"mappings":"AACA;;;;GAIG;AACH,wBAAgB,aAAa,CAAC,IAAI,EAAE,MAAM,GAAG,OAAO,CAEnD;AACD,OAAO,EACN,aAAa,IAAI,iBAAiB,EAClC,CAAC;AACF,eAAe,aAAa,CAAC"}

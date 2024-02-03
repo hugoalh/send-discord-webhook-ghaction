@@ -1,0 +1,1 @@
+{"version":3,"file":"is-positive.d.ts","sourceRoot":"","sources":["../../src/bigint/is-positive.ts"],"names":[],"mappings":"AAAA;;;;GAIG;AACH,wBAAgB,gBAAgB,CAAC,IAAI,EAAE,MAAM,GAAG,OAAO,CAEtD;AACD,OAAO,EACN,gBAAgB,IAAI,oBAAoB,EACxC,CAAC;AACF,eAAe,gBAAgB,CAAC"}

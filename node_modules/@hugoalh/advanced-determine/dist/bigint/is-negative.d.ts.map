@@ -1,0 +1,1 @@
+{"version":3,"file":"is-negative.d.ts","sourceRoot":"","sources":["../../src/bigint/is-negative.ts"],"names":[],"mappings":"AAAA;;;;GAIG;AACH,wBAAgB,gBAAgB,CAAC,IAAI,EAAE,MAAM,GAAG,OAAO,CAEtD;AACD,OAAO,EACN,gBAAgB,IAAI,oBAAoB,EACxC,CAAC;AACF,eAAe,gBAAgB,CAAC"}
