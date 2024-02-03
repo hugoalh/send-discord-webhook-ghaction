@@ -61,10 +61,9 @@ jobs:
         id: "checkout-branch-bundle"
         run: |
           Import-Module -Name 'hugoalh.GitHubActionsToolkit' -Scope 'Local'
-          [String]$Branches = git --no-pager branch --all |
-            Join-String -Separator "`n"
-          [Boolean]$IsExist = $Branches -imatch 'origin\/bundle'
-          If ($Branches -imatch 'origin\/bundle') {
+          $Null = git --no-pager branch --all --contains origin/bundle *>&1;
+          [Boolean]$IsExist = $LASTEXITCODE -eq 0
+          If ($IsExist) {
             git --no-pager checkout -b bundle origin/bundle
           }
           Else {
