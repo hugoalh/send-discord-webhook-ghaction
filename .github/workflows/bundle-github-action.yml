@@ -86,15 +86,11 @@ jobs:
             '.npmrc',
             'action.yml',
             'package-lock.json',
-            'package.json',
-            'tsconfig.json'
+            'package.json'
           )) {
             git --no-pager restore --source main -- $File
           }
-          npm install
-          npm run build
-          Get-ChildItem -LiteralPath $Env:GITHUB_WORKSPACE -Exclude @('.git', 'dist', '.npmrc', 'action.yml', 'package-lock.json', 'package.json') -Force |
-            Remove-Item -Recurse -Force -Confirm:$False
+          Rename-Item -LiteralPath (Join-Path -Path $Env:GITHUB_WORKSPACE -ChildPath 'src') -NewName 'dist' -Confirm:$False
           npm install --omit dev
           Get-ChildItem -LiteralPath $Env:GITHUB_WORKSPACE -Exclude @('.git', 'dist', 'node_modules', 'action.yml', 'package.json') -Force |
             Remove-Item -Recurse -Force -Confirm:$False

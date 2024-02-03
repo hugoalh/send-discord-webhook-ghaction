@@ -5,9 +5,10 @@ on:
 jobs:
   main:
     name: "Main"
+    permissions: {}
     runs-on: "ubuntu-latest"
     steps:
-      - uses: "hugoalh/send-discord-webhook-ghaction@main"
+      - uses: "hugoalh/send-discord-webhook-ghaction@bundle"
         with:
           key: "${{secrets.DISCORD_TEST_WEBHOOK}}"
           content: "Text message. Up to 2000 characters."
