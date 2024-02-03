@@ -5,7 +5,7 @@ import { basename as pathBaseName, join as pathJoin } from "node:path";
 import { debug as ghactionsDebug, error as ghactionsError, getBooleanInput as ghactionsGetBooleanInput, getInput as ghactionsGetInput, setOutput as ghactionsSetOutput, setSecret as ghactionsSetSecret } from "@actions/core";
 import { create as ghactionsGlob } from "@actions/glob";
 import { isJSON } from "@hugoalh/advanced-determine";
-import { StringOverflowTruncator } from "@hugoalh/string-overflow";
+import { StringTruncator } from "@hugoalh/string-overflow";
 import Color from "color";
 import colorNameList from "color-name-list";
 import yaml from "yaml";
@@ -34,7 +34,7 @@ const discordWebhookQuery = new URLSearchParams();
 const discordWebhookURLRegExp = /^(?:https:\/\/(?:canary\.)?discord(?:app)?\.com\/api\/webhooks\/)?(?<key>\d+\/(?:[\dA-Za-z][\dA-Za-z_-]*)?[\dA-Za-z])$/u;
 try {
 	const truncateEnable = ghactionsGetBooleanInput("truncate_enable", { required: true });
-	const stringTruncator = new StringOverflowTruncator(128, {
+	const stringTruncator = new StringTruncator(128, {
 		ellipsisMark: ghactionsGetInput("truncate_ellipsis", { required: true }),
 		ellipsisPosition: ghactionsGetInput("truncate_position", { required: true })
 	});
