@@ -5,7 +5,6 @@
 # Send Discord Webhook (GitHub Action)
 
 [⚖️ MIT](./LICENSE.md)
-[![CodeFactor Grade](https://img.shields.io/codefactor/grade/github/hugoalh/send-discord-webhook-ghaction?label=Grade&logo=codefactor&logoColor=ffffff&style=flat-square "CodeFactor Grade")](https://www.codefactor.io/repository/github/hugoalh/send-discord-webhook-ghaction)
 
 |  | **Release - Latest** | **Release - Pre** |
 |:-:|:-:|:-:|

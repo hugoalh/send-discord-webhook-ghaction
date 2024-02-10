@@ -5,7 +5,6 @@
 # 發送 Discord 網絡鉤手（GitHub Action）
 
 [⚖️ MIT](./LICENSE-ZH.md)
-[![CodeFactor 評等](https://img.shields.io/codefactor/grade/github/hugoalh/send-discord-webhook-ghaction?label=%E8%A9%95%E7%AD%89&logo=codefactor&logoColor=ffffff&style=flat-square "CodeFactor 評等")](https://www.codefactor.io/repository/github/hugoalh/send-discord-webhook-ghaction)
 
 |  | **發佈—最新** | **發佈—預覽** |
 |:-:|:-:|:-:|
