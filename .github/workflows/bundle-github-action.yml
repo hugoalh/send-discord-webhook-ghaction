@@ -7,8 +7,8 @@ on:
     paths:
       - "src/**"
       - "action.yml"
-      - "package-lock.json"
-      - "package.json"
+      - "package*.json"
+      - "README*.md"
   workflow_dispatch:
 concurrency:
   group: "bundle-github-action"
