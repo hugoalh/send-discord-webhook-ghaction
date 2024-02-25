@@ -33,12 +33,12 @@
 		"yaml": "^2.3.4"
 	},
 	"devDependencies": {
-		"@stylistic/eslint-plugin": "^1.6.1",
-		"@types/node": "^20.11.17",
-		"@typescript-eslint/eslint-plugin": "^6.21.0",
-		"@typescript-eslint/parser": "^6.21.0",
+		"@stylistic/eslint-plugin": "^1.6.2",
+		"@types/node": "^20.11.20",
+		"@typescript-eslint/eslint-plugin": "^7.0.2",
+		"@typescript-eslint/parser": "^7.0.2",
 		"@vercel/ncc": "^0.38.1",
-		"eslint": "^8.56.0",
+		"eslint": "^8.57.0",
 		"eslint-plugin-only-warn": "^1.1.0",
 		"typescript": "^5.3.3"
 	},
