@@ -7,7 +7,7 @@ import { create as ghactionsGlob } from "@actions/glob";
 import { isJSON } from "@hugoalh/advanced-determine";
 import { StringTruncator } from "@hugoalh/string-overflow";
 import Color from "color";
-import colorNameList from "color-name-list";
+import colorNameList from "color-name-list" with { type: "json" };
 import yaml from "yaml";
 console.log("Initialize.");
 const iso8601RegExp = /^\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\dZ$/u;
