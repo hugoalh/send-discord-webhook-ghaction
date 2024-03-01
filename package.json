@@ -30,13 +30,13 @@
 		"@hugoalh/string-overflow": "^2.0.0",
 		"color": "^4.2.3",
 		"color-name-list": "^10.19.0",
-		"yaml": "^2.3.4"
+		"yaml": "^2.4.0"
 	},
 	"devDependencies": {
-		"@stylistic/eslint-plugin": "^1.6.2",
-		"@types/node": "^20.11.20",
-		"@typescript-eslint/eslint-plugin": "^7.0.2",
-		"@typescript-eslint/parser": "^7.0.2",
+		"@stylistic/eslint-plugin": "^1.6.3",
+		"@types/node": "^20.11.24",
+		"@typescript-eslint/eslint-plugin": "^7.1.0",
+		"@typescript-eslint/parser": "^7.1.0",
 		"@vercel/ncc": "^0.38.1",
 		"eslint": "^8.57.0",
 		"eslint-plugin-only-warn": "^1.1.0",
