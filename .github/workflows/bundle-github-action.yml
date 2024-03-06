@@ -30,8 +30,8 @@ jobs:
         uses: "hugoalh-studio/setup-powershell-toolkit-ghaction@v2.0.0"
         with:
           version: "^2.1.0"
-      - name: "Resolve NPM Cache Path"
-        id: "resolve-cache-path"
+      - name: "Resolve Cache Path"
+        id: "cache-path"
         run: |
           Import-Module -Name 'hugoalh.GitHubActionsToolkit' -Scope 'Local'
           [String]$NpmCachePath = npm config get cache |
@@ -39,18 +39,18 @@ jobs:
           Set-GitHubActionsOutput -Name 'npm' -Value $NpmCachePath
         shell: "pwsh"
       - name: "Restore NPM Cache"
-        id: "restore-cache"
+        id: "restore-npm-cache"
         uses: "actions/cache/restore@v4.0.0"
         with:
-          key: "NPM/${{github.run_id}}-${{github.run_attempt}}-${{github.job}}-${{runner.os}}"
-          path: "${{steps.resolve-cache-path.outputs.npm}}"
+          key: "NPM/${{runner.os}}-${{github.run_id}}-${{github.run_attempt}}-${{github.job}}"
+          path: "${{steps.cache-path.outputs.npm}}"
           restore-keys: |-
-            NPM/${{github.run_id}}-${{github.run_attempt}}-${{github.job}}-
-            NPM/${{github.run_id}}-${{github.run_attempt}}-${{github.job}}
-            NPM/${{github.run_id}}-${{github.run_attempt}}-
-            NPM/${{github.run_id}}-${{github.run_attempt}}
-            NPM/${{github.run_id}}-
-            NPM/${{github.run_id}}
+            NPM/${{runner.os}}-${{github.run_id}}-${{github.run_attempt}}-
+            NPM/${{runner.os}}-${{github.run_id}}-${{github.run_attempt}}
+            NPM/${{runner.os}}-${{github.run_id}}-
+            NPM/${{runner.os}}-${{github.run_id}}
+            NPM/${{runner.os}}-
+            NPM/${{runner.os}}
             NPM/
       - name: "Checkout Repository Branch `main`"
         uses: "actions/checkout@v4.1.1"
@@ -107,8 +107,8 @@ jobs:
         env:
           INPUT_BRANCHEXIST: "${{steps.checkout-branch-bundle.outputs.exist}}"
       - name: "Save NPM Cache"
-        if: "${{!cancelled() && steps.restore-cache.outcome == 'success'}}"
+        if: "${{!cancelled() && steps.restore-npm-cache.outcome == 'success'}}"
         uses: "actions/cache/save@v4.0.0"
         with:
-          key: "NPM/${{github.run_id}}-${{github.run_attempt}}-${{github.job}}-${{runner.os}}"
-          path: "${{steps.resolve-cache-path.outputs.npm}}"
+          key: "NPM/${{runner.os}}-${{github.run_id}}-${{github.run_attempt}}-${{github.job}}"
+          path: "${{steps.cache-path.outputs.npm}}"

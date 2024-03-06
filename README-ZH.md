@@ -1,39 +1,60 @@
-🌐 | [English](./README.md) / [漢語](./README-ZH.md)
+**🌐** [English](./README.md) / [漢語](./README-ZH.md)
 
 ---
 
 # 發送 Discord 網絡鉤手（GitHub Action）
 
-[⚖️ MIT](./LICENSE-ZH.md)
+[**⚖️** MIT](./LICENSE-ZH.md)
 
-|  | **發佈—最新** | **發佈—預覽** |
-|:-:|:-:|:-:|
-| [![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=ffffff&style=flat-square "GitHub")](https://github.com/hugoalh/send-discord-webhook-ghaction) | ![GitHub 最新發佈版本](https://img.shields.io/github/release/hugoalh/send-discord-webhook-ghaction?sort=semver&label=&style=flat-square "GitHub 最新發佈版本") （![GitHub 最新發佈日期](https://img.shields.io/github/release-date/hugoalh/send-discord-webhook-ghaction?label=&style=flat-square "GitHub 最新發佈日期")） | ![GitHub 最新預覽發佈版本](https://img.shields.io/github/release/hugoalh/send-discord-webhook-ghaction?include_prereleases&sort=semver&label=&style=flat-square "GitHub 最新預覽發佈版本") （![GitHub 最新預覽發佈日期](https://img.shields.io/github/release-date-pre/hugoalh/send-discord-webhook-ghaction?label=&style=flat-square "GitHub 最新預覽發佈日期")） |
+**🗂️**
+[![GitHub: hugoalh/send-discord-webhook-ghaction](https://img.shields.io/badge/hugoalh/send--discord--webhook--ghaction-181717?logo=github&logoColor=ffffff&style=flat "GitHub: hugoalh/send-discord-webhook-ghaction")](https://github.com/hugoalh/send-discord-webhook-ghaction)
+
+**🆙** ![最新發佈版本](https://img.shields.io/github/release/hugoalh/send-discord-webhook-ghaction?sort=semver&color=2187C0&label=&style=flat "最新發佈版本")（![最新發佈日期](https://img.shields.io/github/release-date/hugoalh/send-discord-webhook-ghaction?color=2187C0&label=&style=flat "最新發佈日期")）
 
 用於發送 Discord 網絡鉤手的 GitHub Action。
 
-> <b>⚠️ 重要：</b>此文檔基於 v6.0.0；如果要查看其他版本的文檔，請瀏覽[版本列表](https://github.com/hugoalh/send-discord-webhook-ghaction/tags)並選擇正確的版本。
+> **⚠️ 重要**
+>
+> 此文檔基於 v6.0.0；如果要查看其他版本的文檔，請瀏覽[版本列表](https://github.com/hugoalh/send-discord-webhook-ghaction/tags)並選擇正確的版本。
 
 ## 🌟 特點
 
 - 支持附件／檔案。
 - 支持討論串。
 
-## 🔰 開始
+## 🎯 目標
 
-### GitHub Actions
+- GitHub Actions Runner
+  > **🛡️ 需要權限**
+  >
+  > *不適用*
 
-- <b>目標版本：</b>Runner >= v2.310.0，及：
-  - NodeJS ^ v20.9.0
-- <b>需要許可：</b>*不適用*
+  > **💽 需要軟體**
+  >
+  > - NodeJS ^ v20.9.0
 
-```yml
-jobs:
-  job_id:
-    runs-on: "________" # 任何
-    steps:
-      - uses: "hugoalh/send-discord-webhook-ghaction@<Tag>"
-```
+## 🔰 用法
+
+### 複合動作
+
+1. 在元資料中匯入（`action.yml`）：
+    ```yml
+    runs:
+      using: "composite"
+      steps:
+        - uses: "hugoalh/send-discord-webhook-ghaction@<Tag>"
+    ```
+
+### 工作流程
+
+1. 在工作流程中匯入（`.github/workflows/<WorkflowName>.yml`）：
+    ```yml
+    jobs:
+      job_id:
+        runs-on: "________" # 任何
+        steps:
+          - uses: "hugoalh/send-discord-webhook-ghaction@<Tag>"
+    ```
 
 ## 🧩 輸入
 
@@ -57,7 +78,9 @@ https://discordapp.com/api/webhooks/70971114/ueyzeWxB_8bb1zMhL  ⬅長（舊）
 
 **［選擇性］** `<字串>` 訊息內容，最多 2000 個字元；支援 Discord Markdown。
 
-> <b>⚠️ 重要：</b> 至少必須提供 [`content`](#content)、[`embeds`](#embeds) 或 [`files`](#files) 輸入。
+> **⚠️ 重要**
+>
+> 至少必須提供 [`content`](#content)、[`embeds`](#embeds) 或 [`files`](#files) 輸入。
 
 ### `content_links_no_embed`
 
@@ -91,7 +114,9 @@ https://discordapp.com/api/webhooks/70971114/ueyzeWxB_8bb1zMhL  ⬅長（舊）
 - [`embeds[*].fields[*].name`](#embedsfieldsname)
 - [`embeds[*].fields[*].value`](#embedsfieldsvalue)
 
-> <b>⚠️ 重要：</b> 至少必須提供 [`content`](#content)、[`embeds`](#embeds) 或 [`files`](#files) 輸入。
+> **⚠️ 重要**
+>
+> 至少必須提供 [`content`](#content)、[`embeds`](#embeds) 或 [`files`](#files) 輸入。
 
 #### `embeds[*].title`
 
@@ -126,7 +151,7 @@ https://discordapp.com/api/webhooks/70971114/ueyzeWxB_8bb1zMhL  ⬅長（舊）
 | <img src="https://www.colorhexa.com/FEE75C.png" height="16px" width="16px" /> | `"Discord Yellow"` | `"#FEE75C"` / `"rgb(254, 231, 92)"` | Discord 黃。 |
 | <img src="https://www.colorhexa.com/2F3136.png" height="16px" width="16px" /> | `"Embed Background Dark"` | `"#2F3136"` / `"rgb(47, 49, 54)"` | 在深色模式下的嵌入的背景。 |
 
-> <b>⚠️ 重要：</b>
+> **⚠️ 重要**
 >
 > - 不支援不透明度。
 > - 一般命名空間由 [`meodai/color-names`](https://github.com/meodai/color-names) 提供，可能會在沒有任何通知的情況下更改和／或刪除，建議使用數值代替，除非您想要隨機顏色。
@@ -211,7 +236,9 @@ https://discordapp.com/api/webhooks/70971114/ueyzeWxB_8bb1zMhL  ⬅長（舊）
 
 **［選擇性］** `<字串[]>` 作為訊息附件的文件，必須是 GitHub Actions 工作區的相對路徑（即是：`GITHUB_WORKSPACE`），以每行分隔每個值，最多 8 MB 和 10 個文件。
 
-> <b>⚠️ 重要：</b> 至少必須提供 [`content`](#content)、[`embeds`](#embeds) 或 [`files`](#files) 輸入。
+> **⚠️ 重要**
+>
+> 至少必須提供 [`content`](#content)、[`embeds`](#embeds) 或 [`files`](#files) 輸入。
 
 ### `wait`
 
@@ -221,13 +248,17 @@ https://discordapp.com/api/webhooks/70971114/ueyzeWxB_8bb1zMhL  ⬅長（舊）
 
 **［選擇性］** `<字串>` 文字頻道的討論串 ID。當定義此輸入時，訊息將會發送到指定的討論串，該討論串將會自動取消歸檔。
 
-> <b>⚠️ 重要：</b>只能提供 [`thread_id`](#thread_id) 或 [`thread_name`](#thread_name) 輸入。
+> **⚠️ 重要**
+>
+> 只能提供 [`thread_id`](#thread_id) 或 [`thread_name`](#thread_name) 輸入。
 
 ### `thread_name`
 
 **［選擇性］** `<字串>` 論壇頻道的主題名稱，最多 100 個字元。當定義此輸入時，訊息將會建立一個具有該名稱的新討論串。
 
-> <b>⚠️ 重要：</b>只能提供 [`thread_id`](#thread_id) 或 [`thread_name`](#thread_name) 輸入。
+> **⚠️ 重要**
+>
+> 只能提供 [`thread_id`](#thread_id) 或 [`thread_name`](#thread_name) 輸入。
 
 ### `truncate_enable`
 

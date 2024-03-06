@@ -1,4 +1,4 @@
-🌐 | [English](./CODE_OF_CONDUCT.md) / [漢語](./CODE_OF_CONDUCT-ZH.md)
+**🌐** [English](./CODE_OF_CONDUCT.md) / [漢語](./CODE_OF_CONDUCT-ZH.md)
 
 ---
 
