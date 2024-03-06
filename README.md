@@ -1,14 +1,15 @@
-🌐 | [English](./README.md) / [漢語](./README-ZH.md)
+**🌐** [English](./README.md) / [漢語](./README-ZH.md)
 
 ---
 
 # Send Discord Webhook (GitHub Action)
 
-[⚖️ MIT](./LICENSE.md)
+[**⚖️** MIT](./LICENSE.md)
 
-|  | **Release - Latest** | **Release - Pre** |
-|:-:|:-:|:-:|
-| [![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=ffffff&style=flat-square "GitHub")](https://github.com/hugoalh/send-discord-webhook-ghaction) | ![GitHub Latest Release Version](https://img.shields.io/github/release/hugoalh/send-discord-webhook-ghaction?sort=semver&label=&style=flat-square "GitHub Latest Release Version") (![GitHub Latest Release Date](https://img.shields.io/github/release-date/hugoalh/send-discord-webhook-ghaction?label=&style=flat-square "GitHub Latest Release Date")) | ![GitHub Latest Pre-Release Version](https://img.shields.io/github/release/hugoalh/send-discord-webhook-ghaction?include_prereleases&sort=semver&label=&style=flat-square "GitHub Latest Pre-Release Version") (![GitHub Latest Pre-Release Date](https://img.shields.io/github/release-date-pre/hugoalh/send-discord-webhook-ghaction?label=&style=flat-square "GitHub Latest Pre-Release Date")) |
+**🗂️**
+[![GitHub: hugoalh/send-discord-webhook-ghaction](https://img.shields.io/badge/hugoalh/send--discord--webhook--ghaction-181717?logo=github&logoColor=ffffff&style=flat "GitHub: hugoalh/send-discord-webhook-ghaction")](https://github.com/hugoalh/send-discord-webhook-ghaction)
+
+**🆙** ![Latest Release Version](https://img.shields.io/github/release/hugoalh/send-discord-webhook-ghaction?sort=semver&color=2187C0&label=&style=flat "Latest Release Version") (![Latest Release Date](https://img.shields.io/github/release-date/hugoalh/send-discord-webhook-ghaction?color=2187C0&label=&style=flat "Latest Release Date"))
 
 A GitHub Action to send Discord webhook.
 
@@ -20,21 +21,39 @@ A GitHub Action to send Discord webhook.
 - Support attachments/files.
 - Support thread.
 
-## 🔰 Begin
+## 🎯 Target
 
-### GitHub Actions
+- GitHub Actions Runner
+  > **🛡️ Require Permission**
+  >
+  > *N/A*
 
-- **Target Version:** Runner >= v2.310.0, &:
-  - NodeJS ^ v20.9.0
-- **Require Permission:** *N/A*
+  > **💽 Require Software**
+  >
+  > - NodeJS ^ v20.9.0
 
-```yml
-jobs:
-  job_id:
-    runs-on: "________" # Any
-    steps:
-      - uses: "hugoalh/send-discord-webhook-ghaction@<Tag>"
-```
+## 🔰 Usage
+
+### Composite Action
+
+1. Import at the metadata (`action.yml`):
+    ```yml
+    runs:
+      using: "composite"
+      steps:
+        - uses: "hugoalh/send-discord-webhook-ghaction@<Tag>"
+    ```
+
+### Workflow
+
+1. Import at the workflow (`.github/workflows/<WorkflowName>.yml`):
+    ```yml
+    jobs:
+      job_id:
+        runs-on: "________" # Any
+        steps:
+          - uses: "hugoalh/send-discord-webhook-ghaction@<Tag>"
+    ```
 
 ## 🧩 Input
 
