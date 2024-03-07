@@ -1,7 +1,6 @@
 import { randomInt } from "node:crypto";
-import { createReadStream as fsCreateReadStream } from "node:fs";
 import { access as fsAccess, constants as fsConstants, readFile as fsReadFile } from "node:fs/promises";
-import { basename as pathBaseName, join as pathJoin } from "node:path";
+import { basename as pathBaseName } from "node:path";
 import { debug as ghactionsDebug, error as ghactionsError, getBooleanInput as ghactionsGetBooleanInput, getInput as ghactionsGetInput, setOutput as ghactionsSetOutput, setSecret as ghactionsSetSecret } from "@actions/core";
 import { create as ghactionsGlob } from "@actions/glob";
 import { isJSON, type JSONArray, type JSONObject, type JSONValue } from "@hugoalh/advanced-determine";
