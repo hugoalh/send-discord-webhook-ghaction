@@ -10,7 +10,7 @@ jobs:
     steps:
       - shell: "pwsh"
         run: |-
-          Invoke-WebRequest -Uri 'https://cdn.simpleicons.org/discord' -MaximumRedirection 1 -MaximumRetryCount 5 -RetryIntervalSec 5 -Method 'Get' -OutFile 'thumbnail.svg'
+          Invoke-WebRequest -Uri 'https://cdn.simpleicons.org/typescript' -MaximumRedirection 1 -MaximumRetryCount 5 -RetryIntervalSec 5 -Method 'Get' -OutFile 'thumbnail.svg'
           convert thumbnail.svg thumbnail.png
       - uses: "hugoalh/send-discord-webhook-ghaction@bundle"
         with:
