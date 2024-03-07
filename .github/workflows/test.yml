@@ -11,7 +11,7 @@ jobs:
       - shell: "pwsh"
         run: |-
           Invoke-WebRequest -Uri 'https://cdn.simpleicons.org/typescript' -MaximumRedirection 1 -MaximumRetryCount 5 -RetryIntervalSec 5 -Method 'Get' -OutFile 'thumbnail.svg'
-          imagemagick thumbnail.svg thumbnail.png
+          convert thumbnail.svg thumbnail.png
       - uses: "hugoalh/send-discord-webhook-ghaction@bundle"
         with:
           key: "${{secrets.DISCORD_TEST_WEBHOOK}}"
