@@ -6,9 +6,12 @@ on:
       - "main"
     paths:
       - "src/**"
+      - ".npmrc"
       - "action.yml"
+      - "LICENSE*.md"
       - "package*.json"
       - "README*.md"
+      - "tsconfig.json"
   workflow_dispatch:
 concurrency:
   group: "bundle-github-action"
@@ -32,12 +35,12 @@ jobs:
           version: "^2.1.0"
       - name: "Resolve Cache Path"
         id: "cache-path"
+        shell: "pwsh"
         run: |
           Import-Module -Name 'hugoalh.GitHubActionsToolkit' -Scope 'Local'
           [String]$NpmCachePath = npm config get cache |
             Join-String -Separator "`n"
           Set-GitHubActionsOutput -Name 'npm' -Value $NpmCachePath
-        shell: "pwsh"
       - name: "Restore NPM Cache"
         id: "restore-npm-cache"
         uses: "actions/cache/restore@v4.0.1"
@@ -59,6 +62,7 @@ jobs:
           fetch-depth: "0"
       - name: "Checkout Repository Branch `bundle`"
         id: "checkout-branch-bundle"
+        shell: "pwsh"
         run: |
           Import-Module -Name 'hugoalh.GitHubActionsToolkit' -Scope 'Local'
           $Null = git --no-pager branch --all --contains origin/bundle *>&1;
@@ -70,13 +74,13 @@ jobs:
             git --no-pager switch --orphan bundle
           }
           Set-GitHubActionsOutput -Name 'exist' -Value $IsExist.ToString().ToLower()
-        shell: "pwsh"
       - name: "Config Git"
+        shell: "pwsh"
         run: |
           git --no-pager config --global 'user.name' 'github-actions'
           git --no-pager config --global 'user.email' 'github-actions@users.noreply.github.com'
-        shell: "pwsh"
       - name: "Build Bundle"
+        shell: "pwsh"
         run: |
           Get-ChildItem -LiteralPath $Env:GITHUB_WORKSPACE -Exclude @('.git') -Force |
             Remove-Item -Recurse -Force -Confirm:$False
@@ -85,16 +89,23 @@ jobs:
             '.npmrc',
             'action.yml',
             'package*.json',
-            'README*.md'
+            'LICENSE*.md',
+            'README*.md',
+            'tsconfig.json'
           )) {
             git --no-pager restore --source main -- $File
           }
-          Rename-Item -LiteralPath (Join-Path -Path $Env:GITHUB_WORKSPACE -ChildPath 'src') -NewName 'dist' -Confirm:$False
-          npm install --omit dev
-          Get-ChildItem -LiteralPath $Env:GITHUB_WORKSPACE -Exclude @('.git', 'dist', 'node_modules', 'action.yml', 'package.json', 'README*.md') -Force |
+          npm install
+          npm run build
+          Get-ChildItem -LiteralPath $Env:GITHUB_WORKSPACE -Exclude @('.git', 'dist', '.npmrc', 'action.yml', 'LICENSE*.md', 'package*.json', 'README*.md') -Force |
             Remove-Item -Recurse -Force -Confirm:$False
-        shell: "pwsh"
+          npm install --omit dev
+          Get-ChildItem -LiteralPath $Env:GITHUB_WORKSPACE -Exclude @('.git', 'dist', 'node_modules', 'action.yml', 'LICENSE*.md', 'package.json', 'README*.md') -Force |
+            Remove-Item -Recurse -Force -Confirm:$False
       - name: "Push Repository Branch `bundle`"
+        env:
+          INPUT_BRANCHEXIST: "${{steps.checkout-branch-bundle.outputs.exist}}"
+        shell: "pwsh"
         run: |
           [String]$GitStatus = git --no-pager status --short |
             Join-String -Separator "`n"
@@ -103,9 +114,6 @@ jobs:
             git --no-pager commit "--message=Update bundle $($Env:GITHUB_SHA ? "based on commit $($Env:GITHUB_SHA)" : 'by dispatch')"
             [Boolean]::Parse($Env:INPUT_BRANCHEXIST) ? (git --no-pager push) : (git --no-pager push --set-upstream origin bundle)
           }
-        shell: "pwsh"
-        env:
-          INPUT_BRANCHEXIST: "${{steps.checkout-branch-bundle.outputs.exist}}"
       - name: "Save NPM Cache"
         if: "${{!cancelled() && steps.restore-npm-cache.outcome == 'success'}}"
         uses: "actions/cache/save@v4.0.1"

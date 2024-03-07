@@ -1,19 +1,16 @@
 import { randomInt } from "node:crypto";
 import { createReadStream as fsCreateReadStream } from "node:fs";
-import { access as fsAccess, constants as fsConstants } from "node:fs/promises";
+import { access as fsAccess, constants as fsConstants, readFile as fsReadFile } from "node:fs/promises";
 import { basename as pathBaseName, join as pathJoin } from "node:path";
 import { debug as ghactionsDebug, error as ghactionsError, getBooleanInput as ghactionsGetBooleanInput, getInput as ghactionsGetInput, setOutput as ghactionsSetOutput, setSecret as ghactionsSetSecret } from "@actions/core";
 import { create as ghactionsGlob } from "@actions/glob";
-import { isJSON } from "@hugoalh/advanced-determine";
+import { isJSON, type JSONArray, type JSONObject, type JSONValue } from "@hugoalh/advanced-determine";
 import { StringTruncator } from "@hugoalh/string-overflow";
 import Color from "color";
+//@ts-expect-error Package `color-name-list` is JSON.
 import colorNameList from "color-name-list" assert { type: "json" };
 import yaml from "yaml";
 console.log("Initialize.");
-const iso8601RegExp = /^\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\dZ$/u;
-const snowflakeRegExp = /^\d+$/u;
-const splitterNewLine = /\r?\n/gu;
-const splitterCommonDelimiter = /,|;|\||\r?\n/gu;
 const colorNamespaceList = new Map();
 for (const { name, hex } of colorNameList) {
 	colorNamespaceList.set(name, hex);
@@ -25,62 +22,72 @@ colorNamespaceList.set("Discord Green", "#57F287");
 colorNamespaceList.set("Discord Red", "#ED4245");
 colorNamespaceList.set("Discord Yellow", "#FEE75C");
 colorNamespaceList.set("Embed Background Dark", "#2F3136");
-const ghactionsWorkspaceDirectory = process.env.GITHUB_WORKSPACE ?? "";
-if (!(ghactionsWorkspaceDirectory.length > 0)) {
-	ghactionsError(`Environment variable \`GITHUB_WORKSPACE\` is not defined!`);
-	process.exit(1);
-}
-const discordWebhookQuery = new URLSearchParams();
-const discordWebhookURLRegExp = /^(?:https:\/\/(?:canary\.)?discord(?:app)?\.com\/api\/webhooks\/)?(?<key>\d+\/(?:[\dA-Za-z][\dA-Za-z_-]*)?[\dA-Za-z])$/u;
+const regexpDiscordWebhookURL = /^(?:https:\/\/(?:canary\.)?discord(?:app)?\.com\/api\/webhooks\/)?(?<key>\d+\/(?:[\dA-Za-z][\dA-Za-z_-]*)?[\dA-Za-z])$/u;
+const regexpISO8601 = /^\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\dZ$/u;
+const regexpSnowflake = /^\d+$/u;
+const splitterNewLine = /\r?\n/gu;
+const splitterCommonDelimiter = /,|;|\||\r?\n/gu;
+const discordWebhookURLQuery: URLSearchParams = new URLSearchParams();
 try {
-	const truncateEnable = ghactionsGetBooleanInput("truncate_enable", { required: true });
-	const stringTruncator = new StringTruncator(128, {
+	const truncateEnable: boolean = ghactionsGetBooleanInput("truncate_enable", { required: true });
+	const stringTruncator: StringTruncator = new StringTruncator(128, {
 		ellipsisMark: ghactionsGetInput("truncate_ellipsis", { required: true }),
+		//@ts-ignore Validate by package.
 		ellipsisPosition: ghactionsGetInput("truncate_position", { required: true })
 	});
-	const keyRaw = ghactionsGetInput("key", { required: true });
-	if (!discordWebhookURLRegExp.test(keyRaw)) {
-		throw new TypeError(`Input \`key\` is not a valid Discord webhook key!`);
-	}
-	const key = keyRaw.match(discordWebhookURLRegExp).groups.key;
+	const key: string = ((): string => {
+		const keyRaw: string = ghactionsGetInput("key", { required: true });
+		if (!regexpDiscordWebhookURL.test(keyRaw)) {
+			throw new TypeError(`Input \`key\` is not a valid Discord webhook key!`);
+		}
+		return keyRaw.match(regexpDiscordWebhookURL).groups.key;
+	})();
 	ghactionsSetSecret(key);
-	let content = ghactionsGetInput("content");
-	const contentLinksNoEmbed = ghactionsGetInput("content_links_no_embed");
-	if (contentLinksNoEmbed.length > 0 && content.length > 0) {
-		const contentLinksNoEmbedRegExp = new RegExp(contentLinksNoEmbed.split(splitterNewLine).join("|"), "gu");
-		content = content.split(/ /gu).map((value) => {
-			return ((URL.canParse(value) && /^https?:\/\//u.test(value) && contentLinksNoEmbedRegExp.test(value)) ? `<${value}>` : value);
-		}).join(" ");
-	}
-	if (content.length > 2000) {
-		if (truncateEnable) {
-			content = stringTruncator.truncate(content, 2000);
+	const content: string = ((): string => {
+		let contentRaw: string = ghactionsGetInput("content");
+		const contentLinksNoEmbed: string = ghactionsGetInput("content_links_no_embed");
+		if (contentLinksNoEmbed.length > 0 && contentRaw.length > 0) {
+			const contentLinksNoEmbedRegExp = new RegExp(contentLinksNoEmbed.split(splitterNewLine).join("|"), "gu");
+			contentRaw = contentRaw.split(/ /gu).map((value: string): string => {
+				return ((URL.canParse(value) && /^https?:\/\//u.test(value) && contentLinksNoEmbedRegExp.test(value)) ? `<${value}>` : value);
+			}).join(" ");
 		}
-	}
-	let username = ghactionsGetInput("username");
-	if (username.length > 0) {
-		if (username.toLowerCase() === "clyde") {
-			throw new Error(`"Clyde" is not allowed to use as the username of the webhook!`);
+		if (contentRaw.length > 2000) {
+			if (truncateEnable) {
+				contentRaw = stringTruncator.truncate(contentRaw, 2000);
+			}
 		}
-		if (username.length > 80 && truncateEnable) {
-			username = stringTruncator.truncate(username, 80);
+		return contentRaw;
+	})();
+	const username: string = ((): string => {
+		let usernameRaw: string = ghactionsGetInput("username");
+		if (usernameRaw.length > 0) {
+			if (usernameRaw.toLowerCase() === "clyde") {
+				throw new Error(`"${usernameRaw}" is not allowed to use as the username of the webhook!`);
+			}
+			if (usernameRaw.length > 80 && truncateEnable) {
+				usernameRaw = stringTruncator.truncate(usernameRaw, 80);
+			}
 		}
-	}
-	const avatarURL = ghactionsGetInput("avatar_url");
-	const tts = ghactionsGetBooleanInput("tts", { required: true });
-	let embeds = yaml.parse(ghactionsGetInput("embeds")) ?? [];
-	if (!(isJSON(embeds) && Array.isArray(embeds))) {
-		throw new TypeError(`Input \`embeds\` is not a valid Discord embeds!`);
-	}
+		return usernameRaw;
+	})();
+	const avatarURL: string = ghactionsGetInput("avatar_url");
+	const tts: boolean = ghactionsGetBooleanInput("tts", { required: true });
+	let embeds: JSONArray = ((): JSONArray => {
+		const embedsRaw: unknown = yaml.parse(ghactionsGetInput("embeds"));
+		if (!(isJSON(embedsRaw) && Array.isArray(embedsRaw))) {
+			throw new TypeError(`Input \`embeds\` is not a valid Discord embeds!`);
+		}
+		return embedsRaw;
+	})();
 	if (embeds.length > 0) {
-		embeds = embeds.map((embed, embedsIndex) => {
+		embeds = embeds.map((embed: JSONValue, embedsIndex: number): JSONObject => {
 			if (!(typeof embed === "object" && !Array.isArray(embed) && embed !== null)) {
-				throw new TypeError(`Unknown input \`embeds[${embedsIndex}]\`!`);
+				throw new TypeError(`Input \`embeds[${embedsIndex}]\` is not a valid Discord embed!`);
 			}
 			for (const embedKey of Object.keys(embed)) {
 				switch (embedKey) {
 					case "title":
-						embed.title = embed.title?.toString() ?? embed.title;
 						if (typeof embed.title !== "string") {
 							throw new TypeError(`Unknown input \`embeds[${embedsIndex}].title\`!`);
 						}
@@ -93,7 +100,6 @@ try {
 						}
 						break;
 					case "description":
-						embed.description = embed.description?.toString() ?? embed.description;
 						if (typeof embed.description !== "string") {
 							throw new TypeError(`Unknown input \`embeds[${embedsIndex}].description\`!`);
 						}
@@ -106,7 +112,6 @@ try {
 						}
 						break;
 					case "url":
-						embed.url = embed.url?.toString() ?? embed.url;
 						if (typeof embed.url !== "string") {
 							throw new TypeError(`Unknown input \`embeds[${embedsIndex}].url\`!`);
 						}
@@ -123,7 +128,7 @@ try {
 							delete embed.timestamp;
 							break;
 						}
-						if (!(iso8601RegExp.test(embed.timestamp) && new Date(embed.timestamp))) {
+						if (!(regexpISO8601.test(embed.timestamp) && new Date(embed.timestamp))) {
 							throw new SyntaxError(`${embed.timestamp} (input \`embeds[${embedsIndex}].timestamp\`) is not a valid ISO 8601 timestamp!`);
 						}
 						break;
@@ -138,7 +143,7 @@ try {
 								break;
 							}
 							if (embed.color === "Random") {
-								embed.color = randomInt(0, 256) * 65536 + randomInt(0, 256) * 256 + randomInt(0, 256);
+								embed.color = (randomInt(0, 256) * 65536) + (randomInt(0, 256) * 256) + randomInt(0, 256);
 							} else if (colorNamespaceList.has(embed.color)) {
 								embed.color = Color(colorNamespaceList.get(embed.color), "hex").rgbNumber();
 							} else {
@@ -159,7 +164,6 @@ try {
 						for (const embedFooterKey of Object.keys(embed.footer)) {
 							switch (embedFooterKey) {
 								case "text":
-									embed.footer.text = embed.footer.text?.toString() ?? embed.footer.text;
 									if (typeof embed.footer.text !== "string") {
 										throw new TypeError(`Unknown input \`embeds[${embedsIndex}].footer.text\`!`);
 									}
@@ -172,7 +176,6 @@ try {
 									}
 									break;
 								case "icon_url":
-									embed.footer.icon_url = embed.footer.icon_url?.toString() ?? embed.footer.icon_url;
 									if (typeof embed.footer.icon_url !== "string") {
 										throw new TypeError(`Unknown input \`embeds[${embedsIndex}].footer.icon_url\`!`);
 									}
@@ -197,7 +200,6 @@ try {
 						for (const embedImageKey of Object.keys(embed.image)) {
 							switch (embedImageKey) {
 								case "url":
-									embed.image.url = embed.image.url?.toString() ?? embed.image.url;
 									if (typeof embed.image.url !== "string") {
 										throw new TypeError(`Unknown input \`embeds[${embedsIndex}].image.url\`!`);
 									}
@@ -222,7 +224,6 @@ try {
 						for (const embedThumbnailKey of Object.keys(embed.thumbnail)) {
 							switch (embedThumbnailKey) {
 								case "url":
-									embed.thumbnail.url = embed.thumbnail.url?.toString() ?? embed.thumbnail.url;
 									if (typeof embed.thumbnail.url !== "string") {
 										throw new TypeError(`Unknown input \`embeds[${embedsIndex}].thumbnail.url\`!`);
 									}
@@ -247,7 +248,6 @@ try {
 						for (const embedAuthorKey of Object.keys(embed.author)) {
 							switch (embedAuthorKey) {
 								case "name":
-									embed.author.name = embed.author.name?.toString() ?? embed.author.name;
 									if (typeof embed.author.name !== "string") {
 										throw new TypeError(`Unknown input \`embeds[${embedsIndex}].author.name\`!`);
 									}
@@ -260,7 +260,6 @@ try {
 									}
 									break;
 								case "url":
-									embed.author.url = embed.author.url?.toString() ?? embed.author.url;
 									if (typeof embed.author.url !== "string") {
 										throw new TypeError(`Unknown input \`embeds[${embedsIndex}].author.url\`!`);
 									}
@@ -270,7 +269,6 @@ try {
 									}
 									break;
 								case "icon_url":
-									embed.author.icon_url = embed.author.icon_url?.toString() ?? embed.author.icon_url;
 									if (typeof embed.author.icon_url !== "string") {
 										throw new TypeError(`Unknown input \`embeds[${embedsIndex}].author.icon_url\`!`);
 									}
@@ -293,14 +291,13 @@ try {
 							throw new TypeError(`Input \`embed[${embedsIndex}].fields\` is not a valid Discord embed fields!`);
 						}
 						if (embed.fields.length > 0) {
-							embed.fields = embed.fields.map((field, fieldsIndex) => {
+							embed.fields = embed.fields.map((field: JSONValue, fieldsIndex: number): JSONObject => {
 								if (!(typeof field === "object" && !Array.isArray(field) && field !== null)) {
 									throw new TypeError(`Unknown input \`embeds[${embedsIndex}].fields[${fieldsIndex}]\`!`);
 								}
 								for (const embedFieldKey of Object.keys(field)) {
 									switch (embedFieldKey) {
 										case "name":
-											field.name = field.name?.toString() ?? field.name;
 											if (typeof field.name !== "string") {
 												throw new TypeError(`Unknown input \`embeds[${embedsIndex}].fields[${fieldsIndex}].name\`!`);
 											}
@@ -309,7 +306,6 @@ try {
 											}
 											break;
 										case "value":
-											field.value = field.value?.toString() ?? field.value;
 											if (typeof field.value !== "string") {
 												throw new TypeError(`Unknown input \`embeds[${embedsIndex}].fields[${fieldsIndex}].value\`!`);
 											}
@@ -327,10 +323,10 @@ try {
 									}
 								}
 								return field;
-							}).filter((field) => {
+							}).filter((field: JSONObject): boolean => {
 								return (
-									field.name.length > 0 ||
-									field.value.length > 0
+									(field.name as string).length > 0 ||
+									(field.value as string).length > 0
 								);
 							});
 						}
@@ -347,16 +343,16 @@ try {
 				}
 			}
 			return embed;
-		}).filter((embed) => {
+		}).filter((embed: JSONObject): boolean => {
 			return (Object.keys(embed).length > 0);
 		});
 	}
 	if (embeds.length > 10) {
 		throw new SyntaxError(`Input \`embeds\` has more than 10 elements (current ${embeds.length})!`);
 	}
-	const allowedMentionsParse = Array.from(new Set(ghactionsGetInput("allowed_mentions_parse").split(splitterCommonDelimiter).map((value) => {
+	const allowedMentionsParse: string[] = Array.from(new Set(ghactionsGetInput("allowed_mentions_parse").split(splitterCommonDelimiter).map((value: string): string => {
 		return value.trim();
-	}).filter((value) => {
+	}).filter((value: string): boolean => {
 		return (value.length > 0);
 	})));
 	for (const element of allowedMentionsParse) {
@@ -364,45 +360,42 @@ try {
 			throw new SyntaxError(`\`${element}\` is not a valid Discord allowed mention type!`);
 		}
 	}
-	const allowedMentionsRoles = Array.from(new Set(ghactionsGetInput("allowed_mentions_roles").split(splitterCommonDelimiter).map((value) => {
+	const allowedMentionsRoles: string[] = Array.from(new Set(ghactionsGetInput("allowed_mentions_roles").split(splitterCommonDelimiter).map((value: string): string => {
 		return value.trim();
-	}).filter((value) => {
+	}).filter((value: string): boolean => {
 		return (value.length > 0);
 	})));
 	for (const allowedMentionsRole of allowedMentionsRoles) {
-		if (!snowflakeRegExp.test(allowedMentionsRole)) {
+		if (!regexpSnowflake.test(allowedMentionsRole)) {
 			throw new SyntaxError(`${allowedMentionsRole} (input \`allowed_mentions_roles[*]\`) is not a valid snowflake!`);
 		}
 	}
 	if (allowedMentionsRoles.length > 100) {
 		throw new RangeError(`Input \`allowed_mentions_roles\` has more than 100 elements (current ${allowedMentionsRoles.length})!`);
 	}
-	const allowedMentionsUsers = Array.from(new Set(ghactionsGetInput("allowed_mentions_users").split(splitterCommonDelimiter).map((value) => {
+	const allowedMentionsUsers: string[] = Array.from(new Set(ghactionsGetInput("allowed_mentions_users").split(splitterCommonDelimiter).map((value: string): string => {
 		return value.trim();
-	}).filter((value) => {
+	}).filter((value: string): boolean => {
 		return (value.length > 0);
 	})));
 	for (const allowedMentionsUser of allowedMentionsUsers) {
-		if (!snowflakeRegExp.test(allowedMentionsUser)) {
+		if (!regexpSnowflake.test(allowedMentionsUser)) {
 			throw new SyntaxError(`${allowedMentionsUser} (input \`allowed_mentions_users[*]\`) is not a valid snowflake!`);
 		}
 	}
 	if (allowedMentionsUsers.length > 100) {
 		throw new RangeError(`Input \`allowed_mentions_users\` has more than 100 elements (current ${allowedMentionsUsers.length})!`);
 	}
-	const filesRaw = Array.from(new Set(ghactionsGetInput("files").split(splitterNewLine).map((value) => {
+	const filesRaw: string[] = Array.from(new Set(ghactionsGetInput("files").split(splitterNewLine).map((value: string): string => {
 		return value.trim();
-	}).filter((value) => {
+	}).filter((value: string): boolean => {
 		return (value.length > 0);
 	})));
-	const files = [];
-	if (filesRaw.length > 0) {
-		files.push(...(await (await ghactionsGlob(filesRaw.join("\n"), {
-			followSymbolicLinks: false,
-			matchDirectories: false,
-			omitBrokenSymbolicLinks: false
-		})).glob()));
-	}
+	const files: string[] = (filesRaw.length > 0) ? await (await ghactionsGlob(filesRaw.join("\n"), {
+		followSymbolicLinks: false,
+		matchDirectories: false,
+		omitBrokenSymbolicLinks: false
+	})).glob() : [];
 	if (files.length > 10) {
 		throw new RangeError(`Input \`files\` has more than 10 elements (current ${files.length})!`);
 	}
@@ -417,29 +410,32 @@ try {
 	if (content.length === 0 && embeds.length === 0 && files.length === 0) {
 		throw new Error(`At least either inputs of \`content\`, \`embeds\`, or \`files\` must be provided!`);
 	}
-	const wait = ghactionsGetBooleanInput("wait", { required: true });
+	const wait: boolean = ghactionsGetBooleanInput("wait", { required: true });
 	if (wait) {
-		discordWebhookQuery.set("wait", "true");
+		discordWebhookURLQuery.set("wait", "true");
 	}
-	const threadID = ghactionsGetInput("thread_id");
+	const threadID: string = ghactionsGetInput("thread_id");
 	if (threadID.length > 0) {
-		if (!snowflakeRegExp.test(threadID)) {
+		if (!regexpSnowflake.test(threadID)) {
 			throw new SyntaxError(`${threadID} (input \`thread_id\`) is not a valid snowflake!`);
 		}
-		discordWebhookQuery.set("thread_id", threadID);
+		discordWebhookURLQuery.set("thread_id", threadID);
 	}
-	const threadName = ghactionsGetInput("thread_name");
+	const threadName: string = ghactionsGetInput("thread_name");
 	if (threadID.length > 0 && threadName.length > 0) {
 		throw new Error(`Only either inputs of \`thread_id\` or \`thread_name\` can be provided!`);
 	}
-	let method = ghactionsGetInput("method").toLowerCase();
-	if (method.length === 0) {
-		method = (files.length > 0) ? "form" : "json";
-	}
-	const requestHeaders = new Headers({
+	const method: string = ((): string => {
+		const methodRaw: string = ghactionsGetInput("method").toLowerCase();
+		if (methodRaw.length === 0) {
+			return ((files.length > 0) ? "form" : "json");
+		}
+		return methodRaw;
+	})();
+	const requestHeaders: Headers = new Headers({
 		"User-Agent": `NodeJS/${process.versions.node}-${process.platform}-${process.arch} SendDiscordWebhook.GitHubAction/6.0.1`
 	});
-	const requestPayload = {
+	const requestPayload: { [key: string]: JSONValue; } = {
 		tts,
 		allowed_mentions: {
 			parse: allowedMentionsParse
@@ -458,50 +454,53 @@ try {
 		requestPayload.embeds = embeds;
 	}
 	if (allowedMentionsRoles.length > 0) {
+		//@ts-ignore Lazy type.
 		requestPayload.allowed_mentions.roles = allowedMentionsRoles;
 	}
 	if (allowedMentionsUsers.length > 0) {
+		//@ts-ignore Lazy type.
 		requestPayload.allowed_mentions.users = allowedMentionsUsers;
 	}
 	if (threadName.length > 0) {
 		requestPayload.thread_name = threadName;
 	}
-	const requestPayloadStringify = JSON.stringify(requestPayload);
+	const requestPayloadStringify: string = JSON.stringify(requestPayload);
 	ghactionsDebug(`Payload: ${requestPayloadStringify}`);
-	const requestQuery = discordWebhookQuery.toString();
-	let requestBody;
+	const requestQuery: string = discordWebhookURLQuery.toString();
 	const attachments = [];
-	switch (method) {
-		case "form":
-			requestBody = new FormData();
-			requestHeaders.append("Content-Type", "multipart/form-data");
-			files.forEach((file, filesIndex) => {
-				// const fileFullPath = pathJoin(ghactionsWorkspaceDirectory, file);
-				attachments.push({
-					// "filename": pathBaseName(fileFullPath),
-					"filename": pathBaseName(file),
-					"id": filesIndex
-				});
-				// requestBody.append(`files[${filesIndex}]`, fsCreateReadStream(fileFullPath));
-				requestBody.append(`files[${filesIndex}]`, fsCreateReadStream(file));
-			});
-			requestBody.append("attachments", JSON.stringify(attachments));
-			requestBody.append("payload_json", requestPayloadStringify);
-			break;
-		case "json":
-			requestBody = requestPayloadStringify;
-			requestHeaders.append("Content-Type", "application/json");
-			break;
-		default:
-			throw new Error(`${method} is not a valid method!`);
-	}
+	const requestBody: string | FormData = await (async (): Promise<string | FormData> => {
+		switch (method) {
+			case "form": {
+				requestHeaders.append("Content-Type", "multipart/form-data");
+				const requestForm: FormData = new FormData();
+				for (let index = 0; index < files.length; index += 1) {
+					// const fileFullPath = pathJoin(ghactionsWorkspaceDirectory, files[index]);
+					attachments.push({
+						// "filename": pathBaseName(fileFullPath),
+						"filename": pathBaseName(files[index]),
+						"id": index
+					});
+					// requestForm.append(`files[${filesIndex}]`, fsCreateReadStream(fileFullPath));
+					requestForm.append(`files[${index}]`, new Blob([await fsReadFile(files[index])]));
+				}
+				requestForm.append("attachments", JSON.stringify(attachments));
+				requestForm.append("payload_json", requestPayloadStringify);
+				return requestForm;
+			}
+			case "json":
+				requestHeaders.append("Content-Type", "application/json");
+				return requestPayloadStringify;
+			default:
+				throw new Error(`${method} is not a valid method!`);
+		}
+	})();
 	console.log(`Post network request to Discord.`);
-	const response = await fetch(`https://discord.com/api/webhooks/${key}${(requestQuery.length > 0) ? `?${requestQuery}` : ""}`, {
+	const response: Response = await fetch(`https://discord.com/api/webhooks/${key}${(requestQuery.length > 0) ? `?${requestQuery}` : ""}`, {
 		body: requestBody,
 		headers: requestHeaders,
 		method: "POST",
 		redirect: "follow"
-	}).catch((reason) => {
+	}).catch((reason: Error): never => {
 		throw new Error(`Unexpected web request issue: ${reason?.message ?? reason}`);
 	});
 	const responseText = await response.text();
