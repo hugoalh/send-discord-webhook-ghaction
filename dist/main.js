@@ -477,14 +477,11 @@ try {
                 requestHeaders.append("Content-Type", "multipart/form-data");
                 const requestForm = new FormData();
                 for (let index = 0; index < files.length; index += 1) {
-                    // const fileFullPath = pathJoin(ghactionsWorkspaceDirectory, files[index]);
                     attachments.push({
-                        // "filename": pathBaseName(fileFullPath),
-                        "filename": pathBaseName(files[index]),
-                        "id": index
+                        filename: pathBaseName(files[index]),
+                        id: index
                     });
-                    // requestForm.append(`files[${filesIndex}]`, fsCreateReadStream(fileFullPath));
-                    requestForm.append(`files[${index}]`, new Blob([await fsReadFile(files[index])]));
+                    requestForm.append(`files[${index}]`, new Blob([await fsReadFile(files[index])]), pathBaseName(files[index]));
                 }
                 requestForm.append("attachments", JSON.stringify(attachments));
                 requestForm.append("payload_json", requestPayloadStringify);
@@ -494,7 +491,7 @@ try {
                 requestHeaders.append("Content-Type", "application/json");
                 return requestPayloadStringify;
             default:
-                throw new Error(`${method} is not a valid method!`);
+                throw new Error(`\`${method}\` is not a valid method!`);
         }
     })();
     console.log(`Post network request to Discord.`);
