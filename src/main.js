@@ -406,15 +406,14 @@ try {
 	if (files.length > 10) {
 		throw new RangeError(`Input \`files\` has more than 10 elements (current ${files.length})!`);
 	}
-	/*
 	for (const file of files) {
 		try {
-			await fsAccess(pathJoin(ghactionsWorkspaceDirectory, file), fsConstants.R_OK);
+			// await fsAccess(pathJoin(ghactionsWorkspaceDirectory, file), fsConstants.R_OK);
+			await fsAccess(file, fsConstants.R_OK);
 		} catch {
 			throw new Error(`File \`${file}\` is not accessible, exist, and/or readable!`);
 		}
 	}
-	*/
 	if (content.length === 0 && embeds.length === 0 && files.length === 0) {
 		throw new Error(`At least either inputs of \`content\`, \`embeds\`, or \`files\` must be provided!`);
 	}
@@ -477,12 +476,14 @@ try {
 			requestBody = new FormData();
 			requestHeaders.append("Content-Type", "multipart/form-data");
 			files.forEach((file, filesIndex) => {
-				const fileFullPath = pathJoin(ghactionsWorkspaceDirectory, file);
+				// const fileFullPath = pathJoin(ghactionsWorkspaceDirectory, file);
 				attachments.push({
-					"filename": pathBaseName(fileFullPath),
+					// "filename": pathBaseName(fileFullPath),
+					"filename": pathBaseName(file),
 					"id": filesIndex
 				});
-				requestBody.append(`files[${filesIndex}]`, fsCreateReadStream(fileFullPath));
+				// requestBody.append(`files[${filesIndex}]`, fsCreateReadStream(fileFullPath));
+				requestBody.append(`files[${filesIndex}]`, fsCreateReadStream(file));
 			});
 			requestBody.append("attachments", JSON.stringify(attachments));
 			requestBody.append("payload_json", requestPayloadStringify);
