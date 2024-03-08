@@ -431,7 +431,7 @@ try {
 		return methodRaw;
 	})();
 	const requestHeaders: Headers = new Headers({
-		"User-Agent": `NodeJS/${process.versions.node}-${process.platform}-${process.arch} SendDiscordWebhook.GitHubAction/6.0.1`
+		"User-Agent": `NodeJS/${process.versions.node}-${process.platform}-${process.arch} SendDiscordWebhook.GitHubAction/6.0.2`
 	});
 	const requestPayload: { [key: string]: JSONValue; } = {
 		tts,
@@ -463,6 +463,7 @@ try {
 		requestPayload.thread_name = threadName;
 	}
 	const requestPayloadStringify: string = JSON.stringify(requestPayload);
+	ghactionsDebug(`Payload: ${requestPayloadStringify}`);
 	const requestQuery: string = discordWebhookURLQuery.toString();
 	const requestBody: string | FormData = await (async (): Promise<string | FormData> => {
 		switch (method) {
@@ -478,12 +479,10 @@ try {
 				}
 				requestForm.append("attachments", JSON.stringify(attachments));
 				requestForm.append("payload_json", requestPayloadStringify);
-				ghactionsDebug(`FormData: ${requestForm.toString()}`);
 				return requestForm;
 			}
 			case "json":
 				requestHeaders.set("Content-Type", "application/json");
-				ghactionsDebug(`Payload: ${requestPayloadStringify}`);
 				return requestPayloadStringify;
 			default:
 				throw new Error(`\`${method}\` is not a valid method!`);
