@@ -436,9 +436,9 @@ try {
         }
         return methodRaw;
     })();
-    const requestHeaders = new Headers({
+    let requestHeaders = {
         "User-Agent": `NodeJS/${process.versions.node}-${process.platform}-${process.arch} SendDiscordWebhook.GitHubAction/6.0.1`
-    });
+    };
     const requestPayload = {
         tts,
         allowed_mentions: {
@@ -475,8 +475,11 @@ try {
     const requestBody = (() => {
         switch (method) {
             case "form": {
-                requestHeaders.append("Content-Type", "multipart/form-data");
                 const requestForm = new FormDataAlt();
+                requestHeaders = {
+                    ...requestForm.getHeaders(),
+                    ...requestHeaders
+                };
                 for (let index = 0; index < files.length; index += 1) {
                     attachments.push({
                         filename: pathBaseName(files[index]),
@@ -489,7 +492,7 @@ try {
                 return requestForm;
             }
             case "json":
-                requestHeaders.append("Content-Type", "application/json");
+                requestHeaders["Content-Type"] = "application/json";
                 return requestPayloadStringify;
             default:
                 throw new Error(`\`${method}\` is not a valid method!`);
