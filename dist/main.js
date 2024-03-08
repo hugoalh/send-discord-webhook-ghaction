@@ -405,7 +405,6 @@ try {
     }
     for (const file of files) {
         try {
-            // await fsAccess(pathJoin(ghactionsWorkspaceDirectory, file), fsConstants.R_OK);
             await fsAccess(file, fsConstants.R_OK);
         }
         catch {
@@ -487,7 +486,7 @@ try {
                 }
                 requestForm.append("attachments", JSON.stringify(attachments));
                 requestForm.append("payload_json", requestPayloadStringify);
-                return requestForm.getBuffer();
+                return requestForm;
             }
             case "json":
                 requestHeaders.append("Content-Type", "application/json");
