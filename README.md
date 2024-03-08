@@ -230,7 +230,7 @@ Exclusive namespace:
 
 ### `files`
 
-**\[Optional\]** `<string[]>` Files as attachments of the message, which must be relative paths from GitHub Actions workspace (i.e.: `GITHUB_WORKSPACE`), separate each value per line, up to 8 MB and 10 files.
+**\[Optional\]** `<string[]>` Files as attachments of the message, separate each value per line, up to 8 MB and 10 files.
 
 > [!IMPORTANT]
 > At least either inputs of [`content`](#content), [`embeds`](#embeds), or [`files`](#files) must be provided.
