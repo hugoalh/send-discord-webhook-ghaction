@@ -51,24 +51,14 @@ try {
                 return ((URL.canParse(value) && /^https?:\/\//u.test(value) && contentLinksNoEmbedRegExp.test(value)) ? `<${value}>` : value);
             }).join(" ");
         }
-        if (contentRaw.length > 2000) {
-            if (truncateEnable) {
-                contentRaw = stringTruncator.truncate(contentRaw, 2000);
-            }
-        }
-        return contentRaw;
+        return ((contentRaw.length > 2000 && truncateEnable) ? stringTruncator.truncate(contentRaw, 2000) : contentRaw);
     })();
     const username = (() => {
-        let usernameRaw = ghactionsGetInput("username");
-        if (usernameRaw.length > 0) {
-            if (usernameRaw.toLowerCase() === "clyde") {
-                throw new Error(`"${usernameRaw}" is not allowed to use as the username of the webhook!`);
-            }
-            if (usernameRaw.length > 80 && truncateEnable) {
-                usernameRaw = stringTruncator.truncate(usernameRaw, 80);
-            }
+        const usernameRaw = ghactionsGetInput("username");
+        if (usernameRaw.toLowerCase() === "clyde") {
+            throw new Error(`"${usernameRaw}" is not allowed to use as the username of the webhook!`);
         }
-        return usernameRaw;
+        return ((usernameRaw.length > 80 && truncateEnable) ? stringTruncator.truncate(usernameRaw, 80) : usernameRaw);
     })();
     const avatarURL = ghactionsGetInput("avatar_url");
     const tts = ghactionsGetBooleanInput("tts", { required: true });

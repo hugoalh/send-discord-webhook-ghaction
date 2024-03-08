@@ -234,7 +234,7 @@ https://discordapp.com/api/webhooks/70971114/ueyzeWxB_8bb1zMhL  ⬅長（舊）
 
 ### `files`
 
-**［選擇性］** `<字串[]>` 作為訊息附件的文件，必須是 GitHub Actions 工作區的相對路徑（即是：`GITHUB_WORKSPACE`），以每行分隔每個值，最多 8 MB 和 10 個文件。
+**［選擇性］** `<字串[]>` 作為訊息附件的文件，以每行分隔每個值，最多 8 MB 和 10 個文件。
 
 > **⚠️ 重要**
 >
