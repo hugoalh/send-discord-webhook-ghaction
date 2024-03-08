@@ -12,7 +12,7 @@ jobs:
         shell: "pwsh"
         run: |-
           Invoke-WebRequest -Uri 'https://cdn.simpleicons.org/githubactions' -MaximumRedirection 1 -MaximumRetryCount 5 -RetryIntervalSec 5 -Method 'Get' -OutFile 'thumbnail.svg'
-          convert -background none -alpha active thumbnail.svg thumbnail.png
+          convert -alpha activate -background none thumbnail.svg thumbnail.png
         continue-on-error: true
       - uses: "hugoalh/send-discord-webhook-ghaction@bundle"
         with:
