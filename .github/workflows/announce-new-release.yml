@@ -15,7 +15,7 @@ jobs:
         shell: "pwsh"
         run: |-
           Invoke-WebRequest -Uri 'https://cdn.simpleicons.org/githubactions' -MaximumRedirection 1 -MaximumRetryCount 5 -RetryIntervalSec 5 -Method 'Get' -OutFile 'thumbnail.svg'
-          convert thumbnail.svg thumbnail.png
+          convert -background none -alpha active thumbnail.svg thumbnail.png
         continue-on-error: true
       - name: "Send Discord Webhook"
         uses: "hugoalh/send-discord-webhook-ghaction@bundle"
@@ -26,7 +26,7 @@ jobs:
               description: |
                 > ${{github.event.repository.description}}
 
-                Version ${{github.event.release.name}} (`${{github.event.release.tag_name}}`) just released! [Please visit here for the changelog](${{github.event.release.html_url}}).
+                Version ${{github.event.release.name}} (`${{github.event.release.tag_name}}`) just released!
               timestamp: "${{github.event.release.published_at}}"
               color: "#2088FF"
               thumbnail:
@@ -36,8 +36,11 @@ jobs:
                 url: "${{github.event.release.author.html_url}}"
                 icon_url: "${{github.event.release.author.avatar_url}}"
               fields:
+                - name: "📋 Changelog"
+                  value: "${{github.event.release.html_url}}"
+                  inline: false
                 - name: "GitHub"
                   value: "${{github.event.repository.html_url}}"
                   inline: false
           files: |-
-            ${{(steps.thumbnail.outcome == 'success' && 'thumbnail.png') || ''}}
+            ${{(steps.thumbnail.outcome == 'success' && '*.png') || ''}}
