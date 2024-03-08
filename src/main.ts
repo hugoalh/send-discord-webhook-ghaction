@@ -402,7 +402,6 @@ try {
 	}
 	for (const file of files) {
 		try {
-			// await fsAccess(pathJoin(ghactionsWorkspaceDirectory, file), fsConstants.R_OK);
 			await fsAccess(file, fsConstants.R_OK);
 		} catch {
 			throw new Error(`File \`${file}\` is not accessible, exist, and/or readable!`);
@@ -469,7 +468,7 @@ try {
 	ghactionsDebug(`Payload: ${requestPayloadStringify}`);
 	const requestQuery: string = discordWebhookURLQuery.toString();
 	const attachments = [];
-	const requestBody: string | Buffer = ((): string | Buffer => {
+	const requestBody: string | FormDataAlt = ((): string | FormDataAlt => {
 		switch (method) {
 			case "form": {
 				requestHeaders.append("Content-Type", "multipart/form-data");
@@ -483,7 +482,7 @@ try {
 				}
 				requestForm.append("attachments", JSON.stringify(attachments));
 				requestForm.append("payload_json", requestPayloadStringify);
-				return requestForm.getBuffer();
+				return requestForm;
 			}
 			case "json":
 				requestHeaders.append("Content-Type", "application/json");
@@ -494,7 +493,7 @@ try {
 	})();
 	console.log(`Post network request to Discord.`);
 	const response: Response = await fetch(`https://discord.com/api/webhooks/${key}${(requestQuery.length > 0) ? `?${requestQuery}` : ""}`, {
-		body: requestBody,
+		body: requestBody as BodyInit,
 		headers: requestHeaders,
 		method: "POST",
 		redirect: "follow"
