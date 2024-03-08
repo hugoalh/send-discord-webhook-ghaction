@@ -8,9 +8,12 @@ jobs:
     permissions: {}
     runs-on: "ubuntu-latest"
     steps:
-      - shell: "pwsh"
+      - id: "thumbnail"
+        shell: "pwsh"
         run: |-
-          Invoke-WebRequest -Uri 'https://avatars.githubusercontent.com/u/32359235' -MaximumRedirection 1 -MaximumRetryCount 5 -RetryIntervalSec 5 -Method 'Get' -OutFile 'thumbnail.png'
+          Invoke-WebRequest -Uri 'https://cdn.simpleicons.org/githubactions' -MaximumRedirection 1 -MaximumRetryCount 5 -RetryIntervalSec 5 -Method 'Get' -OutFile 'thumbnail.svg'
+          convert thumbnail.svg thumbnail.png
+        continue-on-error: true
       - uses: "hugoalh/send-discord-webhook-ghaction@bundle"
         with:
           key: "${{secrets.DISCORD_TEST_WEBHOOK}}"
@@ -50,7 +53,7 @@ jobs:
                   }
                 ],
                 "thumbnail": {
-                  "url": "attachment://thumbnail.png"
+                  "url": "${{(steps.thumbnail.outcome == 'success' && 'attachment://thumbnail.png') || ''}}"
                 },
                 "image": {
                   "url": "https://upload.wikimedia.org/wikipedia/commons/5/5a/A_picture_from_China_every_day_108.jpg"
@@ -62,4 +65,4 @@ jobs:
               }
             ]
           files: |-
-            thumbnail.png
+            ${{(steps.thumbnail.outcome == 'success' && 'thumbnail.png') || ''}}

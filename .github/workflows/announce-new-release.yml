@@ -1,17 +1,24 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
-name: "Announce New Release - Discord"
+name: "Announce New Release"
 on:
   release:
     types:
       - "published"
 jobs:
-  main:
-    name: "Main"
+  discord:
+    name: "Discord"
     permissions: {}
     runs-on: "ubuntu-latest"
     steps:
+      - name: "Get Thumbnail"
+        id: "thumbnail"
+        shell: "pwsh"
+        run: |-
+          Invoke-WebRequest -Uri 'https://cdn.simpleicons.org/githubactions' -MaximumRedirection 1 -MaximumRetryCount 5 -RetryIntervalSec 5 -Method 'Get' -OutFile 'thumbnail.svg'
+          convert thumbnail.svg thumbnail.png
+        continue-on-error: true
       - name: "Send Discord Webhook"
-        uses: "hugoalh/send-discord-webhook-ghaction@main"
+        uses: "hugoalh/send-discord-webhook-ghaction@bundle"
         with:
           key: "${{secrets.DISCORD_HXHS_PROJECTNEWRELEASEANNOUNCER_WEBHOOK}}"
           embeds: |
@@ -19,22 +26,18 @@ jobs:
               description: |
                 > ${{github.event.repository.description}}
 
-                Version ${{github.event.release.name}} (${{github.event.release.tag_name}}) just released!
+                Version ${{github.event.release.name}} (`${{github.event.release.tag_name}}`) just released! [Please visit here for the changelog](${{github.event.release.html_url}}).
               timestamp: "${{github.event.release.published_at}}"
               color: "#2088FF"
               thumbnail:
-                url: "https://i.imgur.com/6qM8z4w.png"
+                url: "${{(steps.thumbnail.outcome == 'success' && 'attachment://thumbnail.png') || ''}}"
               author:
                 name: "${{github.event.release.author.login}}"
                 url: "${{github.event.release.author.html_url}}"
                 icon_url: "${{github.event.release.author.avatar_url}}"
               fields:
-                - name: "GitHub - Repository"
+                - name: "GitHub"
                   value: "${{github.event.repository.html_url}}"
                   inline: false
-                - name: "GitHub - Release"
-                  value: "${{github.event.release.html_url}}"
-                  inline: false
-                - name: "GitHub Marketplace"
-                  value: "https://github.com/marketplace/actions/send-discord-webhook"
-                  inline: false
+          files: |-
+            ${{(steps.thumbnail.outcome == 'success' && 'thumbnail.png') || ''}}
