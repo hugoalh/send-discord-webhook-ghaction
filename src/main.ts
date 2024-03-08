@@ -1,5 +1,6 @@
 import { randomInt } from "node:crypto";
-import { access as fsAccess, constants as fsConstants, readFile as fsReadFile } from "node:fs/promises";
+import { createReadStream as fsCreateReadStream } from "node:fs";
+import { access as fsAccess, constants as fsConstants } from "node:fs/promises";
 import { basename as pathBaseName } from "node:path";
 import { debug as ghactionsDebug, error as ghactionsError, getBooleanInput as ghactionsGetBooleanInput, getInput as ghactionsGetInput, setOutput as ghactionsSetOutput, setSecret as ghactionsSetSecret } from "@actions/core";
 import { create as ghactionsGlob } from "@actions/glob";
@@ -8,6 +9,7 @@ import { StringTruncator } from "@hugoalh/string-overflow";
 import Color from "color";
 //@ts-expect-error Package `color-name-list` is JSON.
 import colorNameList from "color-name-list" assert { type: "json" };
+import FormDataAlt from "form-data";
 import yaml from "yaml";
 console.log("Initialize.");
 const colorNamespaceList = new Map();
@@ -467,21 +469,21 @@ try {
 	ghactionsDebug(`Payload: ${requestPayloadStringify}`);
 	const requestQuery: string = discordWebhookURLQuery.toString();
 	const attachments = [];
-	const requestBody: string | FormData = await (async (): Promise<string | FormData> => {
+	const requestBody: string | Buffer = ((): string | Buffer => {
 		switch (method) {
 			case "form": {
 				requestHeaders.append("Content-Type", "multipart/form-data");
-				const requestForm: FormData = new FormData();
+				const requestForm: FormDataAlt = new FormDataAlt();
 				for (let index = 0; index < files.length; index += 1) {
 					attachments.push({
 						filename: pathBaseName(files[index]),
 						id: index
 					});
-					requestForm.append(`files[${index}]`, new Blob([await fsReadFile(files[index])]), pathBaseName(files[index]));
+					requestForm.append(`files[${index}]`, fsCreateReadStream(files[index]), { filename: pathBaseName(files[index]) });
 				}
 				requestForm.append("attachments", JSON.stringify(attachments));
 				requestForm.append("payload_json", requestPayloadStringify);
-				return requestForm;
+				return requestForm.getBuffer();
 			}
 			case "json":
 				requestHeaders.append("Content-Type", "application/json");
