@@ -10,13 +10,6 @@ jobs:
     permissions: {}
     runs-on: "ubuntu-latest"
     steps:
-      - name: "Get Thumbnail"
-        id: "thumbnail"
-        shell: "pwsh"
-        run: |-
-          Invoke-WebRequest -Uri 'https://cdn.simpleicons.org/githubactions' -MaximumRedirection 1 -MaximumRetryCount 5 -RetryIntervalSec 5 -Method 'Get' -OutFile 'thumbnail.svg'
-          convert -alpha activate -background none thumbnail.svg thumbnail.png
-        continue-on-error: true
       - name: "Send Discord Webhook"
         uses: "hugoalh/send-discord-webhook-ghaction@bundle"
         with:
@@ -29,8 +22,6 @@ jobs:
                 Version ${{github.event.release.name}} (`${{github.event.release.tag_name}}`) just released!
               timestamp: "${{github.event.release.published_at}}"
               color: "#2088FF"
-              thumbnail:
-                url: "${{(steps.thumbnail.outcome == 'success' && 'attachment://thumbnail.png') || ''}}"
               author:
                 name: "${{github.event.release.author.login}}"
                 url: "${{github.event.release.author.html_url}}"
@@ -42,5 +33,3 @@ jobs:
                 - name: "GitHub"
                   value: "${{github.event.repository.html_url}}"
                   inline: false
-          files: |-
-            ${{(steps.thumbnail.outcome == 'success' && '*.png') || ''}}
