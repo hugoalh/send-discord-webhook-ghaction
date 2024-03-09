@@ -12,6 +12,8 @@ on:
       - "opened"
       - "reopened"
       - "synchronize"
+  schedule:
+    - cron: "0 0 * * SUN"
   workflow_dispatch:
 jobs:
   main:
