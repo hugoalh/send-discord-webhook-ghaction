@@ -2,17 +2,30 @@
 
 ## Supported Versions
 
-> | **Legend** | **Description** |
-> |:-:|:--|
-> | 🟤 | Pending / Pre Release / Unstable |
-> | 🔵 | Current Release |
-> | 🟢 | Long Term Support |
-> | 🟠 | Maintenance |
-> | 🔴 | End Of Life / Not Supported |
+> ```mermaid
+> ---
+> title: Versions Status Flow
+> ---
+> flowchart LR
+>   Unstable("Unstable")
+>   Pre("Pre Release")
+>   Release("Release")
+>   LTS("Long Term Support")
+>   Maintenance("Maintenance")
+>   EOL("End Of Life / Not Supported")
+>   Unstable --> Pre
+>   Pre --> Release
+>   subgraph Support
+>     Release -- Major = 0 --> Maintenance
+>     Release -- Major > 0 --> LTS
+>     LTS --> Maintenance
+>   end
+>   Maintenance --> EOL
+> ```
 
-| **Versions** | **Status** | **🔵 Date** | **🟢 Date** | **🔴 Date** | **Target - GitHub Actions Runner** | **Target - NodeJS** |
-|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
-| v6.X.X | 🟢 | 2023-11-08 | 2023-12-17 | *Unknown* | >= v2.310.0 | ^ v20.9.0 |
+| **Versions** | **Release Date** | **Long Term Support Date** | **End Of Life Date / Not Supported Date** |
+|:-:|:-:|:-:|:-:|
+| v6.X.X | 2023-11-08 | 2023-12-17 | *Unknown* |
 
 > **ℹ️ Note**
 >
