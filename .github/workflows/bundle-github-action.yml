@@ -43,7 +43,7 @@ jobs:
           Set-GitHubActionsOutput -Name 'npm' -Value $NpmCachePath
       - name: "Restore NPM Cache"
         id: "restore-npm-cache"
-        uses: "actions/cache/restore@v4.0.1"
+        uses: "actions/cache/restore@v4.0.2"
         with:
           key: "NPM/${{runner.os}}-${{github.run_id}}-${{github.run_attempt}}-${{github.job}}"
           path: "${{steps.cache-path.outputs.npm}}"
@@ -116,7 +116,7 @@ jobs:
           }
       - name: "Save NPM Cache"
         if: "${{!cancelled() && steps.restore-npm-cache.outcome == 'success'}}"
-        uses: "actions/cache/save@v4.0.1"
+        uses: "actions/cache/save@v4.0.2"
         with:
           key: "NPM/${{runner.os}}-${{github.run_id}}-${{github.run_attempt}}-${{github.job}}"
           path: "${{steps.cache-path.outputs.npm}}"
