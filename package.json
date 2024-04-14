@@ -33,7 +33,7 @@
 		"@hugoalh/advanced-determine": "^14.0.1",
 		"@hugoalh/string-overflow": "^2.0.0",
 		"color": "^4.2.3",
-		"color-name-list": "^10.19.0",
+		"color-name-list": "^10.21.0",
 		"yaml": "^2.4.1"
 	},
 	"devDependencies": {
