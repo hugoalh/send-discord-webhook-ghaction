@@ -34,7 +34,7 @@
 		"@hugoalh/string-overflow": "^2.0.0",
 		"color": "^4.2.3",
 		"color-name-list": "^10.19.0",
-		"yaml": "^2.4.1"
+		"yaml": "^2.4.2"
 	},
 	"devDependencies": {
 		"@stylistic/eslint-plugin": "^1.6.3",
