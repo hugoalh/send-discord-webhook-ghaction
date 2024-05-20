@@ -228,7 +228,7 @@ nia.cache
 nimblecache/
 nimcache/
 nlia.cache
-# node_modules/
+!node_modules/**
 npm-debug.log*
 nra.cache
 Package Control.cache/
