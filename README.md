@@ -6,56 +6,53 @@
 
 [**⚖️** MIT](./LICENSE.md)
 
-**🗂️**
-[![GitHub: hugoalh/send-discord-webhook-ghaction](https://img.shields.io/badge/hugoalh/send--discord--webhook--ghaction-181717?logo=github&logoColor=ffffff&style=flat "GitHub: hugoalh/send-discord-webhook-ghaction")](https://github.com/hugoalh/send-discord-webhook-ghaction)
-
-**🆙** ![Latest Release Version](https://img.shields.io/github/release/hugoalh/send-discord-webhook-ghaction?sort=semver&color=2187C0&label=&style=flat "Latest Release Version") (![Latest Release Date](https://img.shields.io/github/release-date/hugoalh/send-discord-webhook-ghaction?color=2187C0&label=&style=flat "Latest Release Date"))
+[![GitHub: hugoalh/send-discord-webhook-ghaction](https://img.shields.io/github/v/release/hugoalh/send-discord-webhook-ghaction?label=hugoalh/send-discord-webhook-ghaction&labelColor=181717&logo=github&logoColor=ffffff&sort=semver&style=flat "GitHub: hugoalh/send-discord-webhook-ghaction")](https://github.com/hugoalh/send-discord-webhook-ghaction)
 
 A GitHub Action to send Discord webhook.
 
 > [!IMPORTANT]
 > This documentation is v6.0.0 based; To view other version's documentation, please visit the [versions list](https://github.com/hugoalh/send-discord-webhook-ghaction/tags) and select the correct version.
 
-## 🌟 Feature
+## 🌟 Features
 
 - Support attachments/files.
 - Support thread.
 
-## 🎯 Target
+## 🔰 Begin
 
-- GitHub Actions Runner
-  > **🛡️ Require Permission**
-  >
-  > *N/A*
+### 🎯 Targets
 
-  > **💽 Require Software**
-  >
-  > - NodeJS ^ v20.9.0
+|  | **GitHub** |
+|:--|:--|
+| **[GitHub Actions Runner - GitHub Hosted Linux](https://github.com/actions/runner)** **💽** | [✔️](https://docs.github.com/en/actions) |
+| **[GitHub Actions Runner - GitHub Hosted macOS](https://github.com/actions/runner)** **💽** | [✔️](https://docs.github.com/en/actions) |
+| **[GitHub Actions Runner - GitHub Hosted Windows](https://github.com/actions/runner)** **💽** | [✔️](https://docs.github.com/en/actions) |
+| **[GitHub Actions Runner - Self Hosted Linux](https://github.com/actions/runner)** **💽** | [✔️](https://docs.github.com/en/actions) |
+| **[GitHub Actions Runner - Self Hosted macOS](https://github.com/actions/runner)** **💽** | [✔️](https://docs.github.com/en/actions) |
+| **[GitHub Actions Runner - Self Hosted Windows](https://github.com/actions/runner)** **💽** | [✔️](https://docs.github.com/en/actions) |
 
-## 🔰 Usage
+> **💽 Softwares**
+>
+> - NodeJS ^ v20.9.0
 
-### Composite Action
+> [!NOTE]
+> It is possible to use this action in other methods/ways which not listed in here, however it is not officially supported.
 
-1. Import at the metadata (`action.yml`):
-    ```yml
-    runs:
-      using: "composite"
-      steps:
-        - uses: "hugoalh/send-discord-webhook-ghaction@<Tag>"
-    ```
+### #️⃣ Registries Identifier
 
-### Workflow
+- **GitHub:**
+  ```
+  hugoalh/send-discord-webhook-ghaction
+  ```
 
-1. Import at the workflow (`.github/workflows/<WorkflowName>.yml`):
-    ```yml
-    jobs:
-      job_id:
-        runs-on: "________" # Any
-        steps:
-          - uses: "hugoalh/send-discord-webhook-ghaction@<Tag>"
-    ```
+> [!NOTE]
+> It is recommended to use this action with tag for immutability.
 
-## 🧩 Input
+### 🛡️ Permissions
+
+*This action does not require any permission.*
+
+## 🧩 Inputs
 
 > | **Legend** | **Description** |
 > |:-:|:--|
@@ -269,7 +266,7 @@ Exclusive namespace:
 - **`"middle"`:** At the middle of the string.
 - **`"start"`:** At the start of the string.
 
-## 🧩 Output
+## 🧩 Outputs
 
 ### `response`
 
@@ -287,7 +284,7 @@ Exclusive namespace:
 
 `<string>` Request status text.
 
-## ✍️ Example
+## ✍️ Examples
 
 - Hello, world!
   ```yml
@@ -361,7 +358,7 @@ Exclusive namespace:
   ```
   ![Example birdie0 Result](https://birdie0.github.io/discord-webhooks-guide/img/webhook_example.png "Example birdie0 Result")
 
-## 📚 Guide
+## 📚 Guides
 
 - Discord
   - [Execute Webhook](https://discord.com/developers/docs/resources/webhook#execute-webhook)

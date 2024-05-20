@@ -2,7 +2,7 @@
 
 ---
 
-# MIT授權條款
+# MIT 授權條款
 
 版權所有 © 2020\~2024 hugoalh
 
@@ -38,4 +38,4 @@
 
 ## 來源
 
-本授權條款採用自[Choose A License](https://choosealicense.com/)，可以在[此處](https://choosealicense.com/licenses/mit)獲得。
+本授權條款採用自 [Choose A License](https://choosealicense.com/)，可以在[此處](https://choosealicense.com/licenses/mit)獲得。

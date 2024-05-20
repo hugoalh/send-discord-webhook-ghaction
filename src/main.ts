@@ -3,11 +3,11 @@ import { access as fsAccess, constants as fsConstants, readFile as fsReadFile } 
 import { basename as pathBaseName } from "node:path";
 import { debug as ghactionsDebug, error as ghactionsError, getBooleanInput as ghactionsGetBooleanInput, getInput as ghactionsGetInput, setOutput as ghactionsSetOutput, setSecret as ghactionsSetSecret } from "@actions/core";
 import { create as ghactionsGlob } from "@actions/glob";
-import { isJSON, type JSONArray, type JSONObject, type JSONValue } from "@hugoalh/advanced-determine";
+import { isJSON, type JSONArray, type JSONObject, type JSONValue } from "@hugoalh/is-json";
 import { StringTruncator } from "@hugoalh/string-overflow";
 import Color from "color";
 //@ts-expect-error Package `color-name-list` is JSON.
-import colorNameList from "color-name-list" assert { type: "json" };
+import colorNameList from "color-name-list" with { type: "json" };
 import yaml from "yaml";
 console.log("Initialize.");
 const colorNamespaceList = new Map();

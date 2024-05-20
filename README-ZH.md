@@ -6,10 +6,7 @@
 
 [**⚖️** MIT](./LICENSE-ZH.md)
 
-**🗂️**
-[![GitHub: hugoalh/send-discord-webhook-ghaction](https://img.shields.io/badge/hugoalh/send--discord--webhook--ghaction-181717?logo=github&logoColor=ffffff&style=flat "GitHub: hugoalh/send-discord-webhook-ghaction")](https://github.com/hugoalh/send-discord-webhook-ghaction)
-
-**🆙** ![最新發佈版本](https://img.shields.io/github/release/hugoalh/send-discord-webhook-ghaction?sort=semver&color=2187C0&label=&style=flat "最新發佈版本")（![最新發佈日期](https://img.shields.io/github/release-date/hugoalh/send-discord-webhook-ghaction?color=2187C0&label=&style=flat "最新發佈日期")）
+[![GitHub: hugoalh/send-discord-webhook-ghaction](https://img.shields.io/github/v/release/hugoalh/send-discord-webhook-ghaction?label=hugoalh/send-discord-webhook-ghaction&labelColor=181717&logo=github&logoColor=ffffff&sort=semver&style=flat "GitHub: hugoalh/send-discord-webhook-ghaction")](https://github.com/hugoalh/send-discord-webhook-ghaction)
 
 用於發送 Discord 網絡鉤手的 GitHub Action。
 
@@ -22,39 +19,41 @@
 - 支持附件／檔案。
 - 支持討論串。
 
-## 🎯 目標
+## 🔰 開始
 
-- GitHub Actions Runner
-  > **🛡️ 需要權限**
-  >
-  > *不適用*
+### 🎯 目標
 
-  > **💽 需要軟體**
-  >
-  > - NodeJS ^ v20.9.0
+|  | **GitHub** |
+|:--|:--|
+| **[GitHub Actions Runner - GitHub Hosted Linux](https://github.com/actions/runner)** **💽** | [✔️](https://docs.github.com/en/actions) |
+| **[GitHub Actions Runner - GitHub Hosted macOS](https://github.com/actions/runner)** **💽** | [✔️](https://docs.github.com/en/actions) |
+| **[GitHub Actions Runner - GitHub Hosted Windows](https://github.com/actions/runner)** **💽** | [✔️](https://docs.github.com/en/actions) |
+| **[GitHub Actions Runner - Self Hosted Linux](https://github.com/actions/runner)** **💽** | [✔️](https://docs.github.com/en/actions) |
+| **[GitHub Actions Runner - Self Hosted macOS](https://github.com/actions/runner)** **💽** | [✔️](https://docs.github.com/en/actions) |
+| **[GitHub Actions Runner - Self Hosted Windows](https://github.com/actions/runner)** **💽** | [✔️](https://docs.github.com/en/actions) |
 
-## 🔰 用法
+> **💽 軟體**
+>
+> - NodeJS ^ v20.9.0
 
-### 複合動作
+> **ℹ️ 資訊**
+>
+> 可以透過此處未列出的其他方法／方式使用此 Action，但並未得到官方支援。
 
-1. 在元資料中匯入（`action.yml`）：
-    ```yml
-    runs:
-      using: "composite"
-      steps:
-        - uses: "hugoalh/send-discord-webhook-ghaction@<Tag>"
-    ```
+### #️⃣ 註冊表識別碼
 
-### 工作流程
+- **GitHub：**
+  ```
+  hugoalh/send-discord-webhook-ghaction
+  ```
 
-1. 在工作流程中匯入（`.github/workflows/<WorkflowName>.yml`）：
-    ```yml
-    jobs:
-      job_id:
-        runs-on: "________" # 任何
-        steps:
-          - uses: "hugoalh/send-discord-webhook-ghaction@<Tag>"
-    ```
+> **ℹ️ 資訊**
+>
+> 建議將此 Action 與標籤一起使用以確保不變性。
+
+### 🛡️ 權限
+
+*此 Action 不需要任何權限。*
 
 ## 🧩 輸入
 
