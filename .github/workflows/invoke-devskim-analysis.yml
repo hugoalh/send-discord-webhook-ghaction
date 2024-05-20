@@ -1,0 +1,25 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+name: "Invoke DevSkim Analysis"
+on:
+  push:
+    branches:
+      - "**"
+  pull_request:
+    branches:
+      - "**"
+    types:
+      - "edited"
+      - "opened"
+      - "reopened"
+      - "synchronize"
+  schedule:
+    - cron: "0 0 * * SUN"
+  workflow_dispatch:
+jobs:
+  main:
+    name: "Main"
+    permissions:
+      actions: "read"
+      contents: "read"
+      security-events: "write"
+    uses: "hugoalh/hugoalh/.github/workflows/call-invoke-devskim-analysis-0.yml@main"
