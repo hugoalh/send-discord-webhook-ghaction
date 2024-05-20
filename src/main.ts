@@ -6,8 +6,8 @@ import { create as ghactionsGlob } from "@actions/glob";
 import { isJSON, type JSONArray, type JSONObject, type JSONValue } from "@hugoalh/is-json";
 import { StringTruncator } from "@hugoalh/string-overflow";
 import Color from "color";
-//@ts-expect-error Package `color-name-list` is JSON.
-import colorNameList from "color-name-list" with { type: "json" };
+//@ts-expect-error Package `color-name-list` is a JSON; Use `assert` instead of `with` due to target is old.
+import colorNameList from "color-name-list" assert { type: "json" };
 import yaml from "yaml";
 console.log("Initialize.");
 const colorNamespaceList = new Map();
