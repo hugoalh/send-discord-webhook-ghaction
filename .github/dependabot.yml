@@ -12,7 +12,7 @@ updates:
       - "Platform/GitHubActions"
       - "Status/Pending 🔵"
       - "Type/Dependency 📦"
-    open-pull-requests-limit: 100
+    open-pull-requests-limit: 256
     pull-request-branch-name:
       separator: "/"
   - package-ecosystem: "npm"
@@ -22,30 +22,11 @@ updates:
       day: "sunday"
       time: "00:00"
       timezone: "Etc/UTC"
-    groups:
-      development:
-        patterns:
-          - "@*/eslint-config-*"
-          - "@*/eslint-config"
-          - "@*/eslint-formatter-*"
-          - "@*/eslint-formatter"
-          - "@*/eslint-parser-*"
-          - "@*/eslint-parser"
-          - "@*/eslint-plugin-*"
-          - "@*/eslint-plugin"
-          - "@types/*"
-          - "@typescript-eslint/*"
-          - "eslint-config-*"
-          - "eslint-formatter-*"
-          - "eslint-parser-*"
-          - "eslint-plugin-*"
-          - "eslint"
-          - "typescript"
     labels:
       - "Platform/NodeJS"
       - "Status/Pending 🔵"
       - "Type/Dependency 📦"
-    open-pull-requests-limit: 100
+    open-pull-requests-limit: 256
     pull-request-branch-name:
       separator: "/"
-    versioning-strategy: "increase"
+    versioning-strategy: "widen"
