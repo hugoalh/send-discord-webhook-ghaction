@@ -33,7 +33,7 @@
 		"@hugoalh/is-json": "1.0.2",
 		"@hugoalh/string-overflow": "2.0.3",
 		"color": "4.2.3",
-		"color-name-list": "10.22.0",
+		"color-name-list": "10.24.2",
 		"yaml": "2.4.2"
 	},
 	"devDependencies": {
