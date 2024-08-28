@@ -33,4 +33,4 @@
 
 ## Report Vulnerabilities
 
-You can report security vulnerabilities by [create security vulnerability report](https://github.com/hugoalh/hugoalh/blob/main/universal-guide/contributing.md#create-a-security-vulnerability-report).
+You can report security vulnerabilities by [create security vulnerability report](https://github.com/hugoalh/hugoalh/blob/main/guides/hxhs-universal-contributing.md#create-a-security-vulnerability-report).

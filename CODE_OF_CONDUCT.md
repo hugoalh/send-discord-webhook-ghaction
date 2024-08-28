@@ -1,7 +1,3 @@
-**🌐** [English](./CODE_OF_CONDUCT.md) / [漢語](./CODE_OF_CONDUCT-ZH.md)
-
----
-
 # Contributor Covenant Code of Conduct
 
 ## Our Pledge
@@ -41,8 +37,6 @@ This Code of Conduct applies within all community spaces, and also applies when 
 ## Enforcement
 
 Instances of abusive, harassing, or otherwise unacceptable behavior maybe report to the community leaders responsible for enforcement via [fill this form](https://forms.gle/AXq9hWq2DsJrDNjP7).
-
-All new requests may need `~96 hours (~4 days)` to begin the process.
 
 All complaints will be reviewed and investigated promptly and fairly.
 

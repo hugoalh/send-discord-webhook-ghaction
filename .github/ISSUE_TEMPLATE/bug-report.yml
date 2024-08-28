@@ -5,59 +5,86 @@ labels:
   - "Status/Pending 🔵"
   - "Type/Bug 🐛"
 body:
+  - type: "input"
+    id: "version"
+    attributes:
+      label: "Version"
+      description: |-
+        Which versions occur this bug?
+
+        > [!NOTE]
+        > - Also accept common versions range syntax.
+        > - For multiple values, separate each value with `, ` (comma-space).
+        > - These versions must be currently supported (stated in the Security Policy file `SECURITY.md`).
+      placeholder: "1.2.3"
+    validations:
+      required: true
   - type: "textarea"
     id: "describe"
     attributes:
       label: "Describe"
       description: |-
-        What the bug is? Add images and/or videos to help for explain this bug if needed.
+        What the bug is? If needed, use images, videos, or other media to help for explain this bug.
 
         > [!NOTE]
-        > - Should not blur anything in the images and/or videos, except personal secrets.
-        > - For external images and/or videos, please ensure we are able to view those.
+        > - For external media, please ensure we are able to view those without any extra steps.
+        > - Should not blur anything in these media, except for personal informations.
       placeholder: |-
-        It cannot XXXXXXXX.
+        It unable to XXXXXXXX.
     validations:
       required: true
-  - type: "textarea"
-    id: "reproduce"
+  - type: "input"
+    id: "behaviour-expected"
     attributes:
-      label: "To Reproduce"
-      description: |-
-        Is this bug reproducible? If reproducible, please show the required steps by list, images, and/or videos!
-
-        > [!NOTE]
-        > - Should not blur anything in the images and/or videos, except personal secrets.
-        > - For external images and/or videos, please ensure we are able to view those.
-      placeholder: |-
-        1. Go to XXXXXXXX.
-        2. Click on XXXXXXXX.
-        3. Scroll to XXXXXXXX.
-        4. Encounter this error.
-    validations:
-      required: false
-  - type: "textarea"
-    id: "expected-behaviour"
-    attributes:
-      label: "Expected Behaviour"
+      label: "Behaviour Expected"
       description: |-
         What things should expected to happen?
       placeholder: |-
         It should XXXXXXXX.
     validations:
       required: false
-  - type: "textarea"
-    id: "version"
+  - type: "input"
+    id: "behaviour-actual"
     attributes:
-      label: "Version"
+      label: "Behaviour Actual"
       description: |-
-        Which versions are affected by this bug?
+        What things happened instead of the expected?
+      placeholder: |-
+        It XXXXXXXX.
+    validations:
+      required: false
+  - type: "textarea"
+    id: "reproduce"
+    attributes:
+      label: "To Reproduce"
+      description: |-
+        Is this bug reproducible? If reproducible, please show the reproduce steps; If needed, use images, videos, or other media to help for show the reproduce steps.
 
         > [!NOTE]
-        > - Accept versions range.
-        > - Versions must be listed as supported in the Security Policy (file `SECURITY.md`).
+        > - For external media, please ensure we are able to view those without any extra steps.
+        > - Should not blur anything in these media, except for personal informations.
       placeholder: |-
-        1.2.3
+        1. Go to XXXXXXXX.
+        2. Click on XXXXXXXX.
+        3. Scroll to XXXXXXXX.
+        4. Encounter this bug.
+    validations:
+      required: false
+  - type: "dropdown"
+    id: "frequency"
+    attributes:
+      label: "Frequency"
+      description: |-
+        How often does this bug occur?
+      options:
+        - "Unknown / Untested"
+        - "Always (~100%)"
+        - "Frequently (~75%)"
+        - "Half (~50%)"
+        - "Sometimes (~25%)"
+        - "Rarely (~5%)"
+      multiple: false
+      default: 0
     validations:
       required: false
   - type: "textarea"
@@ -65,30 +92,27 @@ body:
     attributes:
       label: "Execution Environment"
       description: |-
-        How is the execution environment?
+        How is the execution environment? Different execution environment may have differently. These are common categories:
 
-        - **Type:** Device type.
-          > Computer / Phone / Server / ...
-        - **Hardware:** Hardware specifications.
-        - **Platforms:** Operate system and softwares, with architecture and version.
-          > Windows 11 22H2 X64 / Android 14 ARM64 / Alpine 3.18.0 X64 / NodeJS 20.6.0 X64 / Deno 1.36.0 X64 / Git 2.42.0 X64 / Python 3.11.0 X64 / ...
-        - **IsSubSystem:** Whether the execution environment in the sub system?
-          > False / True
-        - **Variables:** Environment variables.
-          > NO_COLOR=1 / ...
+        | **Name** | **Description** | **Example** |
+        |:--|:--|:--|
+        | Type | Device type. | Computer / Phone / Server / ... |
+        | CPU | Central processing unit. | Intel i7-6700 / ... |
+        | RAM | Random access memory. | 8 GB / ... |
+        | Storage | Storage unit. | 500 GB SSD / ... |
+        | Network | Network type. | Ethernet / Wireless / ... |
+        | GPU | Graphics processing unit. | NVIDIA GeForce RTX 4090 / ... |
+        | OS | Operate system. | Windows 11 Professional 23H2 X64 / ... |
+        | Softwares |  | NodeJS 20.6.0 X64 / Deno 1.36.0 X64 / ... |
+        | In Virtual | Whether is in the virtual environment or operate system? | False / True |
+        | ENV | Environment variables. | NO_COLOR=1 / ... |
 
         > [!NOTE]
-        > - Accept multiple execution environments.
-        > - All of the properties are optional.
+        > - Accept multiple execution environments. For multiple execution environments, separate each execution environment per array element.
+        > - All of the categories are optional.
         > - It is recommended to provide this information for reproducible steps.
-
+        
         **\[🖌️ YAML\]**
-      placeholder: |-
-        - Type: Server
-          Platforms:
-            - Ubuntu 23.04 X64
-            - NodeJS 20.6.0 X64
-          IsSubSystem: false
       render: "yml"
     validations:
       required: false
@@ -97,6 +121,6 @@ body:
     attributes:
       label: "Additional Information"
       description: |-
-        If there have information that related to this bug but not suitable at other fields, please list those at here.
+        If there have information which relevant to this bug but not suitable at other fields, please list those at here.
     validations:
       required: false
