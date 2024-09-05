@@ -10,11 +10,10 @@ body:
     attributes:
       label: "Describe"
       description: |-
-        What feature do you want? Is your feature request related to a problem? If needed, use images, videos, or other media to help for explain this feature.
+        What feature do you want? Is your feature request related to a problem? If needed, use images, videos, or other media type to help for explain this feature.
 
         > [!NOTE]
-        > - For external media, please ensure we are able to view those without any extra steps.
-        > - Should not blur anything in these media, except for personal informations.
+        > - For external media, please ensure we are able to view those without any extra step.
     validations:
       required: true
   - type: "input"

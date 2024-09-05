@@ -1,7 +1,3 @@
-**🌐** [English](./README.md) / [漢語](./README-ZH.md)
-
----
-
 # Send Discord Webhook (GitHub Action)
 
 [**⚖️** MIT](./LICENSE.md)
@@ -36,21 +32,21 @@ A GitHub Action to send Discord webhook.
 > - NodeJS ^ v20.9.0
 
 > [!NOTE]
-> It is possible to use this action in other methods/ways which not listed in here, however it is not officially supported.
+> It is possible to use this action in other methods/ways which not listed in here, however those are not officially supported.
 
 ### #️⃣ Registries Identifier
 
 - **GitHub:**
   ```
-  hugoalh/send-discord-webhook-ghaction
+  hugoalh/send-discord-webhook-ghaction[@{Tag}]
   ```
 
 > [!NOTE]
 > It is recommended to use this action with tag for immutability.
 
-### 🛡️ Permissions
+### 🛡️ GitHub Token Permissions
 
-*This action does not require any permission.*
+*This action does not require any GitHub token permission.*
 
 ## 🧩 Inputs
 
@@ -308,9 +304,9 @@ Exclusive namespace:
         - uses: "hugoalh/send-discord-webhook-ghaction@v6.0.0"
           with:
             key: "${{secrets.DISCORD_WEBHOOK_KEY}}"
-            content: "Text message. Up to 2000 characters."
             username: "Webhook"
             avatar_url: "https://i.imgur.com/4M34hi2.png"
+            content: "Text message. Up to 2000 characters."
             embeds: |
               [
                 {

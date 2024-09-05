@@ -10,11 +10,10 @@ body:
     attributes:
       label: "Document"
       description: |-
-        Which documents occur this issue?
+        Which document occur this issue?
 
         > [!NOTE]
-        > - For multiple values, separate each value per line.
-      render: "text"
+        > - Accept multiple documents.
       placeholder: |-
         README.md
     validations:
@@ -24,11 +23,10 @@ body:
     attributes:
       label: "Describe"
       description: |-
-        What the issue is? If needed, use images, videos, or other media to help for explain this issue.
+        What the issue is? If needed, use images, videos, or other media type to help for explain this issue.
 
         > [!NOTE]
-        > - For external media, please ensure we are able to view those without any extra steps.
-        > - Should not blur anything in these media, except for personal informations.
+        > - For external media, please ensure we are able to view those without any extra step.
     validations:
       required: true
   - type: "textarea"

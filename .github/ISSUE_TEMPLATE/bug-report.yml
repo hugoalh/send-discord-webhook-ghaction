@@ -10,13 +10,11 @@ body:
     attributes:
       label: "Version"
       description: |-
-        Which versions occur this bug?
+        Which version occur this bug? Version must be supported at the time of submit, the supported versions are listed in the Security Policy file `SECURITY.md`.
 
         > [!NOTE]
-        > - Also accept common versions range syntax.
-        > - For multiple values, separate each value with `, ` (comma-space).
-        > - These versions must be currently supported (stated in the Security Policy file `SECURITY.md`).
-      placeholder: "1.2.3"
+        > - For multiple versions, separate each version with comma-space (`, `), or use versions range syntax from [OSGi](https://docs.osgi.org/whitepaper/semantic-versioning/040-semantic-versions.html) or [SemVer](https://devhints.io/semver).
+      placeholder: "1.0.2"
     validations:
       required: true
   - type: "textarea"
@@ -24,11 +22,10 @@ body:
     attributes:
       label: "Describe"
       description: |-
-        What the bug is? If needed, use images, videos, or other media to help for explain this bug.
+        What the bug is? If needed, use images, videos, or other media type to help for explain this bug.
 
         > [!NOTE]
-        > - For external media, please ensure we are able to view those without any extra steps.
-        > - Should not blur anything in these media, except for personal informations.
+        > - For external media, please ensure we are able to view those without any extra step.
       placeholder: |-
         It unable to XXXXXXXX.
     validations:
@@ -61,8 +58,7 @@ body:
         Is this bug reproducible? If reproducible, please show the reproduce steps; If needed, use images, videos, or other media to help for show the reproduce steps.
 
         > [!NOTE]
-        > - For external media, please ensure we are able to view those without any extra steps.
-        > - Should not blur anything in these media, except for personal informations.
+        > - For external media, please ensure we are able to view those without any extra step.
       placeholder: |-
         1. Go to XXXXXXXX.
         2. Click on XXXXXXXX.
@@ -86,32 +82,30 @@ body:
       multiple: false
       default: 0
     validations:
-      required: false
+      required: true
   - type: "textarea"
     id: "execution-environment"
     attributes:
       label: "Execution Environment"
       description: |-
-        How is the execution environment? Different execution environment may have differently. These are common categories:
+        How is the execution environment? Different execution environment may have different outcome, provide this information may help for reproduce this bug.
 
-        | **Name** | **Description** | **Example** |
-        |:--|:--|:--|
-        | Type | Device type. | Computer / Phone / Server / ... |
-        | CPU | Central processing unit. | Intel i7-6700 / ... |
-        | RAM | Random access memory. | 8 GB / ... |
-        | Storage | Storage unit. | 500 GB SSD / ... |
-        | Network | Network type. | Ethernet / Wireless / ... |
-        | GPU | Graphics processing unit. | NVIDIA GeForce RTX 4090 / ... |
-        | OS | Operate system. | Windows 11 Professional 23H2 X64 / ... |
-        | Softwares |  | NodeJS 20.6.0 X64 / Deno 1.36.0 X64 / ... |
-        | In Virtual | Whether is in the virtual environment or operate system? | False / True |
-        | ENV | Environment variables. | NO_COLOR=1 / ... |
+        These are common categories:
+
+        - **`type`:** Device type (e.g.: `computer`, `phone`, `server`).
+        - **`cpu`:** Details of the central processing unit (e.g.: `Intel i7-6700`).
+        - **`ram`:** Details of the random access memory (e.g.: `8 GB`).
+        - **`storage`:** Details of the storage unit (e.g.: `500 GB SSD`).
+        - **`network`:** Details of the network.
+        - **`gpu`:** Details of the graphics processing unit (e.g.: `NVIDIA GeForce RTX 4090`).
+        - **`os`:** Details of the operate system (e.g.: `Windows 11 Professional 23H2 X64`).
+        - **`softwares`:** List of the installed softwares (e.g.: `NodeJS 20.6.0 X64`, `Deno 1.36.0 X64`).
+        - **`env`:** List of the environment variables (e.g.: `NO_COLOR=1`).
 
         > [!NOTE]
-        > - Accept multiple execution environments. For multiple execution environments, separate each execution environment per array element.
+        > - Accept multiple execution environments.
         > - All of the categories are optional.
-        > - It is recommended to provide this information for reproducible steps.
-        
+
         **\[🖌️ YAML\]**
       render: "yml"
     validations:
