@@ -92,10 +92,14 @@ try {
 	const notification: boolean = (typeof getInputRaw("notification") === "undefined") ? true : getInputBoolean("notification");
 	const wait: boolean = (typeof getInputRaw("wait") === "undefined") ? true : getInputBoolean("wait");
 	if (
-		(typeof content === "undefined" && typeof embeds === "undefined" && typeof files === "undefined") ||
-		typeof poll === "undefined"
+		(typeof content === "undefined" && typeof embeds === "undefined" && typeof files === "undefined" && typeof poll === "undefined") ||
+		((
+			typeof content !== "undefined" ||
+			typeof embeds !== "undefined" ||
+			typeof files !== "undefined"
+		) && typeof poll !== "undefined")
 	) {
-		throw new Error(`One of the group of inputs must be defined: \`content\`, \`embeds\`, and/or \`files\`; \`poll\`!`);
+		throw new Error(`Only one of the group of inputs must be defined: \`content\`, \`embeds\`, and/or \`files\`; \`poll\`!`);
 	}
 	if (typeof threadID !== "undefined" && typeof threadName !== "undefined") {
 		throw new Error(`Only one of the group of inputs can be defined: \`thread_id\`; \`thread_name\` and \`thread_tags\` (Optional)!`);
