@@ -18,7 +18,7 @@ Deno.test("Content 4", { permissions: "none" }, () => {
 	assertEquals(resolveContent("The URL of Google is https://google.com.", ["github\\.com"]), "The URL of Google is https://google.com.");
 });
 Deno.test("Content 5", { permissions: "none" }, () => {
-	assertEquals(resolveContent("Repeat the URLs are also improved: https://github.com, https://github.com, https://github.com, https://github.com.", ["github.com"]), "Repeat the URLs are also improved: <https://github.com>, <https://github.com>, <https://github.com>, <https://github.com>.");
+	assertEquals(resolveContent("Repeat the URLs are also improved: https://github.com, https://github.com, https://github.com, https://github.com.", ["github\\.com"]), "Repeat the URLs are also improved: <https://github.com>, <https://github.com>, <https://github.com>, <https://github.com>.");
 });
 Deno.test("Embeds 1", { permissions: "none" }, () => {
 	assertEquals(resolveEmbeds([{}]), undefined);
