@@ -1,0 +1,30 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+name: "Review Deno Code"
+on:
+  push:
+    branches:
+      - "**"
+  pull_request:
+    branches:
+      - "**"
+    types:
+      - "edited"
+      - "opened"
+      - "reopened"
+      - "synchronize"
+  workflow_dispatch:
+jobs:
+  main:
+    name: "${{matrix.run_on}}"
+    permissions:
+      contents: "read"
+    strategy:
+      matrix:
+        run_on:
+          - "ubuntu-latest"
+      fail-fast: false
+    uses: "hugoalh/hugoalh/.github/workflows/call-review-deno-code-2.yml@main"
+    with:
+      run_on: "${{matrix.run_on}}"
+      deployment_jsr: false
+      deployment_npm: false

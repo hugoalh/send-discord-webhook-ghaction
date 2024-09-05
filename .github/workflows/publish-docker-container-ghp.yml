@@ -1,0 +1,67 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+name: "Publish Docker Container - GitHub Packages"
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+    inputs:
+      tag:
+        type: "string"
+        description: "{string} Tag."
+        required: true
+      latest:
+        type: "choice"
+        description: "{boolean} Latest."
+        required: false
+        default: "false"
+        options:
+          - "false"
+          - "true"
+env:
+  REGISTRY: "ghcr.io"
+  IMAGE_NAME: "${{github.event.repository.full_name}}"
+jobs:
+  main:
+    name: "Main"
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: "Checkout Repository"
+        uses: "actions/checkout@v4.1.1"
+      - name: "Sign In To Registry ${{env.REGISTRY}}"
+        uses: "docker/login-action@v3.0.0"
+        with:
+          registry: "${{env.REGISTRY}}"
+          username: "${{github.actor}}"
+          password: "${{github.token}}"
+      - name: "Generate Docker Metadata"
+        id: "docker-meta"
+        uses: "docker/metadata-action@v5.3.0"
+        with:
+          images: "${{env.REGISTRY}}/${{env.IMAGE_NAME}}"
+          tags: |-
+            type=raw,enable=${{inputs.tag != ''}},value=${{inputs.tag}}
+            type=raw,enable=${{inputs.latest == 'true'}},value=latest
+            type=semver,enable=${{inputs.tag == ''}},pattern={{version}}
+            type=semver,enable=${{inputs.tag == ''}},pattern={{major}}.{{minor}}.{{patch}}
+            type=semver,enable=${{inputs.tag == ''}},pattern={{major}}.{{minor}}
+            type=semver,enable=${{inputs.tag == ''}},pattern={{major}}
+          labels: |-
+            org.opencontainers.image.authors=${{github.event.repository.owner.login}}
+            org.opencontainers.image.licenses=MIT
+            org.opencontainers.image.title=Send Discord Webhook (GitHub Action) Image
+            org.opencontainers.image.description=A Docker image for Send Discord Webhook (GitHub Action) to send Discord webhook.
+      - name: "Build & Push Docker Image - All"
+        uses: "docker/build-push-action@v5.0.0"
+        with:
+          context: "./"
+          file: "Dockerfile"
+          labels: "${{steps.docker-meta.outputs.labels}}"
+          platforms: |-
+            linux/amd64
+          pull: "true"
+          push: "true"
+          tags: "${{steps.docker-meta.outputs.tags}}"
+      - name: "List Docker Image"
+        run: |
+          docker image ls --all --digests --no-trunc

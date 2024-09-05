@@ -1,5 +1,5 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
-name: "Test"
+name: "Test Build"
 on:
   workflow_dispatch:
 jobs:
@@ -14,7 +14,7 @@ jobs:
           Invoke-WebRequest -Uri 'https://cdn.simpleicons.org/githubactions' -MaximumRedirection 1 -MaximumRetryCount 5 -RetryIntervalSec 5 -Method 'Get' -OutFile 'thumbnail.svg'
           convert -alpha activate -background none thumbnail.svg thumbnail.png
         continue-on-error: true
-      - uses: "hugoalh/send-discord-webhook-ghaction@main"
+      - uses: "hugoalh/send-discord-webhook-ghaction/_build@main"
         with:
           key: "${{secrets.DISCORD_TEST_WEBHOOK}}"
           content: "Text message. Up to 2000 characters."

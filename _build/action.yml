@@ -3,7 +3,7 @@ author: "hugoalh"
 description: "Send Discord webhook."
 inputs:
   key:
-    description: "{string} Discord webhook key."
+    description: "{string} Key."
     required: true
   username:
     description: "{string} Override the default webhook username."
@@ -15,7 +15,7 @@ inputs:
     description: "{string} Message content."
     required: false
   content_links_no_embed:
-    description: "{RegExp[]} Links' regular expressions to prevent Discord resolve and display matches links in the `content` as embed under the message."
+    description: "{RegExp[]} Links' regular expressions to prevent Discord resolve and display matches links in the content as embed under the message."
     required: false
   embeds:
     description: "{object[]} Message embed rich content."
@@ -33,34 +33,28 @@ inputs:
     description: "{boolean} Whether the message poll allow multiple select answers."
     required: false
   files:
-    description: "{string[]} Message attachments/files."
-    required: false
-  files_glob:
-    description: "{boolean} Whether input `files` should accept Glob path instead of literal path."
+    description: "{string[]} Message files as attachments."
     required: false
   allowed_mentions_parse:
-    description: "{string[]} Message allowed mention types."
+    description: "{string[]} Allowed mention types to parse from the message."
     required: false
   allowed_mentions_roles:
-    description: "{string[]} Message allowed mention roles."
+    description: "{string[]} Allowed roles' IDs to mention in the message."
     required: false
   allowed_mentions_users:
-    description: "{string[]} Message allowed mention users."
+    description: "{string[]} Allowed users' IDs to mention in the message."
     required: false
   tts:
-    description: "{boolean} Whether the message use TTS (Text To Speech)."
+    description: "{boolean} Whether to use TTS (Text To Speech) for the message."
     required: false
   thread_id:
-    description: "{string} Message channel thread ID."
+    description: "{string} Thread ID for the message channel."
     required: false
   thread_name:
-    description: "{string} Forum channel thread name."
+    description: "{string} Thread name for the forum channel."
     required: false
   thread_tags:
-    description: "{string[]} Forum channel thread tags."
-    required: false
-  notification:
-    description: "{boolean} Whether the message trigger push and desktop notifications."
+    description: "{string[]} Thread tags ID for the forum channel."
     required: false
   truncate_enable:
     description: "{boolean} Whether to try truncate firstly when inputs are too large."
@@ -74,9 +68,6 @@ inputs:
   wait:
     description: "{boolean} Whether to wait for Discord confirmation of message send before response."
     required: false
-  method_form:
-    description: "{boolean} Whether to force use of `multipart/form-data` instead of `application/json` on the webhook request."
-    required: false
 outputs:
   response:
     description: "{string} Response content."
@@ -88,7 +79,7 @@ outputs:
     description: "{string} Request status text."
 runs:
   using: "docker"
-  image: "docker://ghcr.io/hugoalh/send-discord-webhook-ghaction:7.0.0"
+  image: "../Dockerfile"
 branding:
   icon: "send"
   color: "blue"

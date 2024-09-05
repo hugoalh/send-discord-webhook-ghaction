@@ -7,11 +7,12 @@
 A GitHub Action to send Discord webhook.
 
 > [!IMPORTANT]
-> This documentation is v6.0.0 based; To view other version's documentation, please visit the [versions list](https://github.com/hugoalh/send-discord-webhook-ghaction/tags) and select the correct version.
+> This documentation is v7.0.0 based; To view other version's documentation, please visit the [versions list](https://github.com/hugoalh/send-discord-webhook-ghaction/tags) and select the correct version.
 
 ## 🌟 Features
 
 - Support attachments/files.
+- Support poll.
 - Support thread.
 
 ## 🔰 Begin
@@ -20,16 +21,7 @@ A GitHub Action to send Discord webhook.
 
 |  | **GitHub** |
 |:--|:--|
-| **[GitHub Actions Runner - GitHub Hosted Linux](https://github.com/actions/runner)** **💽** | [✔️](https://docs.github.com/en/actions) |
-| **[GitHub Actions Runner - GitHub Hosted macOS](https://github.com/actions/runner)** **💽** | [✔️](https://docs.github.com/en/actions) |
-| **[GitHub Actions Runner - GitHub Hosted Windows](https://github.com/actions/runner)** **💽** | [✔️](https://docs.github.com/en/actions) |
-| **[GitHub Actions Runner - Self Hosted Linux](https://github.com/actions/runner)** **💽** | [✔️](https://docs.github.com/en/actions) |
-| **[GitHub Actions Runner - Self Hosted macOS](https://github.com/actions/runner)** **💽** | [✔️](https://docs.github.com/en/actions) |
-| **[GitHub Actions Runner - Self Hosted Windows](https://github.com/actions/runner)** **💽** | [✔️](https://docs.github.com/en/actions) |
-
-> **💽 Softwares**
->
-> - NodeJS ^ v20.9.0
+| **[GitHub Actions Runner](https://github.com/actions/runner)** | [✔️ Docker](https://docs.github.com/en/actions) |
 
 > [!NOTE]
 > It is possible to use this action in other methods/ways which not listed in here, however those are not officially supported.
@@ -50,53 +42,55 @@ A GitHub Action to send Discord webhook.
 
 ## 🧩 Inputs
 
+Almost all of the inputs are optional, but these groups of inputs must be defined:
+
+- [`key`](#key)
+- One of:
+  - [`content`](#content), [`embeds`](#embeds), and/or [`files`](#files)
+  - [`poll_question`](#poll_question) and [`poll_answers`](#poll_answers)
+- One of:
+  - *None*
+  - [`thread_id`](#thread_id)
+  - [`thread_name`](#thread_name) and optional [`thread_tags`](#thread_tags)
+
 > | **Legend** | **Description** |
 > |:-:|:--|
 > | 🔐 | Should be an encrypted secret. |
 
 ### `key`
 
-**🔐** `<string>` Key; Both long and short forms are acceptable.
+**🔐** `<string>` Discord webhook key; These syntaxes are acceptable:
 
-```
-https://discord.com/api/webhooks/70971114/ueyzeWxB_8bb1zMhL  ⬅Long
-                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^  ⬅Short
+- **Webhook ID & Token:** `{webhook.id}/{webhook.token}`
+- **URL:** `https://discord.com/api/webhooks/{webhook.id}/{webhook.token}`
+- **URL (Legacy):** `https://discordapp.com/api/webhooks/{webhook.id}/{webhook.token}`
 
-https://discordapp.com/api/webhooks/70971114/ueyzeWxB_8bb1zMhL  ⬅Long (Legacy)
-                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^  ⬅Short (Legacy)
-```
+### `username`
+
+`<string>` Override the default webhook username, maximum 80 characters; "Clyde" is not allowed.
+
+### `avatar_url`
+
+`<string>` Override the default webhook avatar, only support URL of HTTP and HTTPS.
 
 ### `content`
 
-**\[Optional\]** `<string>` Content of the message, up to 2000 characters; Support Discord Markdown.
-
-> [!IMPORTANT]
-> At least either inputs of [`content`](#content), [`embeds`](#embeds), or [`files`](#files) must be provided.
+`<string>` Message content, maximum 2000 characters; Support Discord Markdown.
 
 ### `content_links_no_embed`
 
-**\[Optional\]** `<RegExp[]>` Specify links in the [`content`](#content) to prevent Discord resolve and display as embed under the message, only supports HTTP and HTTPS, separate each value per line.
+`<RegExp[]>` Links' regular expressions to prevent Discord resolve and display matches links in the [`content`](#content) as embed under the message, only support URL of HTTP and HTTPS, separate each value per line.
+
+Examples:
 
 - **All:** `.+`
 - **`.png` Image:** `\.png(?:\?|#|$)`
 - **`.webp` Image:** `\.webp(?:\?|#|$)`
 - **Twitch:** `twitch\.tv`
 
-### `username`
-
-**\[Optional\]** `<string>` Override the default username of the webhook, up to 80 characters; "Clyde" is not allowed.
-
-### `avatar_url`
-
-**\[Optional\]** `<string>` Override the default avatar of the webhook with source URL, only supports HTTP and HTTPS.
-
-### `tts`
-
-**\[Optional\]** `<boolean = false>` Whether to use TTS (Text To Speech) for the message.
-
 ### `embeds`
 
-**\[Optional\]** `<object[]>` Embed rich content for the message, by JSON or YAML with restricted format and pattern, up to 10 embeds and 6000 characters for summation from inputs:
+`<object[]>` Message embed rich content, by JSON or YAML with restricted syntaxes, maximum 10 embeds, and maximum 6000 characters for summation from inputs:
 
 - [`embeds[*].title`](#embedstitle)
 - [`embeds[*].description`](#embedsdescription)
@@ -105,162 +99,203 @@ https://discordapp.com/api/webhooks/70971114/ueyzeWxB_8bb1zMhL  ⬅Long (Legacy)
 - [`embeds[*].fields[*].name`](#embedsfieldsname)
 - [`embeds[*].fields[*].value`](#embedsfieldsvalue)
 
-> [!IMPORTANT]
-> At least either inputs of [`content`](#content), [`embeds`](#embeds), or [`files`](#files) must be provided.
-
 #### `embeds[*].title`
 
-**\[Optional\]** `<string>` Title of the embed, up to 256 characters; Support Discord Markdown.
+`<string>` Message embed title, maximum 256 characters; Support Discord Markdown.
 
 #### `embeds[*].description`
 
-**\[Optional\]** `<string>` Description of the embed, up to 4096 characters; Support Discord Markdown.
+`<string>` Message embed description, maximum 4096 characters; Support Discord Markdown.
 
 #### `embeds[*].url`
 
-**\[Optional\]** `<string>` URL of the embed.
+`<string>` Message embed URL.
 
 #### `embeds[*].timestamp`
 
-**\[Optional\]** `<string>` Timestamp of the embed, by ISO 8601 format (e.g.: `"2011-11-11T11:11:11Z"`).
+`<string>` Message embed timestamp, by ISO 8601 format (e.g.: `"2011-11-11T11:11:11Z"`).
 
 #### `embeds[*].color`
 
-**\[Optional\]** `<number | string = 2105893>` Color of the embed (i.e.: left border's color of the embed); RGB integer, Hex (with prefix `#` (sharp)), namespace, and CSS colors (e.g.: `"rgb(32, 34, 37)"`) forms are acceptable.
+`<number | string = 2105893>` Message embed colour (i.e.: left border's colour of the embed); These syntax are acceptable:
 
-Exclusive namespace:
+- **RGB Integer:** `{number}` (e.g.: `2105893`)
+- **Hex:** `#{hex}{hex}{hex}` / `#{hex}{hex}{hex}{hex}{hex}{hex}` (e.g.: `#0063B1`)
+- **Namespace:** (e.g.: `Blue`)
+- **CSS:** (e.g.: `rgb(32, 34, 37)`)
+- **Random:** `Random`
+- **Special:**
+  - <img src="https://www.colorhexa.com/202225.png" height="16px" width="16px" /> `Discord Embed Default` / `#202225` / `rgb(32, 34, 37)`
+  - <img src="https://www.colorhexa.com/2F3136.png" height="16px" width="16px" /> `Discord Embed Background Dark` / `#2F3136` / `rgb(47, 49, 54)`
+  - <img src="https://www.colorhexa.com/5865F2.png" height="16px" width="16px" /> `Discord Blurple` / `#5865F2` / `rgb(88, 101, 242)`
+  - <img src="https://www.colorhexa.com/EB459E.png" height="16px" width="16px" /> `Discord Fuchsia` / `#EB459E` / `rgb(254, 231, 92)`
+  - <img src="https://www.colorhexa.com/57F287.png" height="16px" width="16px" /> `Discord Green` / `#57F287` / `rgb(87, 242, 135)`
+  - <img src="https://www.colorhexa.com/ED4245.png" height="16px" width="16px" /> `Discord Red` / `#ED4245` / `rgb(237, 66, 69)`
+  - <img src="https://www.colorhexa.com/FEE75C.png" height="16px" width="16px" /> `Discord Yellow` / `#FEE75C` / `rgb(254, 231, 92)`
 
-|  | **Namespace** | **Value** | **Description** |
-|:-:|:-:|:-:|:--|
-| <img src="https://www.colorhexa.com/202225.png" height="16px" width="16px" /> | `"Default"` |  `"#202225"` / `"rgb(32, 34, 37)"` | Default. |
-| 🍭 | `"Random"` |  | Random. |
-| <img src="https://www.colorhexa.com/5865F2.png" height="16px" width="16px" /> | `"Discord Blurple"` | `"#5865F2"` / `"rgb(88, 101, 242)"` | Discord blurple. |
-| <img src="https://www.colorhexa.com/EB459E.png" height="16px" width="16px" /> | `"Discord Fuchsia"` | `"#EB459E"` / `"rgb(254, 231, 92)"` | Discord fuchsia. |
-| <img src="https://www.colorhexa.com/57F287.png" height="16px" width="16px" /> | `"Discord Green"` | `"#57F287"` / `"rgb(87, 242, 135)"` | Discord green. |
-| <img src="https://www.colorhexa.com/ED4245.png" height="16px" width="16px" /> | `"Discord Red"` | `"#ED4245"` / `"rgb(237, 66, 69)"` | Discord red. |
-| <img src="https://www.colorhexa.com/FEE75C.png" height="16px" width="16px" /> | `"Discord Yellow"` | `"#FEE75C"` / `"rgb(254, 231, 92)"` | Discord yellow. |
-| <img src="https://www.colorhexa.com/2F3136.png" height="16px" width="16px" /> | `"Embed Background Dark"` | `"#2F3136"` / `"rgb(47, 49, 54)"` | Embed background in dark mode. |
-
-> [!IMPORTANT]
+> [!NOTE]
 > - Alpha channel is not supported.
-> - General namespace are provided by [`meodai/color-names`](https://github.com/meodai/color-names), maybe change and/or remove without any notification, it is recommended to use value instead except you want a random color.
+> - General namespace are provided by NPM package [`color-name-list`](https://www.npmjs.com/package/color-name-list), list maybe change or remove without any notification, it is recommended to use value instead.
 
 #### `embeds[*].footer`
 
-**\[Optional\]** `<object>` Footer of the embed.
+`<object>` Message embed footer.
 
 #### `embeds[*].footer.text`
 
-**\[Optional\]** `<string>` Footer text, up to 2048 characters; Support Discord Markdown.
+`<string>` Message embed footer text, maximum 2048 characters; Support Discord Markdown.
 
 #### `embeds[*].footer.icon_url`
 
-**\[Optional\]** `<string>` Source URL of the footer icon, only supports HTTP, HTTPS, and attachments.
+`<string>` Message embed footer icon, only support URL of HTTP, HTTPS, and attachments.
 
 #### `embeds[*].image`
 
-**\[Optional\]** `<object>` Image of the embed.
+`<object>` Message embed image.
 
 #### `embeds[*].image.url`
 
-**\[Optional\]** `<string>` Source URL of the image, only supports HTTP, HTTPS, and attachments.
+`<string>` Message embed image URL, only support URL of HTTP, HTTPS, and attachments.
 
 #### `embeds[*].thumbnail`
 
-**\[Optional\]** `<object>` Thumbnail of the embed.
+`<object>` Message embed thumbnail.
 
 #### `embeds[*].thumbnail.url`
 
-**\[Optional\]** `<string>` Source URL of the thumbnail, only supports HTTP, HTTPS, and attachments.
+`<string>` Message embed thumbnail URL, only support URL of HTTP, HTTPS, and attachments.
 
 #### `embeds[*].author`
 
-**\[Optional\]** `<object>` Author of the embed.
+`<object>` Message embed author.
 
 #### `embeds[*].author.name`
 
-**\[Optional\]** `<string>` Author name, up to 256 characters.
+`<string>` Message embed author name, maximum 256 characters.
 
 #### `embeds[*].author.url`
 
-**\[Optional\]** `<string>` Author URL.
+`<string>` Message embed author URL.
 
 #### `embeds[*].author.icon_url`
 
-**\[Optional\]** `<string>` Source URL of the author icon, only supports HTTP, HTTPS, and attachments.
+`<string>` Message embed author icon, only support URL of HTTP, HTTPS, and attachments.
 
 #### `embeds[*].fields`
 
-**\[Optional\]** `<object[]>` Fields of the embed, up to 25 fields.
+`<object[]>` Message embed fields, maximum 25 fields.
 
 #### `embeds[*].fields[*].name`
 
-**\[Optional\]** `<string>` Field name, up to 256 characters; Support Discord Markdown.
+`<string>` Message embed field name, maximum 256 characters; Support Discord Markdown.
 
 #### `embeds[*].fields[*].value`
 
-**\[Optional\]** `<string>` Field value, up to 1024 characters; Support Discord Markdown.
+`<string>` Message embed field value, maximum 1024 characters; Support Discord Markdown.
 
 #### `embeds[*].fields[*].inline`
 
-**\[Optional\]** `<boolean = false>` Whether the field should display inline.
+`<boolean = false>` Whether the message embed field should display inline.
 
-### `allowed_mentions_parse`
+### `poll_question`
 
-**\[Optional\]** `<string[] = "roles,users,everyone">` Allowed mention types to parse from the content, separate each value with comma (`,`), vertical bar (`|`), semi-colon (`;`), whitespace, or per line.
+`<string>` Message poll question, maximum 300 characters.
 
-- **`"roles"`:** Control roles mentions.
-- **`"users"`:** Control users mentions.
-- **`"everyone"`:** Control `@everyone` and `@here` mentions.
+### `poll_answers`
 
-### `allowed_mentions_roles`
+`<object[]>` Message poll answers, by JSON or YAML with restricted syntaxes, maximum 10 answers, and maximum 55 characters per answer text.
 
-**\[Optional\]** `<string[]>` Allowed roles' IDs to mention, separate each value with comma (`,`), vertical bar (`|`), semi-colon (`;`), whitespace, or per line, up to 100 IDs.
+Poll answer can be `text` only, or `emoji` and `text`. For a poll answer with an emoji, either the `id` (custom emoji) or `name` (default emoji) as the only field.
 
-### `allowed_mentions_users`
+Example:
 
-**\[Optional\]** `<string[]>` Allowed users' IDs to mention, separate each value with comma (`,`), vertical bar (`|`), semi-colon (`;`), whitespace, or per line, up to 100 IDs.
+```yml
+- emoji: # Default
+    name: "cat"
+  text: "Cat"
+- emoji: # Default
+    name: "dog"
+  text: "Dog"
+- emoji: # Custom
+    id: "1"
+  text: "Me"
+- text: "Other"
+```
+
+### `poll_duration`
+
+`<number = 24>` Message poll duration, by hours, maximum 32 days (i.e.: 768 hours).
+
+### `poll_allow_multiselect`
+
+`<boolean = false>` Whether the message poll allow multiple select answers.
 
 ### `files`
 
-**\[Optional\]** `<string[]>` Files as attachments of the message, separate each value per line, up to 8 MB and 10 files.
+`<string[]>` Message attachments/files, by Glob path or literal path (select by input [files_glob](#files_glob)) under the workspace, separate each value per line, maximum 8 MB and 10 files.
 
-> [!IMPORTANT]
-> At least either inputs of [`content`](#content), [`embeds`](#embeds), or [`files`](#files) must be provided.
+### `files_glob`
 
-### `wait`
+`<boolean = true>` Whether input [files](#files) should accept Glob path instead of literal path.
 
-**\[Optional\]** `<boolean = true>` Whether to wait for Discord confirmation of message send before response, and returns the created message body. When this input is `false`, a message that is not saved does not return an error.
+### `allowed_mentions_parse`
+
+`<string[] = "everyone,roles,users">` Message allowed mention types, separate each value with comma (`,`) or per line.
+
+- **`everyone`:** Control `@everyone` and `@here` mentions.
+- **`roles`:** Control roles mentions.
+- **`users`:** Control users mentions.
+
+### `allowed_mentions_roles`
+
+`<string[]>` Message allowed mention roles, by role ID, separate each value with comma (`,`) or per line, maximum 100 roles.
+
+### `allowed_mentions_users`
+
+`<string[]>` Message allowed mention users, by user ID, separate each value with comma (`,`) or per line, maximum 100 users.
+
+### `tts`
+
+`<boolean = false>` Whether the message use TTS (Text To Speech).
 
 ### `thread_id`
 
-**\[Optional\]** `<string>` Thread ID for the message channel. When this input is defined, the message will send to the specify thread, the thread will automatically unarchive.
-
-> [!IMPORTANT]
-> Only either inputs of [`thread_id`](#thread_id) or [`thread_name`](#thread_name) can be provided.
+`<string>` Message channel thread ID. When this input is defined, the message will send to the specify thread, the thread will automatically unarchive.
 
 ### `thread_name`
 
-**\[Optional\]** `<string>` Thread name for the forum channel, up to 100 characters. When this input is defined, the message will create a new thread with the name.
+`<string>` Forum channel thread name, maximum 100 characters. When this input is defined, the message will create a new thread with the name.
 
-> [!IMPORTANT]
-> Only either inputs of [`thread_id`](#thread_id) or [`thread_name`](#thread_name) can be provided.
+### `thread_tags`
+
+`<string[]>` Forum channel thread tags, by thread tag ID.
+
+### `notification`
+
+`<boolean = true>` Whether the message trigger push and desktop notifications.
 
 ### `truncate_enable`
 
-**\[Optional\]** `<boolean = true>` Whether to try truncate firstly when inputs are too large.
+`<boolean = true>` Whether to try truncate firstly when inputs are too large. Truncate will not work on inputs:
+
+- [`poll_question`](#poll_question)
+- [`poll_answers`](#poll_answers)
 
 ### `truncate_ellipsis`
 
-**\[Optional\]** `<string = "...">` Ellipsis mark.
+`<string = "...">` Ellipsis mark.
 
 ### `truncate_position`
 
-**\[Optional\]** `<string = "end">` Ellipsis position.
+`<string = "end">` Ellipsis position.
 
 - **`"end"`:** At the end of the string.
 - **`"middle"`:** At the middle of the string.
 - **`"start"`:** At the start of the string.
+
+### `wait`
+
+`<boolean = true>` Whether to wait for Discord confirmation of message send before response, and returns the created message body. When this input is `false`, a message that is not saved does not return an error.
 
 ## 🧩 Outputs
 
@@ -289,7 +324,7 @@ Exclusive namespace:
       name: "Send Discord Webhook"
       runs-on: "ubuntu-latest"
       steps:
-        - uses: "hugoalh/send-discord-webhook-ghaction@v6.0.0"
+        - uses: "hugoalh/send-discord-webhook-ghaction@v7.0.0"
           with:
             key: "${{secrets.DISCORD_WEBHOOK_KEY}}"
             content: "Hello, world!"
@@ -301,7 +336,7 @@ Exclusive namespace:
       name: "Send Discord Webhook"
       runs-on: "ubuntu-latest"
       steps:
-        - uses: "hugoalh/send-discord-webhook-ghaction@v6.0.0"
+        - uses: "hugoalh/send-discord-webhook-ghaction@v7.0.0"
           with:
             key: "${{secrets.DISCORD_WEBHOOK_KEY}}"
             username: "Webhook"
