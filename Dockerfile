@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 # IMPORTANT: Do not create big size layer due to GitHub Packages have worse performance on this!
-FROM debian:12.6-slim as stage-base
+FROM debian:12.7-slim as stage-base
 ENV DEBIAN_FRONTEND=noninteractive
 ENV DENO_FUTURE=1
 RUN apt-get --assume-yes update && apt-get --assume-yes dist-upgrade && apt-get --assume-yes install apt-utils
