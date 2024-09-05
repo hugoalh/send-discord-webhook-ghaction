@@ -1,11 +1,11 @@
 # syntax=docker/dockerfile:1
 # IMPORTANT: Do not create big size layer due to GitHub Packages have worse performance on this!
-FROM debian:12.7-slim as stage-base
+FROM debian:12.7-slim AS stage-base
 ENV DEBIAN_FRONTEND=noninteractive
 ENV DENO_FUTURE=1
 RUN apt-get --assume-yes update && apt-get --assume-yes dist-upgrade && apt-get --assume-yes install apt-utils
 
-FROM stage-base as stage-extract-deno
+FROM stage-base AS stage-extract-deno
 ARG DENO_VERSION=1.46.1
 RUN apt-get --assume-yes install unzip
 ADD https://github.com/denoland/deno/releases/download/v${DENO_VERSION}/deno-x86_64-unknown-linux-gnu.zip /tmp/deno.zip
