@@ -2,7 +2,6 @@ import { assertEquals } from "STD/assert/equals";
 import {
 	resolveContent,
 	resolveEmbeds,
-	// resolveFiles,
 	resolvePoll
 } from "./_payload.ts";
 Deno.test("Content 1", { permissions: "none" }, () => {

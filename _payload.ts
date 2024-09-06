@@ -404,7 +404,7 @@ export async function resolveFiles(files: string[], glob: boolean): Promise<Form
 	}))).map((fileStat: PromiseSettledResult<void>): unknown => {
 		return ((fileStat.status === "rejected") ? fileStat.reason : undefined);
 	}).filter((reason: unknown): boolean => {
-		return (typeof reason === "undefined");
+		return (typeof reason !== "undefined");
 	});
 	if (filesStatRejected.length > 0) {
 		throw new AggregateError(filesStatRejected, `Unable to process files!`);
