@@ -137,7 +137,7 @@ try {
 	if (typeof embeds !== "undefined") {
 		requestPayload.embeds = embeds;
 	}
-	if (notification) {
+	if (!notification) {
 		requestPayload.flags = 1 << 12;
 	}
 	if (typeof threadName !== "undefined") {
