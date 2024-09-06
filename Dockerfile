@@ -3,11 +3,10 @@
 FROM debian:12.7-slim
 ENV APP_ROOT=/opt/hugoalh/send-discord-webhook-ghaction
 ENV DEBIAN_FRONTEND=noninteractive
-ENV DENO_FUTURE=1
 ENV DENO_NO_UPDATE_CHECK=1
 RUN apt-get --assume-yes update && apt-get --assume-yes dist-upgrade && apt-get --assume-yes install apt-utils
 COPY --from=denoland/deno:bin-1.46.3 /deno /opt/denoland/deno/deno
 RUN chmod +x /opt/denoland/deno/deno && ln -s /opt/denoland/deno/deno /usr/bin/deno
 COPY _color_namespace_list.ts _fswalk.ts _payload.ts _random_integer.ts deno.jsonc mod.ts ${APP_ROOT}/
-RUN cd $APP_ROOT && deno cache --vendor mod.ts
-CMD deno run --allow-env --allow-net=discord.com --allow-read --cached-only --config=$APP_ROOT/deno.jsonc --vendor $APP_ROOT/mod.ts
+RUN cd $APP_ROOT && deno cache --node-modules-dir --vendor mod.ts
+CMD deno run --allow-env --allow-net=discord.com --allow-read --cached-only --config=$APP_ROOT/deno.jsonc --node-modules-dir --vendor $APP_ROOT/mod.ts
