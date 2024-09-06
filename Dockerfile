@@ -9,4 +9,4 @@ COPY --from=denoland/deno:bin-1.46.3 /deno /opt/denoland/deno/deno
 RUN chmod +x /opt/denoland/deno/deno && ln -s /opt/denoland/deno/deno /usr/bin/deno
 COPY _color_namespace_list.ts _fswalk.ts _payload.ts _random_integer.ts deno.jsonc mod.ts ${APP_ROOT}/
 RUN cd $APP_ROOT && deno vendor mod.ts
-CMD deno run --allow-env --allow-net=discord.com --allow-read --cached-only --config=$APP_ROOT/deno.jsonc $APP_ROOT/mod.ts
+CMD deno run --allow-env --allow-net=discord.com --allow-read --cached-only --config=$APP_ROOT/deno.jsonc --import-map=$APP_ROOT/vendor/import_map.json $APP_ROOT/mod.ts
