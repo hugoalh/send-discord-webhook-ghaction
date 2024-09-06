@@ -7,7 +7,9 @@ import {
 	type JSONValue,
 } from "ISJSON";
 import getRegExpURL from "REGEXPURL";
+import { contentType } from "STD/media-types/content-type";
 import { basename as pathBasename } from "STD/path/basename";
+import { extname as pathExtname } from "STD/path/extname";
 import { isAbsolute as pathIsAbsolute } from "STD/path/is-absolute";
 import { globToRegExp } from "STD/path/glob-to-regexp";
 import { join as pathJoin } from "STD/path/join";
@@ -349,12 +351,13 @@ async function resolveFilesFormData(files: string[]): Promise<FormData> {
 	const formData: FormData = new FormData();
 	const attachments: JSONObject[] = [];
 	for (let index = 0; index < files.length; index += 1) {
-		const fileBasename: string = pathBasename(files[index]);
+		const file: string = files[index];
+		const fileBasename: string = pathBasename(file);
 		attachments.push({
 			filename: fileBasename,
 			id: index
 		});
-		formData.append(`files[${index}]`, new Blob([await Deno.readFile(files[index])]), fileBasename);
+		formData.append(`files[${index}]`, new Blob([await Deno.readFile(file)], { type: contentType(pathExtname(file)) }), fileBasename);
 	}
 	formData.append("attachments", JSON.stringify(attachments));
 	return formData;
