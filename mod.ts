@@ -7,19 +7,18 @@ import {
 	writeDebug,
 	writeError
 } from "GHACTIONS/log";
-import {
-	getInput,
-	getInputBoolean,
-	getInputNumber,
-	getInputRaw,
-	setOutput
-} from "GHACTIONS/parameter";
+import { setOutput } from "GHACTIONS/parameter";
 import type {
 	JSONArray,
 	JSONObject,
 } from "ISJSON";
 import { parse as yamlParse } from "STD/yaml/parse";
 import { StringTruncator } from "STRINGOVERFLOW";
+import {
+	getInput,
+	getInputBoolean,
+	getInputNumber
+} from "./_parameter.ts";
 import {
 	resolveContent,
 	resolveEmbeds,
@@ -45,31 +44,31 @@ writeDebug(`Environment Variables:\n${Object.entries(Deno.env.toObject()).map(([
 	return `${key} = ${value}`;
 }).join("\n")}`);
 try {
-	const truncateEnable: boolean = (typeof getInputRaw("truncate_enable") === "undefined") ? true : getInputBoolean("truncate_enable");
+	const truncateEnable: boolean = getInputBoolean("truncate_enable", { defaultValue: true });
 	const stringTruncator: StringTruncator | undefined = truncateEnable ? new StringTruncator(128, {
-		ellipsisMark: getInputRaw("truncate_ellipsis") ?? "...",
+		ellipsisMark: getInput("truncate_ellipsis", { defaultValue: "..." }),
 		//@ts-ignore Validate by package.
-		ellipsisPosition: getInputRaw("truncate_position") ?? "end"
+		ellipsisPosition: getInput("truncate_position", { defaultValue: "end" })
 	}) : undefined;
 	const key: string = resolveKey(getInput("key", { require: true }));
 	addSecretMask(key);
 	const username: string | undefined = resolveUsername(getInput("username"), stringTruncator);
-	const avatarURL: string | undefined = getInputRaw("avatar_url");
+	const avatarURL: string | undefined = getInput("avatar_url");
 	const content: string | undefined = resolveContent(getInput("content"), getInput("content_links_no_embed").split(splitterNewLine).filter((value: string): boolean => {
 		return (value.length > 0);
 	}), stringTruncator);
-	const embeds: JSONArray | undefined = resolveEmbeds(yamlParse(getInput("embeds")) ?? [], stringTruncator);
+	const embeds: JSONArray | undefined = resolveEmbeds(yamlParse(getInput("embeds")), stringTruncator);
 	const poll: JSONObject | undefined = resolvePoll({
-		allowMultiSelect: getInputBoolean("poll_allow_multiselect"),
+		allowMultiSelect: getInputBoolean("poll_allow_multiselect", { defaultValue: false }),
 		answers: yamlParse(getInput("poll_answers")),
-		duration: (typeof getInputRaw("poll_duration") === "undefined") ? undefined : getInputNumber("poll_duration"),
+		duration: getInputNumber("poll_duration", { defaultValue: -1 }),
 		question: getInput("poll_question")
 	});
 	const files: FormData | undefined = await resolveFiles(getInput("files").split(splitterNewLine).map((file: string) => {
 		return file.trim();
 	}).filter((file: string): boolean => {
 		return (file.length > 0);
-	}), (typeof getInputRaw("files_glob") === "undefined") ? true : getInputBoolean("files_glob"));
+	}), getInputBoolean("files_glob", { defaultValue: true }));
 	const allowedMentionsParse: string[] = resolveMentionsType(getInput("allowed_mentions_parse").split(splitterCommonDelimiter).map((value: string): string => {
 		return value.trim();
 	}).filter((value: string): boolean => {
@@ -93,8 +92,8 @@ try {
 	}).filter((value: string): boolean => {
 		return (value.length > 0);
 	}));
-	const notification: boolean = (typeof getInputRaw("notification") === "undefined") ? true : getInputBoolean("notification");
-	const wait: boolean = (typeof getInputRaw("wait") === "undefined") ? true : getInputBoolean("wait");
+	const notification: boolean = getInputBoolean("notification", { defaultValue: true });
+	const wait: boolean = getInputBoolean("wait", { defaultValue: true });
 	if (
 		(typeof content === "undefined" && typeof embeds === "undefined" && typeof files === "undefined" && typeof poll === "undefined") ||
 		((

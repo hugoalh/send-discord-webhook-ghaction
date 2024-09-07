@@ -68,6 +68,9 @@ export function resolveContent(content: string, contentLinksNoEmbed: string[] = 
 	return contentFmt;
 }
 export function resolveEmbeds(embeds: unknown, truncator?: StringTruncator): JSONArray | undefined {
+	if (embeds === null) {
+		return undefined;
+	}
 	if (!isJSONArray(embeds)) {
 		throw new TypeError(`Input \`embeds\` is not a valid Discord embeds!`);
 	}
@@ -466,7 +469,7 @@ export function resolveMentionsUser(users: string[]): string[] | undefined {
 export interface ResolvePollParameters {
 	allowMultiSelect: boolean;
 	answers: unknown;
-	duration?: number;
+	duration: number;
 	question: string;
 }
 export function resolvePoll({
@@ -559,7 +562,7 @@ export function resolvePoll({
 	if (question.length > thresholdPollQuestion) {
 		throw new SyntaxError(`Input \`poll.question.text\` must not longer than ${thresholdPollQuestion} characters (current ${question.length})!`);
 	}
-	if (typeof duration !== "undefined" && !(Number.isSafeInteger(duration) && duration >= 1 && duration <= thresholdPollDuration)) {
+	if (duration !== -1 && !(Number.isSafeInteger(duration) && duration >= 1 && duration <= thresholdPollDuration)) {
 		throw new TypeError(`Input \`poll.duration\` is not a number which is integer and between 1 and ${thresholdPollDuration}!`);
 	}
 	const result: JSONObject = {
@@ -567,7 +570,7 @@ export function resolvePoll({
 		answers: answersFmt,
 		allow_multiselect: allowMultiSelect
 	};
-	if (typeof duration !== "undefined") {
+	if (duration !== -1) {
 		result.duration = duration;
 	}
 	return result;

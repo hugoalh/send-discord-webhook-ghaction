@@ -9,18 +9,19 @@
 		"useTabs": true
 	},
 	"imports": {
-		"COLOR": "https://esm.sh/color@^4.2.3",
-		"COLORNAMESPACELISTCOMMUNITY": "https://unpkg.com/color-name-list@^10.25.1/dist/colornames.esm.js",
-		"EXFETCH": "jsr:@hugoalh/exfetch@^0.5.1",
-		"GHACTIONS": "jsr:@hugoalh/github-actions-core@^0.2.1",
-		"ISJSON": "jsr:@hugoalh/is-json@^1.0.2",
-		"REGEXPURL": "https://esm.sh/url-regex-safe@^4.0.0",
-		"STD/assert": "jsr:@std/assert@^1.0.4",
-		"STD/fs": "jsr:@std/fs@^1.0.3",
-		"STD/media-types": "jsr:@std/media-types@^1.0.3",
-		"STD/path": "jsr:@std/path@^1.0.4",
-		"STD/yaml": "jsr:@std/yaml@^1.0.5",
-		"STRINGOVERFLOW": "jsr:@hugoalh/string-overflow@^2.0.3"
+		"COLOR": "npm:color@4.2.3",
+		"COLORNAMESPACELISTCOMMUNITY": "npm:color-name-list@10.25.1/dist/colornames.esm.js",
+		"EXFETCH": "jsr:@hugoalh/exfetch@0.5.1",
+		"GHACTIONS": "jsr:@hugoalh/github-actions-core@0.2.1",
+		"ISJSON": "jsr:@hugoalh/is-json@1.0.2",
+		"ISSTRINGSINGLELINE":"jsr:@hugoalh/is-string-singleline@1.0.0",
+		"REGEXPURL": "npm:url-regex-safe@4.0.0",
+		"STD/assert": "jsr:@std/assert@1.0.4",
+		"STD/fs": "jsr:@std/fs@1.0.3",
+		"STD/media-types": "jsr:@std/media-types@1.0.3",
+		"STD/path": "jsr:@std/path@1.0.4",
+		"STD/yaml": "jsr:@std/yaml@1.0.5",
+		"STRINGOVERFLOW": "jsr:@hugoalh/string-overflow@2.0.3"
 	},
 	"lint": {
 		"rules": {
