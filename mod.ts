@@ -40,6 +40,10 @@ const exfetch: ExFetch = new ExFetch({
 });
 const splitterNewLine = /\r?\n/g;
 const splitterCommonDelimiter = /,|\r?\n/g;
+console.log("Parse input.");
+writeDebug(`Environment Variables:\n${Object.entries(Deno.env.toObject()).map(([key, value]: [string, string]): string => {
+	return `${key} = ${value}`;
+}).join("\n")}`);
 try {
 	const truncateEnable: boolean = (typeof getInputRaw("truncate_enable") === "undefined") ? true : getInputBoolean("truncate_enable");
 	const stringTruncator: StringTruncator | undefined = truncateEnable ? new StringTruncator(128, {

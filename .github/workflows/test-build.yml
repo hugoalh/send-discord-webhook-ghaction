@@ -14,7 +14,7 @@ jobs:
           Invoke-WebRequest -Uri 'https://cdn.prod.website-files.com/6257adef93867e50d84d30e2/636e0b52aa9e99b832574a53_full_logo_blurple_RGB.png' -MaximumRedirection 1 -MaximumRetryCount 5 -RetryIntervalSec 5 -Method 'Get' -OutFile 'thumbnail.png'
       - uses: "hugoalh/send-discord-webhook-ghaction/_build@main"
         with:
-          key: "${{secrets.DISCORD_TEST_WEBHOOK}}"
+          key: "${{secrets.DISCORD_TEST_WEBHOOK_TEXT}}"
           content: "Text message. Up to 2000 characters."
           username: "Webhook"
           avatar_url: "https://i.imgur.com/4M34hi2.png"
