@@ -199,6 +199,7 @@ Deno.test("Poll 1", { permissions: "none" }, () => {
 				text: "Other"
 			}
 		],
+		duration: -1,
 		question: "Who is better?"
 	}), {
 		question: { text: "Who is better?" },
