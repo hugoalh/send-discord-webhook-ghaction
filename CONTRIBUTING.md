@@ -4,4 +4,4 @@ This Contributing Guide is depend on the "[hxhS (hugoalh & hugoalh Studio) Unive
 
 ## Revises
 
-*This project does not have any revises.*
+*This project does not have any revise.*
