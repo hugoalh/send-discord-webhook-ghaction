@@ -39,10 +39,10 @@ const exfetch: ExFetch = new ExFetch({
 });
 const splitterNewLine = /\r?\n/g;
 const splitterCommonDelimiter = /,|\r?\n/g;
-console.log("Parse input.");
 writeDebug(`Environment Variables:\n\t${Object.entries(Deno.env.toObject()).map(([key, value]: [string, string]): string => {
 	return `${key} = ${value}`;
 }).join("\n\t")}`);
+console.log("Parse input.");
 try {
 	const truncateEnable: boolean = getInputBoolean("truncate_enable", { defaultValue: true });
 	const stringTruncator: StringTruncator | undefined = truncateEnable ? new StringTruncator(128, {
@@ -69,7 +69,7 @@ try {
 	}).filter((file: string): boolean => {
 		return (file.length > 0);
 	}), getInputBoolean("files_glob", { defaultValue: true }));
-	const allowedMentionsParse: string[] = resolveMentionsType(getInput("allowed_mentions_parse").split(splitterCommonDelimiter).map((value: string): string => {
+	const allowedMentionsParse: string[] = resolveMentionsType(getInput("allowed_mentions_parse", { defaultValue: "everyone,roles,users" }).split(splitterCommonDelimiter).map((value: string): string => {
 		return value.trim();
 	}).filter((value: string): boolean => {
 		return (value.length > 0);
@@ -162,7 +162,7 @@ try {
 			requestHeaders.set("Content-Type", "multipart/form-data");
 			const result: FormData = (typeof files === "undefined") ? new FormData() : files;
 			result.append("payload_json", requestPayloadStringify);
-			writeDebug(`Body:\n\t${Array.from(result.entries(),([key,value]:[string, FormDataEntryValue])=>{
+			writeDebug(`Body:\n\t${Array.from(result.entries(), ([key, value]: [string, FormDataEntryValue]): string => {
 				return `${key} = ${value}`;
 			}).join("\n\t")}`);
 			return result;
