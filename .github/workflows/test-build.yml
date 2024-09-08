@@ -18,10 +18,10 @@ jobs:
           poll_allow_multiselect: "true"
           poll_answers: |-
             - emoji:
-                name: "cat"
+                name: "🐈"
               text: "Cat"
             - emoji:
-                name: "dog"
+                name: "🐕"
               text: "Dog"
             - text: "Me"
             - text: "Other"
