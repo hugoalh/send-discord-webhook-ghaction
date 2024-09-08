@@ -143,12 +143,12 @@ try {
 	}
 	const requestPayloadStringify: string = JSON.stringify(requestPayload);
 	const requestHeaders: Headers = new Headers();
-	const requestBody: BodyInit = ((): BodyInit => {
+	const requestBody: string | FormData = ((): string | FormData => {
 		if (
 			methodForm ||
 			typeof files !== "undefined"
 		) {
-			requestHeaders.set("Content-Type", "multipart/form-data");
+			// IMPORTANT: Do not set the request header `Content-Type`, `fetch` automatically set this when use `FormData`.
 			const result: FormData = (typeof files === "undefined") ? new FormData() : files;
 			result.append("payload_json", requestPayloadStringify);
 			writeDebug(`Body:\n\t${Array.from(result.entries(), ([key, value]: [string, FormDataEntryValue]): string => {
