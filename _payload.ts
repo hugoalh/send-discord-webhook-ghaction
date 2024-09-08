@@ -354,22 +354,10 @@ async function resolveFilesFormData(workspace: string, files: string[]): Promise
 		throw new Error(`Input \`files\` must not have more than ${thresholdFiles} files (current ${files.length})!`);
 	}
 	const formData: FormData = new FormData();
-	const attachments: JSONObject[] = [];
 	for (let index = 0; index < files.length; index += 1) {
 		const file: string = files[index];
-		const fileBasename: string = pathBasename(file);
-		const fileContentType: string | undefined = contentType(pathExtname(file));
-		const attachment: JSONObject = {
-			filename: fileBasename,
-			id: index
-		};
-		if (typeof fileContentType !== "undefined") {
-			attachment.content_type = fileContentType;
-		}
-		attachments.push(attachment);
-		formData.append(`files[${index}]`, new Blob([await Deno.readFile(pathJoin(workspace, file))], { type: fileContentType }), fileBasename);
+		formData.append(`files[${index}]`, new Blob([await Deno.readFile(pathJoin(workspace, file))], { type: contentType(pathExtname(file)) }), pathBasename(file));
 	}
-	formData.append("attachments", JSON.stringify(attachments));
 	return formData;
 }
 export async function resolveFiles(files: string[], glob: boolean): Promise<FormData | undefined> {
