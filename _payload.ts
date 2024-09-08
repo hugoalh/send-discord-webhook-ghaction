@@ -358,11 +358,16 @@ async function resolveFilesFormData(workspace: string, files: string[]): Promise
 	for (let index = 0; index < files.length; index += 1) {
 		const file: string = files[index];
 		const fileBasename: string = pathBasename(file);
-		attachments.push({
+		const fileContentType: string | undefined = contentType(pathExtname(file));
+		const attachment: JSONObject = {
 			filename: fileBasename,
 			id: index
-		});
-		formData.append(`files[${index}]`, new Blob([await Deno.readFile(pathJoin(workspace, file))], { type: contentType(pathExtname(file)) }), fileBasename);
+		};
+		if (typeof fileContentType !== "undefined") {
+			attachment.content_type = fileContentType;
+		}
+		attachments.push(attachment);
+		formData.append(`files[${index}]`, new Blob([await Deno.readFile(pathJoin(workspace, file))], { type: fileContentType }), fileBasename);
 	}
 	formData.append("attachments", JSON.stringify(attachments));
 	return formData;
