@@ -8,8 +8,7 @@ jobs:
     permissions: {}
     runs-on: "ubuntu-latest"
     steps:
-      - id: "thumbnail"
-        shell: "pwsh"
+      - shell: "pwsh"
         run: |-
           Invoke-WebRequest -Uri 'https://cdn.prod.website-files.com/6257adef93867e50d84d30e2/636e0b52aa9e99b832574a53_full_logo_blurple_RGB.png' -MaximumRedirection 1 -MaximumRetryCount 5 -RetryIntervalSec 5 -Method 'Get' -OutFile 'thumbnail.png'
       - uses: "hugoalh/send-discord-webhook-ghaction/_build@main"
@@ -50,11 +49,8 @@ jobs:
                     "value": "You're welcome :wink:"
                   }
                 ],
-                "thumbnail": {
-                  "url": "attachment://thumbnail.png"
-                },
                 "image": {
-                  "url": "https://upload.wikimedia.org/wikipedia/commons/5/5a/A_picture_from_China_every_day_108.jpg"
+                  "url": "attachment://thumbnail.png"
                 },
                 "footer": {
                   "text": "Woah! So cool! :smirk:",
@@ -64,3 +60,4 @@ jobs:
             ]
           files: |-
             thumbnail.png
+          files_glob: "false"
