@@ -24,8 +24,8 @@ const thresholdContent = 2000;
 const thresholdEmbeds = 10;
 const thresholdEmbedAuthorName = 256;
 const thresholdEmbedDescription = 4096;
-const thresholdEmbedFieldName = 256;
 const thresholdEmbedFields = 25;
+const thresholdEmbedFieldName = 256;
 const thresholdEmbedFieldValue = 1024;
 const thresholdEmbedFooterText = 2048;
 const thresholdEmbedTitle = 256;
@@ -36,6 +36,7 @@ const thresholdPollAnswer = 55;
 const thresholdPollDuration = 768;
 const thresholdPollQuestion = 300;
 const thresholdThreadName = 100;
+const thresholdThreadTags = 5;
 const thresholdUsername = 80;
 const regexpDiscordWebhookURL = /^(?:https:\/\/(?:canary\.)?discord(?:app)?\.com\/api\/webhooks\/)?(?<key>\d+\/(?:[\dA-Za-z][\dA-Za-z_-]*)?[\dA-Za-z])$/u;
 const regexpISO8601 = /^\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\dZ$/;
@@ -602,7 +603,11 @@ export function resolveThreadTags(threadTags: string[]): string[] | undefined {
 			throw new SyntaxError(`\`${threadTag}\` is not a valid Discord thread tag snowflake!`);
 		}
 	}
-	return Array.from(new Set<string>(threadTags).values());
+	const threadTagsFmt: string[] = Array.from(new Set<string>(threadTags).values());
+	if (threadTagsFmt.length > thresholdThreadTags) {
+		throw new Error(`Input \`applied_tags\` must not have more than ${thresholdThreadTags} tags (current ${threadTagsFmt.length})!`);
+	}
+	return threadTagsFmt;
 }
 export function resolveUsername(username: string, truncator?: StringTruncator): string | undefined {
 	if (username.length === 0) {
