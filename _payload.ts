@@ -6,6 +6,7 @@ import {
 	type JSONObject,
 	type JSONValue,
 } from "ISJSON";
+import { getRunnerWorkspacePath } from "GHACTIONS/runner";
 import getRegExpURL from "REGEXPURL";
 import { contentType } from "STD/media-types/content-type";
 import { basename as pathBasename } from "STD/path/basename";
@@ -367,13 +368,7 @@ async function resolveFilesFormData(files: string[]): Promise<FormData> {
 	return formData;
 }
 export async function resolveFiles(files: string[], glob: boolean): Promise<FormData | undefined> {
-	const workspace: string | undefined = Deno.env.get("GITHUB_WORKSPACE");
-	if (typeof workspace === "undefined") {
-		throw new Error(`Environment variable \`GITHUB_WORKSPACE\` is not defined!`);
-	}
-	if (!pathIsAbsolute(workspace)) {
-		throw new Error(`\`${workspace}\` is not an absolute path for workspace!`);
-	}
+	const workspace: string = getRunnerWorkspacePath();
 	const workspaceStat: Deno.FileInfo = await Deno.stat(workspace);
 	if (!workspaceStat.isDirectory) {
 		throw new Deno.errors.NotADirectory(`Workspace \`${workspace}\` is not a directory!`);
