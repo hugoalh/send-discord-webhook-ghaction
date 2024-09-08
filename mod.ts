@@ -40,9 +40,9 @@ const exfetch: ExFetch = new ExFetch({
 const splitterNewLine = /\r?\n/g;
 const splitterCommonDelimiter = /,|\r?\n/g;
 console.log("Parse input.");
-writeDebug(`Environment Variables:\n${Object.entries(Deno.env.toObject()).map(([key, value]: [string, string]): string => {
+writeDebug(`Environment Variables:\n\t${Object.entries(Deno.env.toObject()).map(([key, value]: [string, string]): string => {
 	return `${key} = ${value}`;
-}).join("\n")}`);
+}).join("\n\t")}`);
 try {
 	const truncateEnable: boolean = getInputBoolean("truncate_enable", { defaultValue: true });
 	const stringTruncator: StringTruncator | undefined = truncateEnable ? new StringTruncator(128, {
@@ -153,7 +153,6 @@ try {
 		requestPayload.poll = poll;
 	}
 	const requestPayloadStringify: string = JSON.stringify(requestPayload);
-	writeDebug(`Payload: ${requestPayloadStringify}`);
 	const requestHeaders: Headers = new Headers();
 	const requestBody: BodyInit = ((): BodyInit => {
 		if (
@@ -163,9 +162,13 @@ try {
 			requestHeaders.set("Content-Type", "multipart/form-data");
 			const result: FormData = (typeof files === "undefined") ? new FormData() : files;
 			result.append("payload_json", requestPayloadStringify);
+			writeDebug(`Body:\n\t${Array.from(result.entries(),([key,value]:[string, FormDataEntryValue])=>{
+				return `${key} = ${value}`;
+			}).join("\n\t")}`);
 			return result;
 		}
 		requestHeaders.set("Content-Type", "application/json");
+		writeDebug(`Body: ${requestPayloadStringify}`);
 		return requestPayloadStringify;
 	})();
 	console.log(`Post network request to Discord.`);
