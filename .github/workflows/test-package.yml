@@ -15,6 +15,21 @@ jobs:
       - uses: "hugoalh/send-discord-webhook-ghaction@main"
         with:
           key: "${{secrets.DISCORD_TEST_WEBHOOK_TEXT}}"
+          poll_allow_multiselect: "true"
+          poll_answers: |-
+            - emoji:
+                name: "cat"
+              text: "Cat"
+            - emoji:
+                name: "dog"
+              text: "Dog"
+            - text: "Me"
+            - text: "Other"
+          poll_duration: "1"
+          poll_question: "Who?"
+      - uses: "hugoalh/send-discord-webhook-ghaction@main"
+        with:
+          key: "${{secrets.DISCORD_TEST_WEBHOOK_TEXT}}"
           content: "Hello, thread 0!"
           thread_id: "1281905279075876887"
       - uses: "hugoalh/send-discord-webhook-ghaction@main"
