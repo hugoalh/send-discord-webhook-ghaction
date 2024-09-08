@@ -24,9 +24,7 @@ import {
 	resolveEmbeds,
 	resolveFiles,
 	resolveKey,
-	resolveMentionsRole,
-	resolveMentionsType,
-	resolveMentionsUser,
+	resolveMentions,
 	resolvePoll,
 	resolveThreadID,
 	resolveThreadName,
@@ -69,21 +67,21 @@ try {
 	}).filter((file: string): boolean => {
 		return (file.length > 0);
 	}), getInputBoolean("files_glob", { defaultValue: true }));
-	const allowedMentionsParse: string[] = resolveMentionsType(getInput("allowed_mentions_parse", { defaultValue: "everyone,roles,users" }).split(splitterCommonDelimiter).map((value: string): string => {
-		return value.trim();
-	}).filter((value: string): boolean => {
-		return (value.length > 0);
-	}));
-	const allowedMentionsRoles: string[] | undefined = resolveMentionsRole(getInput("allowed_mentions_roles").split(splitterCommonDelimiter).map((value: string): string => {
-		return value.trim();
-	}).filter((value: string): boolean => {
-		return (value.length > 0);
-	}));
-	const allowedMentionsUsers: string[] | undefined = resolveMentionsUser(getInput("allowed_mentions_users").split(splitterCommonDelimiter).map((value: string): string => {
-		return value.trim();
-	}).filter((value: string): boolean => {
-		return (value.length > 0);
-	}));
+	const allowedMentions: JSONObject = resolveMentions({
+		parseEveryone: getInputBoolean("allowed_mentions_parse_everyone", { defaultValue: true }),
+		parseRoles: getInputBoolean("allowed_mentions_parse_roles", { defaultValue: true }),
+		parseUsers: getInputBoolean("allowed_mentions_parse_users", { defaultValue: true }),
+		roles: getInput("allowed_mentions_roles").split(splitterCommonDelimiter).map((value: string): string => {
+			return value.trim();
+		}).filter((value: string): boolean => {
+			return (value.length > 0);
+		}),
+		users: getInput("allowed_mentions_users").split(splitterCommonDelimiter).map((value: string): string => {
+			return value.trim();
+		}).filter((value: string): boolean => {
+			return (value.length > 0);
+		})
+	});
 	const tts: boolean = getInputBoolean("tts");
 	const threadID: string | undefined = resolveThreadID(getInput("thread_id"));
 	const threadName: string | undefined = resolveThreadName(getInput("thread_name"), stringTruncator);
@@ -115,18 +113,9 @@ try {
 	if (wait) {
 		discordWebhookUrlParameters.set("wait", "true");
 	}
-	const requestPayloadAllowedMentions: JSONObject = {
-		parse: allowedMentionsParse
-	};
-	if (typeof allowedMentionsRoles !== "undefined") {
-		requestPayloadAllowedMentions.roles = allowedMentionsRoles;
-	}
-	if (typeof allowedMentionsUsers !== "undefined") {
-		requestPayloadAllowedMentions.users = allowedMentionsUsers;
-	}
 	const requestPayload: JSONObject = {
 		tts,
-		allowed_mentions: requestPayloadAllowedMentions
+		allowed_mentions: allowedMentions
 	};
 	if (typeof content !== "undefined") {
 		requestPayload.content = content;

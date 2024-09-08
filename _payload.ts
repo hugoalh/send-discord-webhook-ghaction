@@ -428,14 +428,29 @@ export function resolveKey(key: string): string {
 	}
 	return key.match(regexpDiscordWebhookURL)?.groups?.key as string;
 }
-const allowedMentionsParseValues: string[] = [
-	"everyone",
-	"roles",
-	"users"
-];
-export function resolveMentionsRole(roles: string[]): string[] | undefined {
-	if (roles.length === 0) {
-		return undefined;
+export interface ResolveMentionsParameters {
+	parseEveryone: boolean;
+	parseRoles: boolean;
+	parseUsers: boolean;
+	roles: string[];
+	users: string[];
+}
+export function resolveMentions({
+	parseEveryone,
+	parseRoles,
+	parseUsers,
+	roles,
+	users
+}: ResolveMentionsParameters): JSONObject {
+	const parse: string[] = [];
+	if (parseEveryone) {
+		parse.push("everyone");
+	}
+	if (parseRoles) {
+		parse.push("roles");
+	}
+	if (parseUsers) {
+		parse.push("users");
 	}
 	for (const role of roles) {
 		if (!regexpSnowflake.test(role)) {
@@ -443,25 +458,11 @@ export function resolveMentionsRole(roles: string[]): string[] | undefined {
 		}
 	}
 	const rolesFmt: string[] = Array.from(new Set<string>(roles).values());
+	if (rolesFmt.length > 0 && parseRoles) {
+		throw new Error(`Inputs \`allowed_mentions.parse.roles\` and \`allowed_mentions.roles\` are mutually exclusive!`);
+	}
 	if (rolesFmt.length > thresholdMentionsRole) {
 		throw new Error(`Input \`allowed_mentions.roles\` must not have more than ${thresholdMentionsRole} mentions (current ${rolesFmt.length})!`);
-	}
-	return rolesFmt;
-}
-export function resolveMentionsType(mentions: string[]): string[] {
-	if (mentions.length === 0) {
-		return [];
-	}
-	for (const mention of mentions) {
-		if (!allowedMentionsParseValues.includes(mention)) {
-			throw new SyntaxError(`\`${mention}\` is not a valid Discord allowed mention type!`);
-		}
-	}
-	return Array.from(new Set<string>(mentions).values());
-}
-export function resolveMentionsUser(users: string[]): string[] | undefined {
-	if (users.length === 0) {
-		return undefined;
 	}
 	for (const user of users) {
 		if (!regexpSnowflake.test(user)) {
@@ -469,10 +470,22 @@ export function resolveMentionsUser(users: string[]): string[] | undefined {
 		}
 	}
 	const usersFmt: string[] = Array.from(new Set<string>(users).values());
+	if (usersFmt.length > 0 && parseUsers) {
+		throw new Error(`Inputs \`allowed_mentions.parse.users\` and \`allowed_mentions.users\` are mutually exclusive!`);
+	}
 	if (usersFmt.length > thresholdMentionsUser) {
 		throw new Error(`Input \`allowed_mentions.users\` must not have more than ${thresholdMentionsUser} mentions (current ${usersFmt.length})!`);
 	}
-	return usersFmt;
+	const result: JSONObject = {
+		parse
+	};
+	if (rolesFmt.length > 0) {
+		result.roles = rolesFmt;
+	}
+	if (usersFmt.length > 0) {
+		result.users = usersFmt;
+	}
+	return result;
 }
 export interface ResolvePollParameters {
 	allowMultiSelect: boolean;

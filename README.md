@@ -238,13 +238,17 @@ Example:
 
 `<boolean = true>` Whether input [files](#files) should accept Glob path instead of literal path.
 
-### `allowed_mentions_parse`
+### `allowed_mentions_parse_everyone`
 
-`<string[] = "everyone,roles,users">` Message allowed mention types, separate each value with comma (`,`) or per line.
+`<boolean = true>` Whether the message allowed `@everyone` and `@here` mentions.
 
-- **`everyone`:** Control `@everyone` and `@here` mentions.
-- **`roles`:** Control roles mentions.
-- **`users`:** Control users mentions.
+### `allowed_mentions_parse_roles`
+
+`<boolean = true>` Whether the message allowed roles mentions.
+
+### `allowed_mentions_parse_users`
+
+`<boolean = true>` Whether the message allowed users mentions.
 
 ### `allowed_mentions_roles`
 

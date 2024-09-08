@@ -38,8 +38,14 @@ inputs:
   files_glob:
     description: "{boolean} Whether input `files` should accept Glob path instead of literal path."
     required: false
-  allowed_mentions_parse:
-    description: "{string[]} Message allowed mention types."
+  allowed_mentions_parse_everyone:
+    description: "{boolean} Whether the message allowed `@everyone` and `@here` mentions."
+    required: false
+  allowed_mentions_parse_roles:
+    description: "{boolean} Whether the message allowed roles mentions."
+    required: false
+  allowed_mentions_parse_users:
+    description: "{boolean} Whether the message allowed users mentions."
     required: false
   allowed_mentions_roles:
     description: "{string[]} Message allowed mention roles."
