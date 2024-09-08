@@ -553,17 +553,7 @@ export function resolvePoll({
 					throw new SyntaxError(`Unknown input \`poll.answers[${answerIndex}].${pollAnswerKey}\`!`);
 			}
 		}
-		if (typeof answer.text === "undefined") {
-			throw new TypeError(`Input \`poll.answers[${answerIndex}]\` is not a valid Discord poll answer!`);
-		}
-		const answerFmt: JSONObject = {};
-		if (typeof answer.emoji !== "undefined") {
-			answerFmt.emoji = answer.emoji;
-		}
-		if (typeof answer.text !== "undefined") {
-			answerFmt.text = answer.text;
-		}
-		return { poll_media: answerFmt };
+		return { poll_media: answer };
 	});
 	if (question.length === 0) {
 		throw new TypeError(`Input \`poll.question.text\` is not a string (non-empty)!`);
