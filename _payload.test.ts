@@ -184,11 +184,11 @@ Deno.test("Poll 1", { permissions: "none" }, () => {
 		allowMultiSelect: false,
 		answers: [
 			{
-				emoji: { name: "cat" },
+				emoji: { name: "🐈" },
 				text: "Cat"
 			},
 			{
-				emoji: { name: "dog" },
+				emoji: { name: "🐕" },
 				text: "Dog"
 			},
 			{
@@ -206,13 +206,13 @@ Deno.test("Poll 1", { permissions: "none" }, () => {
 		answers: [
 			{
 				poll_media: {
-					emoji: { name: "cat" },
+					emoji: { name: "🐈" },
 					text: "Cat"
 				}
 			},
 			{
 				poll_media: {
-					emoji: { name: "dog" },
+					emoji: { name: "🐕" },
 					text: "Dog"
 				}
 			},

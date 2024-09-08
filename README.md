@@ -205,16 +205,16 @@ Examples:
 
 `<object[]>` Message poll answers, by JSON or YAML with restricted syntaxes, maximum 10 answers, and maximum 55 characters per answer text.
 
-Poll answer can be `text` only, or `emoji` and `text`. For a poll answer with an emoji, either the `id` (custom emoji) or `name` (default emoji) as the only field.
+Poll answer can either text only, or append emoji with either custom emoji (`id`) or default emoji (`name`).
 
 Example:
 
 ```yml
 - emoji: # Default
-    name: "cat"
+    name: "🐈"
   text: "Cat"
 - emoji: # Default
-    name: "dog"
+    name: "🐕"
   text: "Dog"
 - emoji: # Custom
     id: "1"
