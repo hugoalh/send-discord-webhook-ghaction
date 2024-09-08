@@ -268,7 +268,7 @@ Example:
 
 ### `thread_tags`
 
-`<string[]>` Forum channel thread tags, by thread tag ID.
+`<string[]>` Forum channel thread tags, by thread tag ID, separate each value with comma (`,`) or per line, maximum 5 tags.
 
 ### `notification`
 
