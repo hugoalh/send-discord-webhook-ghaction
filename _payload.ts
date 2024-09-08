@@ -349,7 +349,7 @@ export function resolveEmbeds(embeds: unknown, truncator?: StringTruncator): JSO
 	}
 	return embedsFmt;
 }
-async function resolveFilesFormData(files: string[]): Promise<FormData> {
+async function resolveFilesFormData(workspace: string, files: string[]): Promise<FormData> {
 	if (files.length > thresholdFiles) {
 		throw new Error(`Input \`files\` must not have more than ${thresholdFiles} files (current ${files.length})!`);
 	}
@@ -362,7 +362,7 @@ async function resolveFilesFormData(files: string[]): Promise<FormData> {
 			filename: fileBasename,
 			id: index
 		});
-		formData.append(`files[${index}]`, new Blob([await Deno.readFile(file)], { type: contentType(pathExtname(file)) }), fileBasename);
+		formData.append(`files[${index}]`, new Blob([await Deno.readFile(pathJoin(workspace, file))], { type: contentType(pathExtname(file)) }), fileBasename);
 	}
 	formData.append("attachments", JSON.stringify(attachments));
 	return formData;
@@ -377,20 +377,27 @@ export async function resolveFiles(files: string[], glob: boolean): Promise<Form
 		return undefined;
 	}
 	if (glob) {
-		const filesFmt: string[] = await Array.fromAsync(walkFS(workspace, {
+		const matchers: RegExp[] = files.map((file: string): RegExp => {
+			return globToRegExp(file, { caseInsensitive: true });
+		});
+		const filesFmt: string[] = (await Array.fromAsync(walkFS(workspace, {
 			includeDirs: false,
 			includeRoot: false,
-			includeSymlinks: false,
-			match: files.map((file: string): RegExp => {
-				return globToRegExp(file, { caseInsensitive: true });
-			})
-		}), ({ pathRelative }: FSWalkEntry): string => {
+			includeSymlinks: false
+		}))).filter(({
+			pathAbsolute,
+			pathRelative
+		}: FSWalkEntry): boolean => {
+			return pathAbsolute.startsWith(workspace) && matchers.some((matcher: RegExp): boolean => {
+				return matcher.test(pathRelative);
+			});
+		}).map(({ pathRelative }: FSWalkEntry): string => {
 			return pathRelative;
 		});
 		if (filesFmt.length === 0) {
 			return undefined;
 		}
-		return resolveFilesFormData(filesFmt);
+		return resolveFilesFormData(workspace, filesFmt);
 	}
 	const filesStatRejected: unknown[] = (await Promise.allSettled(files.map(async (file: string): Promise<void> => {
 		if (pathIsAbsolute(file)) {
@@ -408,7 +415,7 @@ export async function resolveFiles(files: string[], glob: boolean): Promise<Form
 	if (filesStatRejected.length > 0) {
 		throw new AggregateError(filesStatRejected, `Unable to process files!`);
 	}
-	return resolveFilesFormData(files);
+	return resolveFilesFormData(workspace, files);
 }
 export function resolveKey(key: string): string {
 	if (!regexpDiscordWebhookURL.test(key)) {
