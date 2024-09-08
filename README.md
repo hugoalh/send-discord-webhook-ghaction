@@ -232,7 +232,7 @@ Example:
 
 ### `files`
 
-`<string[]>` Message attachments/files, by Glob path or literal path (select by input [files_glob](#files_glob)) under the workspace, separate each value per line, maximum 8 MB and 10 files.
+`<string[]>` Message attachments/files, by Glob path or literal path (select by input [`files_glob`](#files_glob)) under the workspace, separate each value per line, maximum 8 MB and 10 files.
 
 ### `files_glob`
 
