@@ -53,7 +53,7 @@ try {
 	const key: string = resolveKey(getInput("key", { require: true }));
 	addSecretMask(key);
 	const username: string | undefined = resolveUsername(getInput("username"), stringTruncator);
-	const avatarURL: string | undefined = getInput("avatar_url");
+	const avatarURL: string = getInput("avatar_url");
 	const content: string | undefined = resolveContent(getInput("content"), getInput("content_links_no_embed").split(splitterNewLine).filter((value: string): boolean => {
 		return (value.length > 0);
 	}), stringTruncator);
@@ -134,7 +134,7 @@ try {
 	if (typeof username !== "undefined") {
 		requestPayload.username = username;
 	}
-	if (typeof avatarURL !== "undefined") {
+	if (avatarURL.length > 0) {
 		requestPayload.avatar_url = avatarURL;
 	}
 	if (typeof embeds !== "undefined") {
