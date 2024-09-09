@@ -8,6 +8,9 @@ jobs:
     permissions: {}
     runs-on: "ubuntu-latest"
     steps:
+      - name: "List Docker Image"
+        run: |-
+          docker image ls --all --digests --no-trunc
       - uses: "hugoalh/send-discord-webhook-ghaction/_build@main"
         with:
           key: "${{secrets.DISCORD_TEST_WEBHOOK_TEXT}}"
@@ -49,7 +52,7 @@ jobs:
           content: "Text message. Up to 2000 characters."
           username: "Webhook"
           avatar_url: "https://i.imgur.com/4M34hi2.png"
-          embeds: |
+          embeds: |-
             [
               {
                 "author": {

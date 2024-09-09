@@ -63,5 +63,5 @@ jobs:
           push: "true"
           tags: "${{steps.docker-meta.outputs.tags}}"
       - name: "List Docker Image"
-        run: |
+        run: |-
           docker image ls --all --digests --no-trunc

@@ -49,7 +49,7 @@ jobs:
           content: "Text message. Up to 2000 characters."
           username: "Webhook"
           avatar_url: "https://i.imgur.com/4M34hi2.png"
-          embeds: |
+          embeds: |-
             [
               {
                 "author": {
