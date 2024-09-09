@@ -7,7 +7,7 @@
 A GitHub Action to send Discord webhook.
 
 > [!IMPORTANT]
-> This documentation is v7.0.0 based; To view other version's documentation, please visit the [versions list](https://github.com/hugoalh/send-discord-webhook-ghaction/tags) and select the correct version.
+> - This documentation is v7.0.0 based; To view other version's documentation, please visit the [versions list](https://github.com/hugoalh/send-discord-webhook-ghaction/tags) and select the correct version.
 
 ## 🌟 Features
 
@@ -24,7 +24,7 @@ A GitHub Action to send Discord webhook.
 | **[GitHub Actions Runner](https://github.com/actions/runner)** | [✔️ Docker](https://docs.github.com/en/actions) |
 
 > [!NOTE]
-> It is possible to use this action in other methods/ways which not listed in here, however those are not officially supported.
+> - It is possible to use this action in other methods/ways which not listed in here, however those are not officially supported.
 
 ### #️⃣ Registries Identifier
 
@@ -34,7 +34,7 @@ A GitHub Action to send Discord webhook.
   ```
 
 > [!NOTE]
-> It is recommended to use this action with tag for immutability.
+> - It is recommended to use this action with tag for immutability.
 
 ### 🛡️ GitHub Token Permissions
 
