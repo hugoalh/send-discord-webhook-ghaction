@@ -1,5 +1,5 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
-name: "Publish Docker Container - GitHub Packages"
+name: "Publish Docker Image"
 on:
   push:
     tags:
@@ -22,23 +22,29 @@ env:
   REGISTRY: "ghcr.io"
   IMAGE_NAME: "${{github.event.repository.full_name}}"
 jobs:
-  main:
-    name: "Main"
+  ghp:
+    name: "GitHub Packages"
+    permissions:
+      contents: "read"
+      packages: "write"
     runs-on: "ubuntu-latest"
     steps:
       - name: "Checkout Repository"
         uses: "actions/checkout@v4.1.7"
-      - name: "Sign In To Registry ${{env.REGISTRY}}"
+      - name: "Setup Docker Buildx"
+        uses: "docker/setup-buildx-action@v3.6.1"
+      - name: "Sign In To GitHub Packages"
         uses: "docker/login-action@v3.3.0"
         with:
-          registry: "${{env.REGISTRY}}"
+          registry: "ghcr.io"
           username: "${{github.actor}}"
           password: "${{github.token}}"
-      - name: "Generate Docker Metadata"
-        id: "docker-meta"
+      - name: "Resolve Metadata"
+        id: "metadata"
         uses: "docker/metadata-action@v5.5.1"
         with:
-          images: "${{env.REGISTRY}}/${{env.IMAGE_NAME}}"
+          images: |-
+            name=ghcr.io/${{github.repository}}
           tags: |-
             type=raw,enable=${{inputs.tag != ''}},value=${{inputs.tag}}
             type=raw,enable=${{inputs.latest == 'true'}},value=latest
@@ -47,21 +53,25 @@ jobs:
             type=semver,enable=${{inputs.tag == ''}},pattern={{major}}.{{minor}}
             type=semver,enable=${{inputs.tag == ''}},pattern={{major}}
           labels: |-
-            org.opencontainers.image.authors=${{github.event.repository.owner.login}}
+            org.opencontainers.image.authors=${{github.repository_owner}}
             org.opencontainers.image.licenses=MIT
             org.opencontainers.image.title=Send Discord Webhook (GitHub Action) Image
             org.opencontainers.image.description=A Docker image for Send Discord Webhook (GitHub Action) to send Discord webhook.
-      - name: "Build & Push Docker Image"
+      - name: "Build & Publish Docker Image"
         uses: "docker/build-push-action@v6.7.0"
         with:
           context: "./"
           file: "Dockerfile"
-          labels: "${{steps.docker-meta.outputs.labels}}"
+          labels: "${{steps.metadata.outputs.labels}}"
           platforms: |-
             linux/amd64
           pull: "true"
           push: "true"
-          tags: "${{steps.docker-meta.outputs.tags}}"
+          tags: "${{steps.metadata.outputs.tags}}"
+          cache-from: |-
+            type=gha
+          cache-to: |-
+            type=gha,mode=max
       - name: "List Docker Image"
         run: |-
           docker image ls --all --digests --no-trunc
