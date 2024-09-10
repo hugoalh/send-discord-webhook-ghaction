@@ -14,4 +14,12 @@ jobs:
       contents: "read"
       issues: "write"
       pull-requests: "write"
-    uses: "hugoalh/hugoalh/.github/workflows/call-sync-labels-0.yml@main"
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: "Checkout Repository"
+        uses: "actions/checkout@v4.1.7"
+      - name: "Sync Labels"
+        uses: "EndBug/label-sync@v2.3.3"
+        with:
+          config-file: ".github/labels.yml"
+          delete-other-labels: "true"

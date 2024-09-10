@@ -20,4 +20,19 @@ jobs:
       actions: "read"
       contents: "read"
       security-events: "write"
-    uses: "hugoalh/hugoalh/.github/workflows/call-invoke-codeql-analysis-0.yml@main"
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: "Checkout Repository"
+        uses: "actions/checkout@v4.1.7"
+        with:
+          fetch-depth: "0"
+      - name: "Initialize CodeQL"
+        uses: "github/codeql-action/init@v3.26.6"
+        with:
+          queries: "+security-and-quality"
+      # Automatically build attempts to build any compiled languages.
+      - name: "Build Repository"
+        uses: "github/codeql-action/autobuild@v3.26.6"
+        continue-on-error: true
+      - name: "Analyze Repository"
+        uses: "github/codeql-action/analyze@v3.26.6"
