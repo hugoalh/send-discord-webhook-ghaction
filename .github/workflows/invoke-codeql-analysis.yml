@@ -15,7 +15,6 @@ on:
   workflow_dispatch:
 jobs:
   main:
-    name: "Main"
     permissions:
       actions: "read"
       contents: "read"

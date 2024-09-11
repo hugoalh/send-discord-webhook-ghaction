@@ -29,7 +29,5 @@ jobs:
               fields:
                 - name: "📋 Changelog"
                   value: "${{github.event.release.html_url}}"
-                  inline: false
                 - name: "GitHub"
                   value: "${{github.event.repository.html_url}}"
-                  inline: false
