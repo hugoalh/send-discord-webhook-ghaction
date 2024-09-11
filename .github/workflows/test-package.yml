@@ -4,7 +4,6 @@ on:
   workflow_dispatch:
 jobs:
   main:
-    name: "Main"
     permissions: {}
     runs-on: "ubuntu-latest"
     steps:
