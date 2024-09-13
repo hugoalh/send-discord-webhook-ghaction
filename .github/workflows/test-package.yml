@@ -7,6 +7,9 @@ jobs:
     permissions: {}
     runs-on: "ubuntu-latest"
     steps:
+      - name: "List Docker Image"
+        run: |-
+          docker image ls --all --digests --no-trunc
       - uses: "hugoalh/send-discord-webhook-ghaction@main"
         with:
           key: "${{secrets.DISCORD_TEST_WEBHOOK_TEXT}}"
