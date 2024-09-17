@@ -3,7 +3,6 @@
 FROM denoland/deno:bin-1.46.3 AS stage-deno
 FROM alpine:3.20.3
 ENV APP_ROOT=/opt/hugoalh/send-discord-webhook-ghaction
-ENV DEBIAN_FRONTEND=noninteractive
 ENV DENO_NO_PROMPT=1
 ENV DENO_NO_UPDATE_CHECK=1
 COPY --from=stage-deno /deno /opt/denoland/deno/deno
