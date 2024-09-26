@@ -16,7 +16,7 @@ jobs:
     runs-on: "ubuntu-latest"
     steps:
       - name: "Checkout Repository"
-        uses: "actions/checkout@v4.1.7"
+        uses: "actions/checkout@v4.2.0"
       - name: "Sync Labels"
         uses: "EndBug/label-sync@v2.3.3"
         with:
