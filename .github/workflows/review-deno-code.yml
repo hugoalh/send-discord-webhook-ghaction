@@ -34,7 +34,7 @@ jobs:
       - name: "Setup Deno"
         uses: "denoland/setup-deno@v1.5.1"
         with:
-          deno-version: "^1.46.3"
+          deno-version: "^2.0.0"
       - name: "Get Deno Cache Path"
         id: "deno-cache-path"
         shell: "pwsh"
