@@ -24,7 +24,7 @@ A GitHub Action to send Discord webhook.
 | **[GitHub Actions Runner](https://github.com/actions/runner)** | [✔️ Docker](https://docs.github.com/en/actions) |
 
 > [!NOTE]
-> - It is possible to use this action in other methods/ways which not listed in here, however those are not officially supported.
+> - It is possible to use this action in other methods/ways which not listed in here, however those methods/ways are not officially supported, and should beware maybe cause security issues.
 
 ### #️⃣ Registries Identifier
 
