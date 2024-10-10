@@ -15,16 +15,134 @@ on:
   workflow_dispatch:
 jobs:
   main:
-    name: "${{matrix.run_on}}"
+    name: "${{matrix.runon}}"
     permissions:
       contents: "read"
     strategy:
       matrix:
-        run_on:
+        runon:
+          # - "macos-latest"
           - "ubuntu-latest"
+          # - "windows-latest"
       fail-fast: false
-    uses: "hugoalh/hugoalh/.github/workflows/call-review-deno-code-2.yml@main"
-    with:
-      run_on: "${{matrix.run_on}}"
-      deployment_jsr: false
-      deployment_npm: false
+    runs-on: "${{matrix.runon}}"
+    env:
+      CDV_RUN_LITE: "${{matrix.runon != 'ubuntu-latest'}}"
+    steps:
+      - name: "Checkout Repository"
+        uses: "actions/checkout@v4.2.1"
+      - name: "Setup Deno"
+        uses: "denoland/setup-deno@v1.5.1"
+        with:
+          deno-version: "^1.46.3"
+      - name: "Get Deno Cache Path"
+        id: "deno-cache-path"
+        shell: "pwsh"
+        run: |-
+          [PSCustomObject]$DenoInfo = deno info --json |
+            ConvertFrom-Json -Depth 100
+          Add-Content -LiteralPath $Env:GITHUB_OUTPUT -Value "value=$($DenoInfo.denoDir)" -Confirm:$False -Encoding 'UTF8NoBOM'
+      - name: "Restore Deno Cache"
+        id: "deno-cache-restore"
+        uses: "actions/cache/restore@v4.1.0"
+        with:
+          key: "Deno/${{runner.os}}-${{github.run_id}}-${{github.run_attempt}}-${{github.job}}"
+          restore-keys: |-
+            Deno/${{runner.os}}-${{github.run_id}}-${{github.run_attempt}}-
+            Deno/${{runner.os}}-${{github.run_id}}-${{github.run_attempt}}
+            Deno/${{runner.os}}-${{github.run_id}}-
+            Deno/${{runner.os}}-${{github.run_id}}
+            Deno/${{runner.os}}-
+            Deno/${{runner.os}}
+            Deno/
+          path: "${{steps.deno-cache-path.outputs.value}}"
+      - name: "Analyze Repository"
+        id: "analyze"
+        shell: "pwsh"
+        run: |-
+          [PSCustomObject]$Config = Get-Content -LiteralPath '.\deno.jsonc' -Encoding 'UTF8NoBOM' |
+            ConvertFrom-Json -Depth 100
+          [String[]]$FilesTest = Get-ChildItem -LiteralPath '.\' -Include @('*.test.ts', '*.test.tsx', '*_test.ts', '*_test.tsx', 'test.ts', 'test.tsx') -File -Recurse -Name
+          [String[]]$FilesBenchmark = Get-ChildItem -LiteralPath '.\' -Include @('*.bench.ts', '*.bench.tsx', '*_bench.ts', '*_bench.tsx', 'bench.ts', 'bench.tsx') -File -Recurse -Name
+          Add-Content -LiteralPath $Env:GITHUB_OUTPUT -Value "test=$(($FilesTest.Count -gt 0).ToString().ToLower())"
+          Add-Content -LiteralPath $Env:GITHUB_OUTPUT -Value "benchmark=$(($FilesBenchmark.Count -gt 0).ToString().ToLower())"
+          Add-Content -LiteralPath $Env:GITHUB_OUTPUT -Value "build=$(($Null -ine $Config.tasks.build).ToString().ToLower())"
+          Add-Content -LiteralPath $Env:GITHUB_OUTPUT -Value "jsr-check=$(($Null -ine $Config.tasks.('jsr-check')).ToString().ToLower())"
+          Add-Content -LiteralPath $Env:GITHUB_OUTPUT -Value "npm-build=$(($Null -ine $Config.tasks.('npm-build')).ToString().ToLower())"
+          Add-Content -LiteralPath $Env:GITHUB_OUTPUT -Value "npm-root=$(Join-Path -Path $Env:GITHUB_WORKSPACE -ChildPath ($Config._behaviour.npm.root ?? './npm'))"
+      - name: "Check Repository"
+        if: "${{!cancelled() && steps.analyze.outcome == 'success' && env.CDV_RUN_LITE == 'false'}}"
+        shell: "pwsh"
+        run: |-
+          [String[]]$FilesForbid = Get-ChildItem -LiteralPath '.\' -Include @('*.js', '*.jsx', '*.mjs', '*.mts') -File -Recurse -Name
+          If ($FilesForbid.Count -gt 0) {
+            Write-Error -Message "Repository contains forbid file formats (``.js``, ``.jsx``, ``.mjs``, ``.mts``): $(
+              $FilesForbid |
+                Join-String -Separator ', '
+            )" -ErrorAction 'Stop'
+          }
+      - name: "Verify Code"
+        if: "${{!cancelled() && steps.analyze.outcome == 'success'}}"
+        shell: "pwsh"
+        run: |-
+          [String[]]$Files = Get-ChildItem -LiteralPath '.\' -Include @('*.ts', '*.tsx') -File -Recurse -Name
+          [Boolean]$ShouldReload = $Env:GITHUB_EVENT_NAME -iin @('schedule', 'workflow_dispatch')
+          ForEach ($File In $Files) {
+            $ShouldReload ? (deno cache --reload $File) : (deno cache $File)
+          }
+      - name: "Lint Code"
+        if: "${{!cancelled() && steps.analyze.outcome == 'success'}}"
+        run: |-
+          deno lint
+      - name: "Build Repository"
+        if: "${{!cancelled() && steps.analyze.outcome == 'success' && steps.analyze.outputs.build == 'true'}}"
+        run: |-
+          deno task build
+      - name: "Test Code"
+        id: "test"
+        if: "${{!cancelled() && steps.analyze.outcome == 'success' && steps.analyze.outputs.test == 'true'}}"
+        run: |-
+          deno test --allow-all --coverage --no-prompt
+      - name: "List Test Code Coverage"
+        if: "${{!cancelled() && steps.analyze.outcome == 'success' && steps.analyze.outputs.test == 'true' && (steps.test.outcome == 'failure' || steps.test.outcome == 'success')}}"
+        run: |-
+          deno coverage
+      - name: "Benchmark Code"
+        if: "${{!cancelled() && steps.analyze.outcome == 'success' && steps.analyze.outputs.benchmark == 'true'}}"
+        run: |-
+          deno bench --allow-all --no-prompt
+      # - name: "Check Dependencies Update"
+      #   if: "${{!cancelled() && steps.analyze.outcome == 'success' && env.CDV_RUN_LITE == 'false' && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')}}"
+      #   shell: "pwsh"
+      #   run: |-
+      #     [String]$Output = deno run --allow-net "--allow-read=$($Env:GITHUB_WORKSPACE)" --no-prompt https://deno.land/x/udd@0.8.2/main.ts --dry-run **/*.ts **/*.tsx deno.jsonc *>&1 |
+      #       Join-String -Separator "`n"
+      #     $LASTEXITCODE = 0
+      #     Write-Host -Object $Output
+      #     If ($Output -imatch 'able to update') {
+      #       Write-Warning -Message 'Found dependencies that need to update!'
+      #     }
+      - name: "Check Deployment For Remote Import"
+        if: "${{!cancelled() && steps.analyze.outcome == 'success' && env.CDV_RUN_LITE == 'false'}}"
+        shell: "pwsh"
+        run: |-
+          Get-ChildItem -LiteralPath '.\' -File -Recurse -Name
+      - name: "Check Deployment For JSR"
+        if: "${{!cancelled() && steps.analyze.outcome == 'success' && env.CDV_RUN_LITE == 'false' && steps.analyze.outputs.jsr-check == 'true'}}"
+        run: |-
+          deno task jsr-check
+      - name: "Build Package For NPM"
+        if: "${{!cancelled() && steps.analyze.outcome == 'success' && env.CDV_RUN_LITE == 'false' && steps.analyze.outputs.npm-build == 'true'}}"
+        run: |-
+          deno task npm-build
+      - name: "Check Deployment For NPM"
+        if: "${{!cancelled() && steps.analyze.outcome == 'success' && env.CDV_RUN_LITE == 'false' && steps.analyze.outputs.npm-build == 'true'}}"
+        working-directory: "${{steps.analyze.outputs.npm-root}}"
+        run: |-
+          npm publish --dry-run
+      - name: "Save Deno Cache"
+        if: "${{!cancelled() && steps.deno-cache-restore.outcome == 'success'}}"
+        uses: "actions/cache/save@v4.1.0"
+        with:
+          key: "Deno/${{runner.os}}-${{github.run_id}}-${{github.run_attempt}}-${{github.job}}"
+          path: "${{steps.deno-cache-path.outputs.value}}"

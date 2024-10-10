@@ -10,7 +10,7 @@
 > [!NOTE]
 > - The date format is according to the specification ISO 8601.
 > - Values in italic format are subject to change.
-> - Versions which not in the list are already end of life.
+> - Versions which not listed in here are already end of life.
 
 ## Report Vulnerabilities
 
