@@ -33,7 +33,7 @@ import {
 } from "./_payload.ts";
 console.log("Initialize.");
 const exfetch: ExFetch = new ExFetch({
-	userAgent: `${userAgentDefault} SendDiscordWebhook.GitHubAction/7.0.0`
+	userAgent: `${userAgentDefault} SendDiscordWebhook.GitHubAction/7.0.1`
 });
 const splitterNewLine = /\r?\n/g;
 const splitterCommonDelimiter = /,|\r?\n/g;
