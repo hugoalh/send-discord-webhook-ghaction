@@ -26,7 +26,7 @@ A GitHub Action to send Discord webhook.
 > [!NOTE]
 > - It is possible to use this action in other methods/ways which not listed in here, however those methods/ways are not officially supported, and should beware maybe cause security issues.
 
-### #️⃣ Registries Identifier
+### #️⃣ Resources Identifier
 
 - **GitHub:**
   ```
