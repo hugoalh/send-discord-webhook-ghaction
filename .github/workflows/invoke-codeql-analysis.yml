@@ -26,12 +26,12 @@ jobs:
         with:
           fetch-depth: "0"
       - name: "Initialize CodeQL"
-        uses: "github/codeql-action/init@v3.26.13"
+        uses: "github/codeql-action/init@v3.27.0"
         with:
           queries: "+security-and-quality"
       # Automatically build attempts to build any compiled languages.
       - name: "Build Repository"
-        uses: "github/codeql-action/autobuild@v3.26.13"
+        uses: "github/codeql-action/autobuild@v3.27.0"
         continue-on-error: true
       - name: "Analyze Repository"
-        uses: "github/codeql-action/analyze@v3.26.13"
+        uses: "github/codeql-action/analyze@v3.27.0"
