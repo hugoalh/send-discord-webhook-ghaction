@@ -44,7 +44,7 @@ jobs:
           Add-Content -LiteralPath $Env:GITHUB_OUTPUT -Value "value=$($DenoInfo.denoDir)" -Confirm:$False -Encoding 'UTF8NoBOM'
       - name: "Restore Deno Cache"
         id: "deno-cache-restore"
-        uses: "actions/cache/restore@v4.1.1"
+        uses: "actions/cache/restore@v4.1.2"
         with:
           key: "Deno/${{runner.os}}-${{github.run_id}}-${{github.run_attempt}}-${{github.job}}"
           restore-keys: |-
@@ -142,7 +142,7 @@ jobs:
           npm publish --dry-run
       - name: "Save Deno Cache"
         if: "${{!cancelled() && steps.deno-cache-restore.outcome == 'success'}}"
-        uses: "actions/cache/save@v4.1.1"
+        uses: "actions/cache/save@v4.1.2"
         with:
           key: "Deno/${{runner.os}}-${{github.run_id}}-${{github.run_attempt}}-${{github.job}}"
           path: "${{steps.deno-cache-path.outputs.value}}"
