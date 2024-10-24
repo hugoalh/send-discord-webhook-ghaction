@@ -4,7 +4,7 @@ title: "Send Discord Webhook (GitHub Action)"
 message: "If you use this software, please cite it using the metadata from this file."
 type: "software"
 authors:
-  - name: "hugoalh Studio"
+  - name: "hugoalh"
 repository-code: "https://github.com/hugoalh/send-discord-webhook-ghaction"
 keywords:
   - "discord"
