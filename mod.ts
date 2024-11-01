@@ -7,18 +7,18 @@ import {
 	writeDebug,
 	writeError
 } from "GHACTIONS/log";
-import { setOutput } from "GHACTIONS/parameter";
+import {
+	getInput,
+	getInputBoolean,
+	getInputNumber,
+	setOutput
+} from "GHACTIONS/parameter";
 import type {
 	JSONArray,
 	JSONObject,
 } from "ISJSON";
 import { parse as yamlParse } from "STD/yaml/parse";
 import { StringTruncator } from "STRINGOVERFLOW";
-import {
-	getInput,
-	getInputBoolean,
-	getInputNumber
-} from "./_parameter.ts";
 import {
 	resolveContent,
 	resolveEmbeds,
@@ -42,11 +42,11 @@ writeDebug(`Environment Variables:\n\t${Object.entries(Deno.env.toObject()).map(
 }).join("\n\t")}`);
 console.log("Parse input.");
 try {
-	const truncateEnable: boolean = getInputBoolean("truncate_enable", { defaultValue: true });
+	const truncateEnable: boolean = getInputBoolean("truncate_enable", { fallback: false }) ?? true;
 	const stringTruncator: StringTruncator | undefined = truncateEnable ? new StringTruncator(128, {
-		ellipsisMark: getInput("truncate_ellipsis", { defaultValue: "..." }),
-		//@ts-ignore Validate by package.
-		ellipsisPosition: getInput("truncate_position", { defaultValue: "end" })
+		ellipsisMark: getInput("truncate_ellipsis", { fallback: false }),
+		//@ts-ignore Validate by the module.
+		ellipsisPosition: getInput("truncate_position", { fallback: false })
 	}) : undefined;
 	const key: string = resolveKey(getInput("key", { require: true }));
 	addSecretMask(key);
@@ -57,20 +57,20 @@ try {
 	}), stringTruncator);
 	const embeds: JSONArray | undefined = resolveEmbeds(yamlParse(getInput("embeds")), stringTruncator);
 	const poll: JSONObject | undefined = resolvePoll({
-		allowMultiSelect: getInputBoolean("poll_allow_multiselect", { defaultValue: false }),
+		allowMultiSelect: getInputBoolean("poll_allow_multiselect"),
 		answers: yamlParse(getInput("poll_answers")),
-		duration: getInputNumber("poll_duration", { defaultValue: -1 }),
+		duration: getInputNumber("poll_duration", { fallback: false }) ?? -1,
 		question: getInput("poll_question")
 	});
 	const files: FormData | undefined = await resolveFiles(getInput("files").split(splitterNewLine).map((file: string) => {
 		return file.trim();
 	}).filter((file: string): boolean => {
 		return (file.length > 0);
-	}), getInputBoolean("files_glob", { defaultValue: true }));
+	}), getInputBoolean("files_glob", { fallback: false }) ?? true);
 	const allowedMentions: JSONObject = resolveMentions({
-		parseEveryone: getInputBoolean("allowed_mentions_parse_everyone", { defaultValue: true }),
-		parseRoles: getInputBoolean("allowed_mentions_parse_roles", { defaultValue: true }),
-		parseUsers: getInputBoolean("allowed_mentions_parse_users", { defaultValue: true }),
+		parseEveryone: getInputBoolean("allowed_mentions_parse_everyone", { fallback: false }) ?? true,
+		parseRoles: getInputBoolean("allowed_mentions_parse_roles", { fallback: false }) ?? true,
+		parseUsers: getInputBoolean("allowed_mentions_parse_users", { fallback: false }) ?? true,
 		roles: getInput("allowed_mentions_roles").split(splitterCommonDelimiter).map((value: string): string => {
 			return value.trim();
 		}).filter((value: string): boolean => {
@@ -90,8 +90,8 @@ try {
 	}).filter((value: string): boolean => {
 		return (value.length > 0);
 	}));
-	const notification: boolean = getInputBoolean("notification", { defaultValue: true });
-	const wait: boolean = getInputBoolean("wait", { defaultValue: true });
+	const notification: boolean = getInputBoolean("notification", { fallback: false }) ?? true;
+	const wait: boolean = getInputBoolean("wait", { fallback: false }) ?? true;
 	if (
 		(typeof content === "undefined" && typeof embeds === "undefined" && typeof files === "undefined" && typeof poll === "undefined") ||
 		((
@@ -170,10 +170,12 @@ try {
 		throw new Error(`Unexpected web request issue: ${reason?.message ?? reason}`);
 	});
 	const responseText = await response.text();
-	setOutput("response", responseText);
-	setOutput("status_code", String(response.status));
-	setOutput("status_ok", String(response.ok));
-	setOutput("status_text", response.statusText);
+	setOutput({
+		"response": responseText,
+		"status_code": String(response.status),
+		"status_ok": String(response.ok),
+		"status_text": response.statusText
+	});
 	if (!response.ok) {
 		throw new Error(`Unexpected response status \`${response.status} ${response.statusText}\`: ${responseText}`);
 	}
