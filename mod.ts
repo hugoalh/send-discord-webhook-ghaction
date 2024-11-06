@@ -171,10 +171,10 @@ try {
 	});
 	const responseText = await response.text();
 	setOutput({
-		"response": responseText,
-		"status_code": String(response.status),
-		"status_ok": String(response.ok),
-		"status_text": response.statusText
+		response: responseText,
+		status_code: response.status,
+		status_ok: response.ok,
+		status_text: response.statusText
 	});
 	if (!response.ok) {
 		throw new Error(`Unexpected response status \`${response.status} ${response.statusText}\`: ${responseText}`);
