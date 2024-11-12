@@ -27,20 +27,20 @@ jobs:
     runs-on: "ubuntu-latest"
     steps:
       - name: "Checkout Repository"
-        uses: "actions/checkout@v4.2.2"
+        uses: "actions/checkout@v4"
       - name: "Setup Docker QEMU"
-        uses: "docker/setup-qemu-action@v3.2.0"
+        uses: "docker/setup-qemu-action@v3"
       - name: "Setup Docker Buildx"
-        uses: "docker/setup-buildx-action@v3.7.1"
+        uses: "docker/setup-buildx-action@v3"
       - name: "Sign In To GitHub Packages"
-        uses: "docker/login-action@v3.3.0"
+        uses: "docker/login-action@v3"
         with:
           registry: "ghcr.io"
           username: "${{github.actor}}"
           password: "${{secrets.GITHUB_TOKEN}}"
       - name: "Resolve Metadata"
         id: "metadata"
-        uses: "docker/metadata-action@v5.5.1"
+        uses: "docker/metadata-action@v5"
         with:
           images: |-
             name=ghcr.io/${{github.repository}}
@@ -57,7 +57,7 @@ jobs:
             org.opencontainers.image.title=Send Discord Webhook (GitHub Action) Image
             org.opencontainers.image.description=A Docker image for Send Discord Webhook (GitHub Action) to send Discord webhook.
       - name: "Build & Publish Docker Image"
-        uses: "docker/build-push-action@v6.9.0"
+        uses: "docker/build-push-action@v6"
         with:
           context: "./"
           file: "Dockerfile"

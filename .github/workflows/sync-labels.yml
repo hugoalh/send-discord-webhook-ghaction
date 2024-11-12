@@ -16,9 +16,9 @@ jobs:
     runs-on: "ubuntu-latest"
     steps:
       - name: "Checkout Repository"
-        uses: "actions/checkout@v4.2.2"
+        uses: "actions/checkout@v4"
       - name: "Sync Labels"
-        uses: "EndBug/label-sync@v2.3.3"
+        uses: "EndBug/label-sync@v2"
         with:
           config-file: ".github/labels.yml"
           delete-other-labels: "true"
