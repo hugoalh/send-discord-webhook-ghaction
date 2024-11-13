@@ -20,7 +20,7 @@
 		"STD/media-types": "jsr:@std/media-types@1.0.3",
 		"STD/path": "jsr:@std/path@1.0.8",
 		"STD/yaml": "jsr:@std/yaml@1.0.5",
-		"STRINGOVERFLOW": "jsr:@hugoalh/string-overflow@2.0.3"
+		"STRINGOVERFLOW": "jsr:@hugoalh/string-overflow@2.0.4"
 	},
 	"lint": {
 		"rules": {
