@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 # IMPORTANT: Do not create big size layer due to GitHub Packages have worse performance on this!
 FROM denoland/deno:bin-2.0.6 AS stage-deno
-FROM debian:12.7-slim
+FROM debian:12.8-slim
 ENV APP_ROOT=/opt/hugoalh/send-discord-webhook-ghaction
 ENV DEBIAN_FRONTEND=noninteractive
 ENV DENO_NO_PROMPT=1
