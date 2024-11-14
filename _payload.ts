@@ -5,8 +5,8 @@ import {
 	type JSONArray,
 	type JSONObject,
 	type JSONValue,
-} from "ISJSON";
-import { getRunnerWorkspacePath } from "GHACTIONS/runner";
+} from "ISJSON/mod.ts";
+import { getRunnerWorkspacePath } from "GHACTIONS/runner.ts";
 import getRegExpURL from "REGEXPURL";
 import { contentType } from "STD/media-types/content-type";
 import { basename as pathBasename } from "STD/path/basename";
@@ -14,7 +14,7 @@ import { extname as pathExtname } from "STD/path/extname";
 import { isAbsolute as pathIsAbsolute } from "STD/path/is-absolute";
 import { globToRegExp } from "STD/path/glob-to-regexp";
 import { join as pathJoin } from "STD/path/join";
-import type { StringTruncator } from "STRINGOVERFLOW";
+import type { StringTruncator } from "STRINGOVERFLOW/mod.ts";
 import { colorNamespaceList } from "./_color_namespace_list.ts";
 import {
 	walkFS,

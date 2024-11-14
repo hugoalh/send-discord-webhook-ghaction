@@ -1,24 +1,24 @@
 import {
 	ExFetch,
 	userAgentDefault
-} from "EXFETCH";
+} from "EXFETCH/mod.ts";
 import {
 	addSecretMask,
 	writeDebug,
 	writeError
-} from "GHACTIONS/log";
+} from "GHACTIONS/log.ts";
 import {
 	getInput,
 	getInputBoolean,
 	getInputNumber,
 	setOutput
-} from "GHACTIONS/parameter";
+} from "GHACTIONS/parameter.ts";
 import type {
 	JSONArray,
 	JSONObject,
-} from "ISJSON";
+} from "ISJSON/mod.ts";
 import { parse as yamlParse } from "STD/yaml/parse";
-import { StringTruncator } from "STRINGOVERFLOW";
+import { StringTruncator } from "STRINGOVERFLOW/mod.ts";
 import {
 	resolveContent,
 	resolveEmbeds,
