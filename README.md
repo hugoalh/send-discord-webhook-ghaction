@@ -117,7 +117,7 @@ Examples:
 
 #### `embeds[*].color`
 
-`<number | string = 2105893>` Message embed colour (i.e.: left border's colour of the embed); These syntax are acceptable:
+`<number | string = 2105893>` Message embed colour (i.e.: left border's colour of the embed); These syntaxes are acceptable:
 
 - **RGB Integer:** `{number}` (e.g.: `2105893`)
 - **Hex:** `#{hex}{hex}{hex}` / `#{hex}{hex}{hex}{hex}{hex}{hex}` (e.g.: `#0063B1`)
