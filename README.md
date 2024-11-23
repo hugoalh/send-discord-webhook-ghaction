@@ -36,9 +36,9 @@ A GitHub Action to send Discord webhook.
 > [!NOTE]
 > - It is recommended to use this action with tag for immutability.
 
-### 🛡️ Require GitHub Token Permissions
+### 🛡️ GitHub Token Permissions
 
-*This action does not require any GitHub token permission.*
+*This action does not request any GitHub token permission.*
 
 ## 🧩 Inputs
 
