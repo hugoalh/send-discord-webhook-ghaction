@@ -69,7 +69,7 @@ jobs:
           Add-Content -LiteralPath $Env:GITHUB_OUTPUT -Value "build=$(($Null -ine $Config.tasks.build).ToString().ToLower())"
           Add-Content -LiteralPath $Env:GITHUB_OUTPUT -Value "jsr-check=$(($Null -ine $Config.tasks.('jsr-check')).ToString().ToLower())"
           Add-Content -LiteralPath $Env:GITHUB_OUTPUT -Value "npm-build=$(($Null -ine $Config.tasks.('npm-build')).ToString().ToLower())"
-          Add-Content -LiteralPath $Env:GITHUB_OUTPUT -Value "npm-root=$(Join-Path -Path $Env:GITHUB_WORKSPACE -ChildPath ($Config._behaviour.npm.root ?? './npm'))"
+          Add-Content -LiteralPath $Env:GITHUB_OUTPUT -Value "npm-root=$(Join-Path -Path $Env:GITHUB_WORKSPACE -ChildPath ($Config._behaviour.npm.root ?? 'npm'))"
       - name: "Check Repository"
         if: "${{!cancelled() && steps.analyze.outcome == 'success' && env.CDV_RUN_LITE == 'false'}}"
         shell: "pwsh"
