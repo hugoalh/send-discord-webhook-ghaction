@@ -81,23 +81,27 @@ jobs:
                 Join-String -Separator ', '
             )" -ErrorAction 'Stop'
           }
-      - name: "Verify Code"
-        if: "${{!cancelled() && steps.analyze.outcome == 'success'}}"
-        shell: "pwsh"
-        run: |-
-          [String[]]$Files = Get-ChildItem -LiteralPath '.\' -Include @('*.ts', '*.tsx') -File -Recurse -Name
-          [Boolean]$ShouldReload = $Env:GITHUB_EVENT_NAME -iin @('schedule', 'workflow_dispatch')
-          ForEach ($File In $Files) {
-            $ShouldReload ? (deno cache --reload $File) : (deno cache $File)
-          }
-      - name: "Lint Code"
-        if: "${{!cancelled() && steps.analyze.outcome == 'success'}}"
-        run: |-
-          deno lint
       - name: "Build Repository"
         if: "${{!cancelled() && steps.analyze.outcome == 'success' && steps.analyze.outputs.build == 'true'}}"
         run: |-
           deno task build
+      - name: "Lint Code"
+        if: "${{!cancelled() && steps.analyze.outcome == 'success'}}"
+        run: |-
+          deno lint
+      - name: "Check Dependencies Update"
+        if: "${{!cancelled() && steps.analyze.outcome == 'success' && env.CDV_RUN_LITE == 'false'}}"
+        run: |-
+          deno outdated
+      - name: "Check Deployment For Remote Import"
+        if: "${{!cancelled() && steps.analyze.outcome == 'success' && env.CDV_RUN_LITE == 'false'}}"
+        shell: "pwsh"
+        run: |-
+          Get-ChildItem -LiteralPath '.\' -File -Recurse -Name
+      - name: "Check Deployment For JSR"
+        if: "${{!cancelled() && steps.analyze.outcome == 'success' && env.CDV_RUN_LITE == 'false' && steps.analyze.outputs.jsr-check == 'true'}}"
+        run: |-
+          deno task jsr-check
       - name: "Test Code"
         id: "test"
         if: "${{!cancelled() && steps.analyze.outcome == 'success' && steps.analyze.outputs.test == 'true'}}"
@@ -111,26 +115,6 @@ jobs:
         if: "${{!cancelled() && steps.analyze.outcome == 'success' && steps.analyze.outputs.benchmark == 'true'}}"
         run: |-
           deno bench --allow-all --no-prompt
-      # - name: "Check Dependencies Update"
-      #   if: "${{!cancelled() && steps.analyze.outcome == 'success' && env.CDV_RUN_LITE == 'false' && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')}}"
-      #   shell: "pwsh"
-      #   run: |-
-      #     [String]$Output = deno run --allow-net "--allow-read=$($Env:GITHUB_WORKSPACE)" --no-prompt https://deno.land/x/udd@0.8.2/main.ts --dry-run **/*.ts **/*.tsx deno.jsonc *>&1 |
-      #       Join-String -Separator "`n"
-      #     $LASTEXITCODE = 0
-      #     Write-Host -Object $Output
-      #     If ($Output -imatch 'able to update') {
-      #       Write-Warning -Message 'Found dependencies that need to update!'
-      #     }
-      - name: "Check Deployment For Remote Import"
-        if: "${{!cancelled() && steps.analyze.outcome == 'success' && env.CDV_RUN_LITE == 'false'}}"
-        shell: "pwsh"
-        run: |-
-          Get-ChildItem -LiteralPath '.\' -File -Recurse -Name
-      - name: "Check Deployment For JSR"
-        if: "${{!cancelled() && steps.analyze.outcome == 'success' && env.CDV_RUN_LITE == 'false' && steps.analyze.outputs.jsr-check == 'true'}}"
-        run: |-
-          deno task jsr-check
       - name: "Build Package For NPM"
         if: "${{!cancelled() && steps.analyze.outcome == 'success' && env.CDV_RUN_LITE == 'false' && steps.analyze.outputs.npm-build == 'true'}}"
         run: |-
