@@ -46,15 +46,11 @@ jobs:
         id: "deno-cache-restore"
         uses: "actions/cache/restore@v4"
         with:
-          key: "Deno/${{runner.os}}-${{github.run_id}}-${{github.run_attempt}}-${{github.job}}"
+          key: "${{runner.os}}/Deno/${{github.run_id}}-${{github.run_attempt}}-${{github.job}}"
           restore-keys: |-
-            Deno/${{runner.os}}-${{github.run_id}}-${{github.run_attempt}}-
-            Deno/${{runner.os}}-${{github.run_id}}-${{github.run_attempt}}
-            Deno/${{runner.os}}-${{github.run_id}}-
-            Deno/${{runner.os}}-${{github.run_id}}
-            Deno/${{runner.os}}-
-            Deno/${{runner.os}}
-            Deno/
+            ${{runner.os}}/Deno/${{github.run_id}}-${{github.run_attempt}}-
+            ${{runner.os}}/Deno/${{github.run_id}}-
+            ${{runner.os}}/Deno/
           path: "${{steps.deno-cache-path.outputs.value}}"
       - name: "Analyze Repository"
         id: "analyze"
@@ -128,5 +124,5 @@ jobs:
         if: "${{!cancelled() && steps.deno-cache-restore.outcome == 'success'}}"
         uses: "actions/cache/save@v4"
         with:
-          key: "Deno/${{runner.os}}-${{github.run_id}}-${{github.run_attempt}}-${{github.job}}"
+          key: "${{runner.os}}/Deno/${{github.run_id}}-${{github.run_attempt}}-${{github.job}}"
           path: "${{steps.deno-cache-path.outputs.value}}"
