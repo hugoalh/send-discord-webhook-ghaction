@@ -389,8 +389,8 @@ export async function resolveFiles(files: string[], glob: boolean): Promise<Form
 		if (pathIsAbsolute(file)) {
 			throw new Error(`\`${file}\` is not a relative file path!`);
 		}
-		const fileStat: Deno.FileInfo = await Deno.stat(pathJoin(workspace, file));
-		if (!fileStat.isFile) {
+		const fileStatL: Deno.FileInfo = await Deno.lstat(pathJoin(workspace, file));
+		if (!fileStatL.isFile) {
 			throw new Error(`\`${file}\` is not a file!`);
 		}
 	}))).map((fileStat: PromiseSettledResult<void>): unknown => {
