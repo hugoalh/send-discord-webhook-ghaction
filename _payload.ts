@@ -1,5 +1,9 @@
 import Color from "COLOR";
 import {
+	walk,
+	type FSWalkEntry
+} from "FS/walk.ts";
+import {
 	isJSONArray,
 	isJSONObject,
 	type JSONArray,
@@ -16,10 +20,6 @@ import { globToRegExp } from "STD/path/glob-to-regexp";
 import { join as pathJoin } from "STD/path/join";
 import type { StringTruncator } from "STRINGOVERFLOW/mod.ts";
 import { colorNamespaceList } from "./_color_namespace_list.ts";
-import {
-	walkFS,
-	type FSWalkEntry
-} from "./_fswalk.ts";
 import { generateRandomInteger } from "./_random_integer.ts";
 const thresholdContent = 2000;
 const thresholdEmbeds = 10;
@@ -362,29 +362,22 @@ async function resolveFilesFormData(workspace: string, files: string[]): Promise
 }
 export async function resolveFiles(files: string[], glob: boolean): Promise<FormData | undefined> {
 	const workspace: string = getRunnerWorkspacePath();
-	const workspaceStat: Deno.FileInfo = await Deno.stat(workspace);
-	if (!workspaceStat.isDirectory) {
+	const workspaceStatL: Deno.FileInfo = await Deno.lstat(workspace);
+	if (!workspaceStatL.isDirectory) {
 		throw new Deno.errors.NotADirectory(`Workspace \`${workspace}\` is not a directory!`);
 	}
 	if (files.length === 0) {
 		return undefined;
 	}
 	if (glob) {
-		const matchers: RegExp[] = files.map((file: string): RegExp => {
-			return globToRegExp(file, { caseInsensitive: true });
-		});
-		const filesFmt: string[] = (await Array.fromAsync(walkFS(workspace, {
-			includeDirs: false,
-			includeRoot: false,
-			includeSymlinks: false
-		}))).filter(({
-			pathAbsolute,
-			pathRelative
-		}: FSWalkEntry): boolean => {
-			return pathAbsolute.startsWith(workspace) && matchers.some((matcher: RegExp): boolean => {
-				return matcher.test(pathRelative);
-			});
-		}).map(({ pathRelative }: FSWalkEntry): string => {
+		const filesFmt: string[] = await Array.fromAsync(await walk(workspace, {
+			includeDirectories: false,
+			includeSymlinkDirectories: false,
+			includeSymlinkFiles: false,
+			matches: files.map((file: string): RegExp => {
+				return globToRegExp(file, { caseInsensitive: true });
+			})
+		}), ({ pathRelative }: FSWalkEntry): string => {
 			return pathRelative;
 		});
 		if (filesFmt.length === 0) {
