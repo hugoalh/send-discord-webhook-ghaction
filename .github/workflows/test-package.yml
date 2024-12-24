@@ -10,11 +10,11 @@ jobs:
       - name: "List Docker Image"
         run: |-
           docker image ls --all --digests --no-trunc
-      - uses: "hugoalh/send-discord-webhook-ghaction@main"
+      - uses: "hugoalh/send-discord-webhook-ghaction@dev"
         with:
           key: "${{secrets.TEST_TEXT_WEBHOOK}}"
           content: "Hello, text channel!"
-      - uses: "hugoalh/send-discord-webhook-ghaction@main"
+      - uses: "hugoalh/send-discord-webhook-ghaction@dev"
         with:
           key: "${{secrets.TEST_TEXT_WEBHOOK}}"
           poll_allow_multiselect: "true"
@@ -29,12 +29,12 @@ jobs:
             - text: "Other"
           poll_duration: "1"
           poll_question: "Who?"
-      - uses: "hugoalh/send-discord-webhook-ghaction@main"
+      - uses: "hugoalh/send-discord-webhook-ghaction@dev"
         with:
           key: "${{secrets.TEST_TEXT_WEBHOOK}}"
           content: "Hello, thread 0!"
           thread_id: "1281905279075876887"
-      - uses: "hugoalh/send-discord-webhook-ghaction@main"
+      - uses: "hugoalh/send-discord-webhook-ghaction@dev"
         with:
           key: "${{secrets.TEST_FORUM_WEBHOOK}}"
           content: "Hello, forum thread!"
@@ -45,7 +45,7 @@ jobs:
             1281904437387989123
             1281995616490094684
             1281995653186195497
-      - uses: "hugoalh/send-discord-webhook-ghaction@main"
+      - uses: "hugoalh/send-discord-webhook-ghaction@dev"
         with:
           key: "${{secrets.TEST_TEXT_WEBHOOK}}"
           content: "Text message. Up to 2000 characters."
@@ -98,7 +98,7 @@ jobs:
       - shell: "pwsh"
         run: |-
           Invoke-WebRequest -Uri 'https://cdn.prod.website-files.com/6257adef93867e50d84d30e2/636e0b52aa9e99b832574a53_full_logo_blurple_RGB.png' -MaximumRetryCount 5 -RetryIntervalSec 5 -Method 'Get' -OutFile 'thumbnail.png'
-      - uses: "hugoalh/send-discord-webhook-ghaction@main"
+      - uses: "hugoalh/send-discord-webhook-ghaction@dev"
         with:
           key: "${{secrets.TEST_TEXT_WEBHOOK}}"
           content: "This is the Discord logo."
