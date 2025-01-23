@@ -12,15 +12,12 @@ import {
 } from "ISJSON/mod.ts";
 import { getRunnerWorkspacePath } from "GHACTIONS/runner.ts";
 import getRegExpURL from "REGEXPURL";
-import { contentType } from "STD/media-types/content-type";
 import { basename as pathBasename } from "STD/path/basename";
-import { extname as pathExtname } from "STD/path/extname";
 import { isAbsolute as pathIsAbsolute } from "STD/path/is-absolute";
 import { globToRegExp } from "STD/path/glob-to-regexp";
 import { join as pathJoin } from "STD/path/join";
 import type { StringTruncator } from "STRINGOVERFLOW/mod.ts";
 import { colorNamespaceList } from "./_color_namespace_list.ts";
-import { generateRandomInteger } from "./_random_integer.ts";
 const thresholdContent = 2000;
 const thresholdEmbeds = 10;
 const thresholdEmbedAuthorName = 256;
@@ -42,6 +39,15 @@ const thresholdUsername = 80;
 const regexpDiscordWebhookURL = /^(?:https:\/\/(?:canary\.)?discord(?:app)?\.com\/api\/webhooks\/)?(?<key>\d+\/(?:[\dA-Za-z][\dA-Za-z_-]*)?[\dA-Za-z])$/u;
 const regexpISO8601 = /^\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\dZ$/;
 const regexpSnowflake = /^\d+$/;
+function generateRandomInteger(range: number, offset: number = 0): number {
+	if (!(Number.isSafeInteger(range) && range >= 2)) {
+		throw new TypeError(`Parameter \`range\` is not a number which is integer, safe, and >= 2!`);
+	}
+	if (!Number.isSafeInteger(offset)) {
+		throw new TypeError(`Parameter \`offset\` is not a number which is integer and safe!`);
+	}
+	return (Math.floor(Math.random() * range) + offset);
+}
 //deno-lint-ignore default-param-last
 export function resolveContent(content: string, contentLinksNoEmbed: string[] = [], truncator?: StringTruncator): string | undefined {
 	const contentLinksNoEmbedRegExp: RegExp | undefined = (contentLinksNoEmbed.length > 0) ? new RegExp(contentLinksNoEmbed.join("|"), "u") : undefined;
@@ -138,7 +144,7 @@ export function resolveEmbeds(embeds: unknown, truncator?: StringTruncator): JSO
 							break;
 						}
 						if (embed.color === "Random") {
-							embed.color = (generateRandomInteger({ d: 256 }) * 65536) + (generateRandomInteger({ d: 256 }) * 256) + generateRandomInteger({ d: 256 });
+							embed.color = (generateRandomInteger(256) * 65536) + (generateRandomInteger(256) * 256) + generateRandomInteger(256);
 						} else if (colorNamespaceList.has(embed.color)) {
 							embed.color = Color(colorNamespaceList.get(embed.color)!, "hex").rgbNumber();
 						} else {
@@ -349,14 +355,15 @@ export function resolveEmbeds(embeds: unknown, truncator?: StringTruncator): JSO
 	}
 	return embedsFmt;
 }
-async function resolveFilesFormData(workspace: string, files: string[]): Promise<FormData> {
-	if (files.length > thresholdFiles) {
-		throw new Error(`Input \`files\` must not have more than ${thresholdFiles} files (current ${files.length})!`);
+async function resolveFilesFormData(workspace: string, filesPath: string[]): Promise<FormData> {
+	if (filesPath.length > thresholdFiles) {
+		throw new Error(`Input \`files\` must not have more than ${thresholdFiles} files (current ${filesPath.length})!`);
 	}
 	const formData: FormData = new FormData();
-	for (let index = 0; index < files.length; index += 1) {
-		const file: string = files[index];
-		formData.append(`files[${index}]`, new Blob([await Deno.readFile(pathJoin(workspace, file))], { type: contentType(pathExtname(file)) }), pathBasename(file));
+	for (let index: number = 0; index < filesPath.length; index += 1) {
+		const filePath: string = filesPath[index];
+		using file: Deno.FsFile = await Deno.open(pathJoin(workspace, filePath));
+		formData.append(`files[${index}]`, await new Response(file.readable).blob(), pathBasename(filePath));
 	}
 	return formData;
 }

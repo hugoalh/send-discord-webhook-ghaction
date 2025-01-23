@@ -1,4 +1,4 @@
-import colorNamespaceListCommunity from "COLORNAMESPACELISTCOMMUNITY";
+import { colornames as colorNamespaceListCommunity } from "COLORNAMESPACELISTCOMMUNITY";
 interface ColorNamespaceListEntry {
 	hex: `#${string}`;
 	name: string;

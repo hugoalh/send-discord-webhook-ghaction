@@ -94,7 +94,7 @@ outputs:
     description: "{string} Request status text."
 runs:
   using: "docker"
-  image: "docker://ghcr.io/hugoalh/send-discord-webhook-ghaction:7.0.4"
+  image: "docker://ghcr.io/hugoalh/send-discord-webhook-ghaction:7.0.5"
 branding:
   icon: "send"
   color: "blue"

@@ -1,6 +1,6 @@
 import {
-	ExFetch,
-	userAgentDefault
+	exFetch,
+	type ExFetchEventRetryPayload
 } from "EXFETCH/mod.ts";
 import {
 	addSecretMask,
@@ -32,11 +32,9 @@ import {
 	resolveUsername
 } from "./_payload.ts";
 console.log("Initialize.");
-const exfetch: ExFetch = new ExFetch({
-	userAgent: `${userAgentDefault} SendDiscordWebhook.GitHubAction/7.0.4`
-});
 const splitterNewLine = /\r?\n/g;
 const splitterCommonDelimiter = /,|\r?\n/g;
+const userAgent = `SendDiscordWebhook.GitHubAction/7.0.5`;
 writeDebug(`Environment Variables:\n\t${Object.entries(Deno.env.toObject()).map(([key, value]: [string, string]): string => {
 	return `${key} = ${value}`;
 }).join("\n\t")}`);
@@ -62,7 +60,7 @@ try {
 		duration: getInputNumber("poll_duration", { fallback: false }) ?? -1,
 		question: getInput("poll_question")
 	});
-	const files: FormData | undefined = await resolveFiles(getInput("files").split(splitterNewLine).map((file: string) => {
+	const files: FormData | undefined = await resolveFiles(getInput("files").split(splitterNewLine).map((file: string): string => {
 		return file.trim();
 	}).filter((file: string): boolean => {
 		return (file.length > 0);
@@ -161,15 +159,32 @@ try {
 		return requestPayloadStringify;
 	})();
 	console.log(`Post network request to Discord.`);
-	const response: Response = await exfetch.fetch(`https://discord.com/api/webhooks/${key}${(discordWebhookUrlParameters.size > 0) ? `?${discordWebhookUrlParameters.toString()}` : ""}`, {
+	const response: Response = await exFetch(`https://discord.com/api/webhooks/${key}${(discordWebhookUrlParameters.size > 0) ? `?${discordWebhookUrlParameters.toString()}` : ""}`, {
 		body: requestBody,
 		headers: requestHeaders,
 		method: "POST",
 		redirect: "follow"
+	}, {
+		retry: {
+			onRetry({
+				countCurrent,
+				countMaximum,
+				statusCode,
+				statusText,
+				timeWait
+			}: ExFetchEventRetryPayload): void {
+				console.log(`Last network request failed with status \`${statusCode} ${statusText}. Retry #${countCurrent}/${countMaximum} after ${timeWait / 1000} seconds\`.`);
+			},
+			timeWait: {
+				maximum: 120000,
+				minimum: 10000
+			}
+		},
+		userAgent
 	}).catch((reason: Error): never => {
 		throw new Error(`Unexpected web request issue: ${reason?.message ?? reason}`);
 	});
-	const responseText = await response.text();
+	const responseText: string = await response.text();
 	setOutput({
 		response: responseText,
 		status_code: response.status,
