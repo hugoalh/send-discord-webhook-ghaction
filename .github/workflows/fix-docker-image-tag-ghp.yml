@@ -1,0 +1,30 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+name: "Fix Docker Image Tag"
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        type: "string"
+        description: "{string} Tag."
+        required: true
+      label:
+        type: "string"
+        description: "{string} Label."
+        required: true
+jobs:
+  main:
+    permissions:
+      contents: "read"
+      packages: "write"
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: "Sign In To GitHub Packages"
+        uses: "docker/login-action@v3"
+        with:
+          registry: "ghcr.io"
+          username: "${{github.actor}}"
+          password: "${{secrets.GITHUB_TOKEN}}"
+      - name: "Fix Tag"
+        shell: "pwsh"
+        run: |-
+          docker image tag 'ghcr.io/${{github.repository}}:${{inputs.tag}}' 'ghcr.io/${{github.repository}}:${{inputs.label}}'
