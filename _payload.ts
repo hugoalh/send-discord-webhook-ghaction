@@ -12,9 +12,7 @@ import {
 } from "ISJSON/mod.ts";
 import { getRunnerWorkspacePath } from "GHACTIONS/runner.ts";
 import getRegExpURL from "REGEXPURL";
-import { contentType } from "STD/media-types/content-type";
 import { basename as pathBasename } from "STD/path/basename";
-import { extname as pathExtname } from "STD/path/extname";
 import { isAbsolute as pathIsAbsolute } from "STD/path/is-absolute";
 import { globToRegExp } from "STD/path/glob-to-regexp";
 import { join as pathJoin } from "STD/path/join";
@@ -357,14 +355,15 @@ export function resolveEmbeds(embeds: unknown, truncator?: StringTruncator): JSO
 	}
 	return embedsFmt;
 }
-async function resolveFilesFormData(workspace: string, files: string[]): Promise<FormData> {
-	if (files.length > thresholdFiles) {
-		throw new Error(`Input \`files\` must not have more than ${thresholdFiles} files (current ${files.length})!`);
+async function resolveFilesFormData(workspace: string, filesPath: string[]): Promise<FormData> {
+	if (filesPath.length > thresholdFiles) {
+		throw new Error(`Input \`files\` must not have more than ${thresholdFiles} files (current ${filesPath.length})!`);
 	}
 	const formData: FormData = new FormData();
-	for (let index: number = 0; index < files.length; index += 1) {
-		const file: string = files[index];
-		formData.append(`files[${index}]`, new Blob([await Deno.readFile(pathJoin(workspace, file))], { type: contentType(pathExtname(file)) }), pathBasename(file));
+	for (let index: number = 0; index < filesPath.length; index += 1) {
+		const filePath: string = filesPath[index];
+		using file: Deno.FsFile = await Deno.open(pathJoin(workspace, filePath));
+		formData.append(`files[${index}]`, await new Response(file.readable).blob(), pathBasename(filePath));
 	}
 	return formData;
 }
