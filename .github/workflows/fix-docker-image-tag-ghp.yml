@@ -27,4 +27,6 @@ jobs:
       - name: "Fix Tag"
         shell: "pwsh"
         run: |-
+          docker image pull 'ghcr.io/${{github.repository}}:${{inputs.tag}}'
           docker image tag 'ghcr.io/${{github.repository}}:${{inputs.tag}}' 'ghcr.io/${{github.repository}}:${{inputs.label}}'
+          docker image push 'ghcr.io/${{github.repository}}:${{inputs.label}}'
