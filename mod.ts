@@ -60,7 +60,7 @@ try {
 		duration: getInputNumber("poll_duration", { fallback: false }) ?? -1,
 		question: getInput("poll_question")
 	});
-	const files: FormData | undefined = await resolveFiles(getInput("files").split(splitterNewLine).map((file: string) => {
+	const files: FormData | undefined = await resolveFiles(getInput("files").split(splitterNewLine).map((file: string): string => {
 		return file.trim();
 	}).filter((file: string): boolean => {
 		return (file.length > 0);
@@ -184,7 +184,7 @@ try {
 	}).catch((reason: Error): never => {
 		throw new Error(`Unexpected web request issue: ${reason?.message ?? reason}`);
 	});
-	const responseText = await response.text();
+	const responseText: string = await response.text();
 	setOutput({
 		response: responseText,
 		status_code: response.status,
