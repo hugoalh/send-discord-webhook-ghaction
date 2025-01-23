@@ -34,7 +34,7 @@ import {
 console.log("Initialize.");
 const splitterNewLine = /\r?\n/g;
 const splitterCommonDelimiter = /,|\r?\n/g;
-const userAgent = `SendDiscordWebhook.GitHubAction/7.0.4`;
+const userAgent = `SendDiscordWebhook.GitHubAction/7.0.5`;
 writeDebug(`Environment Variables:\n\t${Object.entries(Deno.env.toObject()).map(([key, value]: [string, string]): string => {
 	return `${key} = ${value}`;
 }).join("\n\t")}`);
