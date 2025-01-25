@@ -11,11 +11,14 @@ import {
 	type JSONValue,
 } from "ISJSON/mod.ts";
 import { getRunnerWorkspacePath } from "GHACTIONS/runner.ts";
-import getRegExpURL from "REGEXPURL";
 import { basename as pathBasename } from "STD/path/basename";
 import { isAbsolute as pathIsAbsolute } from "STD/path/is-absolute";
 import { globToRegExp } from "STD/path/glob-to-regexp";
 import { join as pathJoin } from "STD/path/join";
+import {
+	StringDissector,
+	type StringSegmentDescriptor
+} from "STRINGDISSECT/mod.ts";
 import type { StringTruncator } from "STRINGOVERFLOW/mod.ts";
 import { colorNamespaceList } from "./_color_namespace_list.ts";
 const thresholdContent = 2000;
@@ -54,12 +57,15 @@ export function resolveContent(content: string, contentLinksNoEmbed: string[] = 
 	if (content.length === 0) {
 		return undefined;
 	}
-	const contentFmt: string = (typeof contentLinksNoEmbedRegExp === "undefined") ? content : content.replace(getRegExpURL({
-		auth: true,
-		localhost: false
-	}), (value: string): string => {
-		return ((URL.canParse(value) && /^https?:\/\//u.test(value) && contentLinksNoEmbedRegExp.test(value)) ? `<${value}>` : value);
-	});
+	const contentFmt: string = (typeof contentLinksNoEmbedRegExp === "undefined") ? content : Array.from(new StringDissector().dissect(content), ({
+		type,
+		value
+	}: StringSegmentDescriptor): string => {
+		if (type === "url" && URL.canParse(value) && /^https?:\/\//u.test(value) && contentLinksNoEmbedRegExp.test(value)) {
+			return `<${value}>`;
+		}
+		return value;
+	}).join("");
 	if (typeof truncator !== "undefined" && contentFmt.length > thresholdContent) {
 		return truncator.truncate(contentFmt, thresholdContent);
 	}
