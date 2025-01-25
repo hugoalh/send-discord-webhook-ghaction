@@ -55,18 +55,8 @@ export function resolveContent(content: string, contentLinksNoEmbed: string[] = 
 		return undefined;
 	}
 	const contentFmt: string = (typeof contentLinksNoEmbedRegExp === "undefined") ? content : content.replace(getRegExpURL({
-		apostrophes: false,
 		auth: true,
-		exact: false,
-		ipv4: true,
-		ipv6: true,
-		localhost: false,
-		parens: false,
-		//@ts-ignore `re2` is exist but not public.
-		re2: false,
-		returnString: false,
-		strict: false,
-		trailingPeriod: false
+		localhost: false
 	}), (value: string): string => {
 		return ((URL.canParse(value) && /^https?:\/\//u.test(value) && contentLinksNoEmbedRegExp.test(value)) ? `<${value}>` : value);
 	});
