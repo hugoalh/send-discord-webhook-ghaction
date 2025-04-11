@@ -15,26 +15,26 @@ on:
   workflow_dispatch:
 jobs:
   main:
-    name: "${{matrix.runon}}"
+    name: "${{matrix.run_on}}"
     permissions:
       contents: "read"
     strategy:
       matrix:
-        runon:
-          # - "macos-latest"
+        run_on:
+          - "macos-latest"
           - "ubuntu-latest"
-          # - "windows-latest"
+          - "windows-latest"
       fail-fast: false
-    runs-on: "${{matrix.runon}}"
+    runs-on: "${{matrix.run_on}}"
     env:
-      CDV_RUN_LITE: "${{matrix.runon != 'ubuntu-latest'}}"
+      CDV_RUN_LITE: "${{matrix.run_on != 'ubuntu-latest'}}"
     steps:
       - name: "Checkout Repository"
         uses: "actions/checkout@v4"
       - name: "Setup Deno"
         uses: "denoland/setup-deno@v2"
         with:
-          deno-version: "^2.0.0"
+          deno-version: "^2.2.5"
       - name: "Get Deno Cache Path"
         id: "deno-cache-path"
         shell: "pwsh"
@@ -102,7 +102,7 @@ jobs:
         id: "test"
         if: "${{!cancelled() && steps.analyze.outcome == 'success' && steps.analyze.outputs.test == 'true'}}"
         run: |-
-          deno test --allow-all --coverage --no-prompt
+          deno test --allow-all --coverage --no-prompt --trace-leaks
       - name: "List Test Code Coverage"
         if: "${{!cancelled() && steps.analyze.outcome == 'success' && steps.analyze.outputs.test == 'true' && (steps.test.outcome == 'failure' || steps.test.outcome == 'success')}}"
         run: |-

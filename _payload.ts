@@ -11,15 +11,17 @@ import {
 	type JSONValue,
 } from "ISJSON/mod.ts";
 import { getRunnerWorkspacePath } from "GHACTIONS/runner.ts";
-import { basename as pathBasename } from "STD/path/basename";
-import { isAbsolute as pathIsAbsolute } from "STD/path/is-absolute";
 import { globToRegExp } from "STD/path/glob-to-regexp";
-import { join as pathJoin } from "STD/path/join";
 import {
 	StringDissector,
 	type StringSegmentDescriptor
 } from "STRINGDISSECT/mod.ts";
 import type { StringTruncator } from "STRINGOVERFLOW/mod.ts";
+import {
+	basename as getPathBasename,
+	isAbsolute as isPathAbsolute,
+	join as joinPath
+} from "node:path";
 import { colorNamespaceList } from "./_color_namespace_list.ts";
 const thresholdContent = 2000;
 const thresholdEmbeds = 10;
@@ -358,8 +360,8 @@ async function resolveFilesFormData(workspace: string, filesPath: string[]): Pro
 	const formData: FormData = new FormData();
 	for (let index: number = 0; index < filesPath.length; index += 1) {
 		const filePath: string = filesPath[index];
-		using file: Deno.FsFile = await Deno.open(pathJoin(workspace, filePath));
-		formData.append(`files[${index}]`, await new Response(file.readable).blob(), pathBasename(filePath));
+		using file: Deno.FsFile = await Deno.open(joinPath(workspace, filePath));
+		formData.append(`files[${index}]`, await new Response(file.readable).blob(), getPathBasename(filePath));
 	}
 	return formData;
 }
@@ -389,10 +391,10 @@ export async function resolveFiles(files: string[], glob: boolean): Promise<Form
 		return resolveFilesFormData(workspace, filesFmt);
 	}
 	const filesStatRejected: unknown[] = (await Promise.allSettled(files.map(async (file: string): Promise<void> => {
-		if (pathIsAbsolute(file)) {
+		if (isPathAbsolute(file)) {
 			throw new Error(`\`${file}\` is not a relative file path!`);
 		}
-		const fileStatL: Deno.FileInfo = await Deno.lstat(pathJoin(workspace, file));
+		const fileStatL: Deno.FileInfo = await Deno.lstat(joinPath(workspace, file));
 		if (!fileStatL.isFile) {
 			throw new Error(`\`${file}\` is not a file!`);
 		}

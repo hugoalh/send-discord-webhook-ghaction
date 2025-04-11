@@ -2,7 +2,6 @@
 name: "Bug Report"
 description: "Report a bug."
 labels:
-  - "Status/Pending 🔵"
   - "Type/Bug 🐛"
 body:
   - type: "input"

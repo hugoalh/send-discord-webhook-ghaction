@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-action.json
 name: "Send Discord Webhook"
 author: "hugoalh"
 description: "Send Discord webhook."
