@@ -14,14 +14,17 @@
 		"EXFETCH/": "https://raw.githubusercontent.com/hugoalh/exfetch-es/v0.6.0/",
 		"FS/": "https://raw.githubusercontent.com/hugoalh/fs-es/v0.4.0/",
 		"GHACTIONS/": "https://raw.githubusercontent.com/hugoalh/github-actions-core-es/v0.4.3/",
+		"HUGOALH_DENO_LINT_RULES": "https://raw.githubusercontent.com/hugoalh/deno-lint-rules/v0.6.1/mod.ts",
 		"ISJSON/": "https://raw.githubusercontent.com/hugoalh/is-json-es/v1.0.4/",
-		"STD/assert": "jsr:@std/assert@1.0.11",
 		"STD/path": "jsr:@std/path@1.0.8",
 		"STD/yaml": "jsr:@std/yaml@1.0.5",
 		"STRINGDISSECT/": "https://raw.githubusercontent.com/hugoalh/string-dissect-es/v4.0.1/",
 		"STRINGOVERFLOW/": "https://raw.githubusercontent.com/hugoalh/string-overflow-es/v2.1.0/"
 	},
 	"lint": {
+		"plugins": [
+			"./.hugoalh.lint.ts"
+		],
 		"rules": {
 			"tags": [
 				"recommended"
@@ -36,7 +39,9 @@
 				"no-self-compare",
 				"no-sparse-arrays",
 				"no-sync-fn-in-async-fn",
+				"no-throw-literal",
 				"no-undef",
+				"no-useless-rename",
 				"triple-slash-reference",
 				"verbatim-module-syntax"
 			]

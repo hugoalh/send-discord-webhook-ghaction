@@ -1,8 +1,8 @@
-import { assertEquals } from "STD/assert/equals";
+import { deepStrictEqual } from "node:assert";
 import { parse as yamlParse } from "STD/yaml/parse";
 Deno.test("1", { permissions: "none" }, () => {
-	assertEquals(yamlParse(""), null);
+	deepStrictEqual(yamlParse(""), null);
 });
 Deno.test("2", { permissions: "none" }, () => {
-	assertEquals(yamlParse("") ?? [], []);
+	deepStrictEqual(yamlParse("") ?? [], []);
 });

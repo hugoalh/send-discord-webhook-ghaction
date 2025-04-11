@@ -1,9 +1,6 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 name: "Scan Virus"
 on:
-  push:
-    branches:
-      - "**"
   pull_request:
     branches:
       - "**"
@@ -12,6 +9,9 @@ on:
       - "opened"
       - "reopened"
       - "synchronize"
+  push:
+    branches:
+      - "**"
   workflow_dispatch:
     inputs:
       git_integrate:
@@ -37,6 +37,7 @@ on:
           - "True"
 jobs:
   main:
+    if: "${{!(github.event_name == 'pull_request' && github.event.pull_request.head.repo.id == github.event.pull_request.base.repo.id)}}"
     permissions:
       contents: "read"
     runs-on: "ubuntu-latest"
@@ -48,11 +49,18 @@ jobs:
       - name: "Scan Repository"
         uses: "hugoalh/scan-virus-ghaction/clamav@v0.20.1"
         with:
-          git_integrate: "${{github.event.inputs.git_integrate || 'False'}}"
-          git_limit: "${{github.event.inputs.git_limit || '0'}}"
-          git_reverse: "${{github.event.inputs.git_reverse || 'False'}}"
+          git_integrate: "${{inputs.git_integrate || 'False'}}"
+          git_limit: "${{inputs.git_limit || '0'}}"
+          git_reverse: "${{inputs.git_reverse || 'False'}}"
           ignores_post: |-
             Param($ElementPostMeta)
             Return (
               $ElementPostMeta.Path -imatch '^node_modules[\\/]'
             )
+  skip:
+    if: "${{github.event_name == 'pull_request' && github.event.pull_request.head.repo.id == github.event.pull_request.base.repo.id}}"
+    permissions: {}
+    runs-on: "ubuntu-latest"
+    steps:
+      - run: |-
+          sleep 1
