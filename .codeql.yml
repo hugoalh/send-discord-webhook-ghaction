@@ -1,0 +1,6 @@
+queries:
+  - uses: "security-and-quality"
+  - uses: "security-extended"
+query-filters:
+  - exclude:
+      id: "actions/unpinned-tag"

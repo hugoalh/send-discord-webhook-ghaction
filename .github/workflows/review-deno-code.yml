@@ -1,9 +1,6 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 name: "Review Deno Code"
 on:
-  push:
-    branches:
-      - "**"
   pull_request:
     branches:
       - "**"
@@ -12,10 +9,14 @@ on:
       - "opened"
       - "reopened"
       - "synchronize"
+  push:
+    branches:
+      - "**"
   workflow_dispatch:
 jobs:
   main:
     name: "${{matrix.run_on}}"
+    if: "${{!(github.event_name == 'pull_request' && github.event.pull_request.head.repo.id == github.event.pull_request.base.repo.id)}}"
     permissions:
       contents: "read"
     strategy:
@@ -30,42 +31,47 @@ jobs:
       CDV_RUN_LITE: "${{matrix.run_on != 'ubuntu-latest'}}"
     steps:
       - name: "Checkout Repository"
-        uses: "actions/checkout@v4"
+        uses: "actions/checkout@v5"
       - name: "Setup Deno"
         uses: "denoland/setup-deno@v2"
         with:
-          deno-version: "^2.2.5"
+          deno-version: "^2.4.5"
       - name: "Get Deno Cache Path"
-        id: "deno-cache-path"
         shell: "pwsh"
         run: |-
-          [PSCustomObject]$DenoInfo = deno info --json |
-            ConvertFrom-Json -Depth 100
-          Add-Content -LiteralPath $Env:GITHUB_OUTPUT -Value "value=$($DenoInfo.denoDir)" -Confirm:$False -Encoding 'UTF8NoBOM'
-      - name: "Restore Deno Cache"
-        id: "deno-cache-restore"
+          [PSCustomObject]$DenoInfo = ConvertFrom-Json -InputObject (
+            deno info --json |
+              Join-String -Separator "`n"
+          ) -Depth 100
+          Add-Content -LiteralPath $Env:GITHUB_ENV -Value "CDV_DENO_CACHE_PATH_ROOT=$($DenoInfo.denoDir)" -Confirm:$False -Encoding 'UTF8NoBOM'
+          Add-Content -LiteralPath $Env:GITHUB_ENV -Value "CDV_DENO_CACHE_PATH_FLUSHES=$(ConvertTo-Json -InputObject @(
+            $DenoInfo.typescriptCache
+          ) -Depth 100 -Compress)" -Confirm:$False -Encoding 'UTF8NoBOM'
+      - name: "Load Deno Cache"
         uses: "actions/cache/restore@v4"
         with:
-          key: "${{runner.os}}/Deno/${{github.run_id}}-${{github.run_attempt}}-${{github.job}}"
+          key: "${{runner.os}}/Deno/${{github.run_id}}/${{github.run_attempt}}/${{github.job}}"
           restore-keys: |-
-            ${{runner.os}}/Deno/${{github.run_id}}-${{github.run_attempt}}-
-            ${{runner.os}}/Deno/${{github.run_id}}-
+            ${{runner.os}}/Deno/${{github.run_id}}/${{github.run_attempt}}/
+            ${{runner.os}}/Deno/${{github.run_id}}/
             ${{runner.os}}/Deno/
-          path: "${{steps.deno-cache-path.outputs.value}}"
+          path: "${{env.CDV_DENO_CACHE_PATH_ROOT}}"
       - name: "Analyze Repository"
         id: "analyze"
         shell: "pwsh"
         run: |-
-          [PSCustomObject]$Config = Get-Content -LiteralPath '.\deno.jsonc' -Encoding 'UTF8NoBOM' |
-            ConvertFrom-Json -Depth 100
-          [String[]]$FilesTest = Get-ChildItem -LiteralPath '.\' -Include @('*.test.ts', '*.test.tsx', '*_test.ts', '*_test.tsx', 'test.ts', 'test.tsx') -File -Recurse -Name
-          [String[]]$FilesBenchmark = Get-ChildItem -LiteralPath '.\' -Include @('*.bench.ts', '*.bench.tsx', '*_bench.ts', '*_bench.tsx', 'bench.ts', 'bench.tsx') -File -Recurse -Name
-          Add-Content -LiteralPath $Env:GITHUB_OUTPUT -Value "test=$(($FilesTest.Count -gt 0).ToString().ToLower())"
-          Add-Content -LiteralPath $Env:GITHUB_OUTPUT -Value "benchmark=$(($FilesBenchmark.Count -gt 0).ToString().ToLower())"
-          Add-Content -LiteralPath $Env:GITHUB_OUTPUT -Value "build=$(($Null -ine $Config.tasks.build).ToString().ToLower())"
-          Add-Content -LiteralPath $Env:GITHUB_OUTPUT -Value "jsr-check=$(($Null -ine $Config.tasks.('jsr-check')).ToString().ToLower())"
-          Add-Content -LiteralPath $Env:GITHUB_OUTPUT -Value "npm-build=$(($Null -ine $Config.tasks.('npm-build')).ToString().ToLower())"
-          Add-Content -LiteralPath $Env:GITHUB_OUTPUT -Value "npm-root=$(Join-Path -Path $Env:GITHUB_WORKSPACE -ChildPath ($Config._behaviour.npm.root ?? 'npm'))"
+          [PSCustomObject]$Config = ConvertFrom-Json -InputObject (Get-Content -LiteralPath '.\deno.jsonc' -Raw -Encoding 'UTF8NoBOM') -Depth 100
+          [Boolean]$JSRDeploy = $Null -ine $Config.tasks.'jsr-check' -and $Null -ine $Config.tasks.'jsr-path-manifest' -and $Null -ine $Config.tasks.'jsr-publish'
+          [Boolean]$NPMDeploy = $Null -ine $Config.tasks.'npm-build' -and $Null -ine $Config.tasks.'npm-check' -and $Null -ine $Config.tasks.'npm-path-root' -and $Null -ine $Config.tasks.'npm-publish'
+          Add-Content -LiteralPath $Env:GITHUB_ENV -Value "CDV_BUILD=$(($Null -ine $Config.tasks.build).ToString().ToLower())"
+          Add-Content -LiteralPath $Env:GITHUB_ENV -Value "CDV_JSR_DEPLOY=$($JSRDeploy.ToString().ToLower())"
+          Add-Content -LiteralPath $Env:GITHUB_ENV -Value "CDV_NPM_DEPLOY=$($NPMDeploy.ToString().ToLower())"
+          Add-Content -LiteralPath $Env:GITHUB_STEP_SUMMARY -Value @"
+          # Packages Automatic Deployment Dispatch
+          
+          - **JSR:** $($JSRDeploy ? '✔️' : '❌')
+          - **NPM:** $($NPMDeploy ? '✔️' : '❌')
+          "@
       - name: "Check Repository"
         if: "${{!cancelled() && steps.analyze.outcome == 'success' && env.CDV_RUN_LITE == 'false'}}"
         shell: "pwsh"
@@ -77,52 +83,58 @@ jobs:
                 Join-String -Separator ', '
             )" -ErrorAction 'Stop'
           }
-      - name: "Build Repository"
-        if: "${{!cancelled() && steps.analyze.outcome == 'success' && steps.analyze.outputs.build == 'true'}}"
-        run: |-
-          deno task build
       - name: "Lint Code"
-        if: "${{!cancelled() && steps.analyze.outcome == 'success'}}"
+        if: "${{!cancelled() && steps.analyze.outcome == 'success' && env.CDV_RUN_LITE == 'false'}}"
         run: |-
-          deno lint
+          deno lint --permit-no-files
       - name: "Check Dependencies Update"
         if: "${{!cancelled() && steps.analyze.outcome == 'success' && env.CDV_RUN_LITE == 'false'}}"
         run: |-
           deno outdated
-      - name: "Check Deployment For Remote Import"
+      - name: "Build Repository"
+        if: "${{!cancelled() && steps.analyze.outcome == 'success' && env.CDV_BUILD == 'true'}}"
+        run: |-
+          deno task build
+      - name: "Check Package For Remote"
         if: "${{!cancelled() && steps.analyze.outcome == 'success' && env.CDV_RUN_LITE == 'false'}}"
         shell: "pwsh"
         run: |-
           Get-ChildItem -LiteralPath '.\' -File -Recurse -Name
-      - name: "Check Deployment For JSR"
-        if: "${{!cancelled() && steps.analyze.outcome == 'success' && env.CDV_RUN_LITE == 'false' && steps.analyze.outputs.jsr-check == 'true'}}"
+      - name: "Check Package For JSR"
+        if: "${{!cancelled() && steps.analyze.outcome == 'success' && env.CDV_RUN_LITE == 'false' && env.CDV_JSR_DEPLOY == 'true'}}"
         run: |-
           deno task jsr-check
       - name: "Test Code"
-        id: "test"
-        if: "${{!cancelled() && steps.analyze.outcome == 'success' && steps.analyze.outputs.test == 'true'}}"
+        if: "${{!cancelled() && steps.analyze.outcome == 'success'}}"
         run: |-
-          deno test --allow-all --coverage --no-prompt --trace-leaks
+          deno test --allow-all --coverage --coverage-raw-data-only --no-prompt --permit-no-files --trace-leaks
       - name: "List Test Code Coverage"
-        if: "${{!cancelled() && steps.analyze.outcome == 'success' && steps.analyze.outputs.test == 'true' && (steps.test.outcome == 'failure' || steps.test.outcome == 'success')}}"
+        if: "${{!cancelled() && steps.analyze.outcome == 'success'}}"
+        shell: "pwsh"
         run: |-
-          deno coverage
+          If ((Test-Path -LiteralPath '.\coverage' -PathType 'Container') -and (Get-ChildItem -LiteralPath '.\coverage' -File).Count -gt 0) {
+            deno coverage
+          }
       - name: "Benchmark Code"
-        if: "${{!cancelled() && steps.analyze.outcome == 'success' && steps.analyze.outputs.benchmark == 'true'}}"
+        if: "${{!cancelled() && steps.analyze.outcome == 'success'}}"
         run: |-
-          deno bench --allow-all --no-prompt
-      - name: "Build Package For NPM"
-        if: "${{!cancelled() && steps.analyze.outcome == 'success' && env.CDV_RUN_LITE == 'false' && steps.analyze.outputs.npm-build == 'true'}}"
+          deno bench --allow-all --no-prompt --permit-no-files
+      - name: "Check Package For NPM"
+        if: "${{!cancelled() && steps.analyze.outcome == 'success' && env.CDV_RUN_LITE == 'false' && env.CDV_NPM_DEPLOY == 'true'}}"
         run: |-
           deno task npm-build
-      - name: "Check Deployment For NPM"
-        if: "${{!cancelled() && steps.analyze.outcome == 'success' && env.CDV_RUN_LITE == 'false' && steps.analyze.outputs.npm-build == 'true'}}"
-        working-directory: "${{steps.analyze.outputs.npm-root}}"
+          deno task npm-check
+      - name: "Flush Deno Cache"
+        if: "${{!cancelled()}}"
+        shell: "pwsh"
         run: |-
-          npm publish --dry-run
+          ConvertFrom-Json -InputObject ($Env:CDV_DENO_CACHE_PATH_FLUSHES ?? '[]') -Depth 100 |
+            ForEach-Object -Process {
+              Remove-Item -LiteralPath $_ -Recurse -Confirm:$False -ErrorAction 'SilentlyContinue'
+            }
       - name: "Save Deno Cache"
-        if: "${{!cancelled() && steps.deno-cache-restore.outcome == 'success'}}"
+        if: "${{!cancelled()}}"
         uses: "actions/cache/save@v4"
         with:
-          key: "${{runner.os}}/Deno/${{github.run_id}}-${{github.run_attempt}}-${{github.job}}"
-          path: "${{steps.deno-cache-path.outputs.value}}"
+          key: "${{runner.os}}/Deno/${{github.run_id}}/${{github.run_attempt}}/${{github.job}}"
+          path: "${{env.CDV_DENO_CACHE_PATH_ROOT}}"
