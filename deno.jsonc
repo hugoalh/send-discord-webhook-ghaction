@@ -1,5 +1,5 @@
 {
-	"$schema": "https://deno.land/x/deno/cli/schemas/config-file.v1.json",
+	"$schema": "https://raw.githubusercontent.com/denoland/deno/main/cli/schemas/config-file.v1.json",
 	"fmt": {
 		"indentWidth": 4,
 		"lineWidth": 800,
@@ -22,11 +22,14 @@
 	},
 	"lint": {
 		"plugins": [
-			"jsr:@hugoalh/deno-lint-rules@^0.10.0/hugoalh/library"
+			"jsr:@hugoalh/deno-lint-rules@^0.11.0/presets/library"
 		],
 		"rules": {
 			"tags": [
 				"recommended"
+			],
+			"exclude": [
+				"no-import-prefix"
 			],
 			"include": [
 				"default-param-last",

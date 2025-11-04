@@ -15,32 +15,25 @@ A GitHub Action to send Discord webhook.
 - Support poll.
 - Support thread.
 
-## 🔰 Begin
+## ▶️ Begin
 
-### 🎯 Targets
+- **[GitHub Actions](https://docs.github.com/en/actions)** Docker
 
-| **Targets** | **GitHub** |
-|:--|:--|
-| **[GitHub Actions](https://docs.github.com/en/actions)** | ✔️ Docker |
+### 🛡️ GitHub Token Permissions
 
-> [!NOTE]
-> - It is possible to use this action in other methods/ways which not listed in here, however those methods/ways are not officially supported, and should beware maybe cause security issues.
+This does not request any GitHub token permission.
 
-### #️⃣ Resources Identifier
+### #️⃣ Sources
 
-- **GitHub:**
+- GitHub
   ```
   hugoalh/send-discord-webhook-ghaction[@{Tag}]
   ```
 
 > [!NOTE]
-> - It is recommended to use this action with tag for immutability.
+> - It is recommended to include tag for immutability.
 
-### 🛡️ GitHub Token Permissions
-
-*This action does not request any GitHub token permission.*
-
-## 🧩 Inputs
+### 🧩 Inputs
 
 Almost all of the inputs are optional, but these groups of inputs must be defined:
 
@@ -57,7 +50,7 @@ Almost all of the inputs are optional, but these groups of inputs must be define
 > |:-:|:--|
 > | 🔐 | Should be an encrypted secret. |
 
-### `key`
+#### `key`
 
 **🔐** `<string>` Discord webhook key; These syntaxes are acceptable:
 
@@ -65,19 +58,19 @@ Almost all of the inputs are optional, but these groups of inputs must be define
 - **URL:** `https://discord.com/api/webhooks/{webhook.id}/{webhook.token}`
 - **URL (Legacy):** `https://discordapp.com/api/webhooks/{webhook.id}/{webhook.token}`
 
-### `username`
+#### `username`
 
 `<string>` Override the default webhook username, maximum 80 characters; "Clyde" is not allowed.
 
-### `avatar_url`
+#### `avatar_url`
 
 `<string>` Override the default webhook avatar, only support URL of HTTP and HTTPS.
 
-### `content`
+#### `content`
 
 `<string>` Message content, maximum 2000 characters; Support Discord Markdown.
 
-### `content_links_no_embed`
+#### `content_links_no_embed`
 
 `<RegExp[]>` Links' regular expressions to prevent Discord resolve and display matches links in the [`content`](#content) as embed under the message, only support URL of HTTP and HTTPS, separate each value per line.
 
@@ -88,7 +81,7 @@ Examples:
 - **`.webp` Image:** `\.webp(?:\?|#|$)`
 - **Twitch:** `twitch\.tv`
 
-### `embeds`
+#### `embeds`
 
 `<object[]>` Message embed rich content, by JSON or YAML with restricted syntaxes, maximum 10 embeds, and maximum 6000 characters for summation from inputs:
 
@@ -99,23 +92,23 @@ Examples:
 - [`embeds[*].fields[*].name`](#embedsfieldsname)
 - [`embeds[*].fields[*].value`](#embedsfieldsvalue)
 
-#### `embeds[*].title`
+##### `embeds[*].title`
 
 `<string>` Message embed title, maximum 256 characters; Support Discord Markdown.
 
-#### `embeds[*].description`
+##### `embeds[*].description`
 
 `<string>` Message embed description, maximum 4096 characters; Support Discord Markdown.
 
-#### `embeds[*].url`
+##### `embeds[*].url`
 
 `<string>` Message embed URL.
 
-#### `embeds[*].timestamp`
+##### `embeds[*].timestamp`
 
 `<string>` Message embed timestamp, by ISO 8601 format (e.g.: `"2011-11-11T11:11:11Z"`).
 
-#### `embeds[*].color`
+##### `embeds[*].color`
 
 `<number | string = 2105893>` Message embed colour (i.e.: left border's colour of the embed); These syntaxes are acceptable:
 
@@ -137,71 +130,71 @@ Examples:
 > - Alpha channel is not supported.
 > - General namespace are provided by NPM package [`color-name-list`](https://www.npmjs.com/package/color-name-list), list maybe change or remove without any notification, it is recommended to use value instead.
 
-#### `embeds[*].footer`
+##### `embeds[*].footer`
 
 `<object>` Message embed footer.
 
-#### `embeds[*].footer.text`
+##### `embeds[*].footer.text`
 
 `<string>` Message embed footer text, maximum 2048 characters; Support Discord Markdown.
 
-#### `embeds[*].footer.icon_url`
+##### `embeds[*].footer.icon_url`
 
 `<string>` Message embed footer icon, only support URL of HTTP, HTTPS, and attachments.
 
-#### `embeds[*].image`
+##### `embeds[*].image`
 
 `<object>` Message embed image.
 
-#### `embeds[*].image.url`
+##### `embeds[*].image.url`
 
 `<string>` Message embed image URL, only support URL of HTTP, HTTPS, and attachments.
 
-#### `embeds[*].thumbnail`
+##### `embeds[*].thumbnail`
 
 `<object>` Message embed thumbnail.
 
-#### `embeds[*].thumbnail.url`
+##### `embeds[*].thumbnail.url`
 
 `<string>` Message embed thumbnail URL, only support URL of HTTP, HTTPS, and attachments.
 
-#### `embeds[*].author`
+##### `embeds[*].author`
 
 `<object>` Message embed author.
 
-#### `embeds[*].author.name`
+##### `embeds[*].author.name`
 
 `<string>` Message embed author name, maximum 256 characters.
 
-#### `embeds[*].author.url`
+##### `embeds[*].author.url`
 
 `<string>` Message embed author URL.
 
-#### `embeds[*].author.icon_url`
+##### `embeds[*].author.icon_url`
 
 `<string>` Message embed author icon, only support URL of HTTP, HTTPS, and attachments.
 
-#### `embeds[*].fields`
+##### `embeds[*].fields`
 
 `<object[]>` Message embed fields, maximum 25 fields.
 
-#### `embeds[*].fields[*].name`
+##### `embeds[*].fields[*].name`
 
 `<string>` Message embed field name, maximum 256 characters; Support Discord Markdown.
 
-#### `embeds[*].fields[*].value`
+##### `embeds[*].fields[*].value`
 
 `<string>` Message embed field value, maximum 1024 characters; Support Discord Markdown.
 
-#### `embeds[*].fields[*].inline`
+##### `embeds[*].fields[*].inline`
 
 `<boolean = false>` Whether the message embed field should display inline.
 
-### `poll_question`
+#### `poll_question`
 
 `<string>` Message poll question, maximum 300 characters.
 
-### `poll_answers`
+#### `poll_answers`
 
 `<object[]>` Message poll answers, by JSON or YAML with restricted syntaxes, maximum 10 answers, and maximum 55 characters per answer text.
 
@@ -222,74 +215,74 @@ Example:
 - text: "Other"
 ```
 
-### `poll_duration`
+#### `poll_duration`
 
 `<number = 24>` Message poll duration, by hours, maximum 32 days (i.e.: 768 hours).
 
-### `poll_allow_multiselect`
+#### `poll_allow_multiselect`
 
 `<boolean = false>` Whether the message poll allow multiple select answers.
 
-### `files`
+#### `files`
 
 `<string[]>` Message attachments/files, by Glob path or literal path (select by input [`files_glob`](#files_glob)) under the workspace, separate each value per line, maximum 8 MB and 10 files.
 
-### `files_glob`
+#### `files_glob`
 
 `<boolean = true>` Whether input [files](#files) should accept Glob path instead of literal path.
 
-### `allowed_mentions_parse_everyone`
+#### `allowed_mentions_parse_everyone`
 
 `<boolean = true>` Whether the message allowed `@everyone` and `@here` mentions.
 
-### `allowed_mentions_parse_roles`
+#### `allowed_mentions_parse_roles`
 
 `<boolean = true>` Whether the message allowed roles mentions.
 
-### `allowed_mentions_parse_users`
+#### `allowed_mentions_parse_users`
 
 `<boolean = true>` Whether the message allowed users mentions.
 
-### `allowed_mentions_roles`
+#### `allowed_mentions_roles`
 
 `<string[]>` Message allowed mention roles, by role ID, separate each value with comma (`,`) or per line, maximum 100 roles.
 
-### `allowed_mentions_users`
+#### `allowed_mentions_users`
 
 `<string[]>` Message allowed mention users, by user ID, separate each value with comma (`,`) or per line, maximum 100 users.
 
-### `tts`
+#### `tts`
 
 `<boolean = false>` Whether the message use TTS (Text To Speech).
 
-### `thread_id`
+#### `thread_id`
 
 `<string>` Message channel thread ID. When this input is defined, the message will send to the specify thread, the thread will automatically unarchive.
 
-### `thread_name`
+#### `thread_name`
 
 `<string>` Forum channel thread name, maximum 100 characters. When this input is defined, the message will create a new thread with the name.
 
-### `thread_tags`
+#### `thread_tags`
 
 `<string[]>` Forum channel thread tags, by thread tag ID, separate each value with comma (`,`) or per line, maximum 5 tags.
 
-### `notification`
+#### `notification`
 
 `<boolean = true>` Whether the message trigger push and desktop notifications.
 
-### `truncate_enable`
+#### `truncate_enable`
 
 `<boolean = true>` Whether to try truncate firstly when inputs are too large. Truncate will not work on inputs:
 
 - [`poll_question`](#poll_question)
 - [`poll_answers`](#poll_answers)
 
-### `truncate_ellipsis`
+#### `truncate_ellipsis`
 
 `<string = "...">` Ellipsis mark.
 
-### `truncate_position`
+#### `truncate_position`
 
 `<string = "end">` Ellipsis position.
 
@@ -297,29 +290,29 @@ Example:
 - **`"middle"`:** At the middle of the string.
 - **`"start"`:** At the start of the string.
 
-### `wait`
+#### `wait`
 
 `<boolean = true>` Whether to wait for Discord confirmation of message send before response, and returns the created message body. When this input is `false`, a message that is not saved does not return an error.
 
-## 🧩 Outputs
+### 🧩 Outputs
 
-### `response`
+#### `response`
 
 `<string>` Response content.
 
-### `status_code`
+#### `status_code`
 
 `<number>` Request status code.
 
-### `status_ok`
+#### `status_ok`
 
 `<boolean>` Whether the request was successful.
 
-### `status_text`
+#### `status_text`
 
 `<string>` Request status text.
 
-## ✍️ Examples
+### ✍️ Examples
 
 - Hello, world!
   ```yml
