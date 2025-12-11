@@ -63,7 +63,7 @@ jobs:
             (Join-Path -Path $NPMConfig.cache -ChildPath '_logs')
           ) -Depth 100 -Compress)" -Confirm:$False -Encoding 'UTF8NoBOM'
       - name: "Load Deno Cache"
-        uses: "actions/cache/restore@v4"
+        uses: "actions/cache/restore@v5"
         with:
           key: "${{runner.os}}/Deno/${{github.run_id}}/${{github.run_attempt}}/${{github.job}}"
           restore-keys: |-
@@ -72,7 +72,7 @@ jobs:
             ${{runner.os}}/Deno/
           path: "${{env.CDV_DENO_CACHE_PATH_ROOT}}"
       - name: "Load NPM Cache"
-        uses: "actions/cache/restore@v4"
+        uses: "actions/cache/restore@v5"
         with:
           key: "${{runner.os}}/NPM/${{github.run_id}}/${{github.run_attempt}}/${{github.job}}"
           restore-keys: |-
@@ -243,13 +243,13 @@ jobs:
             }
       - name: "Save Deno Cache"
         if: "${{!cancelled()}}"
-        uses: "actions/cache/save@v4"
+        uses: "actions/cache/save@v5"
         with:
           key: "${{runner.os}}/Deno/${{github.run_id}}/${{github.run_attempt}}/${{github.job}}"
           path: "${{env.CDV_DENO_CACHE_PATH_ROOT}}"
       - name: "Save NPM Cache"
         if: "${{!cancelled()}}"
-        uses: "actions/cache/save@v4"
+        uses: "actions/cache/save@v5"
         with:
           key: "${{runner.os}}/NPM/${{github.run_id}}/${{github.run_attempt}}/${{github.job}}"
           path: "${{env.CDV_NPM_CACHE_PATH_ROOT}}"
