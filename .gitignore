@@ -137,6 +137,9 @@ Thumbs.db:encryptable
 .alcache/
 .alpackages/
 
+#MARK: AstroJS
+.astro/
+
 #MARK: BowerIO
 bower_components/
 

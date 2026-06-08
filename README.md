@@ -2,7 +2,8 @@
 
 [**⚖️** MIT](./LICENSE.md)
 
-[![GitHub: hugoalh/send-discord-webhook-ghaction](https://img.shields.io/github/v/release/hugoalh/send-discord-webhook-ghaction?label=hugoalh/send-discord-webhook-ghaction&labelColor=181717&logo=github&logoColor=ffffff&sort=semver&style=flat "GitHub: hugoalh/send-discord-webhook-ghaction")](https://github.com/hugoalh/send-discord-webhook-ghaction)
+🔗
+[GitHub](https://github.com/hugoalh/send-discord-webhook-ghaction)
 
 A GitHub Action to send Discord webhook.
 

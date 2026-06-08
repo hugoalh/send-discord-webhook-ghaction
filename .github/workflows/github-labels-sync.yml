@@ -1,5 +1,5 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
-name: "Sync Labels"
+name: "GitHub Labels Sync"
 on:
   push:
     branches:
@@ -16,8 +16,8 @@ jobs:
     runs-on: "ubuntu-latest"
     steps:
       - name: "Checkout Repository"
-        uses: "actions/checkout@v5"
-      - name: "Sync Labels"
+        uses: "actions/checkout@v6"
+      - name: "Sync GitHub Labels"
         uses: "EndBug/label-sync@v2"
         with:
           config-file: ".github/labels.yml"

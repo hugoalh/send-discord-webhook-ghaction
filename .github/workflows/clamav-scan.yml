@@ -1,5 +1,5 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
-name: "Scan Virus"
+name: "ClamAV Scan"
 on:
   pull_request:
     branches:
@@ -43,7 +43,7 @@ jobs:
     runs-on: "ubuntu-latest"
     steps:
       - name: "Checkout Repository"
-        uses: "actions/checkout@v5"
+        uses: "actions/checkout@v6"
         with:
           fetch-depth: "0"
       - name: "Scan Repository"
