@@ -1,95 +1,69 @@
 import {
 	exFetch,
 	type ExFetchEventRetryPayload
-} from "EXFETCH/mod.ts";
+} from "EXFETCH";
 import {
-	addSecretMask,
 	writeDebug,
 	writeError
-} from "GHACTIONS/log.ts";
+} from "GHACTIONS/log";
 import {
 	getInput,
 	getInputBoolean,
 	getInputNumber,
 	setOutput
-} from "GHACTIONS/parameter.ts";
+} from "GHACTIONS/parameter";
 import type {
 	JSONArray,
 	JSONObject,
-} from "ISJSON/mod.ts";
+	JSONValue,
+} from "ISJSON";
 import { parse as yamlParse } from "STD/yaml/parse";
-import { StringTruncator } from "STRINGOVERFLOW/mod.ts";
-import {
-	resolveContent,
-	resolveEmbeds,
-	resolveFiles,
-	resolveKey,
-	resolveMentions,
-	resolvePoll,
-	resolveThreadID,
-	resolveThreadName,
-	resolveThreadTags,
-	resolveUsername
-} from "./_payload.ts";
+import type { StringTruncator } from "STRINGOVERFLOW";
+import * as payload from "./_payload.ts";
 console.log("Initialize.");
 const splitterNewLine = /\r?\n/g;
 const splitterCommonDelimiter = /,|\r?\n/g;
-const userAgent = `SendDiscordWebhook.GitHubAction/7.0.5`;
-writeDebug(`Environment Variables:\n\t${Object.entries(Deno.env.toObject()).map(([key, value]: [string, string]): string => {
-	return `${key} = ${value}`;
-}).join("\n\t")}`);
+const userAgent = `SendDiscordWebhook.GitHubAction/7`;
 console.log("Parse input.");
 try {
-	const truncateEnable: boolean = getInputBoolean("truncate_enable", { fallback: false }) ?? true;
-	const stringTruncator: StringTruncator | undefined = truncateEnable ? new StringTruncator(128, {
-		ellipsisMark: getInput("truncate_ellipsis", { fallback: false }),
-		//@ts-ignore Validate by the module.
-		ellipsisPosition: getInput("truncate_position", { fallback: false })
-	}) : undefined;
-	const key: string = resolveKey(getInput("key", { require: true }));
-	addSecretMask(key);
-	const username: string | undefined = resolveUsername(getInput("username"), stringTruncator);
-	const avatarURL: string = getInput("avatar_url");
-	const content: string | undefined = resolveContent(getInput("content"), getInput("content_links_no_embed").split(splitterNewLine).filter((value: string): boolean => {
-		return (value.length > 0);
-	}), stringTruncator);
-	const embeds: JSONArray | undefined = resolveEmbeds(yamlParse(getInput("embeds")), stringTruncator);
-	const poll: JSONObject | undefined = resolvePoll({
+	const stringTruncator: StringTruncator | undefined = payload.getStringTruncator();
+	const key: string = payload.getKey();
+	const username: string | undefined = payload.getUsername(stringTruncator);
+	const avatarURL: string | undefined = payload.getAvatarURL();
+	const content: string | undefined = payload.getContent(stringTruncator);
+	const embeds: JSONArray | undefined = payload.getEmbeds(stringTruncator);
+	const poll: JSONObject | undefined = payload.getPoll({
 		allowMultiSelect: getInputBoolean("poll_allow_multiselect"),
 		answers: yamlParse(getInput("poll_answers")),
-		duration: getInputNumber("poll_duration", { fallback: false }) ?? -1,
+		duration: getInputNumber("poll_duration") ?? -1,
 		question: getInput("poll_question")
 	});
-	const files: FormData | undefined = await resolveFiles(getInput("files").split(splitterNewLine).map((file: string): string => {
+	const files: FormData | undefined = await payload.getFiles(getInput("files").split(splitterNewLine).map((file: string): string => {
 		return file.trim();
 	}).filter((file: string): boolean => {
 		return (file.length > 0);
-	}), getInputBoolean("files_glob", { fallback: false }) ?? true);
-	const allowedMentions: JSONObject = resolveMentions({
-		parseEveryone: getInputBoolean("allowed_mentions_parse_everyone", { fallback: false }) ?? true,
-		parseRoles: getInputBoolean("allowed_mentions_parse_roles", { fallback: false }) ?? true,
-		parseUsers: getInputBoolean("allowed_mentions_parse_users", { fallback: false }) ?? true,
-		roles: getInput("allowed_mentions_roles").split(splitterCommonDelimiter).map((value: string): string => {
+	}), getInputBoolean("files_glob") ?? true);
+	const allowedMentions: JSONObject = payload.getMentions({
+		parseEveryone: getInputBoolean("allowed_mentions_parse_everyone") ?? true,
+		parseRoles: getInputBoolean("allowed_mentions_parse_roles") ?? true,
+		parseUsers: getInputBoolean("allowed_mentions_parse_users") ?? true,
+		roles: (getInput("allowed_mentions_roles") ?? "").split(splitterCommonDelimiter).map((value: string): string => {
 			return value.trim();
 		}).filter((value: string): boolean => {
 			return (value.length > 0);
 		}),
-		users: getInput("allowed_mentions_users").split(splitterCommonDelimiter).map((value: string): string => {
+		users: (getInput("allowed_mentions_users") ?? "").split(splitterCommonDelimiter).map((value: string): string => {
 			return value.trim();
 		}).filter((value: string): boolean => {
 			return (value.length > 0);
 		})
 	});
-	const tts: boolean = getInputBoolean("tts");
-	const threadID: string | undefined = resolveThreadID(getInput("thread_id"));
-	const threadName: string | undefined = resolveThreadName(getInput("thread_name"), stringTruncator);
-	const threadTags: string[] | undefined = resolveThreadTags(getInput("thread_tags").split(splitterCommonDelimiter).map((value: string): string => {
-		return value.trim();
-	}).filter((value: string): boolean => {
-		return (value.length > 0);
-	}));
-	const notification: boolean = getInputBoolean("notification", { fallback: false }) ?? true;
-	const wait: boolean = getInputBoolean("wait", { fallback: false }) ?? true;
+	const tts: boolean = getInputBoolean("tts") ?? false;
+	const threadID: string | undefined = payload.getThreadID();
+	const threadName: string | undefined = payload.getThreadName(stringTruncator);
+	const threadTags: string[] | undefined = payload.getThreadTags();
+	const notification: boolean = getInputBoolean("notification") ?? true;
+	const wait: boolean = getInputBoolean("wait") ?? true;
 	if (
 		(typeof content === "undefined" && typeof embeds === "undefined" && typeof files === "undefined" && typeof poll === "undefined") ||
 		((
@@ -103,7 +77,7 @@ try {
 	if (typeof threadID !== "undefined" && typeof threadName !== "undefined") {
 		throw new Error(`Only one of the group of inputs can be defined: \`thread_id\`; \`thread_name\` and \`thread_tags\` (Optional)!`);
 	}
-	const methodForm: boolean = getInputBoolean("method_form");
+	const methodForm: boolean = getInputBoolean("method_form") ?? false;
 	const discordWebhookUrlParameters: URLSearchParams = new URLSearchParams();
 	if (typeof threadID !== "undefined") {
 		discordWebhookUrlParameters.set("thread_id", threadID);
@@ -111,33 +85,19 @@ try {
 	if (wait) {
 		discordWebhookUrlParameters.set("wait", "true");
 	}
-	const requestPayload: JSONObject = {
+	const requestPayload: Record<string, JSONValue | undefined> = {
 		tts,
-		allowed_mentions: allowedMentions
+		allowed_mentions: allowedMentions,
+		content,
+		username,
+		avatar_url: avatarURL,
+		embeds,
+		thread_name: threadName,
+		applied_tags: threadTags,
+		poll
 	};
-	if (typeof content !== "undefined") {
-		requestPayload.content = content;
-	}
-	if (typeof username !== "undefined") {
-		requestPayload.username = username;
-	}
-	if (avatarURL.length > 0) {
-		requestPayload.avatar_url = avatarURL;
-	}
-	if (typeof embeds !== "undefined") {
-		requestPayload.embeds = embeds;
-	}
 	if (!notification) {
 		requestPayload.flags = 1 << 12;
-	}
-	if (typeof threadName !== "undefined") {
-		requestPayload.thread_name = threadName;
-	}
-	if (typeof threadTags !== "undefined") {
-		requestPayload.applied_tags = threadTags;
-	}
-	if (typeof poll !== "undefined") {
-		requestPayload.poll = poll;
 	}
 	const requestPayloadStringify: string = JSON.stringify(requestPayload);
 	const requestHeaders: Headers = new Headers();
@@ -173,7 +133,7 @@ try {
 				statusText,
 				timeWait
 			}: ExFetchEventRetryPayload): void {
-				console.log(`Last network request failed with status \`${statusCode} ${statusText}. Retry #${countCurrent}/${countMaximum} after ${timeWait / 1000} seconds\`.`);
+				console.log(`Last network request failed with status \`${statusCode} ${statusText}\`. Retry #${countCurrent}/${countMaximum} after ${timeWait / 1000} seconds.`);
 			},
 			timeWait: {
 				maximum: 120000,

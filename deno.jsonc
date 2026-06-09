@@ -10,7 +10,7 @@
 	},
 	"imports": {
 		"COLOR": "npm:color@5.0.3",
-		"COLORNAMESPACELISTCOMMUNITY": "npm:color-name-list@14.40.0",
+		"COLORNAMESPACELIST": "npm:color-name-list@14.40.0",
 		"EXFETCH": "jsr:@hugoalh/exfetch@0.6.0",
 		"FS": "jsr:@hugoalh/fs@0.4.0",
 		"GHACTIONS": "jsr:@hugoalh/github-actions-core@0.7.0",
@@ -18,7 +18,8 @@
 		"STD/path": "jsr:@std/path@1.1.5",
 		"STD/yaml": "jsr:@std/yaml@1.1.1",
 		"STRINGDISSECT": "jsr:@hugoalh/string-dissect@4.0.2",
-		"STRINGOVERFLOW": "jsr:@hugoalh/string-overflow@2.1.1"
+		"STRINGOVERFLOW": "jsr:@hugoalh/string-overflow@2.1.1",
+		"ZOD": "jsr:@zod/zod@4.4.3"
 	},
 	"lint": {
 		"plugins": [

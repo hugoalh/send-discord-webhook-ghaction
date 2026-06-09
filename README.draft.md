@@ -18,7 +18,7 @@ A GitHub Action to send Discord webhook.
 
 ## ▶️ Begin
 
-- **[GitHub Actions](https://docs.github.com/en/actions)** Docker
+- **[GitHub Actions](https://docs.github.com/en/actions)**
 
 ### 🛡️ GitHub Token Permissions
 

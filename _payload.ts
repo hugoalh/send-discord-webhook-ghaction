@@ -2,49 +2,77 @@ import Color from "COLOR";
 import {
 	walk,
 	type FSWalkEntry
-} from "FS/walk.ts";
+} from "FS/walk";
+import { addSecretMask } from "GHACTIONS/log";
+import {
+	getInput,
+	getInputBoolean
+} from "GHACTIONS/parameter";
+import { getRunnerWorkspacePath } from "GHACTIONS/runner";
 import {
 	isJSONArray,
 	isJSONObject,
 	type JSONArray,
 	type JSONObject,
 	type JSONValue,
-} from "ISJSON/mod.ts";
-import { getRunnerWorkspacePath } from "GHACTIONS/runner.ts";
+} from "ISJSON";
 import { globToRegExp } from "STD/path/glob-to-regexp";
+import { parse as parseYAML } from "STD/yaml/parse";
 import {
 	StringDissector,
 	type StringSegmentDescriptor
-} from "STRINGDISSECT/mod.ts";
-import type { StringTruncator } from "STRINGOVERFLOW/mod.ts";
+} from "STRINGDISSECT";
+import {
+	StringTruncator,
+	type StringTruncateEllipsisPosition
+} from "STRINGOVERFLOW";
+import * as zod from "ZOD";
 import {
 	basename as getPathBasename,
 	isAbsolute as isPathAbsolute,
 	join as joinPath
 } from "node:path";
 import { colorNamespaceList } from "./_color_namespace_list.ts";
-const thresholdContent = 2000;
-const thresholdEmbeds = 10;
-const thresholdEmbedAuthorName = 256;
-const thresholdEmbedDescription = 4096;
-const thresholdEmbedFields = 25;
-const thresholdEmbedFieldName = 256;
-const thresholdEmbedFieldValue = 1024;
-const thresholdEmbedFooterText = 2048;
-const thresholdEmbedTitle = 256;
+const regexpDiscordWebhookURL = /^(?:https:\/\/(?:canary\.)?discord(?:app)?\.com\/api\/webhooks\/)?(?<key>\d+\/(?:[\dA-Za-z][\dA-Za-z_-]*)?[\dA-Za-z])$/u;
+const regexpDiscordSnowflake = /^\d+$/;
+const splitterNewLine = /\r?\n/g;
+const splitterCommonDelimiter = /,|\r?\n/g;
 const thresholdFiles = 10;
 const thresholdMentionsRole = 100;
 const thresholdMentionsUser = 100;
 const thresholdPollAnswer = 55;
 const thresholdPollDuration = 768;
 const thresholdPollQuestion = 300;
-const thresholdThreadName = 100;
-const thresholdThreadTags = 5;
-const thresholdUsername = 80;
-const regexpDiscordWebhookURL = /^(?:https:\/\/(?:canary\.)?discord(?:app)?\.com\/api\/webhooks\/)?(?<key>\d+\/(?:[\dA-Za-z][\dA-Za-z_-]*)?[\dA-Za-z])$/u;
-const regexpISO8601 = /^\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\dZ$/;
-const regexpSnowflake = /^\d+$/;
-function generateRandomInteger(range: number, offset: number = 0): number {
+const urlPatternProtocolHTTP = new URLPattern({
+	protocol: "http{s}?"
+});
+const zodDiscordProtocolAttachment = zod.stringFormat("discord-protocol-attachment", /^attachment:\/\/.+$/);
+const zodURL = zod.url({
+	normalize: true
+});
+const zodURLHTTP = zod.url({
+	normalize: true,
+	protocol: /^https?:$/
+});
+const zodDiscordEmbedImageURL = zod.union([
+	zodDiscordProtocolAttachment,
+	zodURLHTTP
+]);
+const zodDiscordPollAnswers = zod.array(zod.object({
+	emoji: zod.optional(zod.union([
+		zod.object({
+			name: zod.string().trim().min(1)
+		}),
+		zod.object({
+			id: zod.string().trim().min(1)
+		})
+	])),
+	text: zod.string().trim().max(55)
+})).max(10);
+const zodDiscordThreadTags = zod.array(zod.stringFormat("discord-snowflake", regexpDiscordSnowflake)).max(5).transform((input) => {
+	return Array.from(new Set(input).values());
+});
+function randomInteger(range: number, offset: number = 0): number {
 	if (!(Number.isSafeInteger(range) && range >= 2)) {
 		throw new TypeError(`Parameter \`range\` is not a number which is integer, safe, and >= 2!`);
 	}
@@ -53,306 +81,252 @@ function generateRandomInteger(range: number, offset: number = 0): number {
 	}
 	return (Math.floor(Math.random() * range) + offset);
 }
-//deno-lint-ignore default-param-last
-export function resolveContent(content: string, contentLinksNoEmbed: string[] = [], truncator?: StringTruncator): string | undefined {
-	const contentLinksNoEmbedRegExp: RegExp | undefined = (contentLinksNoEmbed.length > 0) ? new RegExp(contentLinksNoEmbed.join("|"), "u") : undefined;
-	if (content.length === 0) {
-		return undefined;
+
+
+
+
+export function getAvatarURL(input: string = getInput("avatar_url") ?? ""): string | undefined {
+	if (input.length === 0) {
+		return;
 	}
-	const contentFmt: string = (typeof contentLinksNoEmbedRegExp === "undefined") ? content : Array.from(new StringDissector().dissect(content), ({
-		type,
-		value
-	}: StringSegmentDescriptor): string => {
-		if (type === "url" && URL.canParse(value) && /^https?:\/\//u.test(value) && contentLinksNoEmbedRegExp.test(value)) {
-			return `<${value}>`;
-		}
-		return value;
-	}).join("");
-	if (typeof truncator !== "undefined" && contentFmt.length > thresholdContent) {
-		return truncator.truncate(contentFmt, thresholdContent);
-	}
-	return contentFmt;
+	return zodURLHTTP.parse(input);
 }
-export function resolveEmbeds(embeds: unknown, truncator?: StringTruncator): JSONArray | undefined {
-	if (embeds === null) {
-		return undefined;
-	}
-	if (!isJSONArray(embeds)) {
-		throw new TypeError(`Input \`embeds\` is not a valid Discord embeds!`);
-	}
-	const embedsFmt: JSONArray = embeds.map((embed: JSONValue, embedsIndex: number): JSONObject => {
-		if (!isJSONObject(embed)) {
-			throw new TypeError(`Input \`embeds[${embedsIndex}]\` is not a valid Discord embed!`);
-		}
-		for (const embedKey of Object.keys(embed)) {
-			switch (embedKey) {
-				case "title":
-					if (typeof embed.title !== "string") {
-						throw new TypeError(`Input \`embeds[${embedsIndex}].title\` is not a string!`);
-					}
-					if (embed.title.length === 0) {
-						delete embed.title;
-						break;
-					}
-					if (typeof truncator !== "undefined" && embed.title.length > thresholdEmbedTitle) {
-						embed.title = truncator.truncate(embed.title, thresholdEmbedTitle);
-					}
-					break;
-				case "description":
-					if (typeof embed.description !== "string") {
-						throw new TypeError(`Input \`embeds[${embedsIndex}].description\` is not a string!`);
-					}
-					if (embed.description.length === 0) {
-						delete embed.description;
-						break;
-					}
-					if (typeof truncator !== "undefined" && embed.description.length > thresholdEmbedDescription) {
-						embed.description = truncator.truncate(embed.description, thresholdEmbedDescription);
-					}
-					break;
-				case "url":
-					if (typeof embed.url !== "string") {
-						throw new TypeError(`Input \`embeds[${embedsIndex}].url\` is not a string!`);
-					}
-					if (embed.url.length === 0) {
-						delete embed.url;
-						break;
-					}
-					break;
-				case "timestamp":
-					if (typeof embed.timestamp !== "string") {
-						throw new TypeError(`Input \`embeds[${embedsIndex}].timestamp\` is not a string!`);
-					}
-					if (embed.timestamp.length === 0) {
-						delete embed.timestamp;
-						break;
-					}
-					if (!(regexpISO8601.test(embed.timestamp) && new Date(embed.timestamp))) {
-						throw new SyntaxError(`\`${embed.timestamp}\` (input \`embeds[${embedsIndex}].timestamp\`) is not a valid ISO 8601 timestamp!`);
-					}
-					break;
-				case "color":
-					if (typeof embed.color === "number") {
-						if (!(Number.isSafeInteger(embed.color) && embed.color >= 0 && embed.color <= 16777215)) {
-							throw new RangeError(`\`${embed.color}\` (input \`embeds[${embedsIndex}].color\`) is not a valid RGB integer!`);
-						}
-					} else if (typeof embed.color === "string") {
-						if (embed.color.length === 0) {
-							delete embed.color;
-							break;
-						}
-						if (embed.color === "Random") {
-							embed.color = (generateRandomInteger(256) * 65536) + (generateRandomInteger(256) * 256) + generateRandomInteger(256);
-						} else if (colorNamespaceList.has(embed.color)) {
-							embed.color = Color(colorNamespaceList.get(embed.color)!, "hex").rgbNumber();
-						} else {
-							try {
-								embed.color = Color(embed.color).rgbNumber();
-							} catch (error) {
-								throw new SyntaxError(`\`${embed.color}\` (input \`embeds[${embedsIndex}].color\`) is not a valid CSS colour: ${error}`);
-							}
-						}
-					} else {
-						throw new TypeError(`Input \`embeds[${embedsIndex}].color\` is not a valid CSS colour or RGB integer!`);
-					}
-					break;
-				case "footer":
-					if (!isJSONObject(embed.footer)) {
-						throw new TypeError(`Input \`embeds[${embedsIndex}].footer\` is not a valid Discord footer!`);
-					}
-					for (const embedFooterKey of Object.keys(embed.footer)) {
-						switch (embedFooterKey) {
-							case "text":
-								if (typeof embed.footer.text !== "string") {
-									throw new TypeError(`Input \`embeds[${embedsIndex}].footer.text\` is not a string!`);
-								}
-								if (embed.footer.text.length === 0) {
-									delete embed.footer.text;
-									break;
-								}
-								if (typeof truncator !== "undefined" && embed.footer.text.length > thresholdEmbedFooterText) {
-									embed.footer.text = truncator.truncate(embed.footer.text, thresholdEmbedFooterText);
-								}
-								break;
-							case "icon_url":
-								if (typeof embed.footer.icon_url !== "string") {
-									throw new TypeError(`Input \`embeds[${embedsIndex}].footer.icon_url\` is not a string!`);
-								}
-								if (embed.footer.icon_url.length === 0) {
-									delete embed.footer.icon_url;
-									break;
-								}
-								break;
-							default:
-								throw new SyntaxError(`Unknown input \`embeds[${embedsIndex}].footer.${embedFooterKey}\`!`);
-						}
-					}
-					if (Object.keys(embed.footer).length === 0) {
-						delete embed.footer;
-						break;
-					}
-					break;
-				case "image":
-					if (!isJSONObject(embed.image)) {
-						throw new TypeError(`Input \`embeds[${embedsIndex}].image\` is not a valid Discord image!`);
-					}
-					for (const embedImageKey of Object.keys(embed.image)) {
-						switch (embedImageKey) {
-							case "url":
-								if (typeof embed.image.url !== "string") {
-									throw new TypeError(`Input \`embeds[${embedsIndex}].image.url\` is not a string!`);
-								}
-								if (embed.image.url.length === 0) {
-									delete embed.image.url;
-									break;
-								}
-								break;
-							default:
-								throw new SyntaxError(`Unknown input \`embeds[${embedsIndex}].image.${embedImageKey}\`!`);
-						}
-					}
-					if (Object.keys(embed.image).length === 0) {
-						delete embed.image;
-						break;
-					}
-					break;
-				case "thumbnail":
-					if (!isJSONObject(embed.thumbnail)) {
-						throw new TypeError(`Input \`embeds[${embedsIndex}].thumbnail\` is not a valid Discord thumbnail!`);
-					}
-					for (const embedThumbnailKey of Object.keys(embed.thumbnail)) {
-						switch (embedThumbnailKey) {
-							case "url":
-								if (typeof embed.thumbnail.url !== "string") {
-									throw new TypeError(`Input \`embeds[${embedsIndex}].thumbnail.url\` is not a string!`);
-								}
-								if (embed.thumbnail.url.length === 0) {
-									delete embed.thumbnail.url;
-									break;
-								}
-								break;
-							default:
-								throw new SyntaxError(`Unknown input \`embeds[${embedsIndex}].thumbnail.${embedThumbnailKey}\`!`);
-						}
-					}
-					if (Object.keys(embed.thumbnail).length === 0) {
-						delete embed.thumbnail;
-						break;
-					}
-					break;
-				case "author":
-					if (!isJSONObject(embed.author)) {
-						throw new TypeError(`Input \`embeds[${embedsIndex}].author\` is not a valid Discord author!`);
-					}
-					for (const embedAuthorKey of Object.keys(embed.author)) {
-						switch (embedAuthorKey) {
-							case "name":
-								if (typeof embed.author.name !== "string") {
-									throw new TypeError(`Input \`embeds[${embedsIndex}].author.name\` is not a string!`);
-								}
-								if (embed.author.name.length === 0) {
-									delete embed.author.name;
-									break;
-								}
-								if (typeof truncator !== "undefined" && embed.author.name.length > thresholdEmbedAuthorName) {
-									embed.author.name = truncator.truncate(embed.author.name, thresholdEmbedAuthorName);
-								}
-								break;
-							case "url":
-								if (typeof embed.author.url !== "string") {
-									throw new TypeError(`Input \`embeds[${embedsIndex}].author.url\` is not a string!`);
-								}
-								if (embed.author.url.length === 0) {
-									delete embed.author.url;
-									break;
-								}
-								break;
-							case "icon_url":
-								if (typeof embed.author.icon_url !== "string") {
-									throw new TypeError(`Input \`embeds[${embedsIndex}].author.icon_url\` is not a string!`);
-								}
-								if (embed.author.icon_url.length === 0) {
-									delete embed.author.icon_url;
-									break;
-								}
-								break;
-							default:
-								throw new SyntaxError(`Unknown input \`embeds[${embedsIndex}].author.${embedAuthorKey}\`!`);
-						}
-					}
-					if (Object.keys(embed.author).length === 0) {
-						delete embed.author;
-						break;
-					}
-					break;
-				case "fields":
-					if (!isJSONArray(embed.fields)) {
-						throw new TypeError(`Input \`embed[${embedsIndex}].fields\` is not a valid Discord embed fields!`);
-					}
-					if (embed.fields.length > 0) {
-						embed.fields = embed.fields.map((field: JSONValue, fieldsIndex: number): JSONObject => {
-							if (!isJSONObject(field)) {
-								throw new TypeError(`Input \`embeds[${embedsIndex}].fields[${fieldsIndex}]\` is not a valid Discord embed field!`);
-							}
-							for (const embedFieldKey of Object.keys(field)) {
-								switch (embedFieldKey) {
-									case "name":
-										if (typeof field.name !== "string") {
-											throw new TypeError(`Input \`embeds[${embedsIndex}].fields[${fieldsIndex}].name\` is not a string!`);
-										}
-										if (typeof truncator !== "undefined" && field.name.length > thresholdEmbedFieldName) {
-											field.name = truncator.truncate(field.name, thresholdEmbedFieldName);
-										}
-										break;
-									case "value":
-										if (typeof field.value !== "string") {
-											throw new TypeError(`Input \`embeds[${embedsIndex}].fields[${fieldsIndex}].value\` is not a string!`);
-										}
-										if (typeof truncator !== "undefined" && field.value.length > thresholdEmbedFieldValue) {
-											field.value = truncator.truncate(field.value, thresholdEmbedFieldValue);
-										}
-										break;
-									case "inline":
-										if (typeof field.inline !== "boolean") {
-											throw new TypeError(`Input \`embeds[${embedsIndex}].fields[${fieldsIndex}].inline\` is not a boolean!`);
-										}
-										break;
-									default:
-										throw new SyntaxError(`Unknown input \`embeds[${embedsIndex}].fields[${fieldsIndex}].${embedFieldKey}\`!`);
-								}
-							}
-							return field;
-						}).filter((field: JSONObject): boolean => {
-							return (
-								(field.name as string).length > 0 ||
-								(field.value as string).length > 0
-							);
-						});
-					}
-					if (embed.fields.length > thresholdEmbedFields) {
-						throw new SyntaxError(`Input \`embeds[${embedsIndex}].fields\` must not have more than ${thresholdEmbedFields} fields (current ${embed.fields.length})!`);
-					}
-					if (embed.fields.length === 0) {
-						delete embed.fields;
-						break;
-					}
-					break;
-				default:
-					throw new SyntaxError(`Unknown input \`embeds[${embedsIndex}].${embedKey}\`!`);
-			}
-		}
-		return embed;
-	}).filter((embed: JSONObject): boolean => {
-		return (Object.keys(embed).length > 0);
+export function getContent(truncator: StringTruncator | undefined, inputContent: string = getInput("content") ?? "", inputContentLinksNoEmbed: string = getInput("content_links_no_embed") ?? ""): string | undefined {
+	const contentLinksNoEmbed: string[] = inputContentLinksNoEmbed.split(splitterNewLine).filter((value: string): boolean => {
+		return (value.length > 0);
 	});
-	if (embedsFmt.length === 0) {
-		return undefined;
+	if (inputContent.length > 0 && contentLinksNoEmbed.length > 0) {
+		const contentLinksNoEmbedRegExp: RegExp = new RegExp(contentLinksNoEmbed.join("|"), "u");
+		inputContent = Array.from(new StringDissector().dissect(inputContent), ({
+			type,
+			value
+		}: StringSegmentDescriptor): string => {
+			return (type === "url" && URL.canParse(value) && urlPatternProtocolHTTP.test(value) && contentLinksNoEmbedRegExp.test(value)) ? `<${value}>` : value;
+		}).join("");
 	}
-	if (embedsFmt.length > thresholdEmbeds) {
-		throw new SyntaxError(`Input \`embeds\` must not have more than ${thresholdEmbeds} embeds (current ${embedsFmt.length})!`);
-	}
-	return embedsFmt;
+	return (truncator?.truncate(inputContent, 2000) ?? inputContent);
 }
+export function getEmbeds(truncator: StringTruncator | undefined, inputEmbeds: string = getInput("embeds") ?? ""): JSONArray | undefined {
+	const embeds = parseYAML(inputEmbeds);
+	if (embeds === null) {
+		return;
+	}
+	const zodDiscordEmbeds = zod.array(zod.object({
+		title: zod.optional(zod.string().trim().transform((input: string): string | undefined => {
+			if (input.length === 0) {
+				return;
+			}
+			return (truncator?.truncate(input, 256) ?? input);
+		})),
+		description: zod.optional(zod.string().trim().transform((input: string): string | undefined => {
+			if (input.length === 0) {
+				return;
+			}
+			return (truncator?.truncate(input, 4096) ?? input);
+		})),
+		url: zod.optional(zodURL),
+		timestamp: zod.optional(zod.iso.datetime({ offset: true })),
+		color: zod.optional(zod.union([
+			zod.int().lte(16777215).gte(0),
+			zod.string().trim().transform((input: string, ctx): number => {
+				if (input === "Random") {
+					return ((randomInteger(256) * 65536) + (randomInteger(256) * 256) + randomInteger(256));
+				}
+				if (colorNamespaceList.has(input)) {
+					return Color(colorNamespaceList.get(input)!, "hex").rgbNumber();
+				}
+				try {
+					return Color(input).rgbNumber();
+				} catch (error) {
+					ctx.addIssue({
+						code: "custom",
+						message: (error as Error).message
+					});
+				}
+				return zod.NEVER;
+			})
+		])).default(2105893),
+		footer: zod.optional(zod.object({
+			text: zod.optional(zod.string().trim().transform((input: string): string | undefined => {
+				if (input.length === 0) {
+					return;
+				}
+				return (truncator?.truncate(input, 2048) ?? input);
+			})),
+			icon_url: zod.optional(zodDiscordEmbedImageURL)
+		}).transform((input) => {
+			const values = Object.values(input);
+			return ((
+				values.length === 0 ||
+				values.every((value) => {
+					return (typeof value === "undefined");
+				})
+			) ? undefined : input);
+		})),
+		image: zod.optional(zod.object({
+			url: zod.optional(zodDiscordEmbedImageURL)
+		}).transform((input) => {
+			const values = Object.values(input);
+			return ((
+				values.length === 0 ||
+				values.every((value) => {
+					return (typeof value === "undefined");
+				})
+			) ? undefined : input);
+		})),
+		thumbnail: zod.optional(zod.object({
+			url: zod.optional(zodDiscordEmbedImageURL)
+		}).transform((input) => {
+			const values = Object.values(input);
+			return ((
+				values.length === 0 ||
+				values.every((value) => {
+					return (typeof value === "undefined");
+				})
+			) ? undefined : input);
+		})),
+		author: zod.optional(zod.object({
+			name: zod.optional(zod.string().trim().transform((input: string): string | undefined => {
+				if (input.length === 0) {
+					return;
+				}
+				return (truncator?.truncate(input, 256) ?? input);
+			})),
+			url: zod.optional(zodURL),
+			icon_url: zod.optional(zodDiscordEmbedImageURL)
+		}).transform((input) => {
+			const values = Object.values(input);
+			return ((
+				values.length === 0 ||
+				values.every((value) => {
+					return (typeof value === "undefined");
+				})
+			) ? undefined : input);
+		})),
+		fields: zod.optional(zod.array(zod.object({
+			name: zod.optional(zod.string().trim().transform((input: string): string | undefined => {
+				if (input.length === 0) {
+					return;
+				}
+				return (truncator?.truncate(input, 256) ?? input);
+			})),
+			value: zod.optional(zod.string().trim().transform((input: string): string | undefined => {
+				if (input.length === 0) {
+					return;
+				}
+				return (truncator?.truncate(input, 1024) ?? input);
+			})),
+			inline: zod.optional(zod.boolean()).default(false)
+		}).transform((input) => {
+			const name: string = input.name ?? "";
+			const value: string = input.value ?? "";
+			if (name.length === 0 && value.length === 0) {
+				return;
+			}
+			return {
+				name: (name.length === 0) ? "\u200B" : name,
+				value: (value.length === 0) ? "\u200B" : value,
+				inline: input.inline
+			};
+		})).max(25).transform((input) => {
+			const result = input.filter((element) => {
+				return (typeof element !== "undefined");
+			});
+			return ((result.length === 0) ? undefined : result);
+		}))
+	}).transform((input) => {
+		const {
+			color: _color,
+			...inputRest
+		} = input;
+		const values = Object.values(inputRest);
+		return ((
+			values.length === 0 ||
+			values.every((value) => {
+				return (typeof value === "undefined");
+			})
+		) ? undefined : input);
+	})).max(10).transform((input) => {
+		const result = input.filter((element) => {
+			return (typeof element !== "undefined");
+		});
+		return ((result.length === 0) ? undefined : result);
+	});
+	return zodDiscordEmbeds.parse(embeds) as JSONArray | undefined;
+}
+export function getKey(input: string = getInput("key", { require: true })): string {
+	const key: string | undefined = input.match(regexpDiscordWebhookURL)?.groups?.key;
+	if (typeof key === "undefined") {
+		throw new TypeError(`Input \`key\` is not a valid Discord webhook key!`);
+	}
+	for (const secret of key.split("/")) {
+		addSecretMask(secret);
+	}
+	return key;
+}
+export function getStringTruncator(): StringTruncator | undefined {
+	if (getInputBoolean("truncate_enable") ?? true) {
+		return new StringTruncator(128, {
+			ellipsisMark: getInput("truncate_ellipsis"),
+			ellipsisPosition: getInput("truncate_position") as StringTruncateEllipsisPosition | undefined
+		});
+	}
+}
+export function getThreadID(input: string = getInput("thread_id") ?? ""): string | undefined {
+	if (input.length === 0) {
+		return;
+	}
+	if (!regexpDiscordSnowflake.test(input)) {
+		throw new SyntaxError(`\`${input}\` is not a valid Discord thread ID!`);
+	}
+	return input;
+}
+export function getThreadName(truncator: StringTruncator | undefined, input: string = getInput("thread_name") ?? ""): string | undefined {
+	if (input.length === 0) {
+		return;
+	}
+	return (truncator?.truncate(input, 100) ?? input);
+}
+export function getThreadTags(input: string = getInput("thread_tags") ?? ""): string[] | undefined {
+	const threadTags: string[] = input.split(splitterCommonDelimiter).map((value: string): string => {
+		return value.trim();
+	}).filter((value: string): boolean => {
+		return (value.length > 0);
+	});
+	if (threadTags.length === 0) {
+		return;
+	}
+	return zodDiscordThreadTags.parse(threadTags);
+}
+export function getUsername(truncator: StringTruncator | undefined, input: string = getInput("username") ?? ""): string | undefined {
+	if (input.length === 0) {
+		return;
+	}
+	if (input.toLowerCase() === "clyde") {
+		throw new Error(`\`${input}\` is forbidden to use as the Discord webhook username!`);
+	}
+	return (truncator?.truncate(input, 80) ?? input);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 async function resolveFilesFormData(workspace: string, filesPath: string[]): Promise<FormData> {
 	if (filesPath.length > thresholdFiles) {
 		throw new Error(`Input \`files\` must not have more than ${thresholdFiles} files (current ${filesPath.length})!`);
@@ -365,14 +339,14 @@ async function resolveFilesFormData(workspace: string, filesPath: string[]): Pro
 	}
 	return formData;
 }
-export async function resolveFiles(files: string[], glob: boolean): Promise<FormData | undefined> {
+export async function getFiles(files: string[], glob: boolean): Promise<FormData | undefined> {
 	const workspace: string = getRunnerWorkspacePath();
 	const workspaceStatL: Deno.FileInfo = await Deno.lstat(workspace);
 	if (!workspaceStatL.isDirectory) {
 		throw new Deno.errors.NotADirectory(`Workspace \`${workspace}\` is not a directory!`);
 	}
 	if (files.length === 0) {
-		return undefined;
+		return;
 	}
 	if (glob) {
 		const filesFmt: string[] = await Array.fromAsync(await walk(workspace, {
@@ -386,7 +360,7 @@ export async function resolveFiles(files: string[], glob: boolean): Promise<Form
 			return pathRelative;
 		});
 		if (filesFmt.length === 0) {
-			return undefined;
+			return;
 		}
 		return resolveFilesFormData(workspace, filesFmt);
 	}
@@ -408,12 +382,6 @@ export async function resolveFiles(files: string[], glob: boolean): Promise<Form
 	}
 	return resolveFilesFormData(workspace, files);
 }
-export function resolveKey(key: string): string {
-	if (!regexpDiscordWebhookURL.test(key)) {
-		throw new TypeError(`Input \`key\` is not a valid Discord webhook key!`);
-	}
-	return key.match(regexpDiscordWebhookURL)?.groups?.key as string;
-}
 export interface ResolveMentionsParameters {
 	parseEveryone: boolean;
 	parseRoles: boolean;
@@ -421,7 +389,7 @@ export interface ResolveMentionsParameters {
 	roles: string[];
 	users: string[];
 }
-export function resolveMentions({
+export function getMentions({
 	parseEveryone,
 	parseRoles,
 	parseUsers,
@@ -439,7 +407,7 @@ export function resolveMentions({
 		parse.push("users");
 	}
 	for (const role of roles) {
-		if (!regexpSnowflake.test(role)) {
+		if (!regexpDiscordSnowflake.test(role)) {
 			throw new SyntaxError(`\`${role}\` is not a valid Discord role snowflake!`);
 		}
 	}
@@ -451,7 +419,7 @@ export function resolveMentions({
 		throw new Error(`Input \`allowed_mentions.roles\` must not have more than ${thresholdMentionsRole} mentions (current ${rolesFmt.length})!`);
 	}
 	for (const user of users) {
-		if (!regexpSnowflake.test(user)) {
+		if (!regexpDiscordSnowflake.test(user)) {
 			throw new SyntaxError(`\`${user}\` is not a valid Discord user snowflake!`);
 		}
 	}
@@ -479,14 +447,14 @@ export interface ResolvePollParameters {
 	duration: number;
 	question: string;
 }
-export function resolvePoll({
+export function getPoll({
 	allowMultiSelect,
 	answers,
 	duration,
 	question
 }: ResolvePollParameters): JSONObject | undefined {
 	if (answers === null && question.length === 0) {
-		return undefined;
+		return;
 	}
 	if (
 		!isJSONArray(answers) ||
@@ -572,48 +540,4 @@ export function resolvePoll({
 	}
 	return result;
 }
-export function resolveThreadID(threadID: string): string | undefined {
-	if (threadID.length === 0) {
-		return undefined;
-	}
-	if (!regexpSnowflake.test(threadID)) {
-		throw new SyntaxError(`\`${threadID}\` is not a valid Discord thread ID!`);
-	}
-	return threadID;
-}
-export function resolveThreadName(threadName: string, truncator?: StringTruncator): string | undefined {
-	if (threadName.length === 0) {
-		return undefined;
-	}
-	if (typeof truncator !== "undefined" && threadName.length > thresholdThreadName) {
-		return truncator.truncate(threadName, thresholdThreadName);
-	}
-	return threadName;
-}
-export function resolveThreadTags(threadTags: string[]): string[] | undefined {
-	if (threadTags.length === 0) {
-		return undefined;
-	}
-	for (const threadTag of threadTags) {
-		if (!regexpSnowflake.test(threadTag)) {
-			throw new SyntaxError(`\`${threadTag}\` is not a valid Discord thread tag snowflake!`);
-		}
-	}
-	const threadTagsFmt: string[] = Array.from(new Set<string>(threadTags).values());
-	if (threadTagsFmt.length > thresholdThreadTags) {
-		throw new Error(`Input \`applied_tags\` must not have more than ${thresholdThreadTags} tags (current ${threadTagsFmt.length})!`);
-	}
-	return threadTagsFmt;
-}
-export function resolveUsername(username: string, truncator?: StringTruncator): string | undefined {
-	if (username.length === 0) {
-		return undefined;
-	}
-	if (username.toLowerCase() === "clyde") {
-		throw new Error(`\`${username}\` is forbid to use as the Discord webhook username!`);
-	}
-	if (typeof truncator !== "undefined" && username.length > thresholdUsername) {
-		return truncator.truncate(username, thresholdUsername);
-	}
-	return username;
-}
+

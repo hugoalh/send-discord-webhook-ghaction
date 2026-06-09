@@ -1,16 +1,19 @@
-import { colornames as colorNamespaceListCommunity } from "COLORNAMESPACELISTCOMMUNITY";
-interface ColorNamespaceListEntry {
-	hex: `#${string}`;
-	name: string;
-}
-export const colorNamespaceList: Map<ColorNamespaceListEntry["name"], ColorNamespaceListEntry["hex"]> = new Map<ColorNamespaceListEntry["name"], ColorNamespaceListEntry["hex"]>();
-for (const { name, hex } of (colorNamespaceListCommunity as ColorNamespaceListEntry[])) {
-	colorNamespaceList.set(name, hex);
-}
-colorNamespaceList.set("Discord Blurple", "#5865F2");
-colorNamespaceList.set("Discord Embed Background Dark", "#2F3136");
-colorNamespaceList.set("Discord Embed Default", "#202225");
-colorNamespaceList.set("Discord Fuchsia", "#EB459E");
-colorNamespaceList.set("Discord Green", "#57F287");
-colorNamespaceList.set("Discord Red", "#ED4245");
-colorNamespaceList.set("Discord Yellow", "#FEE75C");
+import {
+	colornames,
+	type ColorName
+} from "COLORNAMESPACELIST";
+export const colorNamespaceList: Map<string, string> = new Map<string, string>([
+	...colornames.map(({
+		hex,
+		name
+	}: ColorName): readonly [string, string] => {
+		return [name, hex];
+	}),
+	["Discord Blurple", "#5865F2"],
+	["Discord Embed Background Dark", "#2F3136"],
+	["Discord Embed Default", "#202225"],
+	["Discord Fuchsia", "#EB459E"],
+	["Discord Green", "#57F287"],
+	["Discord Red", "#ED4245"],
+	["Discord Yellow", "#FEE75C"]
+]);

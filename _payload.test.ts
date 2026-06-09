@@ -1,29 +1,25 @@
 import { deepStrictEqual } from "node:assert";
-import {
-	resolveContent,
-	resolveEmbeds,
-	resolvePoll
-} from "./_payload.ts";
+import * as payload from "./_payload.ts";
 Deno.test("Content 1", { permissions: "none" }, () => {
-	deepStrictEqual(resolveContent(""), undefined);
+	deepStrictEqual(getContent(""), undefined);
 });
 Deno.test("Content 2", { permissions: "none" }, () => {
-	deepStrictEqual(resolveContent("Hello, world!"), "Hello, world!");
+	deepStrictEqual(getContent("Hello, world!"), "Hello, world!");
 });
 Deno.test("Content 3", { permissions: "none" }, () => {
-	deepStrictEqual(resolveContent("The URL of GitHub is https://github.com.", ["github\\.com"]), "The URL of GitHub is <https://github.com>.");
+	deepStrictEqual(getContent("The URL of GitHub is https://github.com.", ["github\\.com"]), "The URL of GitHub is <https://github.com>.");
 });
 Deno.test("Content 4", { permissions: "none" }, () => {
-	deepStrictEqual(resolveContent("The URL of Google is https://google.com.", ["github\\.com"]), "The URL of Google is https://google.com.");
+	deepStrictEqual(getContent("The URL of Google is https://google.com.", ["github\\.com"]), "The URL of Google is https://google.com.");
 });
 Deno.test("Content 5", { permissions: "none" }, () => {
-	deepStrictEqual(resolveContent("Repeat the URLs are also improved: https://github.com, https://github.com, https://github.com, https://github.com.", ["github\\.com"]), "Repeat the URLs are also improved: <https://github.com>, <https://github.com>, <https://github.com>, <https://github.com>.");
+	deepStrictEqual(getContent("Repeat the URLs are also improved: https://github.com, https://github.com, https://github.com, https://github.com.", ["github\\.com"]), "Repeat the URLs are also improved: <https://github.com>, <https://github.com>, <https://github.com>, <https://github.com>.");
 });
 Deno.test("Embeds 1", { permissions: "none" }, () => {
-	deepStrictEqual(resolveEmbeds([{}]), undefined);
+	deepStrictEqual(getEmbeds([{}]), undefined);
 });
 Deno.test("Embeds 2", { permissions: "none" }, () => {
-	deepStrictEqual(resolveEmbeds([{
+	deepStrictEqual(getEmbeds([{
 		"author": {
 			"name": "Birdie♫",
 			"url": "https://www.reddit.com/r/cats/",
@@ -106,7 +102,7 @@ Deno.test("Embeds 2", { permissions: "none" }, () => {
 	}]);
 });
 Deno.test("Embeds 3", { permissions: "none" }, () => {
-	deepStrictEqual(resolveEmbeds([{
+	deepStrictEqual(getEmbeds([{
 		"author": {
 			"name": "",
 			"url": "",
@@ -180,7 +176,7 @@ Deno.test("Embeds 3", { permissions: "none" }, () => {
 	}]);
 });
 Deno.test("Poll 1", { permissions: "none" }, () => {
-	deepStrictEqual(resolvePoll({
+	deepStrictEqual(getPoll({
 		allowMultiSelect: false,
 		answers: [
 			{
