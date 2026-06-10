@@ -1,6 +1,18 @@
 # yaml-language-server: $schema=https://json.schemastore.org/dependabot-2.0.json
 version: 2
 updates:
+  - package-ecosystem: "deno"
+    directories:
+      - "/"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "dependency 📦"
+      - "deno"
+    pull-request-branch-name:
+      separator: "/"
+    cooldown:
+      default-days: 1
   - package-ecosystem: "docker"
     directories:
       - "/"
@@ -11,8 +23,6 @@ updates:
       - "docker"
     pull-request-branch-name:
       separator: "/"
-    cooldown:
-      default-days: 1
   - package-ecosystem: "github-actions"
     directories:
       - "/"
