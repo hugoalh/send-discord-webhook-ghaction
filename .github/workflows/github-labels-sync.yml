@@ -16,7 +16,7 @@ jobs:
     runs-on: "ubuntu-latest"
     steps:
       - name: "Checkout Repository"
-        uses: "actions/checkout@v6"
+        uses: "actions/checkout@v7"
       - name: "Sync GitHub Labels"
         uses: "EndBug/label-sync@v2"
         with:
