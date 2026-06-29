@@ -57,7 +57,7 @@ jobs:
           ) -Depth 100
           Add-Content -LiteralPath $Env:GITHUB_ENV -Value "CDV_NPM_CACHE_PATH_ROOT=$($NPMConfig.cache)" -Confirm:$False -Encoding 'UTF8NoBOM'
       - name: "Load Deno Cache"
-        uses: "actions/cache/restore@v5"
+        uses: "actions/cache/restore@v6"
         with:
           key: "${{runner.os}}/Deno/${{github.run_id}}/${{github.run_attempt}}/${{github.job}}"
           restore-keys: |-
@@ -66,7 +66,7 @@ jobs:
             ${{runner.os}}/Deno/
           path: "${{env.CDV_DENO_CACHE_PATH_ROOT}}"
       - name: "Load NPM Cache"
-        uses: "actions/cache/restore@v5"
+        uses: "actions/cache/restore@v6"
         with:
           key: "${{runner.os}}/NPM/${{github.run_id}}/${{github.run_attempt}}/${{github.job}}"
           restore-keys: |-
@@ -221,13 +221,13 @@ jobs:
           deno task npm-npm-check
       - name: "Save Deno Cache"
         if: "${{!cancelled()}}"
-        uses: "actions/cache/save@v5"
+        uses: "actions/cache/save@v6"
         with:
           key: "${{runner.os}}/Deno/${{github.run_id}}/${{github.run_attempt}}/${{github.job}}"
           path: "${{env.CDV_DENO_CACHE_PATH_ROOT}}"
       - name: "Save NPM Cache"
         if: "${{!cancelled()}}"
-        uses: "actions/cache/save@v5"
+        uses: "actions/cache/save@v6"
         with:
           key: "${{runner.os}}/NPM/${{github.run_id}}/${{github.run_attempt}}/${{github.job}}"
           path: "${{env.CDV_NPM_CACHE_PATH_ROOT}}"
