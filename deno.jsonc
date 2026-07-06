@@ -10,7 +10,7 @@
 	},
 	"imports": {
 		"COLOR": "npm:color@5.0.3",
-		"COLORNAMESPACELISTCOMMUNITY": "npm:color-name-list@14.40.0",
+		"COLORNAMESPACELISTCOMMUNITY": "npm:color-name-list@14.45.0",
 		"EXFETCH": "jsr:@hugoalh/exfetch@0.6.0",
 		"FS": "jsr:@hugoalh/fs@0.4.0",
 		"GHACTIONS": "jsr:@hugoalh/github-actions-core@0.7.0",
