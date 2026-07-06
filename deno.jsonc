@@ -16,7 +16,7 @@
 		"GHACTIONS": "jsr:@hugoalh/github-actions-core@0.7.0",
 		"ISJSON": "jsr:@hugoalh/is-json@1.0.5",
 		"STD/path": "jsr:@std/path@1.1.5",
-		"STD/yaml": "jsr:@std/yaml@1.1.1",
+		"STD/yaml": "jsr:@std/yaml@1.1.2",
 		"STRINGDISSECT": "jsr:@hugoalh/string-dissect@4.0.2",
 		"STRINGOVERFLOW": "jsr:@hugoalh/string-overflow@2.1.1"
 	},
