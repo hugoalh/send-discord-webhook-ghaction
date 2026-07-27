@@ -14,7 +14,7 @@
 		"EXFETCH": "jsr:@hugoalh/exfetch@0.6.0",
 		"FS": "jsr:@hugoalh/fs@0.4.0",
 		"GHACTIONS": "jsr:@hugoalh/github-actions-core@0.7.0",
-		"ISJSON": "jsr:@hugoalh/is-json@1.0.5",
+		"ISJSON": "jsr:@hugoalh/is-json@1.0.6",
 		"STD/path": "jsr:@std/path@1.1.5",
 		"STD/yaml": "jsr:@std/yaml@1.1.1",
 		"STRINGDISSECT": "jsr:@hugoalh/string-dissect@4.0.2",
